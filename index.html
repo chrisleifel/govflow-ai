@@ -1,0 +1,2990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GovFlow AI - Government Workflow & Security Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1e40af;
+            --secondary-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --success-green: #10b981;
+            --warning-yellow: #f59e0b;
+            --danger-red: #ef4444;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            background: linear-gradient(180deg, #1e40af 0%, #3730a3 100%);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+            border-right: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-item {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.25);
+            border-right: 3px solid #ffffff;
+        }
+        
+        .workflow-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        
+        .workflow-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .workflow-card.selected {
+            background: rgba(59, 130, 246, 0.3);
+            border-color: #3b82f6;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
+        }
+        
+        .security-alert {
+            animation: pulse-glow 2s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
+        }
+        
+        .typing {
+            border-right: 2px solid var(--success-green);
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: var(--success-green); }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .threat-indicator {
+            animation: blink-red 1.5s infinite;
+        }
+        
+        @keyframes blink-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="gradient-bg text-white overflow-hidden">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar w-64 flex-shrink-0">
+            <div class="p-6">
+                <div class="flex items-center space-x-3 mb-8">
+                    <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white">GovFlow AI</h1>
+                        <p class="text-xs text-blue-200">Security & Workflow Platform</p>
+                    </div>
+                </div>
+                
+                <nav class="space-y-2">
+                    <div class="nav-item active p-3 rounded-lg" onclick="switchTab('dashboard')">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-tachometer-alt text-white"></i>
+                            <span class="text-white font-medium">Admin Dashboard</span>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('citizen')">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-users text-white"></i>
+                            <span class="text-white font-medium">Citizen Portal</span>
+                            <div class="ml-auto">
+                                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('workflows')">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-sitemap text-white"></i>
+                            <span class="text-white font-medium">Workflows</span>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('security')">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-shield-alt text-white"></i>
+                            <span class="text-white font-medium">Security Analysis</span>
+                            <div class="ml-auto">
+                                <div class="w-2 h-2 bg-red-400 rounded-full threat-indicator"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('analytics')">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-chart-line text-white"></i>
+                            <span class="text-white font-medium">Analytics</span>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('compliance')">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-clipboard-check text-white"></i>
+                            <span class="text-white font-medium">Compliance</span>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('settings')">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-cog text-white"></i>
+                            <span class="text-white font-medium">Settings</span>
+                        </div>
+                    </div>
+                </nav>
+                
+                <!-- System Status -->
+                <div class="mt-8 p-4 glass-dark rounded-lg">
+                    <h4 class="text-sm font-semibold text-white mb-3">System Status</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-white/70">AI Engine</span>
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 bg-green-400 rounded-full mr-1"></div>
+                                <span class="text-green-300">Online</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-white/70">Security</span>
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-1"></div>
+                                <span class="text-yellow-300">Monitoring</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-white/70">Workflows</span>
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 bg-green-400 rounded-full mr-1"></div>
+                                <span class="text-green-300">28 Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="glass-dark border-b border-white/10 p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 id="pageTitle" class="text-2xl font-bold text-white">City Services Portal</h2>
+                        <p id="pageSubtitle" class="text-sm text-white/70">Submit requests, track applications, and access city services</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="glass rounded-lg px-3 py-2">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-shield-alt text-green-400"></i>
+                                <span class="text-sm text-white">Secure</span>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-white text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content Area -->
+            <div class="flex-1 overflow-y-auto p-6">
+                <!-- Admin Dashboard Tab -->
+                <div id="dashboard-content" class="tab-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <!-- Quick Stats -->
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">Active Workflows</h3>
+                                <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-play text-white text-sm"></i>
+                                </div>
+                            </div>
+                            <div class="text-3xl font-bold text-blue-400 mb-2">28</div>
+                            <div class="text-sm text-white/70">↑ 12% from last week</div>
+                        </div>
+                        
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">Security Alerts</h3>
+                                <div class="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-exclamation-triangle text-white text-sm"></i>
+                                </div>
+                            </div>
+                            <div class="text-3xl font-bold text-red-400 mb-2">3</div>
+                            <div class="text-sm text-white/70">↓ 67% from yesterday</div>
+                        </div>
+                        
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">Processing Efficiency</h3>
+                                <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-chart-line text-white text-sm"></i>
+                                </div>
+                            </div>
+                            <div class="text-3xl font-bold text-green-400 mb-2">96%</div>
+                            <div class="text-sm text-white/70">↑ 4% improvement</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced AI Assistant -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fas fa-brain text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white">GovFlow AI Assistant Pro</h3>
+                                    <p class="text-sm text-white/70">Advanced automation & intelligent operations</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                <span class="text-xs text-white/60">Active</span>
+                            </div>
+                        </div>
+
+                        <!-- Quick Action Buttons -->
+                        <div class="grid grid-cols-3 gap-2 mb-4">
+                            <button onclick="executeQuickAction('analyze')" class="bg-gradient-to-r from-blue-500/20 to-blue-600/20 border border-blue-500/30 rounded-lg p-3 text-xs text-white hover:bg-blue-500/30 transition-all">
+                                <i class="fas fa-chart-line mb-1"></i>
+                                <div>Analyze System</div>
+                            </button>
+                            <button onclick="executeQuickAction('optimize')" class="bg-gradient-to-r from-green-500/20 to-green-600/20 border border-green-500/30 rounded-lg p-3 text-xs text-white hover:bg-green-500/30 transition-all">
+                                <i class="fas fa-cogs mb-1"></i>
+                                <div>Auto-Optimize</div>
+                            </button>
+                            <button onclick="executeQuickAction('secure')" class="bg-gradient-to-r from-red-500/20 to-red-600/20 border border-red-500/30 rounded-lg p-3 text-xs text-white hover:bg-red-500/30 transition-all">
+                                <i class="fas fa-shield-alt mb-1"></i>
+                                <div>Security Scan</div>
+                            </button>
+                        </div>
+                        
+                        <div class="bg-black/20 rounded-lg p-4 mb-4 h-40 overflow-y-auto" id="adminChatHistory">
+                            <div class="text-green-300 mb-2">
+                                <i class="fas fa-brain mr-2"></i>
+                                <span class="font-semibold text-blue-300">AI Pro:</span>
+                                <span>Advanced automation engine online. 28 workflows optimized, 3 security protocols enhanced. Ready for complex operations and intelligent automation.</span>
+                            </div>
+                        </div>
+
+                        <!-- Advanced Command Interface -->
+                        <div class="space-y-3">
+                            <div class="flex space-x-2">
+                                <select id="commandType" class="bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="natural">Natural Language</option>
+                                    <option value="automation">Automation Script</option>
+                                    <option value="workflow">Workflow Command</option>
+                                    <option value="security">Security Analysis</option>
+                                    <option value="optimization">System Optimization</option>
+                                </select>
+                                <button onclick="toggleAdvancedMode()" id="advancedModeBtn" class="bg-purple-600/20 border border-purple-500/30 px-3 py-2 rounded-lg text-white text-sm hover:bg-purple-600/30 transition-colors">
+                                    <i class="fas fa-magic mr-1"></i>Advanced
+                                </button>
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <input type="text" id="adminUserInput" placeholder="Enter command, automation script, or natural language query..."
+                                       class="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <button onclick="sendAdvancedAdminMessage()" class="bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all">
+                                    <i class="fas fa-paper-plane text-white"></i>
+                                </button>
+                            </div>
+
+                            <!-- Advanced Mode Panel -->
+                            <div id="advancedPanel" class="hidden bg-black/30 rounded-lg p-4 space-y-3">
+                                <div class="text-white text-sm font-medium mb-2">Advanced Automation Controls</div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button onclick="insertTemplate('workflow')" class="bg-blue-600/20 border border-blue-500/30 rounded-lg p-2 text-xs text-white hover:bg-blue-600/30 transition-all">
+                                        <i class="fas fa-sitemap mr-1"></i>Workflow Template
+                                    </button>
+                                    <button onclick="insertTemplate('security')" class="bg-red-600/20 border border-red-500/30 rounded-lg p-2 text-xs text-white hover:bg-red-600/30 transition-all">
+                                        <i class="fas fa-lock mr-1"></i>Security Script
+                                    </button>
+                                    <button onclick="insertTemplate('automation')" class="bg-green-600/20 border border-green-500/30 rounded-lg p-2 text-xs text-white hover:bg-green-600/30 transition-all">
+                                        <i class="fas fa-robot mr-1"></i>Auto Script
+                                    </button>
+                                    <button onclick="insertTemplate('api')" class="bg-purple-600/20 border border-purple-500/30 rounded-lg p-2 text-xs text-white hover:bg-purple-600/30 transition-all">
+                                        <i class="fas fa-code mr-1"></i>API Command
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="glass rounded-xl p-6">
+                        <h3 class="text-lg font-semibold text-white mb-4">Recent Activity</h3>
+                        <div class="space-y-3" id="recentActivity">
+                            <!-- Activity items will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Citizen Portal Tab -->
+                <div id="citizen-content" class="tab-content" style="display: none;">
+                    <!-- Welcome Banner -->
+                    <div class="glass rounded-xl p-6 mb-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-2xl font-bold text-white mb-2">Welcome to City Services Portal</h2>
+                                <p class="text-white/80">Submit requests, track applications, and access city services 24/7</p>
+                            </div>
+                            <div class="hidden md:block">
+                                <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-city text-white text-2xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions & Service Stats -->
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+                        <!-- New Request -->
+                        <div class="glass rounded-xl p-6 hover:scale-105 transition-transform cursor-pointer" onclick="openNewRequestModal()">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">New Request</h3>
+                                <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-plus text-white text-sm"></i>
+                                </div>
+                            </div>
+                            <p class="text-sm text-white/70 mb-4">Submit a new service request or application</p>
+                            <div class="text-green-400 text-sm font-medium">Click to start →</div>
+                        </div>
+                        
+                        <!-- My Requests -->
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">My Requests</h3>
+                                <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-list text-white text-sm"></i>
+                                </div>
+                            </div>
+                            <div class="text-3xl font-bold text-blue-400 mb-2" id="userRequestCountCitizen">5</div>
+                            <div class="text-sm text-white/70">2 pending review</div>
+                        </div>
+                        
+                        <!-- Average Response -->
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">Avg Response</h3>
+                                <div class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-clock text-white text-sm"></i>
+                                </div>
+                            </div>
+                            <div class="text-3xl font-bold text-purple-400 mb-2">2.3</div>
+                            <div class="text-sm text-white/70">business days</div>
+                        </div>
+
+                        <!-- Service Status -->
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">Service Status</h3>
+                                <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-check-circle text-white text-sm"></i>
+                                </div>
+                            </div>
+                            <div class="text-lg font-bold text-green-400 mb-2">All Systems</div>
+                            <div class="text-sm text-white/70">Operational</div>
+                        </div>
+                    </div>
+                    
+                    <!-- My Recent Requests -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-white">My Recent Requests</h3>
+                            <button onclick="viewAllRequests()" class="text-blue-400 hover:text-blue-300 text-sm">
+                                View All <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-3" id="recentRequestsListCitizen">
+                            <!-- Recent requests will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Popular Services -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div class="glass rounded-xl p-6 hover:scale-105 transition-transform cursor-pointer" onclick="quickRequest('building_permit')">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-hammer text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">Building Permits</h4>
+                                    <p class="text-xs text-white/70">Construction & renovation</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-white/80">Apply for building permits and inspections</p>
+                        </div>
+
+                        <div class="glass rounded-xl p-6 hover:scale-105 transition-transform cursor-pointer" onclick="quickRequest('business_license')">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-store text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">Business License</h4>
+                                    <p class="text-xs text-white/70">Start your business</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-white/80">Register and license your business</p>
+                        </div>
+
+                        <div class="glass rounded-xl p-6 hover:scale-105 transition-transform cursor-pointer" onclick="quickRequest('report_issue')">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-exclamation-triangle text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">Report Issue</h4>
+                                    <p class="text-xs text-white/70">City services & problems</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-white/80">Report potholes, streetlight issues, etc.</p>
+                        </div>
+                    </div>
+
+                    <!-- AI Service Assistant -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-robot text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-white">City Services AI Assistant</h3>
+                                <p class="text-sm text-white/70">Get help finding the right service or department</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-black/20 rounded-lg p-4 mb-4 h-32 overflow-y-auto" id="citizenChatHistory">
+                            <div class="text-green-300 mb-2">
+                                <i class="fas fa-robot mr-2"></i>
+                                <span class="font-semibold text-blue-300">Assistant:</span>
+                                <span id="citizenWelcomeMessage" class="typing">Hello! I'm here to help you find the right city service. What can I help you with today?</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex space-x-2">
+                            <input type="text" id="citizenUserInput" placeholder="Ask about permits, licenses, reporting issues, or any city service..."
+                                   class="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button onclick="sendCitizenMessage()" class="bg-green-600 px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                                <i class="fas fa-paper-plane text-white"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Quick Service Suggestions -->
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            <button onclick="quickCitizenChat('building permit')" class="text-xs bg-white/10 text-white px-3 py-1 rounded-full hover:bg-white/20 transition-colors">
+                                Building Permit
+                            </button>
+                            <button onclick="quickCitizenChat('business license')" class="text-xs bg-white/10 text-white px-3 py-1 rounded-full hover:bg-white/20 transition-colors">
+                                Business License
+                            </button>
+                            <button onclick="quickCitizenChat('property taxes')" class="text-xs bg-white/10 text-white px-3 py-1 rounded-full hover:bg-white/20 transition-colors">
+                                Property Taxes
+                            </button>
+                            <button onclick="quickCitizenChat('trash pickup')" class="text-xs bg-white/10 text-white px-3 py-1 rounded-full hover:bg-white/20 transition-colors">
+                                Trash Pickup
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Workflows Tab -->
+                <div id="workflows-content" class="tab-content" style="display: none;">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="text-xl font-bold text-white">AI Workflow Builder</h3>
+                            <p class="text-white/70">Create and manage automated government processes</p>
+                        </div>
+                        <button onclick="openWorkflowBuilder()" class="bg-gradient-to-r from-purple-500 to-pink-600 px-4 py-2 rounded-lg hover:shadow-lg transition-all">
+                            <i class="fas fa-plus mr-2"></i>Build Custom Workflow
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6" id="workflowTemplates">
+                        <!-- Workflow templates will be populated here -->
+                    </div>
+                    
+                    <!-- Workflow Preview -->
+                    <div id="workflowPreview" class="glass rounded-xl p-6" style="display: none;">
+                        <h4 class="text-lg font-bold text-white mb-4">Workflow Preview</h4>
+                        <div id="workflowSteps" class="mb-6"></div>
+                        <div class="flex justify-end space-x-4">
+                            <button onclick="clearSelection()" class="bg-gray-600 px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors text-white">
+                                Clear
+                            </button>
+                            <button onclick="deployWorkflow()" class="bg-gradient-to-r from-green-500 to-blue-600 px-4 py-2 rounded-lg hover:shadow-lg transition-all text-white">
+                                Deploy Workflow
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Security Analysis Tab -->
+                <div id="security-content" class="tab-content" style="display: none;">
+                    <!-- Security Action Bar -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-4">
+                            <button onclick="runSecurityScan()" class="bg-gradient-to-r from-red-500 to-red-600 px-4 py-2 rounded-lg hover:shadow-lg transition-all text-white">
+                                <i class="fas fa-search mr-2"></i>Run Full Scan
+                            </button>
+                            <button onclick="generateSecurityReport()" class="bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-2 rounded-lg hover:shadow-lg transition-all text-white">
+                                <i class="fas fa-file-alt mr-2"></i>Generate Report
+                            </button>
+                            <button onclick="openDiagnostics()" class="bg-gradient-to-r from-purple-500 to-purple-600 px-4 py-2 rounded-lg hover:shadow-lg transition-all text-white">
+                                <i class="fas fa-stethoscope mr-2"></i>Diagnostics
+                            </button>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                            <span class="text-green-300 text-sm font-medium">Real-time Monitoring Active</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <!-- Threat Detection -->
+                        <div class="lg:col-span-2 glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">Real-Time Threat Detection</h3>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-red-400 rounded-full threat-indicator"></div>
+                                    <span class="text-red-300 text-sm font-medium">3 Active Threats</span>
+                                    <button onclick="refreshThreats()" class="ml-2 text-white/60 hover:text-white">
+                                        <i class="fas fa-sync-alt text-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-3" id="threatsList">
+                                <div class="security-alert bg-red-500/20 border border-red-500/50 rounded-lg p-4 hover:bg-red-500/30 transition-colors cursor-pointer" onclick="showThreatDetails('threat1')">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center space-x-2">
+                                            <i class="fas fa-exclamation-triangle text-red-400"></i>
+                                            <span class="text-red-300 font-medium">Suspicious Login Attempts</span>
+                                        </div>
+                                        <span class="text-xs bg-red-500 text-white px-2 py-1 rounded">CRITICAL</span>
+                                    </div>
+                                    <p class="text-sm text-white/70 mb-2">Multiple failed login attempts from IP 192.168.1.100</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-xs text-red-300">2 minutes ago • 15 attempts</div>
+                                        <div class="flex space-x-2">
+                                            <button onclick="blockIP('192.168.1.100')" class="text-xs bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">Block IP</button>
+                                            <button onclick="investigateThreat('threat1')" class="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">Investigate</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-yellow-500/20 border border-yellow-500/50 rounded-lg p-4 hover:bg-yellow-500/30 transition-colors cursor-pointer" onclick="showThreatDetails('threat2')">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center space-x-2">
+                                            <i class="fas fa-clock text-yellow-400"></i>
+                                            <span class="text-yellow-300 font-medium">Unusual Data Access</span>
+                                        </div>
+                                        <span class="text-xs bg-yellow-500 text-white px-2 py-1 rounded">MEDIUM</span>
+                                    </div>
+                                    <p class="text-sm text-white/70 mb-2">Tax database accessed outside normal hours</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-xs text-yellow-300">15 minutes ago • User: admin_user</div>
+                                        <div class="flex space-x-2">
+                                            <button onclick="auditAccess('tax_db')" class="text-xs bg-yellow-600 text-white px-2 py-1 rounded hover:bg-yellow-700">Audit Log</button>
+                                            <button onclick="notifyAdmin('unusual_access')" class="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">Notify Admin</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-orange-500/20 border border-orange-500/50 rounded-lg p-4 hover:bg-orange-500/30 transition-colors cursor-pointer" onclick="showThreatDetails('threat3')">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center space-x-2">
+                                            <i class="fas fa-tachometer-alt text-orange-400"></i>
+                                            <span class="text-orange-300 font-medium">API Rate Limit Exceeded</span>
+                                        </div>
+                                        <span class="text-xs bg-orange-500 text-white px-2 py-1 rounded">MEDIUM</span>
+                                    </div>
+                                    <p class="text-sm text-white/70 mb-2">Permit API receiving 500+ req/min from 203.45.67.89</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-xs text-orange-300">1 hour ago • 2,847 requests</div>
+                                        <div class="flex space-x-2">
+                                            <button onclick="throttleAPI('permit_api')" class="text-xs bg-orange-600 text-white px-2 py-1 rounded hover:bg-orange-700">Apply Throttle</button>
+                                            <button onclick="analyzeTraffic('permit_api')" class="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">Analyze</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Security Score -->
+                        <div class="glass rounded-xl p-6">
+                            <div class="text-center mb-6">
+                                <h3 class="text-lg font-semibold text-white mb-4">Security Score</h3>
+                                <div class="relative w-32 h-32 mx-auto">
+                                    <svg class="w-32 h-32 transform -rotate-90" viewBox="0 0 120 120">
+                                        <circle cx="60" cy="60" r="50" fill="none" stroke="rgb(75 85 99)" stroke-width="8"/>
+                                        <circle cx="60" cy="60" r="50" fill="none" stroke="rgb(16 185 129)" stroke-width="8" 
+                                                stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="62.8"/>
+                                    </svg>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <div class="text-center">
+                                            <div class="text-2xl font-bold text-green-400">75</div>
+                                            <div class="text-xs text-white/70">/ 100</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-green-300 text-sm mt-2">Good Security Posture</p>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-white/70">Vulnerabilities</span>
+                                    <span class="text-yellow-300">2 Low</span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-white/70">Last Scan</span>
+                                    <span class="text-white">2 hours ago</span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-white/70">Patches Pending</span>
+                                    <span class="text-blue-300">3 Available</span>
+                                </div>
+                                <button onclick="viewSecurityDetails()" class="w-full mt-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                    View Detailed Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Security Diagnostics & Monitoring -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <!-- Live Network Monitoring -->
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">Network Monitoring</h3>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                    <span class="text-green-300 text-xs">Live</span>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-globe text-blue-400"></i>
+                                        <div>
+                                            <p class="text-white text-sm font-medium">Inbound Traffic</p>
+                                            <p class="text-white/60 text-xs">HTTP/HTTPS Requests</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-green-400 font-bold">1,247/min</p>
+                                        <p class="text-green-300 text-xs">↑ 12% normal</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-shield-alt text-green-400"></i>
+                                        <div>
+                                            <p class="text-white text-sm font-medium">Firewall Blocks</p>
+                                            <p class="text-white/60 text-xs">Malicious Traffic</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-red-400 font-bold">23/min</p>
+                                        <p class="text-red-300 text-xs">↓ 45% from peak</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-database text-purple-400"></i>
+                                        <div>
+                                            <p class="text-white text-sm font-medium">Database Queries</p>
+                                            <p class="text-white/60 text-xs">Active Connections</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-blue-400 font-bold">89 active</p>
+                                        <p class="text-blue-300 text-xs">12ms avg response</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- System Health Diagnostics -->
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">System Diagnostics</h3>
+                                <button onclick="runDiagnostics()" class="text-blue-400 hover:text-blue-300 text-sm">
+                                    <i class="fas fa-play mr-1"></i>Run Tests
+                                </button>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-server text-green-400"></i>
+                                        <span class="text-white text-sm">Server Health</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                        <span class="text-green-300 text-sm">Healthy</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-memory text-yellow-400"></i>
+                                        <span class="text-white text-sm">Memory Usage</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-16 bg-white/20 rounded-full h-2">
+                                            <div class="bg-yellow-400 h-2 rounded-full" style="width: 67%"></div>
+                                        </div>
+                                        <span class="text-yellow-300 text-sm">67%</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-hdd text-blue-400"></i>
+                                        <span class="text-white text-sm">Disk Space</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-16 bg-white/20 rounded-full h-2">
+                                            <div class="bg-blue-400 h-2 rounded-full" style="width: 45%"></div>
+                                        </div>
+                                        <span class="text-blue-300 text-sm">45%</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-microchip text-green-400"></i>
+                                        <span class="text-white text-sm">CPU Load</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-16 bg-white/20 rounded-full h-2">
+                                            <div class="bg-green-400 h-2 rounded-full" style="width: 34%"></div>
+                                        </div>
+                                        <span class="text-green-300 text-sm">34%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced Security Tools -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <!-- Vulnerability Scanner -->
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-lg font-semibold text-white">Vulnerability Scanner</h4>
+                                <i class="fas fa-bug text-red-400"></i>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="text-sm text-white/70">Last scan: 2 hours ago</div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-white">Critical</span>
+                                    <span class="text-red-400 font-bold">0</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-white">High</span>
+                                    <span class="text-orange-400 font-bold">0</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-white">Medium</span>
+                                    <span class="text-yellow-400 font-bold">2</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-white">Low</span>
+                                    <span class="text-green-400 font-bold">5</span>
+                                </div>
+                                <button onclick="startVulnerabilityScan()" class="w-full mt-4 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                    <i class="fas fa-search mr-2"></i>Start New Scan
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Penetration Testing -->
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-lg font-semibold text-white">Penetration Test</h4>
+                                <i class="fas fa-crosshairs text-purple-400"></i>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="text-sm text-white/70">Simulated attacks to test defenses</div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-white">SQL Injection</span>
+                                        <span class="text-green-400">✓ Blocked</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-white">XSS Attempts</span>
+                                        <span class="text-green-400">✓ Blocked</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-white">Brute Force</span>
+                                        <span class="text-yellow-400">⚠ Partial</span>
+                                    </div>
+                                </div>
+                                <button onclick="startPenetrationTest()" class="w-full mt-4 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm">
+                                    <i class="fas fa-shield-alt mr-2"></i>Run Pen Test
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Security Audit -->
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-lg font-semibold text-white">Security Audit</h4>
+                                <i class="fas fa-clipboard-check text-blue-400"></i>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="text-sm text-white/70">Compliance & policy checks</div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-white">Password Policy</span>
+                                        <span class="text-green-400">✓ Compliant</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-white">Data Encryption</span>
+                                        <span class="text-green-400">✓ AES-256</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-white">Access Controls</span>
+                                        <span class="text-yellow-400">⚠ Review</span>
+                                    </div>
+                                </div>
+                                <button onclick="generateAuditReport()" class="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                    <i class="fas fa-file-alt mr-2"></i>Generate Audit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Security Recommendations -->
+                    <div class="glass rounded-xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-white">AI Security Recommendations</h3>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                                <span class="text-blue-300 text-xs">AI Analyzing</span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-start space-x-3 p-4 bg-blue-500/20 rounded-lg hover:bg-blue-500/30 transition-colors">
+                                <i class="fas fa-lightbulb text-blue-400 mt-1"></i>
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-white">Implement Rate Limiting</h4>
+                                    <p class="text-sm text-white/70 mt-1">Add rate limiting to permit API to prevent potential DDoS attacks</p>
+                                    <div class="flex space-x-2 mt-3">
+                                        <button onclick="applyRecommendation('rate_limiting')" class="text-blue-400 text-sm hover:text-blue-300">Apply →</button>
+                                        <button onclick="dismissRecommendation('rate_limiting')" class="text-white/60 text-sm hover:text-white/80">Dismiss</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-3 p-4 bg-green-500/20 rounded-lg hover:bg-green-500/30 transition-colors">
+                                <i class="fas fa-shield-alt text-green-400 mt-1"></i>
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-white">Enhanced Authentication</h4>
+                                    <p class="text-sm text-white/70 mt-1">Enable 2FA for all administrative accounts to improve security</p>
+                                    <div class="flex space-x-2 mt-3">
+                                        <button onclick="applyRecommendation('2fa')" class="text-green-400 text-sm hover:text-green-300">Apply →</button>
+                                        <button onclick="dismissRecommendation('2fa')" class="text-white/60 text-sm hover:text-white/80">Dismiss</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-3 p-4 bg-purple-500/20 rounded-lg hover:bg-purple-500/30 transition-colors">
+                                <i class="fas fa-eye text-purple-400 mt-1"></i>
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-white">Audit Log Monitoring</h4>
+                                    <p class="text-sm text-white/70 mt-1">Set up automated monitoring for unusual database access patterns</p>
+                                    <div class="flex space-x-2 mt-3">
+                                        <button onclick="applyRecommendation('audit_monitoring')" class="text-purple-400 text-sm hover:text-purple-300">Apply →</button>
+                                        <button onclick="dismissRecommendation('audit_monitoring')" class="text-white/60 text-sm hover:text-white/80">Dismiss</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-3 p-4 bg-yellow-500/20 rounded-lg hover:bg-yellow-500/30 transition-colors">
+                                <i class="fas fa-key text-yellow-400 mt-1"></i>
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-white">SSL Certificate Renewal</h4>
+                                    <p class="text-sm text-white/70 mt-1">SSL certificate expires in 30 days. Set up automatic renewal</p>
+                                    <div class="flex space-x-2 mt-3">
+                                        <button onclick="applyRecommendation('ssl_renewal')" class="text-yellow-400 text-sm hover:text-yellow-300">Apply →</button>
+                                        <button onclick="dismissRecommendation('ssl_renewal')" class="text-white/60 text-sm hover:text-white/80">Dismiss</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Analytics Tab -->
+                <div id="analytics-content" class="tab-content" style="display: none;">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="glass rounded-xl p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4">Performance Analytics</h3>
+                            <div class="h-64 bg-black/20 rounded-lg flex items-center justify-center">
+                                <div class="text-center text-white/50">
+                                    <i class="fas fa-chart-area text-4xl mb-4"></i>
+                                    <p>Performance charts would display here</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass rounded-xl p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4">Usage Statistics</h3>
+                            <div class="h-64 bg-black/20 rounded-lg flex items-center justify-center">
+                                <div class="text-center text-white/50">
+                                    <i class="fas fa-chart-pie text-4xl mb-4"></i>
+                                    <p>Usage statistics would display here</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Compliance Tab -->
+                <div id="compliance-content" class="tab-content" style="display: none;">
+                    <div class="glass rounded-xl p-6">
+                        <h3 class="text-lg font-semibold text-white mb-4">Compliance Dashboard</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="text-center p-4 bg-green-500/20 rounded-lg">
+                                <i class="fas fa-check-circle text-green-400 text-3xl mb-2"></i>
+                                <h4 class="font-semibold text-white">GDPR Compliance</h4>
+                                <p class="text-green-300 text-sm">Fully Compliant</p>
+                            </div>
+                            
+                            <div class="text-center p-4 bg-green-500/20 rounded-lg">
+                                <i class="fas fa-shield-alt text-green-400 text-3xl mb-2"></i>
+                                <h4 class="font-semibold text-white">SOC 2 Type II</h4>
+                                <p class="text-green-300 text-sm">Certified</p>
+                            </div>
+                            
+                            <div class="text-center p-4 bg-yellow-500/20 rounded-lg">
+                                <i class="fas fa-exclamation-triangle text-yellow-400 text-3xl mb-2"></i>
+                                <h4 class="font-semibold text-white">FISMA</h4>
+                                <p class="text-yellow-300 text-sm">Under Review</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings Tab -->
+                <div id="settings-content" class="tab-content" style="display: none;">
+                    <div class="glass rounded-xl p-6">
+                        <h3 class="text-lg font-semibold text-white mb-4">System Settings</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-white">Auto-Deploy Workflows</h4>
+                                    <p class="text-sm text-white/70">Automatically deploy approved workflows</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-white">Security Alerts</h4>
+                                    <p class="text-sm text-white/70">Real-time security notifications</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Request Modal -->
+    <div id="newRequestModal" class="modal">
+        <div class="glass rounded-2xl p-8 max-w-3xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-white">Submit New Service Request</h3>
+                <button onclick="closeNewRequestModal()" class="text-white/60 hover:text-white text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="newRequestForm" class="space-y-6">
+                <!-- Service Type -->
+                <div>
+                    <label class="block text-sm font-medium text-white mb-2">Service Type *</label>
+                    <select id="serviceType" required class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Select a service...</option>
+                        <optgroup label="Permits & Licenses">
+                            <option value="building_permit">Building Permit</option>
+                            <option value="renovation_permit">Renovation Permit</option>
+                            <option value="business_license">Business License</option>
+                            <option value="event_permit">Event Permit</option>
+                            <option value="sign_permit">Sign Permit</option>
+                        </optgroup>
+                        <optgroup label="Public Services">
+                            <option value="pothole_repair">Pothole Repair</option>
+                            <option value="streetlight_issue">Streetlight Issue</option>
+                            <option value="tree_service">Tree Service Request</option>
+                            <option value="trash_pickup">Trash/Recycling Issue</option>
+                            <option value="water_sewer">Water/Sewer Issue</option>
+                        </optgroup>
+                        <optgroup label="Code Enforcement">
+                            <option value="noise_complaint">Noise Complaint</option>
+                            <option value="property_maintenance">Property Maintenance</option>
+                            <option value="zoning_violation">Zoning Violation</option>
+                        </optgroup>
+                        <optgroup label="Other">
+                            <option value="tax_inquiry">Tax Inquiry</option>
+                            <option value="general_inquiry">General Inquiry</option>
+                            <option value="document_request">Document Request</option>
+                        </optgroup>
+                    </select>
+                    <div id="aiSuggestion" class="mt-2 text-sm text-blue-300 hidden">
+                        <i class="fas fa-lightbulb mr-1"></i>
+                        <span id="aiSuggestionText"></span>
+                    </div>
+                </div>
+
+                <!-- Personal Information -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2">First Name *</label>
+                        <input type="text" id="firstName" required class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter first name">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2">Last Name *</label>
+                        <input type="text" id="lastName" required class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter last name">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2">Email Address *</label>
+                        <input type="email" id="email" required class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="your@email.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2">Phone Number</label>
+                        <input type="tel" id="phone" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="(555) 123-4567">
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div>
+                    <label class="block text-sm font-medium text-white mb-2">Property/Service Address</label>
+                    <input type="text" id="address" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="123 Main Street, City, State ZIP">
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <label class="block text-sm font-medium text-white mb-2">Description *</label>
+                    <textarea id="description" required rows="4" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Please describe your request in detail..."></textarea>
+                    <div class="text-xs text-white/60 mt-1">
+                        <span id="charCount">0</span>/500 characters
+                    </div>
+                </div>
+
+                <!-- Urgency -->
+                <div>
+                    <label class="block text-sm font-medium text-white mb-2">Priority Level</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <label class="flex items-center p-3 bg-white/5 rounded-lg cursor-pointer hover:bg-white/10 transition-colors">
+                            <input type="radio" name="priority" value="low" class="mr-2" checked>
+                            <div>
+                                <div class="text-green-400 font-medium">Low</div>
+                                <div class="text-xs text-white/70">Standard processing</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-3 bg-white/5 rounded-lg cursor-pointer hover:bg-white/10 transition-colors">
+                            <input type="radio" name="priority" value="medium" class="mr-2">
+                            <div>
+                                <div class="text-yellow-400 font-medium">Medium</div>
+                                <div class="text-xs text-white/70">Expedited review</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-3 bg-white/5 rounded-lg cursor-pointer hover:bg-white/10 transition-colors">
+                            <input type="radio" name="priority" value="high" class="mr-2">
+                            <div>
+                                <div class="text-red-400 font-medium">High</div>
+                                <div class="text-xs text-white/70">Urgent attention</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- File Upload -->
+                <div>
+                    <label class="block text-sm font-medium text-white mb-2">Attachments</label>
+                    <div class="border-2 border-dashed border-white/20 rounded-lg p-6 text-center hover:border-white/40 transition-colors">
+                        <i class="fas fa-cloud-upload-alt text-3xl text-white/40 mb-2"></i>
+                        <p class="text-white/70 mb-2">Drag and drop files here, or click to browse</p>
+                        <p class="text-xs text-white/50">Maximum 5 files, 10MB each. PDF, JPG, PNG, DOC supported.</p>
+                        <input type="file" id="fileUpload" multiple class="hidden" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                        <button type="button" onclick="document.getElementById('fileUpload').click()" class="mt-3 bg-white/10 text-white px-4 py-2 rounded-lg hover:bg-white/20 transition-colors">
+                            Choose Files
+                        </button>
+                    </div>
+                    <div id="fileList" class="mt-3 space-y-2"></div>
+                </div>
+
+                <!-- AI Routing Preview -->
+                <div id="routingPreview" class="bg-gradient-to-r from-blue-500/20 to-green-500/20 rounded-lg p-4 hidden">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i class="fas fa-robot text-blue-400"></i>
+                        <span class="text-white font-medium">AI Routing Suggestion</span>
+                    </div>
+                    <div id="routingInfo" class="text-sm text-white/80"></div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="flex justify-end space-x-4 pt-4 border-t border-white/20">
+                    <button type="button" onclick="closeNewRequestModal()" class="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-6 py-3 bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-lg hover:shadow-lg transition-all">
+                        <i class="fas fa-paper-plane mr-2"></i>Submit Request
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Enhanced Workflow Builder Modal -->
+    <div id="workflowModal" class="modal">
+        <div class="glass rounded-2xl p-8 max-w-6xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-magic text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">AI-Powered Workflow Builder</h3>
+                        <p class="text-sm text-white/70">Create intelligent, automated government processes</p>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="text-white/60 hover:text-white text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- AI Assistant Section -->
+            <div class="bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl p-4 mb-6">
+                <div class="flex items-center space-x-3 mb-3">
+                    <i class="fas fa-robot text-blue-400"></i>
+                    <span class="text-white font-medium">AI Workflow Assistant</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <button onclick="generateWorkflowSuggestion('approval')" class="text-left p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors">
+                        <div class="text-sm font-medium text-white">Smart Approval Chain</div>
+                        <div class="text-xs text-white/70">Auto-route based on amount/type</div>
+                    </button>
+                    <button onclick="generateWorkflowSuggestion('notification')" class="text-left p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors">
+                        <div class="text-sm font-medium text-white">Intelligent Notifications</div>
+                        <div class="text-xs text-white/70">Multi-channel alerts & reminders</div>
+                    </button>
+                    <button onclick="generateWorkflowSuggestion('escalation')" class="text-left p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors">
+                        <div class="text-sm font-medium text-white">Auto-Escalation</div>
+                        <div class="text-xs text-white/70">Time-based priority handling</div>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Configuration Panel -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Workflow Configuration</h4>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-white mb-2">Workflow Name *</label>
+                            <input type="text" id="workflowName" placeholder="Enter descriptive workflow name"
+                                   class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <div class="text-xs text-white/60 mt-1">Use clear, descriptive names (e.g., "Building Permit Review Process")</div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-white mb-2">Department *</label>
+                            <select id="department" onchange="updateDepartmentTemplates()" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">Select Department</option>
+                                <option value="permits">Building & Permits</option>
+                                <option value="tax">Tax & Finance</option>
+                                <option value="public_works">Public Works</option>
+                                <option value="health">Health Department</option>
+                                <option value="planning">Planning & Zoning</option>
+                                <option value="legal">Legal Department</option>
+                                <option value="hr">Human Resources</option>
+                                <option value="it">IT Services</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-white mb-2">Workflow Type</label>
+                            <select id="workflowType" onchange="updateWorkflowSuggestions()" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">Select Type</option>
+                                <option value="approval">Approval Process</option>
+                                <option value="review">Review & Inspection</option>
+                                <option value="application">Application Processing</option>
+                                <option value="complaint">Complaint Handling</option>
+                                <option value="maintenance">Maintenance Request</option>
+                                <option value="compliance">Compliance Check</option>
+                                <option value="emergency">Emergency Response</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-white mb-2">Priority Level</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <label class="flex items-center p-2 bg-white/5 rounded cursor-pointer hover:bg-white/10">
+                                    <input type="radio" name="priority" value="low" class="mr-2 text-blue-500" checked>
+                                    <span class="text-white text-sm">Low</span>
+                                </label>
+                                <label class="flex items-center p-2 bg-white/5 rounded cursor-pointer hover:bg-white/10">
+                                    <input type="radio" name="priority" value="medium" class="mr-2 text-blue-500">
+                                    <span class="text-white text-sm">Medium</span>
+                                </label>
+                                <label class="flex items-center p-2 bg-white/5 rounded cursor-pointer hover:bg-white/10">
+                                    <input type="radio" name="priority" value="high" class="mr-2 text-blue-500">
+                                    <span class="text-white text-sm">High</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-white mb-2">SLA (Service Level Agreement)</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="number" id="slaHours" placeholder="Hours" min="1" max="168" 
+                                       class="bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <select id="slaUnit" class="bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="hours">Hours</option>
+                                    <option value="days">Business Days</option>
+                                    <option value="weeks">Weeks</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Optimization Suggestions -->
+                    <div id="aiSuggestions" class="mt-6 p-4 bg-green-500/20 rounded-lg hidden">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <i class="fas fa-lightbulb text-green-400"></i>
+                            <span class="text-green-300 font-medium">AI Optimization Suggestions</span>
+                        </div>
+                        <div id="suggestionsList" class="space-y-2 text-sm text-white/80">
+                            <!-- Suggestions will be populated here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Workflow Steps Builder -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-lg font-semibold text-white">Workflow Steps</h4>
+                        <div class="flex space-x-2">
+                            <button onclick="showStepLibrary()" class="text-xs bg-purple-600 text-white px-3 py-1 rounded-lg hover:bg-purple-700 transition-colors">
+                                <i class="fas fa-book mr-1"></i>Step Library
+                            </button>
+                            <button onclick="optimizeWorkflow()" class="text-xs bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700 transition-colors">
+                                <i class="fas fa-magic mr-1"></i>AI Optimize
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="workflowStepsBuilder" class="space-y-3 max-h-80 overflow-y-auto mb-4">
+                        <!-- Steps will be added dynamically -->
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="addWorkflowStep()" class="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-plus mr-2"></i>Add Step
+                        </button>
+                        <button onclick="addConditionalStep()" class="bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                            <i class="fas fa-code-branch mr-2"></i>Add Condition
+                        </button>
+                    </div>
+
+                    <!-- Workflow Validation -->
+                    <div id="workflowValidation" class="mt-4 p-3 bg-yellow-500/20 rounded-lg hidden">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                            <span class="text-yellow-300 font-medium">Workflow Validation</span>
+                        </div>
+                        <div id="validationIssues" class="text-sm text-white/80">
+                            <!-- Validation issues will be shown here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workflow Preview & Testing -->
+            <div class="mt-8 p-6 bg-black/20 rounded-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-lg font-semibold text-white">Workflow Preview</h4>
+                    <div class="flex space-x-2">
+                        <button onclick="testWorkflow()" class="text-sm bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                            <i class="fas fa-play mr-2"></i>Test Run
+                        </button>
+                        <button onclick="exportWorkflow()" class="text-sm bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-download mr-2"></i>Export
+                        </button>
+                    </div>
+                </div>
+                <div id="workflowPreviewCanvas" class="min-h-[200px] bg-white/5 rounded-lg flex items-center justify-center">
+                    <div class="text-white/60 text-center">
+                        <i class="fas fa-sitemap text-4xl mb-4"></i>
+                        <p>Add workflow steps to see preview</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-end space-x-4 mt-8 pt-4 border-t border-white/20">
+                <button onclick="closeModal()" class="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                    Cancel
+                </button>
+                <button onclick="saveWorkflowDraft()" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    Save Draft
+                </button>
+                <button onclick="saveWorkflow()" class="px-6 py-2 bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-lg hover:shadow-lg transition-all">
+                    <i class="fas fa-rocket mr-2"></i>Deploy Workflow
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Global state
+        let selectedWorkflow = null;
+        let workflowStepCount = 0;
+        let currentWorkflowSteps = [];
+        let workflowLibrary = {
+            stepTypes: {
+                'input': { name: 'Data Input', icon: 'fas fa-keyboard', description: 'Collect information from forms or APIs' },
+                'validation': { name: 'Validation', icon: 'fas fa-check-circle', description: 'Verify data accuracy and completeness' },
+                'approval': { name: 'Approval', icon: 'fas fa-user-check', description: 'Route for human or automated approval' },
+                'notification': { name: 'Notification', icon: 'fas fa-bell', description: 'Send alerts via email, SMS, or system' },
+                'decision': { name: 'Decision Point', icon: 'fas fa-code-branch', description: 'Conditional logic based on criteria' },
+                'assignment': { name: 'Task Assignment', icon: 'fas fa-user-tag', description: 'Assign work to specific users or roles' },
+                'calculation': { name: 'Calculation', icon: 'fas fa-calculator', description: 'Perform mathematical or logical operations' },
+                'integration': { name: 'System Integration', icon: 'fas fa-link', description: 'Connect with external systems or databases' },
+                'document': { name: 'Document Generation', icon: 'fas fa-file-alt', description: 'Create reports, certificates, or forms' },
+                'escalation': { name: 'Escalation', icon: 'fas fa-exclamation-triangle', description: 'Auto-escalate based on time or conditions' },
+                'archive': { name: 'Archive/Store', icon: 'fas fa-archive', description: 'Store completed work or documents' },
+                'completion': { name: 'Completion', icon: 'fas fa-flag-checkered', description: 'Final step and closure notifications' }
+            },
+            bestPractices: {
+                'approval': [
+                    'Add timeout escalation for approvals',
+                    'Include delegation when approvers are unavailable',
+                    'Send reminder notifications before deadline',
+                    'Log all approval decisions with timestamps'
+                ],
+                'notification': [
+                    'Use multiple channels for critical notifications',
+                    'Include relevant case information in messages',
+                    'Set delivery confirmation requirements',
+                    'Personalize messages with recipient names'
+                ],
+                'escalation': [
+                    'Define clear escalation criteria and timeframes',
+                    'Notify all relevant parties of escalations',
+                    'Include escalation history in case records',
+                    'Set automatic supervisor notifications'
+                ]
+            }
+        };
+        let userRequests = [
+            {
+                id: 'REQ-2024-001',
+                type: 'Building Permit',
+                description: 'Deck addition to rear of property',
+                status: 'Under Review',
+                statusColor: 'yellow',
+                date: '2024-01-15',
+                department: 'Building & Safety',
+                priority: 'medium'
+            },
+            {
+                id: 'REQ-2024-002',
+                type: 'Business License',
+                description: 'New restaurant license application',
+                status: 'Approved',
+                statusColor: 'green',
+                date: '2024-01-10',
+                department: 'Business Licensing',
+                priority: 'low'
+            },
+            {
+                id: 'REQ-2024-003',
+                type: 'Pothole Repair',
+                description: 'Large pothole on Oak Street near 5th Ave',
+                status: 'In Progress',
+                statusColor: 'blue',
+                date: '2024-01-20',
+                department: 'Public Works',
+                priority: 'high'
+            },
+            {
+                id: 'REQ-2024-004',
+                type: 'Tree Service',
+                description: 'Dead tree removal from front yard',
+                status: 'Pending',
+                statusColor: 'gray',
+                date: '2024-01-22',
+                department: 'Parks & Recreation',
+                priority: 'low'
+            },
+            {
+                id: 'REQ-2024-005',
+                type: 'Noise Complaint',
+                description: 'Loud construction work after hours',
+                status: 'Resolved',
+                statusColor: 'green',
+                date: '2024-01-18',
+                department: 'Code Enforcement',
+                priority: 'medium'
+            }
+        ];
+        
+        // Workflow templates
+        const workflowTemplates = [
+            {
+                id: 'permit',
+                name: 'Permit Processing',
+                icon: 'fas fa-file-signature',
+                color: 'from-blue-500 to-cyan-500',
+                description: 'Automate permit applications and approvals',
+                steps: [
+                    'Receive permit application',
+                    'Validate required documents',
+                    'Route to appropriate department',
+                    'Conduct automated compliance checks',
+                    'Schedule inspections if needed',
+                    'Generate approval/denial notification',
+                    'Update public records'
+                ]
+            },
+            {
+                id: 'tax',
+                name: 'Tax Assessment',
+                icon: 'fas fa-calculator',
+                color: 'from-green-500 to-teal-500',
+                description: 'Streamline tax calculation and collection',
+                steps: [
+                    'Import property data',
+                    'Calculate assessed values',
+                    'Apply tax rates and exemptions',
+                    'Generate tax bills',
+                    'Send notifications to taxpayers',
+                    'Process payments',
+                    'Handle appeals if necessary'
+                ]
+            },
+            {
+                id: 'complaint',
+                name: 'Complaint Handling',
+                icon: 'fas fa-exclamation-triangle',
+                color: 'from-yellow-500 to-orange-500',
+                description: 'Manage and resolve citizen complaints',
+                steps: [
+                    'Log complaint details',
+                    'Categorize by department and priority',
+                    'Assign to appropriate staff',
+                    'Send acknowledgment to citizen',
+                    'Track resolution progress',
+                    'Notify citizen of resolution',
+                    'Close case and update records'
+                ]
+            },
+            {
+                id: 'license',
+                name: 'Business Licensing',
+                icon: 'fas fa-certificate',
+                color: 'from-purple-500 to-indigo-500',
+                description: 'Process business license applications',
+                steps: [
+                    'Receive license application',
+                    'Verify business information',
+                    'Check zoning compliance',
+                    'Process fee payments',
+                    'Conduct background checks',
+                    'Issue license or request corrections',
+                    'Schedule renewal reminders'
+                ]
+            }
+        ];
+        
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeWorkflowTemplates();
+            populateRecentActivity();
+            populateRecentRequests();
+            populateCitizenRequests();
+            startTypingAnimation();
+            initializeNewRequestForm();
+            updateCitizenCounter();
+        });
+
+        function updateCitizenCounter() {
+            document.getElementById('userRequestCountCitizen').textContent = userRequests.length;
+        }
+        
+        // Tab switching
+        function switchTab(tabName) {
+            // Update nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.nav-item').classList.add('active');
+            
+            // Hide all content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Show selected content
+            document.getElementById(tabName + '-content').style.display = 'block';
+            
+            // Update header
+            const titles = {
+                dashboard: { title: 'Admin Dashboard', subtitle: 'System monitoring and workflow management' },
+                citizen: { title: 'Citizen Portal', subtitle: 'Submit requests, track applications, and access city services' },
+                workflows: { title: 'Workflow Management', subtitle: 'Create and manage automated processes' },
+                security: { title: 'Security Analysis', subtitle: 'Threat detection and vulnerability assessment' },
+                analytics: { title: 'System Analytics', subtitle: 'Performance metrics and insights' },
+                compliance: { title: 'Compliance Monitor', subtitle: 'Regulatory compliance tracking' },
+                settings: { title: 'System Settings', subtitle: 'Configure platform preferences' }
+            };
+            
+            document.getElementById('pageTitle').textContent = titles[tabName].title;
+            document.getElementById('pageSubtitle').textContent = titles[tabName].subtitle;
+        }
+        
+        // Initialize workflow templates
+        function initializeWorkflowTemplates() {
+            const container = document.getElementById('workflowTemplates');
+            if (!container) return;
+            
+            container.innerHTML = workflowTemplates.map(template => `
+                <div class="workflow-card glass rounded-xl p-6 text-center" onclick="selectWorkflow('${template.id}')">
+                    <div class="w-16 h-16 bg-gradient-to-r ${template.color} rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="${template.icon} text-2xl text-white"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-2 text-white">${template.name}</h4>
+                    <p class="text-sm text-white/70 mb-4">${template.description}</p>
+                    <div class="text-xs text-blue-300">
+                        <i class="fas fa-list mr-1"></i>${template.steps.length} automated steps
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Select workflow
+        function selectWorkflow(workflowId) {
+            document.querySelectorAll('.workflow-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            event.target.closest('.workflow-card').classList.add('selected');
+            selectedWorkflow = workflowTemplates.find(w => w.id === workflowId);
+            
+            showWorkflowPreview(selectedWorkflow);
+        }
+        
+        // Show workflow preview
+        function showWorkflowPreview(workflow) {
+            const preview = document.getElementById('workflowPreview');
+            const stepsContainer = document.getElementById('workflowSteps');
+            
+            stepsContainer.innerHTML = workflow.steps.map((step, index) => `
+                <div class="flex items-center p-3 bg-white/5 rounded-lg mb-2">
+                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
+                        ${index + 1}
+                    </div>
+                    <span class="text-white">${step}</span>
+                </div>
+            `).join('');
+            
+            preview.style.display = 'block';
+            preview.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Clear selection
+        function clearSelection() {
+            document.querySelectorAll('.workflow-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById('workflowPreview').style.display = 'none';
+            selectedWorkflow = null;
+        }
+        
+        // Deploy workflow
+        function deployWorkflow() {
+            if (!selectedWorkflow) return;
+            
+            addChatMessage(`🚀 Deploying "${selectedWorkflow.name}" workflow... Setting up ${selectedWorkflow.steps.length} automated steps.`, 'ai');
+            
+            setTimeout(() => {
+                addChatMessage(`✅ Workflow "${selectedWorkflow.name}" deployed successfully! Now monitoring for new requests.`, 'ai');
+                clearSelection();
+            }, 2000);
+        }
+        
+        // Modal functions
+        function openWorkflowBuilder() {
+            document.getElementById('workflowModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            document.getElementById('workflowModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Enhanced Workflow Builder Functions
+        function addWorkflowStep(stepType = null) {
+            workflowStepCount++;
+            const stepsContainer = document.getElementById('workflowStepsBuilder');
+            const stepDiv = document.createElement('div');
+            stepDiv.className = 'workflow-step p-4 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors';
+            stepDiv.dataset.stepId = `step-${workflowStepCount}`;
+            
+            const stepTypeOptions = Object.keys(workflowLibrary.stepTypes).map(type => 
+                `<option value="${type}" ${stepType === type ? 'selected' : ''}>${workflowLibrary.stepTypes[type].name}</option>`
+            ).join('');
+            
+            stepDiv.innerHTML = `
+                <div class="flex items-start space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                        ${workflowStepCount}
+                    </div>
+                    <div class="flex-1 space-y-3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-medium text-white/80 mb-1">Step Type</label>
+                                <select onchange="updateStepType(this)" class="w-full bg-white/10 border border-white/20 rounded px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                    <option value="">Select Type</option>
+                                    ${stepTypeOptions}
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-white/80 mb-1">Assigned To</label>
+                                <select class="w-full bg-white/10 border border-white/20 rounded px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                    <option value="">Auto-assign</option>
+                                    <option value="dept_head">Department Head</option>
+                                    <option value="specialist">Subject Matter Expert</option>
+                                    <option value="admin">System Administrator</option>
+                                    <option value="external">External Reviewer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-white/80 mb-1">Step Description</label>
+                            <input type="text" placeholder="Describe what happens in this step..."
+                                   class="w-full bg-white/10 border border-white/20 rounded px-3 py-2 text-sm text-white placeholder-white/60 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-medium text-white/80 mb-1">Time Limit</label>
+                                <div class="flex space-x-1">
+                                    <input type="number" placeholder="24" min="1" max="168" 
+                                           class="flex-1 bg-white/10 border border-white/20 rounded px-2 py-1 text-xs text-white placeholder-white/60">
+                                    <select class="bg-white/10 border border-white/20 rounded px-2 py-1 text-xs text-white">
+                                        <option value="hours">hrs</option>
+                                        <option value="days">days</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-white/80 mb-1">On Timeout</label>
+                                <select class="w-full bg-white/10 border border-white/20 rounded px-2 py-1 text-xs text-white">
+                                    <option value="escalate">Escalate</option>
+                                    <option value="auto_approve">Auto-approve</option>
+                                    <option value="notify">Notify only</option>
+                                    <option value="reassign">Reassign</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="step-conditions hidden bg-black/20 rounded p-3">
+                            <label class="block text-xs font-medium text-white/80 mb-2">Conditions (if applicable)</label>
+                            <textarea placeholder="Define conditions for this step (e.g., if amount > 1000, route to supervisor)"
+                                      class="w-full bg-white/10 border border-white/20 rounded px-3 py-2 text-xs text-white placeholder-white/60 h-16"></textarea>
+                        </div>
+                    </div>
+                    <div class="flex flex-col space-y-2">
+                        <button onclick="duplicateStep(this)" class="text-blue-400 hover:text-blue-300 text-sm" title="Duplicate">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button onclick="moveStepUp(this)" class="text-green-400 hover:text-green-300 text-sm" title="Move Up">
+                            <i class="fas fa-arrow-up"></i>
+                        </button>
+                        <button onclick="moveStepDown(this)" class="text-green-400 hover:text-green-300 text-sm" title="Move Down">
+                            <i class="fas fa-arrow-down"></i>
+                        </button>
+                        <button onclick="removeStep(this)" class="text-red-400 hover:text-red-300 text-sm" title="Remove">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            stepsContainer.appendChild(stepDiv);
+            updateWorkflowPreview();
+            
+            // If stepType was provided, trigger the change event to load suggestions
+            if (stepType) {
+                const select = stepDiv.querySelector('select');
+                updateStepType(select);
+            }
+        }
+
+        function addConditionalStep() {
+            addWorkflowStep('decision');
+        }
+
+        function updateStepType(selectElement) {
+            const stepDiv = selectElement.closest('.workflow-step');
+            const stepType = selectElement.value;
+            const conditionsDiv = stepDiv.querySelector('.step-conditions');
+            
+            if (stepType === 'decision' || stepType === 'escalation') {
+                conditionsDiv.classList.remove('hidden');
+            } else {
+                conditionsDiv.classList.add('hidden');
+            }
+            
+            // Show AI suggestions for this step type
+            if (stepType && workflowLibrary.bestPractices[stepType]) {
+                showStepSuggestions(stepType, stepDiv);
+            }
+            
+            updateWorkflowPreview();
+        }
+
+        function showStepSuggestions(stepType, stepDiv) {
+            const suggestions = workflowLibrary.bestPractices[stepType];
+            if (suggestions && suggestions.length > 0) {
+                // Create or update suggestions tooltip
+                let tooltip = stepDiv.querySelector('.step-suggestions');
+                if (!tooltip) {
+                    tooltip = document.createElement('div');
+                    tooltip.className = 'step-suggestions absolute z-10 bg-blue-600 text-white text-xs rounded p-2 mt-1 max-w-xs shadow-lg';
+                    tooltip.innerHTML = `
+                        <div class="font-medium mb-1">💡 Best Practices:</div>
+                        <ul class="list-disc list-inside space-y-1">
+                            ${suggestions.map(s => `<li>${s}</li>`).join('')}
+                        </ul>
+                    `;
+                    stepDiv.style.position = 'relative';
+                    stepDiv.appendChild(tooltip);
+                    
+                    // Auto-hide after 5 seconds
+                    setTimeout(() => {
+                        if (tooltip.parentNode) {
+                            tooltip.remove();
+                        }
+                    }, 5000);
+                }
+            }
+        }
+
+        function duplicateStep(button) {
+            const stepDiv = button.closest('.workflow-step');
+            const newStep = stepDiv.cloneNode(true);
+            workflowStepCount++;
+            
+            // Update step number
+            const stepNumber = newStep.querySelector('.bg-gradient-to-r');
+            stepNumber.textContent = workflowStepCount;
+            newStep.dataset.stepId = `step-${workflowStepCount}`;
+            
+            stepDiv.parentNode.insertBefore(newStep, stepDiv.nextSibling);
+            updateWorkflowPreview();
+        }
+
+        function moveStepUp(button) {
+            const stepDiv = button.closest('.workflow-step');
+            const prevStep = stepDiv.previousElementSibling;
+            if (prevStep) {
+                stepDiv.parentNode.insertBefore(stepDiv, prevStep);
+                renumberSteps();
+                updateWorkflowPreview();
+            }
+        }
+
+        function moveStepDown(button) {
+            const stepDiv = button.closest('.workflow-step');
+            const nextStep = stepDiv.nextElementSibling;
+            if (nextStep) {
+                stepDiv.parentNode.insertBefore(nextStep, stepDiv);
+                renumberSteps();
+                updateWorkflowPreview();
+            }
+        }
+
+        function removeStep(button) {
+            const stepDiv = button.closest('.workflow-step');
+            stepDiv.remove();
+            renumberSteps();
+            updateWorkflowPreview();
+        }
+
+        function renumberSteps() {
+            const steps = document.querySelectorAll('.workflow-step');
+            steps.forEach((step, index) => {
+                const stepNumber = step.querySelector('.bg-gradient-to-r');
+                stepNumber.textContent = index + 1;
+                step.dataset.stepId = `step-${index + 1}`;
+            });
+            workflowStepCount = steps.length;
+        }
+        
+        // AI-Powered Workflow Functions
+        function generateWorkflowSuggestion(suggestionType) {
+            const department = document.getElementById('department').value;
+            const workflowType = document.getElementById('workflowType').value;
+            
+            const suggestions = {
+                'approval': {
+                    name: 'Smart Approval Chain',
+                    steps: [
+                        { type: 'input', description: 'Receive request with automated data validation' },
+                        { type: 'decision', description: 'Route based on amount, type, and urgency' },
+                        { type: 'approval', description: 'Supervisor approval with 24hr timeout' },
+                        { type: 'escalation', description: 'Auto-escalate to department head if needed' },
+                        { type: 'notification', description: 'Multi-channel approval notification' },
+                        { type: 'completion', description: 'Archive and close with analytics' }
+                    ]
+                },
+                'notification': {
+                    name: 'Intelligent Notification System',
+                    steps: [
+                        { type: 'input', description: 'Trigger event detection' },
+                        { type: 'decision', description: 'Determine notification priority and channels' },
+                        { type: 'notification', description: 'Send personalized alerts (email, SMS, app)' },
+                        { type: 'validation', description: 'Confirm delivery and read receipts' },
+                        { type: 'escalation', description: 'Retry with alternative channels if undelivered' },
+                        { type: 'archive', description: 'Log communication history' }
+                    ]
+                },
+                'escalation': {
+                    name: 'Auto-Escalation Framework',
+                    steps: [
+                        { type: 'input', description: 'Monitor workflow progress and SLA compliance' },
+                        { type: 'decision', description: 'Check if deadlines are approaching or missed' },
+                        { type: 'escalation', description: 'Automatic escalation to next level' },
+                        { type: 'assignment', description: 'Reassign to backup personnel if needed' },
+                        { type: 'notification', description: 'Alert all stakeholders of escalation' },
+                        { type: 'completion', description: 'Update escalation metrics and reports' }
+                    ]
+                }
+            };
+            
+            if (suggestions[suggestionType]) {
+                const suggestion = suggestions[suggestionType];
+                
+                // Clear existing steps
+                document.getElementById('workflowStepsBuilder').innerHTML = '';
+                workflowStepCount = 0;
+                
+                // Add suggested steps
+                suggestion.steps.forEach(step => {
+                    addWorkflowStep(step.type);
+                    
+                    // Fill in the description
+                    const lastStep = document.querySelector('.workflow-step:last-child');
+                    const descInput = lastStep.querySelector('input[placeholder*="Describe what happens"]');
+                    if (descInput) {
+                        descInput.value = step.description;
+                    }
+                });
+                
+                // Update workflow name
+                const nameInput = document.getElementById('workflowName');
+                if (!nameInput.value.trim()) {
+                    nameInput.value = suggestion.name;
+                }
+                
+                showAISuggestions([
+                    `✨ Generated ${suggestion.name} with ${suggestion.steps.length} optimized steps`,
+                    '🎯 Includes best practices for government workflows',
+                    '⚡ Built-in escalation and notification handling',
+                    '📊 Ready for compliance and audit tracking'
+                ]);
+            }
+        }
+
+        function updateDepartmentTemplates() {
+            const department = document.getElementById('department').value;
+            const departmentTemplates = {
+                'permits': ['Application Processing', 'Review & Inspection', 'Approval Process'],
+                'tax': ['Assessment Review', 'Appeal Handling', 'Payment Processing'],
+                'public_works': ['Maintenance Request', 'Emergency Response', 'Project Approval'],
+                'health': ['Inspection Process', 'Permit Review', 'Compliance Check']
+            };
+            
+            if (departmentTemplates[department]) {
+                showAISuggestions([
+                    `📋 Common ${department} workflows:`,
+                    ...departmentTemplates[department].map(t => `• ${t}`),
+                    '🤖 Click "AI Optimize" for department-specific suggestions'
+                ]);
+            }
+        }
+
+        function updateWorkflowSuggestions() {
+            const workflowType = document.getElementById('workflowType').value;
+            const typeOptimizations = {
+                'approval': ['Add parallel approval for faster processing', 'Include backup approvers', 'Set escalation timeouts'],
+                'review': ['Use checklists for consistency', 'Include photo/document requirements', 'Add quality control step'],
+                'application': ['Auto-validate common fields', 'Pre-populate known data', 'Include status tracking'],
+                'complaint': ['Prioritize by severity', 'Include acknowledgment step', 'Add follow-up reminders'],
+                'maintenance': ['Include location mapping', 'Add contractor assignment', 'Include completion photos']
+            };
+            
+            if (typeOptimizations[workflowType]) {
+                showAISuggestions(typeOptimizations[workflowType]);
+            }
+        }
+
+        function optimizeWorkflow() {
+            const steps = document.querySelectorAll('.workflow-step');
+            if (steps.length === 0) {
+                showAISuggestions(['⚠️ Add some workflow steps first, then I can optimize them!']);
+                return;
+            }
+            
+            const optimizations = [
+                '⚡ Consider adding parallel processing where possible',
+                '🔔 Include automated reminders before deadlines',
+                '📊 Add data validation steps to prevent errors',
+                '🔄 Include feedback loops for continuous improvement',
+                '📱 Enable mobile notifications for urgent items',
+                '🤖 Use AI to auto-categorize and route requests',
+                '📈 Add analytics tracking for performance metrics',
+                '🔒 Include security checkpoints for sensitive data'
+            ];
+            
+            const randomOptimizations = optimizations.sort(() => 0.5 - Math.random()).slice(0, 4);
+            showAISuggestions(randomOptimizations);
+            
+            // Simulate AI analysis
+            setTimeout(() => {
+                validateWorkflow();
+            }, 1000);
+        }
+
+        function showStepLibrary() {
+            const stepTypes = Object.entries(workflowLibrary.stepTypes);
+            const libraryHtml = stepTypes.map(([key, step]) => 
+                `<button onclick="addWorkflowStep('${key}')" class="text-left p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors w-full">
+                    <div class="flex items-center space-x-3">
+                        <i class="${step.icon} text-blue-400"></i>
+                        <div>
+                            <div class="text-sm font-medium text-white">${step.name}</div>
+                            <div class="text-xs text-white/70">${step.description}</div>
+                        </div>
+                    </div>
+                </button>`
+            ).join('');
+            
+            // Create modal or popup for step library
+            showAISuggestions([
+                '📚 Step Library - Click to add:',
+                libraryHtml
+            ]);
+        }
+
+        function showAISuggestions(suggestions) {
+            const aiSuggestions = document.getElementById('aiSuggestions');
+            const suggestionsList = document.getElementById('suggestionsList');
+            
+            suggestionsList.innerHTML = suggestions.map(s => 
+                s.includes('<button') ? s : `<div class="flex items-start space-x-2"><span>•</span><span>${s}</span></div>`
+            ).join('');
+            
+            aiSuggestions.classList.remove('hidden');
+            
+            // Auto-hide after 15 seconds unless it contains interactive elements
+            if (!suggestions.some(s => s.includes('<button'))) {
+                setTimeout(() => {
+                    aiSuggestions.classList.add('hidden');
+                }, 15000);
+            }
+        }
+
+        function validateWorkflow() {
+            const steps = document.querySelectorAll('.workflow-step');
+            const issues = [];
+            
+            if (steps.length === 0) {
+                issues.push('Workflow must have at least one step');
+            }
+            
+            if (steps.length === 1) {
+                issues.push('Consider adding more steps for a complete workflow');
+            }
+            
+            // Check for missing step types
+            let hasApproval = false;
+            let hasCompletion = false;
+            let hasNotification = false;
+            
+            steps.forEach(step => {
+                const stepType = step.querySelector('select').value;
+                if (stepType === 'approval') hasApproval = true;
+                if (stepType === 'completion') hasCompletion = true;
+                if (stepType === 'notification') hasNotification = true;
+                
+                const description = step.querySelector('input[placeholder*="Describe"]').value;
+                if (!description.trim()) {
+                    issues.push(`Step ${step.querySelector('.bg-gradient-to-r').textContent} needs a description`);
+                }
+            });
+            
+            if (steps.length > 2 && !hasCompletion) {
+                issues.push('Consider adding a completion step to properly close the workflow');
+            }
+            
+            if (steps.length > 3 && !hasNotification) {
+                issues.push('Add notification steps to keep stakeholders informed');
+            }
+            
+            const validation = document.getElementById('workflowValidation');
+            const validationIssues = document.getElementById('validationIssues');
+            
+            if (issues.length > 0) {
+                validationIssues.innerHTML = issues.map(issue => 
+                    `<div class="flex items-start space-x-2 mb-1"><i class="fas fa-exclamation-triangle text-yellow-400 mt-0.5"></i><span>${issue}</span></div>`
+                ).join('');
+                validation.classList.remove('hidden');
+            } else {
+                validation.classList.add('hidden');
+                showAISuggestions(['✅ Workflow validation passed! Ready for deployment.']);
+            }
+        }
+
+        function updateWorkflowPreview() {
+            const steps = document.querySelectorAll('.workflow-step');
+            const canvas = document.getElementById('workflowPreviewCanvas');
+            
+            if (steps.length === 0) {
+                canvas.innerHTML = `
+                    <div class="text-white/60 text-center">
+                        <i class="fas fa-sitemap text-4xl mb-4"></i>
+                        <p>Add workflow steps to see preview</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const previewHtml = Array.from(steps).map((step, index) => {
+                const stepType = step.querySelector('select').value;
+                const description = step.querySelector('input[placeholder*="Describe"]').value;
+                const icon = stepType && workflowLibrary.stepTypes[stepType] ? workflowLibrary.stepTypes[stepType].icon : 'fas fa-circle';
+                
+                return `
+                    <div class="flex items-center ${index < steps.length - 1 ? 'mb-4' : ''}">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                                ${index + 1}
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <i class="${icon} text-blue-400"></i>
+                                <span class="text-white text-sm">${description || 'Untitled Step'}</span>
+                            </div>
+                        </div>
+                        ${index < steps.length - 1 ? '<div class="ml-4 w-px h-6 bg-white/20"></div>' : ''}
+                    </div>
+                `;
+            }).join('');
+            
+            canvas.innerHTML = `<div class="p-4">${previewHtml}</div>`;
+        }
+
+        function testWorkflow() {
+            const steps = document.querySelectorAll('.workflow-step');
+            if (steps.length === 0) {
+                showAISuggestions(['⚠️ Add workflow steps before testing']);
+                return;
+            }
+            
+            showAISuggestions([
+                '🧪 Running workflow simulation...',
+                '✅ All steps executed successfully',
+                '⏱️ Estimated completion time: 2.5 business days',
+                '📊 No bottlenecks detected',
+                '🎯 Ready for production deployment'
+            ]);
+        }
+
+        function exportWorkflow() {
+            const workflowName = document.getElementById('workflowName').value || 'Untitled Workflow';
+            const department = document.getElementById('department').value;
+            const workflowData = {
+                name: workflowName,
+                department: department,
+                steps: Array.from(document.querySelectorAll('.workflow-step')).map((step, index) => ({
+                    id: index + 1,
+                    type: step.querySelector('select').value,
+                    description: step.querySelector('input[placeholder*="Describe"]').value,
+                    assignedTo: step.querySelectorAll('select')[1]?.value,
+                    timeLimit: step.querySelector('input[type="number"]')?.value,
+                    conditions: step.querySelector('textarea')?.value
+                }))
+            };
+            
+            // Create downloadable JSON
+            const blob = new Blob([JSON.stringify(workflowData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${workflowName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_workflow.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function saveWorkflowDraft() {
+            const workflowName = document.getElementById('workflowName').value;
+            if (!workflowName.trim()) {
+                showAISuggestions(['⚠️ Please enter a workflow name before saving draft']);
+                return;
+            }
+            
+            showAISuggestions([`💾 Draft "${workflowName}" saved successfully`, '📝 You can continue editing later']);
+        }
+
+        function saveWorkflow() {
+            const workflowName = document.getElementById('workflowName').value;
+            const department = document.getElementById('department').value;
+            const steps = document.querySelectorAll('.workflow-step');
+            
+            if (!workflowName.trim()) {
+                showAISuggestions(['⚠️ Please enter a workflow name']);
+                return;
+            }
+            
+            if (!department) {
+                showAISuggestions(['⚠️ Please select a department']);
+                return;
+            }
+            
+            if (steps.length === 0) {
+                showAISuggestions(['⚠️ Please add at least one workflow step']);
+                return;
+            }
+            
+            // Validate workflow before deploying
+            validateWorkflow();
+            
+            // Simulate deployment
+            setTimeout(() => {
+                addAdminChatMessage(`🚀 Workflow "${workflowName}" deployed successfully! Now processing requests automatically.`, 'ai');
+                closeModal();
+                
+                // Reset form
+                document.getElementById('workflowName').value = '';
+                document.getElementById('department').value = '';
+                document.getElementById('workflowStepsBuilder').innerHTML = '';
+                workflowStepCount = 0;
+                
+                // Update dashboard stats
+                const activeWorkflows = document.querySelector('#dashboard-content .text-3xl');
+                if (activeWorkflows) {
+                    const current = parseInt(activeWorkflows.textContent);
+                    activeWorkflows.textContent = current + 1;
+                }
+            }, 1500);
+        }
+        
+        // Chat functions
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            addChatMessage(message, 'user');
+            input.value = '';
+            
+            setTimeout(() => {
+                // Smart responses based on message content
+                const lowerMessage = message.toLowerCase();
+                let response = '';
+                
+                if (lowerMessage.includes('permit') || lowerMessage.includes('building')) {
+                    response = "For building permits, you'll need property surveys, construction plans, and a licensed contractor. Would you like me to open the building permit form for you?";
+                } else if (lowerMessage.includes('license') || lowerMessage.includes('business')) {
+                    response = "Business licenses typically require your business registration, zoning approval, and tax ID. Processing usually takes 3-5 business days. Shall I help you start the application?";
+                } else if (lowerMessage.includes('pothole') || lowerMessage.includes('road') || lowerMessage.includes('street')) {
+                    response = "For road issues like potholes, please provide the exact location and photos if possible. Our Public Works team responds within 1-3 business days. Would you like to submit a repair request?";
+                } else if (lowerMessage.includes('tax') || lowerMessage.includes('property tax')) {
+                    response = "For tax inquiries, I can connect you with the Finance Department. They handle property assessments, payment plans, and exemptions. What specific tax issue can I help with?";
+                } else if (lowerMessage.includes('tree') || lowerMessage.includes('park')) {
+                    response = "Tree services and park maintenance are handled by Parks & Recreation. For tree removal, you'll need property ownership verification. Would you like me to start that request?";
+                } else if (lowerMessage.includes('noise') || lowerMessage.includes('complaint')) {
+                    response = "For noise complaints, please provide specific times, dates, and any evidence. Code Enforcement typically responds within 1-2 business days. Should I open a complaint form?";
+                } else if (lowerMessage.includes('trash') || lowerMessage.includes('garbage') || lowerMessage.includes('recycling')) {
+                    response = "For trash and recycling issues, I can help you contact Sanitation Services. They handle missed pickups, damaged bins, and schedule changes. What's the specific issue?";
+                } else {
+                    const genericResponses = [
+                        "I can help you find the right city service! Try asking about permits, licenses, road repairs, or reporting issues.",
+                        "What service are you looking for? I can help with building permits, business licenses, reporting problems, or connecting you with the right department.",
+                        "I'm here to help you navigate city services. You can ask about permits, file complaints, request services, or get information about any department.",
+                        "Need help with city services? I can assist with applications, direct you to the right department, or help you submit requests quickly."
+                    ];
+                    response = genericResponses[Math.floor(Math.random() * genericResponses.length)];
+                }
+                
+                addChatMessage(response, 'ai');
+            }, 800);
+        }
+        
+        function addChatMessage(message, sender) {
+            const chatHistory = document.getElementById('chatHistory');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = sender === 'user' ? 'text-blue-300 mb-2' : 'text-green-300 mb-2';
+            
+            const icon = sender === 'user' ? 'fas fa-user' : 'fas fa-brain';
+            const senderName = sender === 'user' ? 'You' : 'AI';
+            const senderClass = sender === 'user' ? '' : 'text-blue-300';
+            
+            messageDiv.innerHTML = `
+                <i class="${icon} mr-2"></i>
+                <span class="font-semibold ${senderClass}">${senderName}:</span>
+                <span>${message}</span>
+            `;
+            
+            chatHistory.appendChild(messageDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+        
+        function startTypingAnimation() {
+            const element = document.getElementById('welcomeMessage');
+            const text = "Hello! I'm here to help you find the right city service. What can I help you with today?";
+            
+            element.innerHTML = '';
+            element.classList.add('typing');
+            let i = 0;
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 30);
+                } else {
+                    element.classList.remove('typing');
+                }
+            }
+            type();
+        }
+
+        // Citizen Portal Functions
+        function openNewRequestModal() {
+            document.getElementById('newRequestModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeNewRequestModal() {
+            document.getElementById('newRequestModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            document.getElementById('newRequestForm').reset();
+            document.getElementById('charCount').textContent = '0';
+            document.getElementById('routingPreview').classList.add('hidden');
+            document.getElementById('aiSuggestion').classList.add('hidden');
+        }
+
+        function quickRequest(serviceType) {
+            openNewRequestModal();
+            document.getElementById('serviceType').value = serviceType;
+            updateAIRouting();
+        }
+
+        function populateRecentRequests() {
+            const container = document.getElementById('recentRequestsList');
+            const recentRequests = userRequests.slice(0, 3);
+            
+            container.innerHTML = recentRequests.map(request => `
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors cursor-pointer" onclick="viewRequestDetails('${request.id}')">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="text-white font-medium">${request.type}</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-${request.statusColor}-500/20 text-${request.statusColor}-300">${request.status}</span>
+                        </div>
+                        <p class="text-sm text-white/70">${request.description}</p>
+                        <div class="flex items-center space-x-4 mt-2 text-xs text-white/60">
+                            <span><i class="fas fa-calendar mr-1"></i>${new Date(request.date).toLocaleDateString()}</span>
+                            <span><i class="fas fa-building mr-1"></i>${request.department}</span>
+                        </div>
+                    </div>
+                    <div class="text-white/60">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewAllRequests() {
+            // This would open a modal or navigate to a requests page
+            alert('Opening full request history...');
+        }
+
+        function viewRequestDetails(requestId) {
+            const request = userRequests.find(r => r.id === requestId);
+            if (request) {
+                alert(`Request Details:\n\nID: ${request.id}\nType: ${request.type}\nStatus: ${request.status}\nDepartment: ${request.department}\nDescription: ${request.description}`);
+            }
+        }
+
+        function initializeNewRequestForm() {
+            const form = document.getElementById('newRequestForm');
+            const serviceType = document.getElementById('serviceType');
+            const description = document.getElementById('description');
+            const charCount = document.getElementById('charCount');
+
+            // Character counter
+            description.addEventListener('input', function() {
+                const count = this.value.length;
+                charCount.textContent = count;
+                if (count > 500) {
+                    charCount.style.color = '#ef4444';
+                } else {
+                    charCount.style.color = '';
+                }
+            });
+
+            // Service type change - AI routing
+            serviceType.addEventListener('change', updateAIRouting);
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitNewRequest();
+            });
+
+            // File upload handling
+            const fileUpload = document.getElementById('fileUpload');
+            fileUpload.addEventListener('change', handleFileUpload);
+        }
+
+        function updateAIRouting() {
+            const serviceType = document.getElementById('serviceType').value;
+            const routingPreview = document.getElementById('routingPreview');
+            const routingInfo = document.getElementById('routingInfo');
+            const aiSuggestion = document.getElementById('aiSuggestion');
+            const aiSuggestionText = document.getElementById('aiSuggestionText');
+
+            const routingMap = {
+                'building_permit': {
+                    department: 'Building & Safety Department',
+                    estimatedTime: '5-7 business days',
+                    requirements: 'Property survey, construction plans, contractor license',
+                    color: 'orange'
+                },
+                'business_license': {
+                    department: 'Business Licensing Office',
+                    estimatedTime: '3-5 business days',
+                    requirements: 'Business registration, zoning approval, tax ID',
+                    color: 'green'
+                },
+                'pothole_repair': {
+                    department: 'Public Works Department',
+                    estimatedTime: '1-3 business days',
+                    requirements: 'Location details, photos recommended',
+                    color: 'blue'
+                },
+                'tree_service': {
+                    department: 'Parks & Recreation',
+                    estimatedTime: '7-10 business days',
+                    requirements: 'Property ownership verification, photos',
+                    color: 'green'
+                },
+                'noise_complaint': {
+                    department: 'Code Enforcement',
+                    estimatedTime: '1-2 business days',
+                    requirements: 'Specific times, dates, evidence if available',
+                    color: 'yellow'
+                }
+            };
+
+            if (serviceType && routingMap[serviceType]) {
+                const routing = routingMap[serviceType];
+                routingInfo.innerHTML = `
+                    <div class="space-y-2">
+                        <div><strong>Routed to:</strong> ${routing.department}</div>
+                        <div><strong>Est. Processing Time:</strong> ${routing.estimatedTime}</div>
+                        <div><strong>Required Information:</strong> ${routing.requirements}</div>
+                    </div>
+                `;
+                routingPreview.classList.remove('hidden');
+
+                // AI suggestion
+                aiSuggestionText.textContent = `Based on your selection, I recommend including ${routing.requirements.toLowerCase()} to expedite processing.`;
+                aiSuggestion.classList.remove('hidden');
+            } else {
+                routingPreview.classList.add('hidden');
+                aiSuggestion.classList.add('hidden');
+            }
+        }
+
+        function handleFileUpload(event) {
+            const files = event.target.files;
+            const fileList = document.getElementById('fileList');
+            
+            fileList.innerHTML = '';
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const fileDiv = document.createElement('div');
+                fileDiv.className = 'flex items-center justify-between p-2 bg-white/5 rounded text-sm';
+                fileDiv.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-file text-blue-400"></i>
+                        <span class="text-white">${file.name}</span>
+                        <span class="text-white/60">(${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="text-red-400 hover:text-red-300">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                fileList.appendChild(fileDiv);
+            }
+        }
+
+        function submitNewRequest() {
+            const formData = new FormData(document.getElementById('newRequestForm'));
+            const serviceType = document.getElementById('serviceType').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const description = document.getElementById('description').value;
+            const priority = document.querySelector('input[name="priority"]:checked').value;
+
+            // Generate new request ID
+            const newId = `REQ-2024-${String(userRequests.length + 1).padStart(3, '0')}`;
+            
+            // Create new request object
+            const newRequest = {
+                id: newId,
+                type: document.querySelector(`#serviceType option[value="${serviceType}"]`).textContent,
+                description: description,
+                status: 'Submitted',
+                statusColor: 'blue',
+                date: new Date().toISOString().split('T')[0],
+                department: getServiceDepartment(serviceType),
+                priority: priority,
+                submitter: `${firstName} ${lastName}`,
+                email: email
+            };
+
+            // Add to requests array
+            userRequests.unshift(newRequest);
+
+            // Update UI
+            populateRecentRequests();
+            document.getElementById('userRequestCount').textContent = userRequests.length;
+
+            // Show success message
+            addChatMessage(`✅ Request submitted successfully! Your request ID is ${newId}. You'll receive updates via email at ${email}.`, 'ai');
+
+            // Close modal
+            closeNewRequestModal();
+
+            // Switch to dashboard to show the new request
+            switchTab('dashboard');
+        }
+
+        function getServiceDepartment(serviceType) {
+            const departmentMap = {
+                'building_permit': 'Building & Safety',
+                'renovation_permit': 'Building & Safety',
+                'business_license': 'Business Licensing',
+                'event_permit': 'Special Events',
+                'sign_permit': 'Planning Department',
+                'pothole_repair': 'Public Works',
+                'streetlight_issue': 'Public Works',
+                'tree_service': 'Parks & Recreation',
+                'trash_pickup': 'Sanitation',
+                'water_sewer': 'Public Utilities',
+                'noise_complaint': 'Code Enforcement',
+                'property_maintenance': 'Code Enforcement',
+                'zoning_violation': 'Planning Department',
+                'tax_inquiry': 'Finance Department',
+                'general_inquiry': 'City Clerk',
+                'document_request': 'City Clerk'
+            };
+            return departmentMap[serviceType] || 'General Services';
+        }
+
+        function quickChat(topic) {
+            document.getElementById('userInput').value = `I need help with ${topic}`;
+            sendMessage();
+        }
+
+        // Citizen Portal specific functions
+        function sendCitizenMessage() {
+            const input = document.getElementById('citizenUserInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            addCitizenChatMessage(message, 'user');
+            input.value = '';
+            
+            setTimeout(() => {
+                // Smart responses based on message content
+                const lowerMessage = message.toLowerCase();
+                let response = '';
+                
+                if (lowerMessage.includes('permit') || lowerMessage.includes('building')) {
+                    response = "For building permits, you'll need property surveys, construction plans, and a licensed contractor. Would you like me to open the building permit form for you?";
+                } else if (lowerMessage.includes('license') || lowerMessage.includes('business')) {
+                    response = "Business licenses typically require your business registration, zoning approval, and tax ID. Processing usually takes 3-5 business days. Shall I help you start the application?";
+                } else if (lowerMessage.includes('pothole') || lowerMessage.includes('road') || lowerMessage.includes('street')) {
+                    response = "For road issues like potholes, please provide the exact location and photos if possible. Our Public Works team responds within 1-3 business days. Would you like to submit a repair request?";
+                } else if (lowerMessage.includes('tax') || lowerMessage.includes('property tax')) {
+                    response = "For tax inquiries, I can connect you with the Finance Department. They handle property assessments, payment plans, and exemptions. What specific tax issue can I help with?";
+                } else if (lowerMessage.includes('tree') || lowerMessage.includes('park')) {
+                    response = "Tree services and park maintenance are handled by Parks & Recreation. For tree removal, you'll need property ownership verification. Would you like me to start that request?";
+                } else if (lowerMessage.includes('noise') || lowerMessage.includes('complaint')) {
+                    response = "For noise complaints, please provide specific times, dates, and any evidence. Code Enforcement typically responds within 1-2 business days. Should I open a complaint form?";
+                } else if (lowerMessage.includes('trash') || lowerMessage.includes('garbage') || lowerMessage.includes('recycling')) {
+                    response = "For trash and recycling issues, I can help you contact Sanitation Services. They handle missed pickups, damaged bins, and schedule changes. What's the specific issue?";
+                } else {
+                    const genericResponses = [
+                        "I can help you find the right city service! Try asking about permits, licenses, road repairs, or reporting issues.",
+                        "What service are you looking for? I can help with building permits, business licenses, reporting problems, or connecting you with the right department.",
+                        "I'm here to help you navigate city services. You can ask about permits, file complaints, request services, or get information about any department.",
+                        "Need help with city services? I can assist with applications, direct you to the right department, or help you submit requests quickly."
+                    ];
+                    response = genericResponses[Math.floor(Math.random() * genericResponses.length)];
+                }
+                
+                addCitizenChatMessage(response, 'ai');
+            }, 800);
+        }
+
+        function addCitizenChatMessage(message, sender) {
+            const chatHistory = document.getElementById('citizenChatHistory');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = sender === 'user' ? 'text-blue-300 mb-2' : 'text-green-300 mb-2';
+            
+            const icon = sender === 'user' ? 'fas fa-user' : 'fas fa-robot';
+            const senderName = sender === 'user' ? 'You' : 'Assistant';
+            const senderClass = sender === 'user' ? '' : 'text-blue-300';
+            
+            messageDiv.innerHTML = `
+                <i class="${icon} mr-2"></i>
+                <span class="font-semibold ${senderClass}">${senderName}:</span>
+                <span>${message}</span>
+            `;
+            
+            chatHistory.appendChild(messageDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        function quickCitizenChat(topic) {
+            document.getElementById('citizenUserInput').value = `I need help with ${topic}`;
+            sendCitizenMessage();
+        }
+
+        // Advanced AI Assistant with sophisticated prompting
+        function sendAdvancedAdminMessage() {
+            const input = document.getElementById('adminUserInput');
+            const commandType = document.getElementById('commandType').value;
+            const message = input.value.trim();
+            if (!message) return;
+            
+            addAdminChatMessage(message, 'user');
+            input.value = '';
+            
+            // Show typing indicator
+            addTypingIndicator();
+            
+            setTimeout(() => {
+                removeTypingIndicator();
+                const response = processAdvancedCommand(message, commandType);
+                addAdminChatMessage(response, 'ai');
+                
+                // Execute any automation if triggered
+                executeAutomation(message, commandType);
+            }, 1200);
+        }
+
+        function processAdvancedCommand(message, type) {
+            const prompts = {
+                natural: processNaturalLanguage(message),
+                automation: processAutomationScript(message),
+                workflow: processWorkflowCommand(message),
+                security: processSecurityAnalysis(message),
+                optimization: processOptimizationCommand(message)
+            };
+            
+            return prompts[type] || prompts.natural;
+        }
+
+        function processNaturalLanguage(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Intent recognition with sophisticated responses
+            if (lowerMessage.includes('analyze') || lowerMessage.includes('report')) {
+                return generateAnalysisResponse(message);
+            } else if (lowerMessage.includes('automate') || lowerMessage.includes('script')) {
+                return generateAutomationResponse(message);
+            } else if (lowerMessage.includes('security') || lowerMessage.includes('protect')) {
+                return generateSecurityResponse(message);
+            } else if (lowerMessage.includes('optimize') || lowerMessage.includes('improve')) {
+                return generateOptimizationResponse(message);
+            } else if (lowerMessage.includes('workflow')) {
+                return generateWorkflowResponse(message);
+            } else {
+                return generateContextualResponse(message);
+            }
+        }
+
+        function processAutomationScript(message) {
+            if (message.startsWith('auto:')) {
+                return `🤖 Parsing automation script: "${message.substr(5)}"\n\n✅ Script validated\n✅ Dependencies checked\n✅ Security scan passed\n\n🚀 Automation queued for execution. Estimated completion: 2-5 minutes.`;
+            }
+            
+            return `🔧 Creating automation for: "${message}"\n\n📋 Suggested automation steps:\n1. Input validation and sanitization\n2. Process orchestration with error handling\n3. Real-time monitoring and logging\n4. Completion notification and reporting\n\nReady to implement? Reply 'execute' to proceed.`;
+        }
+
+        function processWorkflowCommand(message) {
+            const workflows = {
+                'create': 'Initiating workflow creation wizard. Define triggers, actions, and conditions.',
+                'optimize': 'Analyzing current workflows for optimization opportunities...',
+                'deploy': 'Preparing workflow deployment with validation checks...',
+                'monitor': 'Activating real-time workflow monitoring and alerting...'
+            };
+            
+            for (const [key, response] of Object.entries(workflows)) {
+                if (message.toLowerCase().includes(key)) {
+                    return `🔄 ${response}\n\n🎯 Advanced features available:\n• Multi-stage approval chains\n• Conditional branching logic\n• Real-time data integration\n• Automated escalation protocols`;
+                }
+            }
+            
+            return `⚡ Workflow Command Center ready. Available commands:\n• create [name] - New workflow\n• optimize [workflow] - Performance tuning\n• deploy [workflow] - Production deployment\n• monitor [workflow] - Real-time tracking`;
+        }
+
+        function processSecurityAnalysis(message) {
+            return `🛡️ Advanced Security Analysis Initiated\n\n🔍 Scanning for:\n• Vulnerability patterns\n• Access control anomalies\n• Data flow security\n• Compliance violations\n\n📊 Results: 97% security score\n⚠️ 3 minor recommendations identified\n🔒 All critical systems secure\n\nDetailed report available in Security Dashboard.`;
+        }
+
+        function processOptimizationCommand(message) {
+            return `⚡ System Optimization Engine Activated\n\n🎯 Performance analysis:\n• Resource utilization: 72% (optimal)\n• Response times: <200ms average\n• Throughput: 15,000 req/min\n• Error rate: 0.02%\n\n💡 Optimization opportunities:\n• Cache optimization (+15% speed)\n• Database indexing (+8% efficiency)\n• Load balancing refinement\n\nImplement recommendations? Reply 'optimize now'.`;
+        }
+
+        // Context-aware response generators
+        function generateAnalysisResponse(message) {
+            const analyses = [
+                `📊 Deep Analysis Complete\n\n🔍 Key findings:\n• System efficiency: 94.2%\n• Security posture: Excellent\n• User satisfaction: 4.8/5\n• Cost optimization: 23% savings identified\n\n📈 Trending metrics show consistent improvement across all KPIs.`,
+                `🧠 Intelligent Analysis Results\n\n💡 Insights discovered:\n• Peak usage patterns identified\n• Bottleneck predictions available\n• Resource allocation optimized\n• Predictive scaling configured\n\n🎯 Next steps: Implement automated scaling policies?`,
+                `🔬 Advanced Analytics Summary\n\n📋 Multi-dimensional analysis:\n• Performance vectors: All green\n• Risk assessment: Low\n• Compliance status: 100%\n• Innovation index: High\n\n🚀 System performing at 98% of theoretical maximum.`
+            ];
+            
+            return analyses[Math.floor(Math.random() * analyses.length)];
+        }
+
+        function generateAutomationResponse(message) {
+            return `🤖 Automation Framework Engaged\n\n⚙️ Building intelligent automation:\n• Natural language processing\n• Machine learning integration\n• Adaptive workflow generation\n• Real-time performance optimization\n\n🎯 Target efficiency gain: 45-60%\n⏱️ Implementation time: 30 minutes\n\nShall I proceed with automation deployment?`;
+        }
+
+        function generateSecurityResponse(message) {
+            return `🔐 Advanced Security Protocol Active\n\n🛡️ Multi-layer protection:\n• Zero-trust architecture verified\n• AI-powered threat detection online\n• Quantum-resistant encryption enabled\n• Behavioral analysis monitoring\n\n✅ Current threat level: GREEN\n🔍 Continuous monitoring active\n📱 Mobile security optimized`;
+        }
+
+        function generateOptimizationResponse(message) {
+            return `⚡ Performance Optimization Suite\n\n🚀 Enhancement protocols:\n• AI-driven resource allocation\n• Predictive load balancing\n• Self-healing infrastructure\n• Continuous performance tuning\n\n📈 Expected improvements:\n• 40% faster response times\n• 30% cost reduction\n• 99.99% uptime guarantee`;
+        }
+
+        function generateWorkflowResponse(message) {
+            return `🔄 Intelligent Workflow Engine\n\n✨ Advanced capabilities:\n• Self-optimizing processes\n• Dynamic adaptation to load\n• Intelligent error recovery\n• Predictive maintenance\n\n🎯 Current workflows: 28 active\n⚡ Average completion: 3.2 minutes\n📊 Success rate: 99.7%`;
+        }
+
+        function generateContextualResponse(message) {
+            const responses = [
+                `🧠 AI Assistant Pro analyzing request...\n\n💡 Contextual understanding:\n• Intent: ${detectIntent(message)}\n• Complexity: ${assessComplexity(message)}\n• Priority: ${determinePriority(message)}\n\nHow can I help you achieve this goal?`,
+                `🎯 Intelligent Response System\n\n🔍 I understand you're looking for guidance on "${message}"\n\n📋 Available options:\n• Automated solution development\n• Step-by-step guidance\n• Resource recommendations\n• Expert consultation\n\nWhich approach would you prefer?`,
+                `⚡ Advanced AI Processing\n\n🤖 Your request has been analyzed using:\n• Natural language understanding\n• Context awareness algorithms\n• Predictive modeling\n• Optimization protocols\n\nReady to provide intelligent assistance. Please specify your preferred solution approach.`
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        // Utility functions for contextual analysis
+        function detectIntent(message) {
+            if (message.includes('help') || message.includes('how')) return 'Assistance Seeking';
+            if (message.includes('create') || message.includes('build')) return 'Creation';
+            if (message.includes('fix') || message.includes('solve')) return 'Problem Solving';
+            return 'Information Seeking';
+        }
+
+        function assessComplexity(message) {
+            const words = message.split(' ').length;
+            if (words > 15) return 'High';
+            if (words > 8) return 'Medium';
+            return 'Low';
+        }
+
+        function determinePriority(message) {
+            if (message.includes('urgent') || message.includes('critical')) return 'High';
+            if (message.includes('soon') || message.includes('important')) return 'Medium';
+            return 'Normal';
+        }
+
+        // Legacy function kept for compatibility
+        function sendAdminMessage() {
+            sendAdvancedAdminMessage();
+        }
+
+
+        function populateCitizenRequests() {
+            const container = document.getElementById('recentRequestsListCitizen');
+            const recentRequests = userRequests.slice(0, 3);
+            
+            container.innerHTML = recentRequests.map(request => `
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors cursor-pointer" onclick="viewRequestDetails('${request.id}')">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="text-white font-medium">${request.type}</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-${request.statusColor}-500/20 text-${request.statusColor}-300">${request.status}</span>
+                        </div>
+                        <p class="text-sm text-white/70">${request.description}</p>
+                        <div class="flex items-center space-x-4 mt-2 text-xs text-white/60">
+                            <span><i class="fas fa-calendar mr-1"></i>${new Date(request.date).toLocaleDateString()}</span>
+                            <span><i class="fas fa-building mr-1"></i>${request.department}</span>
+                        </div>
+                    </div>
+                    <div class="text-white/60">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function populateRecentActivity() {
+            const container = document.getElementById('recentActivity');
+            const activities = [
+                { icon: 'fas fa-check', text: 'Permit #2847 approved automatically', time: '2 minutes ago', color: 'green' },
+                { icon: 'fas fa-exclamation-triangle', text: 'Security alert: Suspicious login detected', time: '5 minutes ago', color: 'red' },
+                { icon: 'fas fa-cog', text: 'Tax assessment workflow deployed', time: '12 minutes ago', color: 'blue' },
+                { icon: 'fas fa-user-plus', text: 'New user registered in system', time: '15 minutes ago', color: 'purple' }
+            ];
+            
+            container.innerHTML = activities.map(activity => `
+                <div class="flex items-center space-x-3 p-3 bg-white/5 rounded-lg">
+                    <div class="w-8 h-8 bg-${activity.color}-500 rounded-lg flex items-center justify-center">
+                        <i class="${activity.icon} text-white text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-white text-sm">${activity.text}</p>
+                        <p class="text-white/60 text-xs">${activity.time}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Advanced AI Assistant Supporting Functions
+        function executeQuickAction(action) {
+            addAdminChatMessage(`Quick Action: ${action}`, 'user');
+            addTypingIndicator();
+            
+            setTimeout(() => {
+                removeTypingIndicator();
+                let response = '';
+                
+                switch(action) {
+                    case 'analyze':
+                        response = `🔍 System Analysis Complete\n\n✅ Performance: 94.7% optimal\n✅ Security: All green\n✅ Workflows: 28 active, 0 errors\n✅ Resources: 72% utilization\n\n💡 Recommendations:\n• Implement caching for 15% speed boost\n• Schedule maintenance window\n• Review user access permissions`;
+                        break;
+                    case 'optimize':
+                        response = `⚡ Auto-Optimization Initiated\n\n🚀 Implementing:\n• Database query optimization\n• Cache warm-up procedures\n• Load balancer fine-tuning\n• Memory allocation adjustment\n\n📊 Expected improvements:\n• 23% faster response times\n• 18% lower resource usage\n• Enhanced user experience\n\nOptimization completed successfully!`;
+                        break;
+                    case 'secure':
+                        response = `🛡️ Security Scan Complete\n\n🔒 Security Status: EXCELLENT\n\n✅ Vulnerabilities: None detected\n✅ Access controls: Properly configured\n✅ Encryption: AES-256 active\n✅ Firewall: All rules optimized\n✅ Monitoring: Real-time protection active\n\n🎯 Security score: 98/100\n📝 Full report generated`;
+                        break;
+                }
+                
+                addAdminChatMessage(response, 'ai');
+            }, 1500);
+        }
+
+        function toggleAdvancedMode() {
+            const panel = document.getElementById('advancedPanel');
+            const btn = document.getElementById('advancedModeBtn');
+            
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                btn.innerHTML = '<i class="fas fa-magic mr-1"></i>Basic';
+                btn.classList.add('bg-purple-600/40');
+            } else {
+                panel.classList.add('hidden');
+                btn.innerHTML = '<i class="fas fa-magic mr-1"></i>Advanced';
+                btn.classList.remove('bg-purple-600/40');
+            }
+        }
+
+        function insertTemplate(type) {
+            const input = document.getElementById('adminUserInput');
+            const templates = {
+                workflow: 'create workflow "Emergency Response" with triggers [citizen_request] actions [notify_department, assign_priority, track_progress] conditions [urgency_level > 3]',
+                security: 'security scan --deep --check-vulnerabilities --audit-permissions --generate-report',
+                automation: 'auto: optimize_database_queries() && clear_cache() && restart_services() if performance < 90%',
+                api: 'api call POST /workflows/deploy {name: "new_process", enabled: true, priority: "high"}'
+            };
+            
+            input.value = templates[type] || '';
+            input.focus();
+        }
+
+        function addTypingIndicator() {
+            const chatHistory = document.getElementById('adminChatHistory');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'text-green-300 mb-2 typing-indicator';
+            typingDiv.innerHTML = `
+                <i class="fas fa-brain mr-2"></i>
+                <span class="font-semibold text-blue-300">AI Pro:</span>
+                <span class="typing">Processing advanced request...</span>
+            `;
+            
+            chatHistory.appendChild(typingDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.querySelector('.typing-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        function executeAutomation(message, commandType) {
+            // Simulate automation execution based on command type and content
+            if (commandType === 'automation' && message.includes('execute')) {
+                setTimeout(() => {
+                    addAdminChatMessage(`🚀 Automation Executed Successfully\n\n✅ All systems updated\n✅ Performance optimized\n✅ Security protocols refreshed\n\n📊 Results:\n• Processing time: 45 seconds\n• Success rate: 100%\n• Error rate: 0%\n\nAutomation completed without issues.`, 'ai');
+                }, 3000);
+            } else if (message.toLowerCase().includes('optimize now')) {
+                setTimeout(() => {
+                    addAdminChatMessage(`⚡ System Optimization Complete\n\n🎯 Optimization Results:\n• Cache hit ratio: 95% (+12%)\n• Database queries: 340ms avg (-67ms)\n• Memory usage: 68% (-8%)\n• CPU utilization: 45% (-15%)\n\n✨ System is now running at peak efficiency!`, 'ai');
+                }, 2500);
+            }
+        }
+
+        // Enhanced chat message function with better formatting
+        function addAdminChatMessage(message, sender) {
+            const chatHistory = document.getElementById('adminChatHistory');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = sender === 'user' ? 'text-blue-300 mb-3' : 'text-green-300 mb-3';
+            
+            const icon = sender === 'user' ? 'fas fa-user' : 'fas fa-brain';
+            const senderName = sender === 'user' ? 'You' : 'AI Pro';
+            const senderClass = sender === 'user' ? '' : 'text-blue-300';
+            
+            // Format message with proper line breaks and styling
+            const formattedMessage = message.replace(/\n/g, '<br>').replace(/•/g, '<span class="text-yellow-300">•</span>');
+            
+            messageDiv.innerHTML = `
+                <div class="flex items-start space-x-2">
+                    <i class="${icon} mt-1"></i>
+                    <div class="flex-1">
+                        <span class="font-semibold ${senderClass}">${senderName}:</span>
+                        <div class="mt-1">${formattedMessage}</div>
+                    </div>
+                </div>
+            `;
+            
+            chatHistory.appendChild(messageDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+        
+        // Handle Enter key
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Handle Enter key for admin chat
+        document.getElementById('adminUserInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendAdminMessage();
+            }
+        });
+
+        // Handle Enter key for citizen chat
+        document.getElementById('citizenUserInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendCitizenMessage();
+            }
+        });
+        
+        // Handle Escape key for modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
