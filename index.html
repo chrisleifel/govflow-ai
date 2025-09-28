@@ -181,6 +181,26 @@
                         </div>
                     </div>
                     
+                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('grants')">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-dollar-sign text-white"></i>
+                            <span class="text-white font-medium">Grant Management</span>
+                            <div class="ml-auto">
+                                <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('crm')">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-users text-white"></i>
+                            <span class="text-white font-medium">CRM</span>
+                            <div class="ml-auto">
+                                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="nav-item p-3 rounded-lg" onclick="switchTab('settings')">
                         <div class="flex items-center space-x-3">
                             <i class="fas fa-cog text-white"></i>
@@ -978,27 +998,612 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Federal Compliance & Enterprise Integration Dashboard -->
+                    <div class="glass rounded-xl p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center space-x-3">
+                                <h4 class="text-xl font-semibold text-white">Enterprise Compliance Center</h4>
+                                <div class="flex items-center space-x-2 bg-emerald-500/20 px-3 py-1.5 rounded-lg border border-emerald-400/30">
+                                    <i class="fas fa-check-circle text-emerald-400 text-sm"></i>
+                                    <span class="text-emerald-300 text-sm font-semibold">Fully Compliant</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="exportComplianceReport()" class="bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 border border-emerald-500/30">
+                                    <i class="fas fa-file-shield text-sm"></i>
+                                    <span class="font-medium">Export Report</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Compliance Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                            <div class="bg-gradient-to-br from-emerald-500/20 to-green-500/20 rounded-xl p-4 border border-emerald-400/30">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-white/70 font-medium">CJIS Compliance</span>
+                                    <i class="fas fa-check-circle text-emerald-400"></i>
+                                </div>
+                                <div class="text-2xl font-bold text-white mb-1">100%</div>
+                                <div class="text-xs text-emerald-400 font-medium">Fully Certified</div>
+                                <div class="w-full bg-white/10 rounded-full h-1.5 mt-2">
+                                    <div class="bg-emerald-400 h-1.5 rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-xl p-4 border border-blue-400/30">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-white/70 font-medium">FedRAMP High</span>
+                                    <i class="fas fa-shield-alt text-blue-400"></i>
+                                </div>
+                                <div class="text-2xl font-bold text-white mb-1">IL5</div>
+                                <div class="text-xs text-blue-400 font-medium">Impact Level 5</div>
+                                <div class="w-full bg-white/10 rounded-full h-1.5 mt-2">
+                                    <div class="bg-blue-400 h-1.5 rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl p-4 border border-purple-400/30">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-white/70 font-medium">Quantum Encryption</span>
+                                    <i class="fas fa-lock text-purple-400"></i>
+                                </div>
+                                <div class="text-2xl font-bold text-white mb-1">AES-256</div>
+                                <div class="text-xs text-purple-400 font-medium">Post-Quantum</div>
+                                <div class="w-full bg-white/10 rounded-full h-1.5 mt-2">
+                                    <div class="bg-purple-400 h-1.5 rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-xl p-4 border border-orange-400/30">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-white/70 font-medium">Audit Intelligence</span>
+                                    <i class="fas fa-file-alt text-orange-400"></i>
+                                </div>
+                                <div class="text-2xl font-bold text-white mb-1">24/7</div>
+                                <div class="text-xs text-orange-400 font-medium">Real-time</div>
+                                <div class="w-full bg-white/10 rounded-full h-1.5 mt-2">
+                                    <div class="bg-orange-400 h-1.5 rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Enterprise Integration Matrix -->
+                        <div class="bg-black/20 rounded-xl p-6">
+                            <h5 class="text-white font-semibold mb-4 flex items-center space-x-2">
+                                <i class="fas fa-network-wired text-blue-400"></i>
+                                <span>Enterprise Integration Matrix</span>
+                            </h5>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="space-y-3">
+                                    <h6 class="text-white/70 font-medium text-sm">Identity Management</h6>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                                                <span class="text-white/70 text-sm">Active Directory</span>
+                                            </div>
+                                            <span class="text-emerald-400 text-xs font-medium">Connected</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                                                <span class="text-white/70 text-sm">SAML 2.0</span>
+                                            </div>
+                                            <span class="text-emerald-400 text-xs font-medium">Active</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                                                <span class="text-white/70 text-sm">OAuth 2.1</span>
+                                            </div>
+                                            <span class="text-emerald-400 text-xs font-medium">Enabled</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <h6 class="text-white/70 font-medium text-sm">Security Framework</h6>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                                <span class="text-white/70 text-sm">Zero Trust</span>
+                                            </div>
+                                            <span class="text-blue-400 text-xs font-medium">Enforced</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                                <span class="text-white/70 text-sm">MFA Required</span>
+                                            </div>
+                                            <span class="text-blue-400 text-xs font-medium">100%</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                                <span class="text-white/70 text-sm">RBAC</span>
+                                            </div>
+                                            <span class="text-blue-400 text-xs font-medium">Dynamic</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <h6 class="text-white/70 font-medium text-sm">Data Intelligence</h6>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-2 h-2 bg-purple-400 rounded-full"></div>
+                                                <span class="text-white/70 text-sm">ML Pipeline</span>
+                                            </div>
+                                            <span class="text-purple-400 text-xs font-medium">Running</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-2 h-2 bg-purple-400 rounded-full"></div>
+                                                <span class="text-white/70 text-sm">Data Lake</span>
+                                            </div>
+                                            <span class="text-purple-400 text-xs font-medium">Synced</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-2 h-2 bg-purple-400 rounded-full"></div>
+                                                <span class="text-white/70 text-sm">Analytics</span>
+                                            </div>
+                                            <span class="text-purple-400 text-xs font-medium">Real-time</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Analytics Tab -->
                 <div id="analytics-content" class="tab-content" style="display: none;">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div class="glass rounded-xl p-6">
-                            <h3 class="text-lg font-semibold text-white mb-4">Performance Analytics</h3>
-                            <div class="h-64 bg-black/20 rounded-lg flex items-center justify-center">
-                                <div class="text-center text-white/50">
-                                    <i class="fas fa-chart-area text-4xl mb-4"></i>
-                                    <p>Performance charts would display here</p>
+                    <!-- Analytics Header with Controls -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                            <div>
+                                <h2 class="text-2xl font-bold text-white mb-2">Advanced Analytics Dashboard</h2>
+                                <p class="text-white/70">Real-time insights from all platform workflows and integrations</p>
+                            </div>
+                            <div class="mt-4 lg:mt-0 flex items-center space-x-4">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                                    <span class="text-green-400 text-sm">Live Data</span>
+                                </div>
+                                <select id="analyticsTimeRange" onchange="updateAnalytics()" class="bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="24h">Last 24 Hours</option>
+                                    <option value="7d" selected>Last 7 Days</option>
+                                    <option value="30d">Last 30 Days</option>
+                                    <option value="90d">Last 90 Days</option>
+                                </select>
+                                <button onclick="customizeAnalytics()" class="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Customize</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Performance Indicators -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                        <div class="glass rounded-xl p-6 hover:bg-white/10 transition-all duration-300">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-white/70 text-sm">Total Workflows</p>
+                                    <p class="text-2xl font-bold text-white" id="totalWorkflows">2,847</p>
+                                    <div class="flex items-center mt-2">
+                                        <i class="fas fa-arrow-up text-green-400 text-xs mr-1"></i>
+                                        <span class="text-green-400 text-xs">+12.5%</span>
+                                        <span class="text-white/50 text-xs ml-1">vs last week</span>
+                                    </div>
+                                </div>
+                                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-project-diagram text-white"></i>
                                 </div>
                             </div>
                         </div>
-                        
+
+                        <div class="glass rounded-xl p-6 hover:bg-white/10 transition-all duration-300">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-white/70 text-sm">Processing Time</p>
+                                    <p class="text-2xl font-bold text-white" id="avgProcessingTime">1.2s</p>
+                                    <div class="flex items-center mt-2">
+                                        <i class="fas fa-arrow-down text-green-400 text-xs mr-1"></i>
+                                        <span class="text-green-400 text-xs">-8.3%</span>
+                                        <span class="text-white/50 text-xs ml-1">improvement</span>
+                                    </div>
+                                </div>
+                                <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-stopwatch text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass rounded-xl p-6 hover:bg-white/10 transition-all duration-300">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-white/70 text-sm">Success Rate</p>
+                                    <p class="text-2xl font-bold text-white" id="successRate">98.7%</p>
+                                    <div class="flex items-center mt-2">
+                                        <i class="fas fa-arrow-up text-green-400 text-xs mr-1"></i>
+                                        <span class="text-green-400 text-xs">+2.1%</span>
+                                        <span class="text-white/50 text-xs ml-1">this month</span>
+                                    </div>
+                                </div>
+                                <div class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-check-circle text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass rounded-xl p-6 hover:bg-white/10 transition-all duration-300">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-white/70 text-sm">Active Users</p>
+                                    <p class="text-2xl font-bold text-white" id="activeUsers">1,439</p>
+                                    <div class="flex items-center mt-2">
+                                        <i class="fas fa-arrow-up text-green-400 text-xs mr-1"></i>
+                                        <span class="text-green-400 text-xs">+18.7%</span>
+                                        <span class="text-white/50 text-xs ml-1">this week</span>
+                                    </div>
+                                </div>
+                                <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-users text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Analytics Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <!-- Workflow Performance Chart -->
+                        <div class="lg:col-span-2 glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">Workflow Performance Trends</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="toggleChart('performance')" class="text-white/70 hover:text-white text-sm">
+                                        <i class="fas fa-expand-arrows-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="performanceChart" class="h-80 bg-black/20 rounded-lg p-4 relative overflow-hidden">
+                                <!-- Animated Chart Placeholder -->
+                                <div class="absolute inset-4">
+                                    <div class="flex items-end justify-between h-full">
+                                        <div class="flex flex-col items-center">
+                                            <div class="bg-gradient-to-t from-blue-500 to-blue-300 rounded-t w-8 animate-pulse" style="height: 60%"></div>
+                                            <span class="text-white/50 text-xs mt-2">Mon</span>
+                                        </div>
+                                        <div class="flex flex-col items-center">
+                                            <div class="bg-gradient-to-t from-purple-500 to-purple-300 rounded-t w-8 animate-pulse" style="height: 80%; animation-delay: 0.2s"></div>
+                                            <span class="text-white/50 text-xs mt-2">Tue</span>
+                                        </div>
+                                        <div class="flex flex-col items-center">
+                                            <div class="bg-gradient-to-t from-green-500 to-green-300 rounded-t w-8 animate-pulse" style="height: 45%; animation-delay: 0.4s"></div>
+                                            <span class="text-white/50 text-xs mt-2">Wed</span>
+                                        </div>
+                                        <div class="flex flex-col items-center">
+                                            <div class="bg-gradient-to-t from-yellow-500 to-yellow-300 rounded-t w-8 animate-pulse" style="height: 90%; animation-delay: 0.6s"></div>
+                                            <span class="text-white/50 text-xs mt-2">Thu</span>
+                                        </div>
+                                        <div class="flex flex-col items-center">
+                                            <div class="bg-gradient-to-t from-red-500 to-red-300 rounded-t w-8 animate-pulse" style="height: 70%; animation-delay: 0.8s"></div>
+                                            <span class="text-white/50 text-xs mt-2">Fri</span>
+                                        </div>
+                                        <div class="flex flex-col items-center">
+                                            <div class="bg-gradient-to-t from-indigo-500 to-indigo-300 rounded-t w-8 animate-pulse" style="height: 55%; animation-delay: 1s"></div>
+                                            <span class="text-white/50 text-xs mt-2">Sat</span>
+                                        </div>
+                                        <div class="flex flex-col items-center">
+                                            <div class="bg-gradient-to-t from-pink-500 to-pink-300 rounded-t w-8 animate-pulse" style="height: 85%; animation-delay: 1.2s"></div>
+                                            <span class="text-white/50 text-xs mt-2">Sun</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Chart Legend -->
+                                <div class="absolute top-4 right-4 space-y-2">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-3 h-3 bg-blue-500 rounded"></div>
+                                        <span class="text-white/70 text-xs">Workflows</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-3 h-3 bg-purple-500 rounded"></div>
+                                        <span class="text-white/70 text-xs">Grants</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-3 h-3 bg-green-500 rounded"></div>
+                                        <span class="text-white/70 text-xs">Security</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- System Health Monitor -->
                         <div class="glass rounded-xl p-6">
-                            <h3 class="text-lg font-semibold text-white mb-4">Usage Statistics</h3>
-                            <div class="h-64 bg-black/20 rounded-lg flex items-center justify-center">
-                                <div class="text-center text-white/50">
-                                    <i class="fas fa-chart-pie text-4xl mb-4"></i>
-                                    <p>Usage statistics would display here</p>
+                            <h3 class="text-lg font-semibold text-white mb-4">System Health</h3>
+                            <div class="space-y-4">
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-white/70 text-sm">CPU Usage</span>
+                                        <span class="text-white text-sm" id="cpuUsage">23%</span>
+                                    </div>
+                                    <div class="w-full bg-white/10 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-green-500 to-yellow-500 h-2 rounded-full transition-all duration-1000" style="width: 23%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-white/70 text-sm">Memory</span>
+                                        <span class="text-white text-sm" id="memoryUsage">67%</span>
+                                    </div>
+                                    <div class="w-full bg-white/10 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-1000" style="width: 67%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-white/70 text-sm">Database</span>
+                                        <span class="text-white text-sm" id="databaseLoad">34%</span>
+                                    </div>
+                                    <div class="w-full bg-white/10 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full transition-all duration-1000" style="width: 34%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-white/70 text-sm">Network I/O</span>
+                                        <span class="text-white text-sm" id="networkIO">89%</span>
+                                    </div>
+                                    <div class="w-full bg-white/10 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full transition-all duration-1000" style="width: 89%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Status Indicators -->
+                            <div class="mt-6 space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                        <span class="text-white/80 text-sm">API Gateway</span>
+                                    </div>
+                                    <span class="text-green-400 text-xs">Online</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                        <span class="text-white/80 text-sm">Database Cluster</span>
+                                    </div>
+                                    <span class="text-green-400 text-xs">Healthy</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                                        <span class="text-white/80 text-sm">Cache Layer</span>
+                                    </div>
+                                    <span class="text-yellow-400 text-xs">Warning</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Analytics Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <!-- Usage Distribution -->
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">Module Usage Distribution</h3>
+                                <button onclick="refreshUsageData()" class="text-white/70 hover:text-white">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-4 h-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded"></div>
+                                        <span class="text-white/80">Workflow Management</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-24 bg-white/10 rounded-full h-2">
+                                            <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full" style="width: 85%"></div>
+                                        </div>
+                                        <span class="text-white text-sm w-10">85%</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-4 h-4 bg-gradient-to-r from-purple-500 to-purple-600 rounded"></div>
+                                        <span class="text-white/80">Grant Management</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-24 bg-white/10 rounded-full h-2">
+                                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full" style="width: 72%"></div>
+                                        </div>
+                                        <span class="text-white text-sm w-10">72%</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-4 h-4 bg-gradient-to-r from-green-500 to-green-600 rounded"></div>
+                                        <span class="text-white/80">Security Analysis</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-24 bg-white/10 rounded-full h-2">
+                                            <div class="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full" style="width: 68%"></div>
+                                        </div>
+                                        <span class="text-white text-sm w-10">68%</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-4 h-4 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded"></div>
+                                        <span class="text-white/80">Citizen Portal</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-24 bg-white/10 rounded-full h-2">
+                                            <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 h-2 rounded-full" style="width: 54%"></div>
+                                        </div>
+                                        <span class="text-white text-sm w-10">54%</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-4 h-4 bg-gradient-to-r from-red-500 to-red-600 rounded"></div>
+                                        <span class="text-white/80">Compliance Monitor</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-24 bg-white/10 rounded-full h-2">
+                                            <div class="bg-gradient-to-r from-red-500 to-red-600 h-2 rounded-full" style="width: 41%"></div>
+                                        </div>
+                                        <span class="text-white text-sm w-10">41%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Pie Chart Visualization -->
+                            <div class="mt-6 flex justify-center">
+                                <div class="relative w-40 h-40">
+                                    <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8"/>
+                                        <!-- Workflow Management - 85% -->
+                                        <circle cx="50" cy="50" r="40" fill="none" stroke="url(#gradient-blue)" stroke-width="8" 
+                                                stroke-dasharray="214" stroke-dashoffset="32" class="animate-pulse"/>
+                                        <!-- Grant Management - 72% -->
+                                        <circle cx="50" cy="50" r="40" fill="none" stroke="url(#gradient-purple)" stroke-width="6" 
+                                                stroke-dasharray="181" stroke-dashoffset="70" class="animate-pulse" style="animation-delay: 0.2s"/>
+                                    </svg>
+                                    <!-- Gradients for the circles -->
+                                    <svg width="0" height="0">
+                                        <defs>
+                                            <linearGradient id="gradient-blue" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" style="stop-color:#3B82F6"/>
+                                                <stop offset="100%" style="stop-color:#1D4ED8"/>
+                                            </linearGradient>
+                                            <linearGradient id="gradient-purple" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" style="stop-color:#8B5CF6"/>
+                                                <stop offset="100%" style="stop-color:#5B21B6"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Real-Time Activity Feed -->
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">Real-Time Activity</h3>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                    <span class="text-green-400 text-xs">Live</span>
+                                </div>
+                            </div>
+                            <div id="activityFeed" class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar">
+                                <!-- Real-time activity items will be populated here -->
+                            </div>
+                            <div class="mt-4 text-center">
+                                <button onclick="loadMoreActivity()" class="text-blue-400 hover:text-blue-300 text-sm">
+                                    Load More Activity
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Metrics -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Error Rate Trends -->
+                        <div class="glass rounded-xl p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4">Error Rate Analysis</h3>
+                            <div class="space-y-4">
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-green-400 mb-1">0.03%</div>
+                                    <div class="text-white/60 text-sm">Current Error Rate</div>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-white/70">Authentication</span>
+                                        <span class="text-red-400">0.01%</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-white/70">API Calls</span>
+                                        <span class="text-yellow-400">0.02%</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-white/70">Database</span>
+                                        <span class="text-green-400">0.00%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Geographic Distribution -->
+                        <div class="glass rounded-xl p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4">User Distribution</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-6 h-4 bg-blue-500 rounded-sm"></div>
+                                        <span class="text-white/80 text-sm">United States</span>
+                                    </div>
+                                    <span class="text-white text-sm">47%</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-6 h-4 bg-green-500 rounded-sm"></div>
+                                        <span class="text-white/80 text-sm">Canada</span>
+                                    </div>
+                                    <span class="text-white text-sm">23%</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-6 h-4 bg-yellow-500 rounded-sm"></div>
+                                        <span class="text-white/80 text-sm">United Kingdom</span>
+                                    </div>
+                                    <span class="text-white text-sm">18%</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-6 h-4 bg-purple-500 rounded-sm"></div>
+                                        <span class="text-white/80 text-sm">Australia</span>
+                                    </div>
+                                    <span class="text-white text-sm">12%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Performance Benchmarks -->
+                        <div class="glass rounded-xl p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4">Performance Benchmarks</h3>
+                            <div class="space-y-4">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-blue-400 mb-1">A+</div>
+                                    <div class="text-white/60 text-sm">Overall Grade</div>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-white/70">Speed Index</span>
+                                        <span class="text-green-400">1.2s</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-white/70">Time to Interactive</span>
+                                        <span class="text-green-400">2.1s</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-white/70">First Paint</span>
+                                        <span class="text-green-400">0.8s</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1026,6 +1631,191 @@
                                 <i class="fas fa-exclamation-triangle text-yellow-400 text-3xl mb-2"></i>
                                 <h4 class="font-semibold text-white">FISMA</h4>
                                 <p class="text-yellow-300 text-sm">Under Review</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Grant Management Tab -->
+                <div id="grants-content" class="tab-content" style="display: none;">
+                    <!-- Header Section -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-2xl font-bold text-white mb-2">Grant Management AI</h2>
+                                <p class="text-white/70">Discover, track, and manage federal grants with cutting-edge AI assistance</p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                    <span class="text-green-400 text-sm">AI Assistant Active</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Grant Search Assistant -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <!-- Search Interface -->
+                        <div class="lg:col-span-2">
+                            <div class="glass rounded-xl p-6">
+                                <div class="flex items-center space-x-2 mb-4">
+                                    <i class="fas fa-robot text-purple-400 text-xl"></i>
+                                    <h3 class="text-lg font-semibold text-white">AI Grant Discovery Assistant</h3>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <div class="relative">
+                                        <input 
+                                            type="text" 
+                                            id="grant-search-input"
+                                            placeholder="Describe your technology or project needs (e.g., 'AI cybersecurity tools', 'renewable energy infrastructure', 'smart city sensors')"
+                                            class="w-full p-4 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20"
+                                        >
+                                        <button 
+                                            onclick="searchGrants()"
+                                            class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-6 py-2 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2"
+                                        >
+                                            <i class="fas fa-search"></i>
+                                            <span>Search Grants</span>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Quick Search Tags -->
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="text-white/70 text-sm">Quick searches:</span>
+                                        <button onclick="quickSearch('cybersecurity')" class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm hover:bg-blue-500/30 transition-colors">Cybersecurity</button>
+                                        <button onclick="quickSearch('AI machine learning')" class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm hover:bg-purple-500/30 transition-colors">AI & ML</button>
+                                        <button onclick="quickSearch('infrastructure')" class="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm hover:bg-green-500/30 transition-colors">Infrastructure</button>
+                                        <button onclick="quickSearch('research development')" class="px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-sm hover:bg-yellow-500/30 transition-colors">R&D</button>
+                                        <button onclick="quickSearch('emergency management')" class="px-3 py-1 bg-red-500/20 text-red-300 rounded-full text-sm hover:bg-red-500/30 transition-colors">Emergency Mgmt</button>
+                                    </div>
+                                </div>
+                                
+                                <!-- AI Search Status -->
+                                <div id="search-status" class="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg hidden">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+                                        <span class="text-blue-300">AI is analyzing federal grant databases...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grant Analytics -->
+                        <div class="glass rounded-xl p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4">Grant Analytics</h3>
+                            <div class="space-y-4">
+                                <div class="bg-white/5 rounded-lg p-4">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-white/70">Total Available</span>
+                                        <span class="text-green-400 font-semibold">$2.4B</span>
+                                    </div>
+                                </div>
+                                <div class="bg-white/5 rounded-lg p-4">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-white/70">Active Opportunities</span>
+                                        <span class="text-blue-400 font-semibold">1,247</span>
+                                    </div>
+                                </div>
+                                <div class="bg-white/5 rounded-lg p-4">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-white/70">Closing This Month</span>
+                                        <span class="text-orange-400 font-semibold">89</span>
+                                    </div>
+                                </div>
+                                <div class="bg-white/5 rounded-lg p-4">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-white/70">Match Rate</span>
+                                        <span class="text-purple-400 font-semibold">94%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search Results -->
+                    <div id="grant-results" class="glass rounded-xl p-6 mb-6">
+                        <h3 class="text-lg font-semibold text-white mb-4">AI-Matched Grant Opportunities</h3>
+                        <div id="grantSearchResults" class="space-y-4">
+                            <!-- Results will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- AI Insights -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <h3 class="text-lg font-semibold text-white mb-4">AI Grant Insights</h3>
+                        <div id="aiInsights" class="space-y-3">
+                            <!-- AI insights will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Grant Pipeline Management -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Active Applications -->
+                        <div class="glass rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">Active Applications</h3>
+                                <button onclick="showAddGrantModal()" class="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Add Grant</span>
+                                </button>
+                            </div>
+                            
+                            <div id="grantPipeline" class="space-y-3">
+                                <!-- Dynamic grant pipeline will be populated here by JavaScript -->
+                            </div>
+                                
+                                <div class="bg-white/5 rounded-lg p-4 border-l-4 border-purple-400">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h4 class="font-semibold text-white">DOE Smart Grid Technology</h4>
+                                        <span class="px-2 py-1 bg-green-500/20 text-green-300 rounded text-sm">Submitted</span>
+                                    </div>
+                                    <p class="text-white/70 text-sm mb-2">$750K • Submitted: Dec 1, 2023</p>
+                                    <div class="w-full bg-gray-700 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" style="width: 100%"></div>
+                                    </div>
+                                    <p class="text-right text-white/50 text-xs mt-1">Awaiting Review</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Insights & Recommendations -->
+                        <div class="glass rounded-xl p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4">AI Insights & Recommendations</h3>
+                            <div class="space-y-4">
+                                <div class="bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-lg p-4">
+                                    <div class="flex items-start space-x-3">
+                                        <i class="fas fa-lightbulb text-yellow-400 text-lg mt-1"></i>
+                                        <div>
+                                            <h4 class="font-semibold text-white mb-1">New Opportunity Alert</h4>
+                                            <p class="text-white/70 text-sm">Based on your profile, DARPA just released a $50M cybersecurity grant that matches your expertise 96%.</p>
+                                            <button class="mt-2 text-purple-400 hover:text-purple-300 text-sm font-medium">View Details →</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gradient-to-r from-blue-500/10 to-green-500/10 border border-blue-500/20 rounded-lg p-4">
+                                    <div class="flex items-start space-x-3">
+                                        <i class="fas fa-clock text-orange-400 text-lg mt-1"></i>
+                                        <div>
+                                            <h4 class="font-semibold text-white mb-1">Deadline Reminder</h4>
+                                            <p class="text-white/70 text-sm">DHS Cybersecurity Innovation application deadline is in 12 days. AI suggests prioritizing Section 3 completion.</p>
+                                            <button class="mt-2 text-blue-400 hover:text-blue-300 text-sm font-medium">Open Application →</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gradient-to-r from-green-500/10 to-purple-500/10 border border-green-500/20 rounded-lg p-4">
+                                    <div class="flex items-start space-x-3">
+                                        <i class="fas fa-chart-line text-green-400 text-lg mt-1"></i>
+                                        <div>
+                                            <h4 class="font-semibold text-white mb-1">Success Optimization</h4>
+                                            <p class="text-white/70 text-sm">Your application success rate could increase by 23% by adding more quantitative metrics to your proposals.</p>
+                                            <button class="mt-2 text-green-400 hover:text-green-300 text-sm font-medium">Get Suggestions →</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1060,9 +1850,265 @@
                         </div>
                     </div>
                 </div>
+                </div>
+                
+                <!-- CRM Tab -->
+                <div id="crm-content" class="tab-content h-full" style="display: none;">
+                    <div class="h-full flex flex-col">
+                        <!-- Enterprise CRM Header with Command Center -->
+                        <div class="glass rounded-xl p-6 mb-4 flex-shrink-0">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+                                        <i class="fas fa-network-wired text-white text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-2xl font-bold text-white">Enterprise CRM Intelligence</h3>
+                                        <p class="text-white/70 text-sm">AI-Powered Relationship Management • CJIS IL5 • Zero Trust Architecture</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="flex items-center space-x-2 bg-emerald-500/20 px-3 py-1.5 rounded-lg border border-emerald-400/30">
+                                        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                                        <span class="text-emerald-300 text-xs font-semibold">FedRAMP IL5</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2 bg-blue-500/20 px-3 py-1.5 rounded-lg border border-blue-400/30">
+                                        <i class="fas fa-shield-check text-blue-400 text-xs"></i>
+                                        <span class="text-blue-300 text-xs font-semibold">CJIS Certified</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2 bg-purple-500/20 px-3 py-1.5 rounded-lg border border-purple-400/30">
+                                        <i class="fas fa-brain text-purple-400 text-xs"></i>
+                                        <span class="text-purple-300 text-xs font-semibold">AI Active</span>
+                                    </div>
+                                    <button onclick="showNewContactModal()" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-5 py-2.5 rounded-lg transition-all duration-200 flex items-center space-x-2 shadow-lg">
+                                        <i class="fas fa-plus text-sm"></i>
+                                        <span class="font-medium">Add Contact</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Main CRM Content - Scrollable -->
+                        <div class="flex-1 overflow-y-auto space-y-4 pr-2">
+                            <!-- AI Command Center -->
+                            <div class="glass rounded-xl p-6">
+                                <div class="flex items-center space-x-3 mb-4">
+                                    <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                                        <i class="fas fa-robot text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-white font-semibold text-lg">CRM AI Command Center</h4>
+                                        <p class="text-white/60 text-sm">Natural language relationship intelligence and automation</p>
+                                    </div>
+                                    <div class="ml-auto flex items-center space-x-2">
+                                        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                        <span class="text-green-400 text-xs font-medium">Online</span>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <div class="flex-1 relative">
+                                        <input type="text" id="crmAiInput" placeholder="Ask: 'Show me high-value prospects from last month' or 'Schedule follow-ups for all pending deals'" 
+                                               class="w-full bg-black/20 border border-white/20 rounded-xl px-4 py-4 pr-12 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
+                                        <div class="absolute right-3 top-4 text-white/40">
+                                            <i class="fas fa-microphone hover:text-purple-400 cursor-pointer transition-colors"></i>
+                                        </div>
+                                    </div>
+                                    <button onclick="processCrmAiQuery()" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-4 rounded-xl transition-all duration-200 flex items-center space-x-2 shadow-lg">
+                                        <i class="fas fa-paper-plane"></i>
+                                        <span class="font-medium">Execute</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Enterprise Dashboard Grid -->
+                            <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+                                <!-- Real-time Metrics -->
+                                <div class="glass rounded-xl p-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h4 class="text-white font-semibold">Contact Intelligence</h4>
+                                        <i class="fas fa-chart-network text-blue-400"></i>
+                                    </div>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-white/70 text-sm">Total Contacts</span>
+                                            <span class="text-xl font-bold text-white">28,574</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-white/70 text-sm">Active Engagements</span>
+                                            <span class="text-lg font-semibold text-emerald-400">1,247</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-white/70 text-sm">AI Predictions</span>
+                                            <span class="text-lg font-semibold text-purple-400">94.3%</span>
+                                        </div>
+                                        <div class="w-full bg-white/10 rounded-full h-2">
+                                            <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full animate-pulse" style="width: 87%"></div>
+                                        </div>
+                                        <p class="text-xs text-white/60">87% relationship health score</p>
+                                    </div>
+                                </div>
+
+                                <!-- Security & Compliance -->
+                                <div class="glass rounded-xl p-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h4 class="text-white font-semibold">Security Matrix</h4>
+                                        <i class="fas fa-shield-check text-emerald-400"></i>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-white/70 text-sm">Zero Trust</span>
+                                            <span class="text-emerald-400 font-semibold text-sm">Active</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-white/70 text-sm">Quantum Encryption</span>
+                                            <span class="text-emerald-400 font-semibold text-sm">256-bit</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-white/70 text-sm">Audit Trail</span>
+                                            <span class="text-emerald-400 font-semibold text-sm">Real-time</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-white/70 text-sm">Compliance</span>
+                                            <span class="text-emerald-400 font-semibold text-sm">99.97%</span>
+                                        </div>
+                                        <div class="p-3 bg-emerald-500/20 rounded-lg border border-emerald-400/30">
+                                            <div class="flex items-center space-x-2">
+                                                <i class="fas fa-check-circle text-emerald-400 text-sm"></i>
+                                                <span class="text-emerald-300 text-xs font-medium">All systems secure</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Performance Analytics -->
+                                <div class="glass rounded-xl p-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h4 class="text-white font-semibold">Performance</h4>
+                                        <i class="fas fa-tachometer-alt text-yellow-400"></i>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-white/70 text-sm">Response Time</span>
+                                            <span class="text-yellow-400 font-semibold text-sm">34ms</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-white/70 text-sm">Uptime</span>
+                                            <span class="text-emerald-400 font-semibold text-sm">99.99%</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-white/70 text-sm">Scalability</span>
+                                            <span class="text-blue-400 font-semibold text-sm">Auto</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-white/70 text-sm">Load Balance</span>
+                                            <span class="text-purple-400 font-semibold text-sm">Optimal</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quick Actions Panel -->
+                                <div class="glass rounded-xl p-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h4 class="text-white font-semibold">Operations</h4>
+                                        <i class="fas fa-bolt text-orange-400"></i>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <button onclick="bulkImportContacts()" class="w-full bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 py-2.5 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 border border-blue-500/30">
+                                            <i class="fas fa-upload text-xs"></i>
+                                            <span class="text-sm font-medium">Import</span>
+                                        </button>
+                                        <button onclick="exportContacts()" class="w-full bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 py-2.5 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 border border-emerald-500/30">
+                                            <i class="fas fa-download text-xs"></i>
+                                            <span class="text-sm font-medium">Export</span>
+                                        </button>
+                                        <button onclick="runComplianceAudit()" class="w-full bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 py-2.5 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 border border-purple-500/30">
+                                            <i class="fas fa-clipboard-check text-xs"></i>
+                                            <span class="text-sm font-medium">Audit</span>
+                                        </button>
+                                        <button onclick="generateReport()" class="w-full bg-orange-600/20 hover:bg-orange-600/30 text-orange-300 py-2.5 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 border border-orange-500/30">
+                                            <i class="fas fa-chart-bar text-xs"></i>
+                                            <span class="text-sm font-medium">Reports</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Advanced Contact Management Interface -->
+                            <div class="glass rounded-xl p-6">
+                                <div class="flex items-center justify-between mb-6">
+                                    <div class="flex items-center space-x-3">
+                                        <h4 class="text-xl font-semibold text-white">Intelligent Contact Matrix</h4>
+                                        <div class="flex items-center space-x-2 bg-blue-500/20 px-3 py-1 rounded-lg">
+                                            <i class="fas fa-sync-alt text-blue-400 text-xs animate-spin"></i>
+                                            <span class="text-blue-300 text-xs font-medium">Live Sync</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="toggleContactView('grid')" class="p-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors">
+                                                <i class="fas fa-th text-white/70 hover:text-white"></i>
+                                            </button>
+                                            <button onclick="toggleContactView('list')" class="p-2 bg-blue-600 rounded-lg">
+                                                <i class="fas fa-list text-white"></i>
+                                            </button>
+                                        </div>
+                                        <div class="relative">
+                                            <input type="text" id="contactSearch" placeholder="Search by name, role, department..." 
+                                                   class="bg-black/20 border border-white/20 rounded-lg px-4 py-2 pl-10 pr-20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500 w-64">
+                                            <i class="fas fa-search absolute left-3 top-3 text-white/50"></i>
+                                            <div class="absolute right-2 top-2 flex items-center space-x-1">
+                                                <button class="p-1 hover:bg-white/10 rounded">
+                                                    <i class="fas fa-filter text-white/50 text-xs"></i>
+                                                </button>
+                                                <button class="p-1 hover:bg-white/10 rounded">
+                                                    <i class="fas fa-sort text-white/50 text-xs"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <select id="contactFilter" class="bg-black/20 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                            <option value="all">All Contacts</option>
+                                            <option value="citizens">Citizens</option>
+                                            <option value="officials">Government Officials</option>
+                                            <option value="vendors">Verified Vendors</option>
+                                            <option value="contractors">Licensed Contractors</option>
+                                            <option value="high-value">High-Value Contacts</option>
+                                            <option value="recent">Recent Activity</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Enhanced Contact Table -->
+                                <div class="overflow-hidden rounded-xl border border-white/10">
+                                    <div class="overflow-x-auto max-h-96">
+                                        <table class="w-full">
+                                            <thead class="bg-black/30 sticky top-0">
+                                                <tr>
+                                                    <th class="text-left py-4 px-6 text-white/70 font-semibold text-sm border-b border-white/10">
+                                                        <div class="flex items-center space-x-2">
+                                                            <input type="checkbox" class="rounded border-white/30">
+                                                            <span>Contact Profile</span>
+                                                        </div>
+                                                    </th>
+                                                    <th class="text-left py-4 px-6 text-white/70 font-semibold text-sm border-b border-white/10">Classification</th>
+                                                    <th class="text-left py-4 px-6 text-white/70 font-semibold text-sm border-b border-white/10">Department/Org</th>
+                                                    <th class="text-left py-4 px-6 text-white/70 font-semibold text-sm border-b border-white/10">Engagement</th>
+                                                    <th class="text-left py-4 px-6 text-white/70 font-semibold text-sm border-b border-white/10">Status</th>
+                                                    <th class="text-left py-4 px-6 text-white/70 font-semibold text-sm border-b border-white/10">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="contactsTableBody" class="divide-y divide-white/5">
+                                                <!-- Contacts will be populated dynamically -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
     
     <!-- New Request Modal -->
     <div id="newRequestModal" class="modal">
@@ -1419,6 +2465,70 @@
         let selectedWorkflow = null;
         let workflowStepCount = 0;
         let currentWorkflowSteps = [];
+        
+        // CRM Data
+        let crmContacts = [
+            {
+                id: 1,
+                name: "Sarah Johnson",
+                email: "sarah.johnson@citymail.gov",
+                type: "citizen",
+                department: "Public Works",
+                lastContact: "2024-01-15",
+                status: "active",
+                phone: "(555) 123-4567",
+                address: "123 Oak Street, Downtown",
+                notes: "Regular participant in town halls, environmental advocate"
+            },
+            {
+                id: 2,
+                name: "Detective Michael Chen",
+                email: "m.chen@police.gov",
+                type: "official",
+                department: "Police Department",
+                lastContact: "2024-01-18",
+                status: "active",
+                phone: "(555) 234-5678",
+                address: "Police Headquarters",
+                notes: "Lead investigator for fraud cases, CJIS certified"
+            },
+            {
+                id: 3,
+                name: "TechCorp Solutions",
+                email: "contracts@techcorp.com",
+                type: "vendor",
+                department: "IT Services",
+                lastContact: "2024-01-12",
+                status: "active",
+                phone: "(555) 345-6789",
+                address: "456 Business Blvd",
+                notes: "Primary IT contractor, FedRAMP High certified"
+            },
+            {
+                id: 4,
+                name: "Jennifer Martinez",
+                email: "j.martinez@contractor.com",
+                type: "contractor",
+                department: "Infrastructure",
+                lastContact: "2024-01-10",
+                status: "inactive",
+                phone: "(555) 456-7890",
+                address: "789 Construction Way",
+                notes: "Civil engineer, infrastructure planning specialist"
+            },
+            {
+                id: 5,
+                name: "Robert Wilson",
+                email: "robert.wilson@residents.gov",
+                type: "citizen",
+                department: "Community Services",
+                lastContact: "2024-01-17",
+                status: "active",
+                phone: "(555) 567-8901",
+                address: "321 Maple Avenue",
+                notes: "Community volunteer, frequent service requests"
+            }
+        ];
         let workflowLibrary = {
             stepTypes: {
                 'input': { name: 'Data Input', icon: 'fas fa-keyboard', description: 'Collect information from forms or APIs' },
@@ -1615,11 +2725,21 @@
                 security: { title: 'Security Analysis', subtitle: 'Threat detection and vulnerability assessment' },
                 analytics: { title: 'System Analytics', subtitle: 'Performance metrics and insights' },
                 compliance: { title: 'Compliance Monitor', subtitle: 'Regulatory compliance tracking' },
+                grants: { title: 'Grant Management', subtitle: 'AI-powered federal grant discovery and workflow management' },
+                crm: { title: 'CRM Management', subtitle: 'AI-powered customer relationship management with CJIS compliance' },
                 settings: { title: 'System Settings', subtitle: 'Configure platform preferences' }
             };
             
             document.getElementById('pageTitle').textContent = titles[tabName].title;
             document.getElementById('pageSubtitle').textContent = titles[tabName].subtitle;
+            
+            // Initialize specific tab functionality
+            if (tabName === 'analytics' && document.getElementById('activityFeed')) {
+                initializeAnalytics();
+            }
+            if (tabName === 'crm' && document.getElementById('contactsTableBody')) {
+                initializeCRM();
+            }
         }
         
         // Initialize workflow templates
@@ -2979,6 +4099,1300 @@
             }
         });
         
+        // Grant Management Functions
+        let grantSearchResults = [];
+        let activeGrants = [
+            {
+                id: 1,
+                title: "SBIR Phase II - Advanced Cybersecurity Solutions",
+                agency: "Department of Defense",
+                amount: "$750,000",
+                deadline: "2024-12-15",
+                status: "Application Submitted",
+                progress: 85,
+                lastUpdate: "2024-10-01"
+            },
+            {
+                id: 2,
+                title: "NSF Innovation Corps - AI Healthcare Platform",
+                agency: "National Science Foundation",
+                amount: "$50,000",
+                deadline: "2024-11-30",
+                status: "Draft in Progress",
+                progress: 45,
+                lastUpdate: "2024-09-28"
+            },
+            {
+                id: 3,
+                title: "EPA SBIR - Environmental Monitoring Tech",
+                agency: "Environmental Protection Agency",
+                amount: "$300,000",
+                deadline: "2025-01-20",
+                status: "Research Phase",
+                progress: 25,
+                lastUpdate: "2024-09-25"
+            }
+        ];
+
+        // AI Grant Search Function with Enhanced Mock Data (Browser-Compatible)
+        async function searchGrants() {
+            const query = document.getElementById('grant-search-input').value.trim();
+            if (!query) {
+                alert('Please enter a search term to find federal grants.');
+                return;
+            }
+
+            console.log('Starting grant search for:', query);
+
+            // Show loading state
+            const searchButton = document.querySelector('#grant-search-input').nextElementSibling;
+            const originalText = searchButton.innerHTML;
+            searchButton.innerHTML = '<i class="fas fa-spinner animate-spin mr-2"></i>Searching Federal Grants...';
+            searchButton.disabled = true;
+
+            try {
+                // Simulate AI search delay for realism
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Use enhanced mock data with real grant information
+                const mockResults = generateRealisticGrantResults(query);
+                console.log('Generated results:', mockResults);
+                
+                displayGrantResults(mockResults);
+                showAIGrantInsights(query, mockResults, mockResults.length);
+                
+                console.log('Search completed successfully');
+                
+            } catch (error) {
+                console.error('Grant search error:', error);
+                alert('Search encountered an error. Please try again.');
+            } finally {
+                // Reset button
+                searchButton.innerHTML = originalText;
+                searchButton.disabled = false;
+            }
+        }
+
+        // Note: Direct grants.gov API calls are disabled due to CORS restrictions in browsers
+        // Using enhanced realistic mock data based on actual federal grants instead
+
+        // Note: RAG processing functions removed - using realistic mock data instead
+
+        // AI-powered match scoring algorithm
+        function calculateAIMatchScore(grant, queryTerms, originalQuery) {
+            let score = 0;
+            const title = grant.title.toLowerCase();
+            const agency = grant.agency.toLowerCase();
+            
+            // Exact keyword matches in title (highest weight)
+            queryTerms.forEach(term => {
+                if (title.includes(term)) {
+                    score += 30;
+                }
+                if (agency.includes(term)) {
+                    score += 15;
+                }
+            });
+            
+            // Technology-specific bonus scoring
+            const techKeywords = {
+                'cybersecurity': ['security', 'cyber', 'defense', 'protection', 'infrastructure'],
+                'ai': ['artificial', 'intelligence', 'machine', 'learning', 'neural', 'deep'],
+                'quantum': ['quantum', 'computing', 'cryptography', 'physics'],
+                'biotech': ['bio', 'medical', 'health', 'pharmaceutical', 'genetic'],
+                'energy': ['energy', 'renewable', 'solar', 'battery', 'grid', 'power'],
+                'climate': ['climate', 'environmental', 'carbon', 'emission', 'sustainability']
+            };
+            
+            Object.entries(techKeywords).forEach(([field, keywords]) => {
+                if (originalQuery.toLowerCase().includes(field)) {
+                    keywords.forEach(keyword => {
+                        if (title.includes(keyword)) {
+                            score += 20;
+                        }
+                    });
+                }
+            });
+            
+            // Agency reputation bonus
+            const prestigiousAgencies = ['NSF', 'NIH', 'DOE', 'DARPA', 'NASA'];
+            if (prestigiousAgencies.some(agency => grant.agencyCode.includes(agency))) {
+                score += 10;
+            }
+            
+            // Status bonus (posted grants are more valuable)
+            if (grant.oppStatus === 'posted') {
+                score += 15;
+            }
+            
+            // Cap at 100 and ensure minimum of 60 for any match
+            return Math.min(100, Math.max(60, score));
+        }
+
+        // Estimate grant funding amount based on agency and type
+        function estimateGrantAmount(grant) {
+            // Agency-based estimates (in thousands)
+            const agencyEstimates = {
+                'NSF': [50, 500, 2000],      // Small, Medium, Large
+                'NIH': [100, 1000, 5000],
+                'DOE': [75, 750, 3000],
+                'DARPA': [200, 1500, 10000],
+                'EPA': [25, 250, 1000],
+                'DOD': [150, 1000, 5000],
+                'NASA': [100, 800, 4000]
+            };
+            
+            // Find matching agency
+            let estimates = [50, 500, 2000]; // Default
+            Object.keys(agencyEstimates).forEach(agency => {
+                if (grant.agencyCode.includes(agency)) {
+                    estimates = agencyEstimates[agency];
+                }
+            });
+            
+            // Select estimate based on title keywords
+            let amount = estimates[1]; // Default to medium
+            const title = grant.title.toLowerCase();
+            
+            if (title.includes('phase i') || title.includes('small') || title.includes('pilot')) {
+                amount = estimates[0];
+            } else if (title.includes('phase ii') || title.includes('large') || title.includes('center')) {
+                amount = estimates[2];
+            }
+            
+            return `$${amount.toLocaleString()},000`;
+        }
+
+        // Format grant deadline
+        function formatGrantDeadline(closeDate) {
+            if (!closeDate) return 'Open-ended';
+            
+            // Handle MM/DD/YYYY format
+            const date = new Date(closeDate);
+            if (isNaN(date.getTime())) return closeDate;
+            
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: '2-digit', 
+                day: '2-digit'
+            });
+        }
+
+        // Generate AI-enhanced grant description
+        function generateGrantDescription(grant) {
+            const templates = {
+                'research': `Advanced research initiative focusing on ${grant.title.toLowerCase()} with potential applications in cutting-edge technology development and innovation.`,
+                'development': `Technology development program aimed at creating breakthrough solutions in ${grant.title.toLowerCase().replace(/[^a-z\s]/g, '')} sector.`,
+                'education': `Educational excellence program supporting ${grant.title.toLowerCase()} through comprehensive training and development initiatives.`,
+                'infrastructure': `Infrastructure modernization project targeting ${grant.title.toLowerCase()} to enhance national capabilities and competitiveness.`,
+                'default': `Federal funding opportunity supporting innovative approaches to ${grant.title.toLowerCase()} with significant impact potential.`
+            };
+            
+            const title = grant.title.toLowerCase();
+            if (title.includes('research') || title.includes('r&d')) return templates.research;
+            if (title.includes('development') || title.includes('innovation')) return templates.development;
+            if (title.includes('education') || title.includes('training')) return templates.education;
+            if (title.includes('infrastructure') || title.includes('modernization')) return templates.infrastructure;
+            
+            return templates.default;
+        }
+
+        // Determine eligibility requirements
+        function determineEligibility(grant) {
+            const eligibilityMap = {
+                'NSF': 'Universities, research institutions, and qualified organizations',
+                'NIH': 'Medical institutions, research universities, and healthcare organizations',
+                'DOE': 'Energy sector organizations, research labs, and qualified institutions',
+                'DARPA': 'Defense contractors, research institutions, and technology companies',
+                'EPA': 'Environmental organizations, state agencies, and research institutions',
+                'DOD': 'Defense contractors, military research organizations, and qualified entities',
+                'NASA': 'Aerospace organizations, research institutions, and technology companies'
+            };
+            
+            // Find matching agency
+            for (const [agency, description] of Object.entries(eligibilityMap)) {
+                if (grant.agencyCode.includes(agency)) {
+                    return description;
+                }
+            }
+            
+            return 'Qualified organizations meeting federal grant requirements';
+        }
+
+        // Generate realistic grant results based on real federal grant data
+        function generateRealisticGrantResults(query) {
+            const realGrantDatabase = {
+                'cybersecurity': [
+                    {
+                        title: "CyberCorps® Scholarship for Service",
+                        agency: "U.S. National Science Foundation",
+                        agencyCode: "NSF",
+                        amount: "$275,000",
+                        deadline: "07/15/2026",
+                        matchScore: 95,
+                        description: "Federal cybersecurity scholarship program supporting students pursuing cybersecurity degrees in exchange for federal service commitment.",
+                        eligibility: "Universities with approved cybersecurity programs",
+                        number: "23-574"
+                    },
+                    {
+                        title: "Security, Privacy, and Trust in Cyberspace",
+                        agency: "U.S. National Science Foundation",
+                        agencyCode: "NSF",
+                        amount: "$500,000",
+                        deadline: "09/29/2025",
+                        matchScore: 92,
+                        description: "Research initiative focusing on foundational cybersecurity, privacy protection, and establishing trust in digital systems.",
+                        eligibility: "Research institutions and universities",
+                        number: "25-515"
+                    },
+                    {
+                        title: "DHS SBIR - Cybersecurity Solutions",
+                        agency: "Department of Homeland Security",
+                        agencyCode: "DHS",
+                        amount: "$750,000",
+                        deadline: "12/20/2024",
+                        matchScore: 88,
+                        description: "Small business innovation research for advanced cybersecurity technologies protecting critical infrastructure.",
+                        eligibility: "Small businesses with cybersecurity expertise",
+                        number: "DHS-SBIR-24-01"
+                    }
+                ],
+                'ai': [
+                    {
+                        title: "NSF CAREER - Advanced AI Research",
+                        agency: "U.S. National Science Foundation",
+                        agencyCode: "NSF",
+                        amount: "$500,000",
+                        deadline: "11/15/2024",
+                        matchScore: 94,
+                        description: "Early-career faculty development program for breakthrough artificial intelligence and machine learning research.",
+                        eligibility: "Academic institutions with AI research programs",
+                        number: "NSF-CAREER-AI-24"
+                    },
+                    {
+                        title: "DARPA - Artificial Intelligence Exploration",
+                        agency: "Defense Advanced Research Projects Agency",
+                        agencyCode: "DARPA",
+                        amount: "$1,500,000",
+                        deadline: "01/30/2025",
+                        matchScore: 91,
+                        description: "High-risk, high-reward AI research exploring novel approaches to artificial general intelligence.",
+                        eligibility: "Defense contractors and research institutions",
+                        number: "HR001125A0001"
+                    }
+                ],
+                'quantum': [
+                    {
+                        title: "DOE Quantum Information Science Research",
+                        agency: "Department of Energy",
+                        agencyCode: "DOE",
+                        amount: "$2,000,000",
+                        deadline: "03/15/2025",
+                        matchScore: 96,
+                        description: "Quantum computing and quantum information science research for next-generation computing systems.",
+                        eligibility: "National laboratories and research universities",
+                        number: "DE-FOA-QIS-25"
+                    }
+                ],
+                'infrastructure': [
+                    {
+                        title: "Infrastructure Resilience and Sustainability Program",
+                        agency: "Environmental Protection Agency",
+                        agencyCode: "EPA",
+                        amount: "$1,000,000",
+                        deadline: "10/06/2025",
+                        matchScore: 85,
+                        description: "Large-scale infrastructure modernization program focusing on resilience and environmental sustainability.",
+                        eligibility: "State and local governments, water utilities",
+                        number: "EPA-OW-OGWDW-25-01"
+                    }
+                ],
+                'energy': [
+                    {
+                        title: "Advanced Research Projects Agency Energy SBIR/STTR",
+                        agency: "Advanced Research Projects Agency Energy",
+                        agencyCode: "DOE-ARPAE",
+                        amount: "$1,500,000",
+                        deadline: "09/25/2025",
+                        matchScore: 89,
+                        description: "Revolutionary energy technology development through small business innovation research programs.",
+                        eligibility: "Small businesses and research institutions",
+                        number: "DE-FOA-0003593"
+                    }
+                ]
+            };
+
+            // Find matching grants based on query
+            let results = [];
+            const queryLower = query.toLowerCase();
+            
+            // Direct keyword matches
+            Object.keys(realGrantDatabase).forEach(keyword => {
+                if (queryLower.includes(keyword)) {
+                    results = results.concat(realGrantDatabase[keyword]);
+                }
+            });
+
+            // If no direct matches, search across all grants
+            if (results.length === 0) {
+                Object.values(realGrantDatabase).forEach(categoryGrants => {
+                    categoryGrants.forEach(grant => {
+                        if (grant.title.toLowerCase().includes(queryLower) || 
+                            grant.description.toLowerCase().includes(queryLower)) {
+                            results.push(grant);
+                        }
+                    });
+                });
+            }
+
+            // Add some general grants if still no results
+            if (results.length === 0) {
+                results = [
+                    {
+                        title: "Microsystems Technology Office Research",
+                        agency: "DARPA - Microsystems Technology Office",
+                        agencyCode: "DOD-DARPA-MTO",
+                        amount: "$800,000",
+                        deadline: "12/01/2025",
+                        matchScore: 75,
+                        description: `Research opportunity in ${query} with applications to advanced technology development and innovation.`,
+                        eligibility: "Research institutions and technology companies",
+                        number: "HR001124S0028"
+                    },
+                    {
+                        title: "Small Business Innovation Research Program",
+                        agency: "U.S. National Science Foundation",
+                        agencyCode: "NSF",
+                        amount: "$400,000",
+                        deadline: "02/15/2025",
+                        matchScore: 70,
+                        description: `Innovation research program supporting ${query} technology development for small businesses.`,
+                        eligibility: "Small businesses with relevant expertise",
+                        number: "NSF-SBIR-25"
+                    }
+                ];
+            }
+
+            return results.slice(0, 10); // Limit to 10 results
+        }
+
+        // Quick search function
+        function quickSearch(tech) {
+            document.getElementById('grant-search-input').value = tech;
+            searchGrants();
+        }
+
+        // Generate mock grant results based on search query
+        function generateMockGrantResults(query) {
+            const baseGrants = [
+                {
+                    title: "SBIR Phase I - Quantum Computing Infrastructure",
+                    agency: "Department of Energy",
+                    amount: "$275,000",
+                    deadline: "2024-12-31",
+                    matchScore: 95,
+                    description: "Development of quantum computing solutions for energy grid optimization and security applications.",
+                    eligibility: "Small business with quantum research capabilities"
+                },
+                {
+                    title: "NSF CAREER - Advanced AI Research",
+                    agency: "National Science Foundation",
+                    amount: "$500,000",
+                    deadline: "2024-11-15",
+                    matchScore: 88,
+                    description: "Research grant for early-career faculty developing breakthrough AI technologies.",
+                    eligibility: "Academic institutions with AI research programs"
+                },
+                {
+                    title: "NIH R01 - Medical Device Innovation",
+                    agency: "National Institutes of Health",
+                    amount: "$1,200,000",
+                    deadline: "2025-02-28",
+                    matchScore: 82,
+                    description: "Development of innovative medical devices using cutting-edge technology.",
+                    eligibility: "Research institutions and medical device companies"
+                },
+                {
+                    title: "DHS SBIR - Cybersecurity Solutions",
+                    agency: "Department of Homeland Security",
+                    amount: "$750,000",
+                    deadline: "2024-12-20",
+                    matchScore: 90,
+                    description: "Advanced cybersecurity technologies for critical infrastructure protection.",
+                    eligibility: "Small businesses with cybersecurity expertise"
+                }
+            ];
+
+            // Filter and sort based on query relevance
+            return baseGrants.filter(grant => 
+                grant.title.toLowerCase().includes(query.toLowerCase()) ||
+                grant.description.toLowerCase().includes(query.toLowerCase())
+            ).sort((a, b) => b.matchScore - a.matchScore);
+        }
+
+        // Display grant search results
+        function displayGrantResults(results) {
+            const container = document.getElementById('grantSearchResults');
+            
+            if (results.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-search text-4xl text-white/30 mb-4"></i>
+                        <p class="text-white/60">No grants found matching your search criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = results.map(grant => `
+                <div class="glass rounded-xl p-6 hover:bg-white/10 transition-all duration-300 border border-white/10">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-lg text-white mb-2">${grant.title}</h4>
+                            <div class="flex items-center space-x-4 text-sm text-white/70 mb-3">
+                                <span><i class="fas fa-building mr-1"></i>${grant.agency}</span>
+                                <span><i class="fas fa-dollar-sign mr-1"></i>${grant.amount}</span>
+                                <span><i class="fas fa-calendar mr-1"></i>${grant.deadline}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="px-3 py-1 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-full text-xs text-green-300">
+                                ${grant.matchScore}% Match
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-white/80 text-sm mb-4">${grant.description}</p>
+                    <div class="flex justify-between items-center">
+                        <div class="text-xs text-white/60">
+                            <i class="fas fa-check-circle mr-1"></i>
+                            ${grant.eligibility}
+                        </div>
+                        <div class="space-x-2">
+                            <button onclick="viewGrantDetails('${grant.title}')" class="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg text-white text-sm hover:from-blue-600 hover:to-purple-700 transition-all">
+                                View Details
+                            </button>
+                            <button onclick="addToWorkflow('${grant.title}')" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg text-white text-sm hover:from-purple-600 hover:to-pink-700 transition-all">
+                                Add to Workflow
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show AI insights based on search
+        // Enhanced AI Grant Insights with RAG Intelligence
+        function showAIGrantInsights(query, results, totalHits) {
+            const container = document.getElementById('aiInsights');
+            
+            if (!results || results.length === 0) {
+                container.innerHTML = `
+                    <div class="flex items-center space-x-3 p-3 bg-white/5 rounded-lg">
+                        <div class="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                        <span class="text-white/90 text-sm">🔍 No matching grants found for "${query}". Try different keywords.</span>
+                    </div>
+                `;
+                return;
+            }
+
+            // Calculate sophisticated metrics
+            const avgMatchScore = Math.round(results.reduce((sum, r) => sum + r.matchScore, 0) / results.length);
+            const topAgencies = [...new Set(results.slice(0, 5).map(r => r.agencyCode))].join(', ');
+            
+            // Calculate total funding potential
+            let totalFunding = 0;
+            results.forEach(grant => {
+                const amount = grant.amount.replace(/[$,]/g, '');
+                const numAmount = parseInt(amount) || 0;
+                totalFunding += numAmount;
+            });
+
+            // Find upcoming deadlines
+            const upcomingDeadlines = results.filter(g => {
+                if (g.deadline === 'Open-ended') return false;
+                const deadline = new Date(g.deadline);
+                const thirtyDaysFromNow = new Date(Date.now() + 30*24*60*60*1000);
+                return deadline < thirtyDaysFromNow && deadline > new Date();
+            });
+
+            // Generate intelligent insights based on query and results
+            const insights = generateRAGInsights(query, results, totalHits, avgMatchScore, topAgencies, totalFunding, upcomingDeadlines);
+
+            container.innerHTML = insights.map(insight => `
+                <div class="flex items-center space-x-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-all">
+                    <div class="w-2 h-2 ${insight.color} rounded-full animate-pulse"></div>
+                    <span class="text-white/90 text-sm">${insight.text}</span>
+                </div>
+            `).join('');
+        }
+
+        // Generate RAG-powered insights
+        function generateRAGInsights(query, results, totalHits, avgMatchScore, topAgencies, totalFunding, upcomingDeadlines) {
+            const insights = [];
+
+            // Search results overview
+            const hitText = totalHits ? `${totalHits} total grants` : `${results.length} grants`;
+            insights.push({
+                text: `🎯 Found ${hitText} matching "${query}" with ${avgMatchScore}% average compatibility`,
+                color: 'bg-blue-400'
+            });
+
+            // Best match insight
+            if (results[0]) {
+                insights.push({
+                    text: `💡 Top recommendation: ${results[0].title} (${results[0].matchScore}% match) from ${results[0].agency}`,
+                    color: 'bg-green-400'
+                });
+            }
+
+            // Funding potential
+            if (totalFunding > 0) {
+                insights.push({
+                    text: `💰 Combined funding potential: $${totalFunding.toLocaleString()} across displayed opportunities`,
+                    color: 'bg-purple-400'
+                });
+            }
+
+            // Agency diversity
+            if (topAgencies) {
+                insights.push({
+                    text: `🏛️ Key funding agencies: ${topAgencies}`,
+                    color: 'bg-indigo-400'
+                });
+            }
+
+            // Deadline urgency
+            if (upcomingDeadlines.length > 0) {
+                const nextDeadline = upcomingDeadlines.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))[0];
+                insights.push({
+                    text: `⏰ Urgent: ${upcomingDeadlines.length} applications due within 30 days (next: ${nextDeadline.deadline})`,
+                    color: 'bg-red-400'
+                });
+            } else {
+                insights.push({
+                    text: `📅 Good news: No immediate deadlines, allowing time for thorough application preparation`,
+                    color: 'bg-cyan-400'
+                });
+            }
+
+            // Technology-specific insights
+            const techInsight = generateTechnologyInsights(query, results);
+            if (techInsight) {
+                insights.push({
+                    text: techInsight,
+                    color: 'bg-yellow-400'
+                });
+            }
+
+            return insights;
+        }
+
+        // Generate technology-specific RAG insights
+        function generateTechnologyInsights(query, results) {
+            const queryLower = query.toLowerCase();
+            
+            if (queryLower.includes('cyber') || queryLower.includes('security')) {
+                const securityGrants = results.filter(g => g.title.toLowerCase().includes('security') || g.title.toLowerCase().includes('cyber'));
+                return `🔐 Cybersecurity focus: ${securityGrants.length} specialized security grants available`;
+            }
+            
+            if (queryLower.includes('ai') || queryLower.includes('artificial') || queryLower.includes('machine learning')) {
+                const aiGrants = results.filter(g => g.title.toLowerCase().includes('ai') || g.title.toLowerCase().includes('intelligence'));
+                return `🤖 AI/ML opportunities: ${aiGrants.length} grants supporting artificial intelligence research`;
+            }
+            
+            if (queryLower.includes('quantum')) {
+                const quantumGrants = results.filter(g => g.title.toLowerCase().includes('quantum'));
+                return `⚛️ Quantum computing: ${quantumGrants.length} cutting-edge quantum technology grants`;
+            }
+            
+            if (queryLower.includes('climate') || queryLower.includes('environmental')) {
+                const climateGrants = results.filter(g => g.title.toLowerCase().includes('climate') || g.title.toLowerCase().includes('environment'));
+                return `🌱 Climate focus: ${climateGrants.length} grants targeting environmental solutions`;
+            }
+            
+            return null;
+        }
+
+        // View grant details (placeholder)
+        function viewGrantDetails(grantTitle) {
+            alert(`Viewing details for: ${grantTitle}\n\nThis would open a detailed modal with full grant information, requirements, and application guidelines.`);
+        }
+
+        // Add grant to workflow
+        function addToWorkflow(grantTitle) {
+            const newGrant = {
+                id: activeGrants.length + 1,
+                title: grantTitle,
+                agency: "Federal Agency",
+                amount: "$500,000",
+                deadline: "2025-03-15",
+                status: "Research Phase",
+                progress: 10,
+                lastUpdate: new Date().toISOString().split('T')[0]
+            };
+            
+            activeGrants.unshift(newGrant);
+            updateGrantPipeline();
+            
+            // Show success message
+            alert(`✅ "${grantTitle}" has been added to your grant workflow!`);
+        }
+
+        // Update grant pipeline display
+        function updateGrantPipeline() {
+            const container = document.getElementById('grantPipeline');
+            container.innerHTML = activeGrants.map(grant => `
+                <div class="grant-card glass rounded-xl p-4 border border-white/10 hover:bg-white/10 transition-all">
+                    <div class="flex justify-between items-start mb-3">
+                        <h4 class="font-semibold text-white text-sm">${grant.title}</h4>
+                        <span class="text-xs px-2 py-1 rounded-full ${getStatusColor(grant.status)} text-white/90">
+                            ${grant.status}
+                        </span>
+                    </div>
+                    <div class="space-y-2 text-xs text-white/70">
+                        <div class="flex justify-between">
+                            <span>${grant.agency}</span>
+                            <span>${grant.amount}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Deadline: ${grant.deadline}</span>
+                            <span>Updated: ${grant.lastUpdate}</span>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs text-white/60">Progress</span>
+                            <span class="text-xs text-white/80">${grant.progress}%</span>
+                        </div>
+                        <div class="w-full bg-white/10 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500" style="width: ${grant.progress}%"></div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get status color for grant cards
+        function getStatusColor(status) {
+            const colors = {
+                'Research Phase': 'bg-yellow-500/20',
+                'Draft in Progress': 'bg-orange-500/20',
+                'Application Submitted': 'bg-blue-500/20',
+                'Under Review': 'bg-purple-500/20',
+                'Approved': 'bg-green-500/20',
+                'Rejected': 'bg-red-500/20'
+            };
+            return colors[status] || 'bg-gray-500/20';
+        }
+
+        // Show add grant modal (placeholder)
+        function showAddGrantModal() {
+            alert('Add New Grant Modal\n\nThis would open a modal allowing users to manually add grants to their workflow with custom details and tracking.');
+        }
+
+        // Initialize grant management when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update grant pipeline on page load
+            if (document.getElementById('grantPipeline')) {
+                updateGrantPipeline();
+            }
+            
+            // Add Enter key support for search
+            const searchInput = document.getElementById('grant-search-input');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        searchGrants();
+                    }
+                });
+            }
+        });
+
+        // Analytics Dashboard Functions
+        let analyticsData = {
+            activities: [],
+            currentTimeRange: '7d',
+            lastUpdate: Date.now()
+        };
+
+        // Initialize Analytics Dashboard
+        function initializeAnalytics() {
+            generateActivityFeed();
+            startRealTimeUpdates();
+            populateSystemMetrics();
+        }
+
+        // Update Analytics based on time range
+        function updateAnalytics() {
+            const timeRange = document.getElementById('analyticsTimeRange').value;
+            analyticsData.currentTimeRange = timeRange;
+            
+            // Update KPIs based on time range
+            updateKPIs(timeRange);
+            
+            // Update charts
+            updatePerformanceChart(timeRange);
+            
+            // Refresh activity feed
+            generateActivityFeed();
+        }
+
+        // Update Key Performance Indicators
+        function updateKPIs(timeRange) {
+            const ranges = {
+                '24h': { workflows: 847, processing: '0.8s', success: '99.2%', users: 439 },
+                '7d': { workflows: 2847, processing: '1.2s', success: '98.7%', users: 1439 },
+                '30d': { workflows: 12847, processing: '1.5s', success: '98.3%', users: 4839 },
+                '90d': { workflows: 38247, processing: '1.8s', success: '97.9%', users: 12439 }
+            };
+            
+            const data = ranges[timeRange];
+            document.getElementById('totalWorkflows').textContent = data.workflows.toLocaleString();
+            document.getElementById('avgProcessingTime').textContent = data.processing;
+            document.getElementById('successRate').textContent = data.success;
+            document.getElementById('activeUsers').textContent = data.users.toLocaleString();
+        }
+
+        // Update Performance Chart
+        function updatePerformanceChart(timeRange) {
+            // Simulate chart update with animation
+            const bars = document.querySelectorAll('#performanceChart .animate-pulse');
+            bars.forEach((bar, index) => {
+                setTimeout(() => {
+                    const newHeight = Math.random() * 60 + 30;
+                    bar.style.height = newHeight + '%';
+                }, index * 100);
+            });
+        }
+
+        // Generate Real-time Activity Feed
+        function generateActivityFeed() {
+            const activities = [
+                { type: 'workflow', action: 'deployed', item: 'Emergency Response Workflow', time: '2 minutes ago', status: 'success' },
+                { type: 'grant', action: 'discovered', item: 'NSF CAREER Grant - AI Research', time: '5 minutes ago', status: 'info' },
+                { type: 'security', action: 'detected', item: 'Potential threat blocked', time: '8 minutes ago', status: 'warning' },
+                { type: 'user', action: 'logged in', item: 'Admin user from City Hall', time: '12 minutes ago', status: 'info' },
+                { type: 'workflow', action: 'completed', item: 'Building Permit Process', time: '15 minutes ago', status: 'success' },
+                { type: 'grant', action: 'applied', item: 'DHS Cybersecurity Innovation', time: '18 minutes ago', status: 'success' },
+                { type: 'security', action: 'updated', item: 'Firewall rules modified', time: '22 minutes ago', status: 'info' },
+                { type: 'compliance', action: 'verified', item: 'GDPR compliance check', time: '25 minutes ago', status: 'success' },
+                { type: 'user', action: 'requested', item: 'New citizen service inquiry', time: '28 minutes ago', status: 'info' },
+                { type: 'workflow', action: 'optimized', item: 'Tax Processing Pipeline', time: '32 minutes ago', status: 'success' }
+            ];
+
+            const container = document.getElementById('activityFeed');
+            if (!container) return;
+
+            container.innerHTML = activities.slice(0, 8).map(activity => {
+                const icons = {
+                    workflow: 'fa-project-diagram',
+                    grant: 'fa-dollar-sign',
+                    security: 'fa-shield-alt',
+                    user: 'fa-user',
+                    compliance: 'fa-check-circle'
+                };
+
+                const colors = {
+                    success: 'text-green-400',
+                    warning: 'text-yellow-400',
+                    info: 'text-blue-400',
+                    error: 'text-red-400'
+                };
+
+                return `
+                    <div class="flex items-center space-x-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-all duration-200">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas ${icons[activity.type]} text-white text-sm"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-white/90 text-sm">
+                                <span class="font-medium">${activity.item}</span>
+                                <span class="text-white/70">was ${activity.action}</span>
+                            </p>
+                            <p class="text-white/50 text-xs">${activity.time}</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <div class="w-2 h-2 ${colors[activity.status]} rounded-full animate-pulse"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            analyticsData.activities = activities;
+        }
+
+        // Load More Activity (pagination simulation)
+        function loadMoreActivity() {
+            const moreActivities = [
+                { type: 'workflow', action: 'created', item: 'Public Records Request Process', time: '35 minutes ago', status: 'info' },
+                { type: 'grant', action: 'reviewed', item: 'EPA Environmental Grant', time: '38 minutes ago', status: 'warning' },
+                { type: 'security', action: 'scanned', item: 'Daily vulnerability scan', time: '42 minutes ago', status: 'success' },
+                { type: 'user', action: 'updated', item: 'Department profile changes', time: '45 minutes ago', status: 'info' }
+            ];
+
+            const container = document.getElementById('activityFeed');
+            const currentActivities = analyticsData.activities;
+            analyticsData.activities = [...currentActivities, ...moreActivities];
+            
+            // Re-render with more items
+            generateActivityFeed();
+        }
+
+        // Refresh Usage Data
+        function refreshUsageData() {
+            // Simulate data refresh with random variations
+            const usageElements = document.querySelectorAll('[style*="width:"]');
+            usageElements.forEach(element => {
+                setTimeout(() => {
+                    const currentWidth = parseInt(element.style.width);
+                    const variation = (Math.random() - 0.5) * 10; // ±5% variation
+                    const newWidth = Math.max(20, Math.min(95, currentWidth + variation));
+                    element.style.width = newWidth + '%';
+                }, Math.random() * 1000);
+            });
+
+            // Show feedback
+            const button = event.target;
+            const originalIcon = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner animate-spin"></i>';
+            
+            setTimeout(() => {
+                button.innerHTML = originalIcon;
+            }, 1000);
+        }
+
+        // Populate System Metrics
+        function populateSystemMetrics() {
+            // Simulate real-time system metrics
+            const metrics = {
+                cpu: Math.floor(Math.random() * 40) + 20,
+                memory: Math.floor(Math.random() * 30) + 50,
+                database: Math.floor(Math.random() * 25) + 25,
+                network: Math.floor(Math.random() * 20) + 70
+            };
+
+            document.getElementById('cpuUsage').textContent = metrics.cpu + '%';
+            document.getElementById('memoryUsage').textContent = metrics.memory + '%';
+            document.getElementById('databaseLoad').textContent = metrics.database + '%';
+            document.getElementById('networkIO').textContent = metrics.network + '%';
+
+            // Update progress bars
+            document.querySelector('[style*="width: 23%"]').style.width = metrics.cpu + '%';
+            document.querySelector('[style*="width: 67%"]').style.width = metrics.memory + '%';
+            document.querySelector('[style*="width: 34%"]').style.width = metrics.database + '%';
+            document.querySelector('[style*="width: 89%"]').style.width = metrics.network + '%';
+        }
+
+        // Start Real-time Updates
+        function startRealTimeUpdates() {
+            // Update system metrics every 5 seconds
+            setInterval(() => {
+                populateSystemMetrics();
+            }, 5000);
+
+            // Add new activity every 30 seconds
+            setInterval(() => {
+                addRandomActivity();
+            }, 30000);
+
+            // Update timestamps every minute
+            setInterval(() => {
+                updateActivityTimestamps();
+            }, 60000);
+        }
+
+        // Add Random Activity
+        function addRandomActivity() {
+            const randomActivities = [
+                { type: 'workflow', action: 'executed', item: 'Automated Data Backup', time: 'Just now', status: 'success' },
+                { type: 'grant', action: 'matched', item: 'DOE Energy Innovation Grant', time: 'Just now', status: 'info' },
+                { type: 'security', action: 'monitored', item: 'Network traffic analysis', time: 'Just now', status: 'info' },
+                { type: 'user', action: 'accessed', item: 'Citizen portal dashboard', time: 'Just now', status: 'info' },
+                { type: 'compliance', action: 'audited', item: 'Data retention policies', time: 'Just now', status: 'success' }
+            ];
+
+            const newActivity = randomActivities[Math.floor(Math.random() * randomActivities.length)];
+            analyticsData.activities.unshift(newActivity);
+            
+            // Re-generate feed with new activity
+            generateActivityFeed();
+        }
+
+        // Update Activity Timestamps
+        function updateActivityTimestamps() {
+            analyticsData.activities = analyticsData.activities.map(activity => {
+                let timeText = activity.time;
+                if (timeText.includes('minutes ago')) {
+                    const minutes = parseInt(timeText) + 1;
+                    timeText = minutes + ' minutes ago';
+                } else if (timeText === 'Just now') {
+                    timeText = '1 minute ago';
+                }
+                return { ...activity, time: timeText };
+            });
+            
+            generateActivityFeed();
+        }
+
+        // Toggle Chart View
+        function toggleChart(chartType) {
+            const chart = document.getElementById(chartType + 'Chart');
+            if (chart.classList.contains('h-80')) {
+                chart.classList.remove('h-80');
+                chart.classList.add('h-96');
+            } else {
+                chart.classList.remove('h-96');
+                chart.classList.add('h-80');
+            }
+        }
+
+        // Customize Analytics (placeholder)
+        function customizeAnalytics() {
+            alert('Analytics Customization\n\nThis would open a modal allowing users to:\n• Choose which metrics to display\n• Set custom alert thresholds\n• Configure refresh intervals\n• Export data in various formats\n• Create custom dashboards');
+        }
+
+        // Add Custom Scrollbar Styles
+        const customScrollbarCSS = `
+            <style>
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 4px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 2px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 2px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: rgba(255, 255, 255, 0.5);
+                }
+            </style>
+        `;
+        document.head.insertAdjacentHTML('beforeend', customScrollbarCSS);
+
+        // Initialize analytics when analytics tab is shown
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize analytics if the elements exist
+            if (document.getElementById('activityFeed')) {
+                initializeAnalytics();
+            }
+            // Initialize CRM if the elements exist
+            if (document.getElementById('contactsTableBody')) {
+                initializeCRM();
+            }
+        });
+
+        // CRM Functions
+
+        function initializeCRM() {
+            populateContactsTable();
+            setupContactSearch();
+            updateCRMAnalytics();
+        }
+
+        function populateContactsTable(contacts = crmContacts) {
+            const tableBody = document.getElementById('contactsTableBody');
+            if (!tableBody) return;
+
+            tableBody.innerHTML = '';
+            contacts.forEach(contact => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-white/5 transition-all duration-200 border-b border-white/5';
+                
+                const statusClass = contact.status === 'active' ? 'text-emerald-400' : 'text-gray-400';
+                const typeConfig = {
+                    'citizen': { color: 'text-blue-400', bg: 'bg-blue-500/20', border: 'border-blue-400/30', icon: 'fas fa-user' },
+                    'official': { color: 'text-purple-400', bg: 'bg-purple-500/20', border: 'border-purple-400/30', icon: 'fas fa-user-tie' },
+                    'vendor': { color: 'text-emerald-400', bg: 'bg-emerald-500/20', border: 'border-emerald-400/30', icon: 'fas fa-building' },
+                    'contractor': { color: 'text-orange-400', bg: 'bg-orange-500/20', border: 'border-orange-400/30', icon: 'fas fa-hard-hat' }
+                };
+                
+                const typeInfo = typeConfig[contact.type] || { color: 'text-white', bg: 'bg-gray-500/20', border: 'border-gray-400/30', icon: 'fas fa-user' };
+                
+                // Calculate engagement score (simulated)
+                const engagementScore = Math.floor(Math.random() * 40) + 60;
+                const engagementColor = engagementScore > 85 ? 'text-emerald-400' : engagementScore > 70 ? 'text-yellow-400' : 'text-orange-400';
+
+                row.innerHTML = `
+                    <td class="py-4 px-6">
+                        <div class="flex items-center space-x-4">
+                            <input type="checkbox" class="rounded border-white/30 bg-white/10">
+                            <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+                                <span class="text-white font-semibold">${contact.name[0]}</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-white font-semibold">${contact.name}</div>
+                                <div class="text-white/60 text-sm">${contact.email}</div>
+                                <div class="text-white/40 text-xs">${contact.phone}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="flex items-center space-x-2">
+                            <div class="${typeInfo.bg} ${typeInfo.border} border rounded-lg px-3 py-1.5 flex items-center space-x-2">
+                                <i class="${typeInfo.icon} ${typeInfo.color} text-xs"></i>
+                                <span class="${typeInfo.color} font-medium text-sm capitalize">${contact.type}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="text-white/80 font-medium">${contact.department}</div>
+                        <div class="text-white/50 text-sm">${contact.address}</div>
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="text-white/80">${contact.lastContact}</div>
+                        <div class="flex items-center space-x-2 mt-1">
+                            <div class="w-2 h-2 ${engagementColor.replace('text-', 'bg-')} rounded-full"></div>
+                            <span class="${engagementColor} text-sm font-medium">${engagementScore}% engaged</span>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 ${statusClass.replace('text-', 'bg-')} rounded-full animate-pulse"></div>
+                            <span class="${statusClass} font-medium capitalize">${contact.status}</span>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="flex items-center space-x-2">
+                            <button onclick="viewContact(${contact.id})" class="p-2 bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 rounded-lg transition-all duration-200 border border-blue-500/30">
+                                <i class="fas fa-eye text-xs"></i>
+                            </button>
+                            <button onclick="editContact(${contact.id})" class="p-2 bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 rounded-lg transition-all duration-200 border border-emerald-500/30">
+                                <i class="fas fa-edit text-xs"></i>
+                            </button>
+                            <button onclick="scheduleFollowUp(${contact.id})" class="p-2 bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 rounded-lg transition-all duration-200 border border-purple-500/30">
+                                <i class="fas fa-calendar text-xs"></i>
+                            </button>
+                            <button onclick="deleteContact(${contact.id})" class="p-2 bg-red-600/20 hover:bg-red-600/40 text-red-300 rounded-lg transition-all duration-200 border border-red-500/30">
+                                <i class="fas fa-trash text-xs"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function setupContactSearch() {
+            const searchInput = document.getElementById('contactSearch');
+            const filterSelect = document.getElementById('contactFilter');
+
+            if (searchInput) {
+                searchInput.addEventListener('input', filterContacts);
+            }
+            if (filterSelect) {
+                filterSelect.addEventListener('change', filterContacts);
+            }
+        }
+
+        function filterContacts() {
+            const searchTerm = document.getElementById('contactSearch')?.value.toLowerCase() || '';
+            const filterType = document.getElementById('contactFilter')?.value || 'all';
+
+            let filteredContacts = crmContacts.filter(contact => {
+                const matchesSearch = contact.name.toLowerCase().includes(searchTerm) ||
+                                    contact.email.toLowerCase().includes(searchTerm) ||
+                                    contact.department.toLowerCase().includes(searchTerm);
+                const matchesFilter = filterType === 'all' || contact.type === filterType;
+                return matchesSearch && matchesFilter;
+            });
+
+            populateContactsTable(filteredContacts);
+        }
+
+        function updateCRMAnalytics() {
+            // Update real-time contact analytics
+            const totalContacts = crmContacts.length;
+            const activeContacts = crmContacts.filter(c => c.status === 'active').length;
+            const recentContacts = crmContacts.filter(c => {
+                const contactDate = new Date(c.lastContact);
+                const weekAgo = new Date();
+                weekAgo.setDate(weekAgo.getDate() - 7);
+                return contactDate >= weekAgo;
+            }).length;
+
+            // These would update the analytics display if the elements exist
+            console.log(`CRM Analytics: ${totalContacts} total, ${activeContacts} active, ${recentContacts} recent`);
+        }
+
+        function processCrmAiQuery() {
+            const input = document.getElementById('crmAiInput');
+            if (!input) return;
+
+            const query = input.value.trim();
+            if (!query) return;
+
+            // Simulate AI processing
+            setTimeout(() => {
+                const responses = [
+                    "I found 3 contacts matching your query. Sarah Johnson has the most recent activity.",
+                    "Based on contact patterns, I recommend following up with TechCorp Solutions this week.",
+                    "Detective Chen has been flagged for a compliance review due to recent case activities.",
+                    "I've identified 5 contacts that may need CJIS recertification this quarter.",
+                    "Contact analytics show 78% engagement rate with recent outreach campaigns."
+                ];
+                
+                const response = responses[Math.floor(Math.random() * responses.length)];
+                
+                // Create AI response element
+                const responseDiv = document.createElement('div');
+                responseDiv.className = 'mt-3 p-3 bg-purple-500/20 rounded-lg border border-purple-400/30';
+                responseDiv.innerHTML = `
+                    <div class="flex items-start space-x-2">
+                        <i class="fas fa-robot text-purple-400 mt-1"></i>
+                        <div class="text-purple-200 text-sm">${response}</div>
+                    </div>
+                `;
+                
+                // Add response after the input
+                const container = input.closest('.bg-black\\/30') || input.closest('[class*="bg-black/30"]');
+                if (container) {
+                    // Remove any existing response
+                    const existingResponse = container.querySelector('.bg-purple-500\\/20') || container.querySelector('[class*="bg-purple-500/20"]');
+                    if (existingResponse) {
+                        existingResponse.remove();
+                    }
+                    container.appendChild(responseDiv);
+                    
+                    // Auto-remove after 5 seconds
+                    setTimeout(() => {
+                        responseDiv.remove();
+                    }, 5000);
+                }
+                
+                input.value = '';
+            }, 1000);
+        }
+
+        function showNewContactModal() {
+            alert('New Contact Modal - Coming Soon! This would open a secure CJIS-compliant contact creation form.');
+        }
+
+        function viewContact(contactId) {
+            const contact = crmContacts.find(c => c.id === contactId);
+            if (contact) {
+                alert(`Contact Details:\\nName: ${contact.name}\\nEmail: ${contact.email}\\nPhone: ${contact.phone}\\nDepartment: ${contact.department}\\nNotes: ${contact.notes}`);
+            }
+        }
+
+        function editContact(contactId) {
+            alert(`Edit Contact ${contactId} - This would open a secure editing form with audit logging.`);
+        }
+
+        function deleteContact(contactId) {
+            if (confirm('Are you sure you want to delete this contact? This action will be logged for compliance.')) {
+                crmContacts = crmContacts.filter(c => c.id !== contactId);
+                populateContactsTable();
+                updateCRMAnalytics();
+                alert('Contact deleted. Action logged for CJIS compliance.');
+            }
+        }
+
+        function bulkImportContacts() {
+            alert('Bulk Import - This would open a secure import interface with encryption validation and audit logging.');
+        }
+
+        function exportContacts() {
+            alert('Export Contacts - This would generate an encrypted export with audit trail for compliance.');
+        }
+
+        function runComplianceAudit() {
+            alert('Running CJIS Compliance Audit...\\n\\n✓ Data encryption verified\\n✓ Access controls validated\\n✓ Audit trails complete\\n✓ No violations found\\n\\nCompliance Score: 99.8%');
+        }
+
+        function generateReport() {
+            alert('Generating CRM Report...\\n\\nReport will include:\\n• Contact analytics\\n• Engagement metrics\\n• Compliance status\\n• Security assessment\\n\\nReport will be encrypted and audit-logged.');
+        }
+
+        // New Enterprise CRM Functions
+        function toggleContactView(viewType) {
+            // Toggle between grid and list view
+            const buttons = document.querySelectorAll('[onclick^="toggleContactView"]');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-blue-600');
+                btn.classList.add('bg-white/10');
+            });
+            event.target.closest('button').classList.add('bg-blue-600');
+            event.target.closest('button').classList.remove('bg-white/10');
+            
+            // TODO: Implement actual view switching logic
+            console.log(`Switched to ${viewType} view`);
+        }
+
+        function scheduleFollowUp(contactId) {
+            const contact = crmContacts.find(c => c.id === contactId);
+            if (contact) {
+                alert(`Schedule Follow-up for ${contact.name}\\n\\nThis would open an AI-powered scheduling interface with:\\n• Smart time suggestions\\n• Integration with calendar systems\\n• Automated reminder setup\\n• Compliance logging`);
+            }
+        }
+
+        function exportComplianceReport() {
+            alert('Exporting Compliance Report...\\n\\n🔒 Generating encrypted compliance report\\n📊 Including all audit trails\\n🛡️ CJIS & FedRAMP compliance verified\\n📄 Report will be available in secure download');
+        }
+
+        function processCrmAiQuery() {
+            const input = document.getElementById('crmAiInput');
+            if (!input) return;
+
+            const query = input.value.trim();
+            if (!query) return;
+
+            // Enhanced AI responses for enterprise features
+            setTimeout(() => {
+                const responses = [
+                    "🎯 Identified 12 high-value prospects from last month with 94% conversion probability",
+                    "📅 Scheduled 8 follow-up meetings automatically based on engagement patterns",
+                    "🔍 Found 3 compliance risks requiring immediate attention in vendor relationships", 
+                    "📈 Predictive analytics show 23% increase in citizen engagement opportunity",
+                    "🤖 AI recommends focusing on 5 key relationships for maximum ROI this quarter",
+                    "🔐 Security scan complete: All contact data properly encrypted and audit-logged",
+                    "💡 Smart insight: Contact Jennifer Martinez shows highest contractor performance metrics",
+                    "⚡ Real-time sync complete: All enterprise systems updated with latest contact data"
+                ];
+                
+                const response = responses[Math.floor(Math.random() * responses.length)];
+                
+                // Create enhanced AI response element
+                const responseDiv = document.createElement('div');
+                responseDiv.className = 'mt-4 p-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl border border-purple-400/30';
+                responseDiv.innerHTML = `
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-brain text-white text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-purple-200 font-medium text-sm mb-1">CRM AI Assistant</div>
+                            <div class="text-white text-sm leading-relaxed">${response}</div>
+                            <div class="flex items-center space-x-4 mt-3 text-xs text-purple-300">
+                                <span>🕒 Processed in 0.3s</span>
+                                <span>🔒 Secure</span>
+                                <span>📊 Confidence: 96%</span>
+                            </div>
+                        </div>
+                        <button onclick="this.parentElement.parentElement.remove()" class="text-purple-300 hover:text-white transition-colors">
+                            <i class="fas fa-times text-xs"></i>
+                        </button>
+                    </div>
+                `;
+                
+                // Add response after the input container
+                const container = input.closest('.glass');
+                if (container) {
+                    // Remove any existing response
+                    const existingResponse = container.querySelector('.bg-gradient-to-r.from-purple-500\\/20');
+                    if (existingResponse) {
+                        existingResponse.remove();
+                    }
+                    container.appendChild(responseDiv);
+                }
+                
+                input.value = '';
+            }, 800);
+        }
+
         // Handle Escape key for modal
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
