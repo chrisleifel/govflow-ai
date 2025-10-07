@@ -6,6 +6,7 @@
     <title>GovFlow AI - Government Workflow & Security Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <style>
         :root {
             --primary-blue: #1e40af;
@@ -210,11 +211,163 @@
         #predictiveTooltip.show {
             opacity: 1;
         }
+
+        /* Blockchain Audit Trail Styles - Added 2024-12-09 */
+        .blockchain-block {
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .blockchain-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+        }
+
+        .blockchain-block::after {
+            content: '';
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+        }
+
+        .blockchain-block:last-child::after {
+            display: none;
+        }
+
+        .neon-blue {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.3);
+        }
+
+        .neon-purple {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.6), 0 0 40px rgba(139, 92, 246, 0.3);
+        }
+
+        .neon-green {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.6), 0 0 40px rgba(16, 185, 129, 0.3);
+        }
+
+        .neon-red {
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6), 0 0 40px rgba(239, 68, 68, 0.3);
+        }
+
+        .neon-yellow {
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6), 0 0 40px rgba(245, 158, 11, 0.3);
+        }
+
+        @keyframes blockCreate {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(-20px);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .block-creating {
+            animation: blockCreate 0.6s ease-out;
+        }
+
+        @keyframes hashPulse {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(16, 185, 129, 0.8);
+            }
+        }
+
+        .hash-verified {
+            animation: hashPulse 2s ease-in-out infinite;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #3b82f6, #8b5cf6);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+            position: absolute;
+            left: 15px;
+            z-index: 10;
+        }
+
+        #blockchainTooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            backdrop-filter: blur(10px);
+            max-width: 300px;
+        }
+
+        #blockchainTooltip.show {
+            opacity: 1;
+        }
+
+        .contract-status {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contract-status::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .contract-status:hover::before {
+            left: 100%;
+        }
+
+        @keyframes copySuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); color: #10b981; }
+            100% { transform: scale(1); }
+        }
+
+        .copy-success {
+            animation: copySuccess 0.3s ease;
+        }
     </style>
 </head>
 <body class="gradient-bg text-white overflow-hidden">
     <!-- Tooltip for Predictive Analytics -->
     <div id="predictiveTooltip" class="tooltip"></div>
+
+    <!-- Tooltip for Blockchain -->
+    <div id="blockchainTooltip" class="tooltip"></div>
 
     <div class="flex h-screen">
         <!-- Sidebar -->
@@ -2116,7 +2269,8 @@
 
                 <!-- Compliance Tab -->
                 <div id="compliance-content" class="tab-content" style="display: none;">
-                    <div class="glass rounded-xl p-6">
+                    <!-- Compliance Badges -->
+                    <div class="glass rounded-xl p-6 mb-6">
                         <h3 class="text-lg font-semibold text-white mb-4">Compliance Dashboard</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div class="text-center p-4 bg-green-500/20 rounded-lg">
@@ -2124,19 +2278,24 @@
                                 <h4 class="font-semibold text-white">GDPR Compliance</h4>
                                 <p class="text-green-300 text-sm">Fully Compliant</p>
                             </div>
-                            
+
                             <div class="text-center p-4 bg-green-500/20 rounded-lg">
                                 <i class="fas fa-shield-alt text-green-400 text-3xl mb-2"></i>
                                 <h4 class="font-semibold text-white">SOC 2 Type II</h4>
                                 <p class="text-green-300 text-sm">Certified</p>
                             </div>
-                            
+
                             <div class="text-center p-4 bg-yellow-500/20 rounded-lg">
                                 <i class="fas fa-exclamation-triangle text-yellow-400 text-3xl mb-2"></i>
                                 <h4 class="font-semibold text-white">FISMA</h4>
                                 <p class="text-yellow-300 text-sm">Under Review</p>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Blockchain Audit Trail - Added 2024-12-09 -->
+                    <div id="blockchainAuditTrail">
+                        <!-- Blockchain content will be injected here by JavaScript -->
                     </div>
                 </div>
                 
