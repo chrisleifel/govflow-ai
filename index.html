@@ -3403,6 +3403,9 @@
             if (tabName === 'crm' && document.getElementById('contactsTableBody')) {
                 initializeCRM();
             }
+            if (tabName === 'compliance' && document.getElementById('blockchainAuditTrail')) {
+                initializeBlockchain();
+            }
         }
         
         // Initialize workflow templates
@@ -6668,6 +6671,294 @@
             }
         }
         // ===== END PREDICTIVE ANALYTICS DASHBOARD =====
+
+        // ===== BLOCKCHAIN AUDIT TRAIL =====
+        // Added 2024-12-09: Blockchain Audit Trail
+        // MOCK DATA - Replace in production
+        // TODO: Connect to blockchain API endpoint
+
+        let blockchain = [];
+        let blockIdCounter = 1;
+
+        // Initialize Blockchain Audit Trail
+        function initializeBlockchain() {
+            const container = document.getElementById('blockchainAuditTrail');
+            if (!container) return;
+
+            container.innerHTML = getBlockchainHTML();
+            addBlockchainModals();
+            initializeBlockchainData();
+        }
+
+        // Get Blockchain HTML
+        function getBlockchainHTML() {
+            return `
+                <div class="glass rounded-xl p-6 mb-6">
+                    <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+                        <h2 class="text-2xl font-bold flex items-center gap-2">
+                            <i class="fas fa-cube text-blue-400"></i>
+                            Blockchain Audit Trail
+                        </h2>
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <div class="px-4 py-2 bg-green-500/20 border border-green-500/40 rounded-lg">
+                                <span class="text-green-400 text-sm">
+                                    <i class="fas fa-check-circle mr-2"></i>
+                                    <span id="blockCount">0</span> Blocks
+                                </span>
+                            </div>
+                            <button id="exportAuditBtn" class="px-4 py-2 bg-gradient-to-r from-green-500 to-blue-600 rounded-lg font-medium hover:shadow-lg transition-all">
+                                <i class="fas fa-download mr-2"></i>Export
+                            </button>
+                            <button id="shareAuditBtn" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg font-medium hover:shadow-lg transition-all">
+                                <i class="fas fa-share-alt mr-2"></i>Share
+                            </button>
+                            <button id="createBlockBtn" class="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg font-medium hover:shadow-lg transition-all neon-blue">
+                                <i class="fas fa-plus mr-2"></i>Create Block
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto scrollbar-thin pb-4">
+                        <div id="blocksList" class="flex gap-10 min-w-max py-4"></div>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-6">
+                    <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                        <i class="fas fa-file-contract text-blue-400"></i>
+                        Smart Contract Status
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="smartContractsGrid"></div>
+                </div>
+            `;
+        }
+
+        // Add Blockchain Modals
+        function addBlockchainModals() {
+            if (document.getElementById('blockModal')) return;
+            document.body.insertAdjacentHTML('beforeend', `
+                <div id="blockModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center">
+                    <div class="glass rounded-xl p-8 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto scrollbar-thin">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-2xl font-bold">Block Details</h2>
+                            <button onclick="closeBlockModal()" class="text-white/70 hover:text-white transition-all"><i class="fas fa-times text-2xl"></i></button>
+                        </div>
+                        <div id="blockModalContent"></div>
+                    </div>
+                </div>
+                <div id="exportModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center">
+                    <div class="glass rounded-xl p-8 max-w-xl w-full mx-4">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-2xl font-bold flex items-center gap-2"><i class="fas fa-download text-green-400"></i>Export Audit Trail</h2>
+                            <button onclick="closeExportModal()" class="text-white/70 hover:text-white transition-all"><i class="fas fa-times text-2xl"></i></button>
+                        </div>
+                        <div class="space-y-6">
+                            <div><label class="text-white/70 text-sm mb-2 block">Export Format</label>
+                                <select id="exportFormat" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-blue-400">
+                                    <option value="json">JSON (Complete Data)</option>
+                                    <option value="csv">CSV (Spreadsheet)</option>
+                                    <option value="xml">XML (Structured)</option>
+                                </select>
+                            </div>
+                            <button onclick="confirmExport()" class="w-full px-4 py-3 bg-gradient-to-r from-green-500 to-blue-600 rounded-lg font-medium hover:shadow-lg transition-all">
+                                <i class="fas fa-download mr-2"></i>Export Audit Trail
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="shareModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center">
+                    <div class="glass rounded-xl p-8 max-w-xl w-full mx-4">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-2xl font-bold flex items-center gap-2"><i class="fas fa-share-alt text-purple-400"></i>Share Audit Trail</h2>
+                            <button onclick="closeShareModal()" class="text-white/70 hover:text-white transition-all"><i class="fas fa-times text-2xl"></i></button>
+                        </div>
+                        <div class="space-y-6">
+                            <div><label class="text-white/70 text-sm mb-2 block">Link Expiration</label>
+                                <select id="shareExpiration" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-blue-400">
+                                    <option value="1h">1 Hour</option>
+                                    <option value="24h">24 Hours</option>
+                                    <option value="7d">7 Days</option>
+                                    <option value="30d">30 Days</option>
+                                </select>
+                            </div>
+                            <div id="generatedLinkContainer" class="hidden">
+                                <div class="p-4 bg-black/30 rounded-lg border border-green-500/30">
+                                    <div class="font-mono text-sm text-green-400 break-all mb-3" id="generatedLink"></div>
+                                    <button onclick="copyShareLink()" class="w-full px-4 py-2 bg-blue-500/20 border border-blue-500/40 rounded-lg text-blue-300 hover:bg-blue-500/30 transition-all">
+                                        <i class="fas fa-copy mr-2"></i>Copy Link
+                                    </button>
+                                </div>
+                            </div>
+                            <button onclick="generateShareLink()" class="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg font-medium hover:shadow-lg transition-all">
+                                <i class="fas fa-link mr-2"></i>Generate Secure Link
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `);
+        }
+
+        // Initialize blockchain data
+        async function initializeBlockchainData() {
+            const genesisBlock = await createBlockchainBlock({type: 'genesis', department: 'System', action: 'Blockchain Initialized', data: {message: 'Genesis Block'}});
+            blockchain.push(genesisBlock);
+
+            const samples = [
+                {type: 'document_submit', department: 'Building Permits', action: 'Permit Application Submitted', data: {permitId: 'BP-2024-1847'}},
+                {type: 'approval', department: 'EPA', action: 'Environmental Impact Approved', data: {projectId: 'ENV-2024-432'}},
+                {type: 'status_update', department: 'Tax Services', action: 'Tax Return Processed', data: {returnId: 'TAX-2024-8923'}}
+            ];
+
+            for (const data of samples) {
+                blockchain.push(await createBlockchainBlock(data));
+            }
+
+            renderBlockchain();
+            updateBlockCount();
+            initializeSmartContracts();
+            attachBlockchainEventListeners();
+        }
+
+        async function createBlockchainBlock(data) {
+            const previousBlock = blockchain[blockchain.length - 1];
+            const block = {
+                index: blockIdCounter++,
+                timestamp: new Date().toISOString(),
+                type: data.type,
+                department: data.department,
+                action: data.action,
+                data: data.data,
+                previousHash: previousBlock ? previousBlock.hash : '0'.repeat(64),
+                nonce: Math.floor(Math.random() * 1000000)
+            };
+            block.hash = await generateBlockHash(block);
+            return block;
+        }
+
+        async function generateBlockHash(data) {
+            const encoder = new TextEncoder();
+            const dataBuffer = encoder.encode(JSON.stringify(data));
+            const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function renderBlockchain() {
+            const container = document.getElementById('blocksList');
+            if (!container) return;
+            container.innerHTML = blockchain.map((block, index) => {
+                const color = {genesis: 'purple', document_submit: 'blue', approval: 'green', rejection: 'red', status_update: 'yellow'}[block.type] || 'blue';
+                return `
+                    <div class="blockchain-block glass rounded-xl p-6 min-w-[280px] neon-${color} block-creating" onclick="showBlockchainDetails(${index})">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-cube text-${color}-400 text-2xl"></i>
+                                <span class="font-bold text-lg">Block #${block.index}</span>
+                            </div>
+                            <span class="text-xs px-2 py-1 bg-${color}-500/20 rounded-full text-${color}-300">${block.type.toUpperCase()}</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div><div class="text-white/50 text-xs mb-1">Department</div><div class="text-white font-medium">${block.department}</div></div>
+                            <div><div class="text-white/50 text-xs mb-1">Action</div><div class="text-white text-sm">${block.action}</div></div>
+                            <div><div class="text-white/50 text-xs mb-1">Hash</div><div class="font-mono text-xs text-blue-300 truncate">${block.hash.substring(0, 16)}...</div></div>
+                            <div><div class="text-white/50 text-xs mb-1">Timestamp</div><div class="text-white/70 text-xs">${new Date(block.timestamp).toLocaleString()}</div></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function showBlockchainDetails(index) {
+            const block = blockchain[index];
+            document.getElementById('blockModalContent').innerHTML = `
+                <div class="space-y-4">
+                    <div class="p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+                        <div class="text-white/70 text-sm mb-1">Block Index</div>
+                        <div class="text-2xl font-bold text-white">#${block.index}</div>
+                    </div>
+                    <div><div class="text-white/70 text-sm mb-2">Department</div><div class="text-white font-medium">${block.department}</div></div>
+                    <div><div class="text-white/70 text-sm mb-2">Action</div><div class="text-white">${block.action}</div></div>
+                    <div><div class="text-white/70 text-sm mb-2">Transaction Data</div><div class="p-4 bg-black/30 rounded-lg font-mono text-sm text-green-400">${JSON.stringify(block.data, null, 2)}</div></div>
+                    <div><div class="text-white/70 text-sm mb-2">Block Hash</div><div class="p-3 bg-black/30 rounded-lg font-mono text-xs text-blue-300 break-all">${block.hash}</div></div>
+                    <div><div class="text-white/70 text-sm mb-2">Previous Hash</div><div class="p-3 bg-black/30 rounded-lg font-mono text-xs text-purple-300 break-all">${block.previousHash}</div></div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><div class="text-white/70 text-sm mb-1">Timestamp</div><div class="text-white">${new Date(block.timestamp).toLocaleString()}</div></div>
+                        <div><div class="text-white/70 text-sm mb-1">Nonce</div><div class="text-white font-mono">${block.nonce}</div></div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('blockModal').classList.remove('hidden');
+            document.getElementById('blockModal').classList.add('flex');
+        }
+
+        function closeBlockModal() { document.getElementById('blockModal')?.classList.add('hidden'); document.getElementById('blockModal')?.classList.remove('flex'); }
+        function closeExportModal() { document.getElementById('exportModal')?.classList.add('hidden'); document.getElementById('exportModal')?.classList.remove('flex'); }
+        function closeShareModal() { document.getElementById('shareModal')?.classList.add('hidden'); document.getElementById('shareModal')?.classList.remove('flex'); }
+
+        function confirmExport() {
+            const format = document.getElementById('exportFormat').value;
+            const exportData = {exportDate: new Date().toISOString(), totalBlocks: blockchain.length, blocks: blockchain};
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `blockchain-audit-${new Date().toISOString().split('T')[0]}.${format}`;
+            a.click();
+            URL.revokeObjectURL(url);
+            closeExportModal();
+            alert('Audit trail exported successfully!');
+        }
+
+        function generateShareLink() {
+            const token = Array.from({length: 32}, () => Math.floor(Math.random() * 16).toString(16)).join('');
+            document.getElementById('generatedLink').textContent = `https://govflow.audit/share/${token}`;
+            document.getElementById('generatedLinkContainer').classList.remove('hidden');
+        }
+
+        function copyShareLink() {
+            navigator.clipboard.writeText(document.getElementById('generatedLink').textContent);
+            alert('Link copied to clipboard!');
+        }
+
+        function updateBlockCount() {
+            const el = document.getElementById('blockCount');
+            if (el) el.textContent = blockchain.length;
+        }
+
+        function initializeSmartContracts() {
+            const grid = document.getElementById('smartContractsGrid');
+            if (!grid) return;
+            const contracts = [
+                {name: 'Permit Auto-Approval', status: 'active', executions: 847, icon: 'fa-file-contract', color: 'green'},
+                {name: 'Tax Filing Validator', status: 'active', executions: 1243, icon: 'fa-calculator', color: 'blue'},
+                {name: 'Compliance Checker', status: 'pending', executions: 432, icon: 'fa-shield-alt', color: 'yellow'}
+            ];
+            grid.innerHTML = contracts.map(c => `
+                <div class="glass-dark rounded-xl p-6 contract-status">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-${c.color}-500/20 rounded-lg flex items-center justify-center"><i class="fas ${c.icon} text-${c.color}-400 text-xl"></i></div>
+                        <span class="px-3 py-1 bg-${c.color}-500/20 border border-${c.color}-500/40 rounded-full text-${c.color}-400 text-xs">${c.status.toUpperCase()}</span>
+                    </div>
+                    <h3 class="font-bold text-white mb-2">${c.name}</h3>
+                    <div class="text-sm text-white/70">Executions: <span class="text-white font-medium">${c.executions.toLocaleString()}</span></div>
+                </div>
+            `).join('');
+        }
+
+        function attachBlockchainEventListeners() {
+            document.getElementById('createBlockBtn')?.addEventListener('click', async () => {
+                blockchain.push(await createBlockchainBlock({type: 'document_submit', department: 'Building Permits', action: 'Document Submitted', data: {id: `DOC-${Date.now()}`}}));
+                renderBlockchain();
+                updateBlockCount();
+                alert('New block created!');
+            });
+            document.getElementById('exportAuditBtn')?.addEventListener('click', () => {
+                document.getElementById('exportModal')?.classList.remove('hidden');
+                document.getElementById('exportModal')?.classList.add('flex');
+            });
+            document.getElementById('shareAuditBtn')?.addEventListener('click', () => {
+                document.getElementById('shareModal')?.classList.remove('hidden');
+                document.getElementById('shareModal')?.classList.add('flex');
+            });
+        }
+        // ===== END BLOCKCHAIN AUDIT TRAIL =====
     </script>
 </body>
 </html>
