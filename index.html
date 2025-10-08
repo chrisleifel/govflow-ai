@@ -514,6 +514,126 @@
             background: rgba(59, 130, 246, 0.1);
         }
 
+        /* Quantum-Ready Security Module Styles - Added 2025-10-07 */
+        .quantum-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #8b5cf6, transparent);
+            border-radius: 50%;
+            animation: quantumFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes quantumFloat {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+            50% { transform: translateY(-20px) translateX(10px); opacity: 0.7; }
+        }
+
+        .quantum-strength-bar {
+            height: 24px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .quantum-strength-fill {
+            height: 100%;
+            transition: width 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quantum-strength-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes quantumThreatPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(239, 68, 68, 0.8); }
+        }
+
+        .quantum-threat-indicator {
+            animation: quantumThreatPulse 2s ease-in-out infinite;
+        }
+
+        .quantum-timeline-point {
+            position: relative;
+        }
+
+        .quantum-timeline-point::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            left: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+        }
+
+        .quantum-encryption-demo {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        @keyframes quantumEncryptionFlow {
+            0% { opacity: 0; transform: translateX(-20px); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateX(20px); }
+        }
+
+        .quantum-encryption-flow {
+            animation: quantumEncryptionFlow 2s ease-in-out infinite;
+        }
+
+        .quantum-cert-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .quantum-decision-node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quantum-decision-node:hover {
+            transform: scale(1.05);
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .quantum-vs-divider {
+            position: relative;
+        }
+
+        .quantum-vs-divider::after {
+            content: 'VS';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.5);
+        }
+
         /* Blockchain Audit Trail Styles - Added 2024-12-09 */
         .blockchain-block {
             position: relative;
@@ -1269,6 +1389,11 @@
 
                 <!-- Security Analysis Tab -->
                 <div id="security-content" class="tab-content" style="display: none;">
+                    <!-- Quantum-Ready Security Module - Added 2025-10-07 -->
+                    <div id="quantumSecurityModule">
+                        <!-- Quantum Security content will be injected here by JavaScript -->
+                    </div>
+
                     <!-- Security Action Bar -->
                     <div class="flex items-center justify-between mb-6">
                         <div class="flex items-center space-x-4">
@@ -3723,6 +3848,9 @@
             }
             if (tabName === 'citizen' && document.getElementById('regulationAssistant')) {
                 initializeRegulationAssistant();
+            }
+            if (tabName === 'security' && document.getElementById('quantumSecurityModule')) {
+                initializeQuantumSecurity();
             }
         }
         
@@ -8324,6 +8452,682 @@
             });
         }
         // ===== END BLOCKCHAIN AUDIT TRAIL =====
+
+        // ===== QUANTUM-READY SECURITY MODULE =====
+        // Added 2025-10-07: Quantum-Ready Security Module
+        // MOCK DATA - Replace in production
+        // TODO: Connect to quantum security API endpoint /api/quantum-security
+        // TODO: Implement real encryption/decryption with post-quantum libraries (liboqs, Kyber)
+        // SECURITY TODO: Validate all user inputs
+        // TODO: Add authentication for admin access only
+        // TODO: Integrate with HSM for key management
+
+        function initializeQuantumSecurity() {
+            const container = document.getElementById('quantumSecurityModule');
+            if (!container) return;
+
+            container.innerHTML = getQuantumSecurityHTML();
+            createQuantumParticles();
+            calculateQuantumSecurityScore();
+            updateQDayCountdown();
+
+            // Update countdown every minute
+            setInterval(updateQDayCountdown, 60000);
+        }
+
+        function getQuantumSecurityHTML() {
+            return `
+                <!-- Quantum particles background -->
+                <div id="quantumParticles" class="fixed inset-0 pointer-events-none overflow-hidden z-0"></div>
+
+                <div class="relative z-10">
+                    <!-- Header -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h2 class="text-3xl font-bold text-white mb-2">🔐 Quantum-Ready Security Module</h2>
+                                <p class="text-white/70">Post-Quantum Cryptography Protection</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xl font-bold text-purple-400">Security Score</div>
+                                <div id="quantumSecurityScore" class="text-4xl font-bold text-white">0</div>
+                                <div class="text-sm text-white/60">out of 100</div>
+                            </div>
+                        </div>
+
+                        <!-- Status indicators -->
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div class="text-center p-3 rounded-lg bg-white/5">
+                                <div class="text-white/70 text-sm mb-1">Encryption Status</div>
+                                <div class="text-green-400 font-bold">✓ Active</div>
+                            </div>
+                            <div class="text-center p-3 rounded-lg bg-white/5">
+                                <div class="text-white/70 text-sm mb-1">Quantum Readiness</div>
+                                <div class="text-yellow-400 font-bold">⚠ Transitioning</div>
+                            </div>
+                            <div class="text-center p-3 rounded-lg bg-white/5">
+                                <div class="text-white/70 text-sm mb-1">Keys Managed</div>
+                                <div class="text-white font-bold">1,247</div>
+                            </div>
+                            <div class="text-center p-3 rounded-lg bg-white/5">
+                                <div class="text-white/70 text-sm mb-1">Time to Q-Day</div>
+                                <div id="qDayCountdown" class="text-purple-400 font-bold">~8 years</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Encryption Dashboard -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <!-- Current Encryption -->
+                        <div class="glass rounded-xl p-6">
+                            <h3 class="text-xl font-bold text-white mb-4">📊 Current Encryption</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-white/80">RSA-2048</span>
+                                        <span class="text-yellow-400">Classical</span>
+                                    </div>
+                                    <div class="quantum-strength-bar">
+                                        <div class="quantum-strength-fill bg-gradient-to-r from-yellow-500 to-orange-500" style="width: 45%"></div>
+                                    </div>
+                                    <div class="text-xs text-white/60 mt-1">Vulnerable to quantum attacks (~2030)</div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-white/80">AES-256</span>
+                                        <span class="text-green-400">Quantum-Resistant</span>
+                                    </div>
+                                    <div class="quantum-strength-bar">
+                                        <div class="quantum-strength-fill bg-gradient-to-r from-green-500 to-emerald-500" style="width: 85%"></div>
+                                    </div>
+                                    <div class="text-xs text-white/60 mt-1">Secure with increased key size</div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-white/80">ECDSA P-256</span>
+                                        <span class="text-red-400">At Risk</span>
+                                    </div>
+                                    <div class="quantum-strength-bar">
+                                        <div class="quantum-strength-fill bg-gradient-to-r from-red-500 to-pink-500" style="width: 30%"></div>
+                                    </div>
+                                    <div class="text-xs text-white/60 mt-1">Highly vulnerable to Shor's algorithm</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Post-Quantum Encryption -->
+                        <div class="glass rounded-xl p-6">
+                            <h3 class="text-xl font-bold text-white mb-4">🛡️ Post-Quantum Encryption</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-white/80">CRYSTALS-Kyber</span>
+                                        <span class="quantum-cert-badge text-white text-xs px-2 py-1 rounded">NIST Approved</span>
+                                    </div>
+                                    <div class="quantum-strength-bar">
+                                        <div class="quantum-strength-fill bg-gradient-to-r from-purple-500 to-indigo-500" style="width: 95%"></div>
+                                    </div>
+                                    <div class="text-xs text-white/60 mt-1">Lattice-based key encapsulation</div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-white/80">CRYSTALS-Dilithium</span>
+                                        <span class="quantum-cert-badge text-white text-xs px-2 py-1 rounded">NIST Approved</span>
+                                    </div>
+                                    <div class="quantum-strength-bar">
+                                        <div class="quantum-strength-fill bg-gradient-to-r from-blue-500 to-cyan-500" style="width: 93%"></div>
+                                    </div>
+                                    <div class="text-xs text-white/60 mt-1">Digital signatures for authentication</div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-white/80">SPHINCS+</span>
+                                        <span class="quantum-cert-badge text-white text-xs px-2 py-1 rounded">NIST Approved</span>
+                                    </div>
+                                    <div class="quantum-strength-bar">
+                                        <div class="quantum-strength-fill bg-gradient-to-r from-indigo-500 to-purple-500" style="width: 90%"></div>
+                                    </div>
+                                    <div class="text-xs text-white/60 mt-1">Hash-based stateless signatures</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Comparison: Classical vs Quantum -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-bold text-white mb-4">⚔️ Encryption Strength Comparison</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 quantum-vs-divider">
+                            <!-- Classical -->
+                            <div>
+                                <h4 class="text-lg font-bold text-yellow-400 mb-4">Classical Encryption</h4>
+                                <div class="space-y-3">
+                                    <div class="p-3 rounded-lg bg-white/5">
+                                        <div class="font-bold text-white mb-1">RSA-2048</div>
+                                        <div class="text-sm text-white/70">Breaking time (classical): 1 billion years</div>
+                                        <div class="text-sm text-red-400">Breaking time (quantum): ~8 hours</div>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-white/5">
+                                        <div class="font-bold text-white mb-1">ECC P-256</div>
+                                        <div class="text-sm text-white/70">Breaking time (classical): 10 trillion years</div>
+                                        <div class="text-sm text-red-400">Breaking time (quantum): ~10 minutes</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quantum-Resistant -->
+                            <div>
+                                <h4 class="text-lg font-bold text-purple-400 mb-4">Post-Quantum Encryption</h4>
+                                <div class="space-y-3">
+                                    <div class="p-3 rounded-lg bg-white/5">
+                                        <div class="font-bold text-white mb-1">CRYSTALS-Kyber</div>
+                                        <div class="text-sm text-white/70">Breaking time (classical): ∞ (computationally infeasible)</div>
+                                        <div class="text-sm text-green-400">Breaking time (quantum): >1 million years</div>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-white/5">
+                                        <div class="font-bold text-white mb-1">CRYSTALS-Dilithium</div>
+                                        <div class="text-sm text-white/70">Breaking time (classical): ∞ (computationally infeasible)</div>
+                                        <div class="text-sm text-green-400">Breaking time (quantum): >10 million years</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quantum Threat Timeline -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-bold text-white mb-4">⏱️ Quantum Threat Timeline</h3>
+                        <div class="relative">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-green-500 via-yellow-500 to-red-500"></div>
+                            <div class="ml-8 space-y-6">
+                                <div class="quantum-timeline-point">
+                                    <div class="text-green-400 font-bold mb-1">2024 - Today</div>
+                                    <div class="text-white/80">Classical encryption still secure</div>
+                                    <div class="text-sm text-white/60">Current systems operational</div>
+                                </div>
+                                <div class="quantum-timeline-point">
+                                    <div class="text-yellow-400 font-bold mb-1">2028 - Early Quantum</div>
+                                    <div class="text-white/80">50-100 qubit quantum computers</div>
+                                    <div class="text-sm text-white/60">Can break some classical encryption</div>
+                                </div>
+                                <div class="quantum-timeline-point">
+                                    <div class="text-orange-400 font-bold mb-1">2030 - Q-Day Approaching</div>
+                                    <div class="text-white/80">1000+ qubit quantum computers</div>
+                                    <div class="text-sm text-white/60">RSA-2048 and ECC vulnerable</div>
+                                </div>
+                                <div class="quantum-timeline-point quantum-threat-indicator">
+                                    <div class="text-red-400 font-bold mb-1">2032+ - Q-Day</div>
+                                    <div class="text-white/80">Cryptographically relevant quantum computer</div>
+                                    <div class="text-sm text-white/60">All classical encryption broken</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Management Interface -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-bold text-white mb-4">🔑 Key Management & Rotation</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-bold text-white/90 mb-3">Active Keys</h4>
+                                <div class="space-y-3">
+                                    <div class="p-3 rounded-lg bg-white/5 border-l-4 border-green-500">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div>
+                                                <div class="font-bold text-white">Primary RSA Key</div>
+                                                <div class="text-xs text-white/60">ID: RSA-2024-001</div>
+                                            </div>
+                                            <span class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded">Active</span>
+                                        </div>
+                                        <div class="text-sm text-white/70">Next rotation: 45 days</div>
+                                        <div class="mt-2 h-2 bg-white/10 rounded-full overflow-hidden">
+                                            <div class="h-full bg-green-500" style="width: 65%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-white/5 border-l-4 border-purple-500">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div>
+                                                <div class="font-bold text-white">Kyber-1024 Key</div>
+                                                <div class="text-xs text-white/60">ID: KYBER-2024-003</div>
+                                            </div>
+                                            <span class="text-xs bg-purple-500/20 text-purple-400 px-2 py-1 rounded">Quantum-Safe</span>
+                                        </div>
+                                        <div class="text-sm text-white/70">Next rotation: 89 days</div>
+                                        <div class="mt-2 h-2 bg-white/10 rounded-full overflow-hidden">
+                                            <div class="h-full bg-purple-500" style="width: 35%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-white/5 border-l-4 border-yellow-500">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div>
+                                                <div class="font-bold text-white">Certificate Authority</div>
+                                                <div class="text-xs text-white/60">ID: CA-2024-ROOT</div>
+                                            </div>
+                                            <span class="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded">Expiring Soon</span>
+                                        </div>
+                                        <div class="text-sm text-white/70">Expires: 12 days</div>
+                                        <div class="mt-2 h-2 bg-white/10 rounded-full overflow-hidden">
+                                            <div class="h-full bg-yellow-500" style="width: 90%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white/90 mb-3">Rotation Schedule</h4>
+                                <div class="space-y-3">
+                                    <div class="p-3 rounded-lg bg-white/5">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-white/80">Automatic Rotation</span>
+                                            <div class="w-12 h-6 bg-purple-600 rounded-full relative">
+                                                <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full translate-x-6 transition-transform"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-sm text-white/60">Keys rotate every 90 days</div>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-white/5">
+                                        <div class="font-bold text-white mb-2">Upcoming Rotations</div>
+                                        <div class="space-y-2 text-sm">
+                                            <div class="flex justify-between text-white/70">
+                                                <span>API Gateway Keys</span>
+                                                <span class="text-green-400">3 days</span>
+                                            </div>
+                                            <div class="flex justify-between text-white/70">
+                                                <span>Database Encryption</span>
+                                                <span class="text-yellow-400">18 days</span>
+                                            </div>
+                                            <div class="flex justify-between text-white/70">
+                                                <span>SSL/TLS Certificates</span>
+                                                <span class="text-orange-400">45 days</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button onclick="scheduleManualRotation()" class="w-full px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold transition-colors">
+                                        Schedule Manual Rotation
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Migration Planner -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-bold text-white mb-4">🚀 Migration Planner</h3>
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-white/80">Migration Progress</span>
+                                <span class="text-purple-400 font-bold">37% Complete</span>
+                            </div>
+                            <div class="h-4 bg-white/10 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-purple-600 to-blue-600" style="width: 37%"></div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div class="p-4 rounded-lg bg-green-500/10 border border-green-500/30">
+                                <div class="text-2xl font-bold text-green-400 mb-1">23</div>
+                                <div class="text-sm text-white/70">Systems Migrated</div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
+                                <div class="text-2xl font-bold text-yellow-400 mb-1">15</div>
+                                <div class="text-sm text-white/70">In Progress</div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-purple-500/10 border border-purple-500/30">
+                                <div class="text-2xl font-bold text-purple-400 mb-1">24</div>
+                                <div class="text-sm text-white/70">Pending</div>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="p-4 rounded-lg bg-white/5">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="font-bold text-white">Phase 1: API Gateway</div>
+                                    <span class="text-green-400">✓ Complete</span>
+                                </div>
+                                <div class="text-sm text-white/60">Migrated to hybrid RSA/Kyber encryption</div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-white/5 border-l-4 border-yellow-500">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="font-bold text-white">Phase 2: Database Layer</div>
+                                    <span class="text-yellow-400">⏳ In Progress</span>
+                                </div>
+                                <div class="text-sm text-white/60">Implementing AES-256 with increased key size</div>
+                                <div class="mt-2 h-2 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full bg-yellow-500" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-white/5">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="font-bold text-white">Phase 3: Authentication</div>
+                                    <span class="text-white/50">⏸ Pending</span>
+                                </div>
+                                <div class="text-sm text-white/60">Replace ECDSA with Dilithium signatures</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Score Calculator -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-bold text-white mb-4">🎯 Security Score Calculator</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-white/80 mb-2">Data Sensitivity Level</label>
+                                <select id="quantumSensitivityLevel" class="w-full px-4 py-3 rounded-lg bg-white/10 text-white border border-white/20 focus:border-purple-500 focus:outline-none" onchange="calculateQuantumSecurityScore()">
+                                    <option value="public">Public (Level 1)</option>
+                                    <option value="internal">Internal (Level 2)</option>
+                                    <option value="confidential" selected>Confidential (Level 3)</option>
+                                    <option value="secret">Secret (Level 4)</option>
+                                    <option value="topsecret">Top Secret (Level 5)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-white/80 mb-2">Encryption Type</label>
+                                <select id="quantumEncryptionType" class="w-full px-4 py-3 rounded-lg bg-white/10 text-white border border-white/20 focus:border-purple-500 focus:outline-none" onchange="calculateQuantumSecurityScore()">
+                                    <option value="none">No Encryption</option>
+                                    <option value="rsa2048">RSA-2048 (Classical)</option>
+                                    <option value="aes256">AES-256 (Symmetric)</option>
+                                    <option value="hybrid" selected>Hybrid (RSA + Post-Quantum)</option>
+                                    <option value="fullpq">Full Post-Quantum</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mt-6 p-6 rounded-lg bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30">
+                            <div class="text-center">
+                                <div class="text-white/70 mb-2">Calculated Security Score</div>
+                                <div id="quantumCalculatedScore" class="text-5xl font-bold text-white mb-2">72</div>
+                                <div id="quantumScoreRating" class="text-purple-400 font-bold">Good - Quantum-Aware</div>
+                            </div>
+                            <div id="quantumScoreRecommendation" class="mt-4 p-4 rounded-lg bg-white/10 text-white/80 text-sm">
+                                Your current configuration provides good protection. Consider upgrading to full post-quantum encryption for top secret data.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Encryption Decision Tree -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-bold text-white mb-4">🌳 Encryption Decision Tree</h3>
+                        <div class="space-y-4">
+                            <div class="quantum-decision-node p-4 rounded-lg bg-white/5 border border-white/20" onclick="toggleQuantumDecisionBranch('quantum-data-type')">
+                                <div class="font-bold text-white mb-2">1. What type of data are you protecting?</div>
+                                <div id="quantum-data-type" class="hidden mt-3 pl-4 border-l-2 border-purple-500 space-y-2">
+                                    <div class="quantum-decision-node p-3 rounded-lg bg-purple-500/10" onclick="event.stopPropagation(); toggleQuantumDecisionBranch('quantum-data-at-rest')">
+                                        <div class="text-white/90">📁 Data at Rest</div>
+                                    </div>
+                                    <div class="quantum-decision-node p-3 rounded-lg bg-blue-500/10" onclick="event.stopPropagation(); toggleQuantumDecisionBranch('quantum-data-in-transit')">
+                                        <div class="text-white/90">🔄 Data in Transit</div>
+                                    </div>
+                                    <div class="quantum-decision-node p-3 rounded-lg bg-green-500/10" onclick="event.stopPropagation(); toggleQuantumDecisionBranch('quantum-data-in-use')">
+                                        <div class="text-white/90">⚡ Data in Use</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="quantum-data-at-rest" class="hidden quantum-decision-node p-4 rounded-lg bg-purple-500/10 border border-purple-500/30">
+                                <div class="font-bold text-white mb-2">Data at Rest Protection</div>
+                                <div class="text-white/80 text-sm mb-3">Recommended: AES-256-GCM or ChaCha20-Poly1305</div>
+                                <div class="p-3 rounded-lg bg-white/10">
+                                    <div class="text-white/70 text-sm">✓ Use symmetric encryption for stored data</div>
+                                    <div class="text-white/70 text-sm">✓ Implement at-rest encryption for databases</div>
+                                    <div class="text-white/70 text-sm">✓ Consider hardware security modules (HSMs)</div>
+                                </div>
+                            </div>
+                            <div id="quantum-data-in-transit" class="hidden quantum-decision-node p-4 rounded-lg bg-blue-500/10 border border-blue-500/30">
+                                <div class="font-bold text-white mb-2">Data in Transit Protection</div>
+                                <div class="text-white/80 text-sm mb-3">Recommended: TLS 1.3 with Post-Quantum KEM</div>
+                                <div class="p-3 rounded-lg bg-white/10">
+                                    <div class="text-white/70 text-sm">✓ Use hybrid key exchange (ECDHE + Kyber)</div>
+                                    <div class="text-white/70 text-sm">✓ Enable perfect forward secrecy</div>
+                                    <div class="text-white/70 text-sm">✓ Implement certificate pinning</div>
+                                </div>
+                            </div>
+                            <div id="quantum-data-in-use" class="hidden quantum-decision-node p-4 rounded-lg bg-green-500/10 border border-green-500/30">
+                                <div class="font-bold text-white mb-2">Data in Use Protection</div>
+                                <div class="text-white/80 text-sm mb-3">Recommended: Homomorphic Encryption or TEE</div>
+                                <div class="p-3 rounded-lg bg-white/10">
+                                    <div class="text-white/70 text-sm">✓ Consider trusted execution environments</div>
+                                    <div class="text-white/70 text-sm">✓ Explore fully homomorphic encryption</div>
+                                    <div class="text-white/70 text-sm">✓ Implement secure enclaves (Intel SGX, AMD SEV)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Encryption/Decryption Visualization -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-bold text-white mb-4">🔬 Encryption Visualization</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-bold text-white/90 mb-3">Input Message</h4>
+                                <textarea id="quantumPlaintext" class="w-full px-4 py-3 rounded-lg bg-white/10 text-white border border-white/20 focus:border-purple-500 focus:outline-none font-mono" rows="4" placeholder="Enter your message...">Confidential government data for Q-Day protection</textarea>
+                                <div class="mt-3 flex gap-3">
+                                    <button onclick="simulateQuantumEncryption()" class="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold transition-colors">
+                                        🔒 Encrypt (Kyber)
+                                    </button>
+                                    <button onclick="simulateQuantumDecryption()" class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold transition-colors">
+                                        🔓 Decrypt
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white/90 mb-3">Encrypted Output</h4>
+                                <div id="quantumCiphertext" class="w-full px-4 py-3 rounded-lg bg-black/30 text-green-400 border border-green-500/30 font-mono text-sm h-32 overflow-auto quantum-encryption-demo">
+                                    [Click encrypt to see ciphertext]
+                                </div>
+                                <div class="mt-3 p-3 rounded-lg bg-white/5">
+                                    <div class="text-white/70 text-sm">
+                                        <span class="font-bold">Algorithm:</span> <span id="quantumCurrentAlgorithm">CRYSTALS-Kyber-1024</span>
+                                    </div>
+                                    <div class="text-white/70 text-sm">
+                                        <span class="font-bold">Key Size:</span> <span id="quantumKeySize">3168 bytes</span>
+                                    </div>
+                                    <div class="text-white/70 text-sm">
+                                        <span class="font-bold">Security Level:</span> <span id="quantumSecurityLevel" class="text-purple-400">NIST Level 5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Educational Content -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-bold text-white mb-4">📚 Understanding Quantum Threats</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="p-4 rounded-lg bg-white/5">
+                                <div class="text-3xl mb-3">⚛️</div>
+                                <div class="font-bold text-white mb-2">What is Q-Day?</div>
+                                <div class="text-white/70 text-sm">
+                                    Q-Day is the point when quantum computers become powerful enough to break current encryption standards, threatening data security worldwide.
+                                </div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-white/5">
+                                <div class="text-3xl mb-3">🧮</div>
+                                <div class="font-bold text-white mb-2">Shor's Algorithm</div>
+                                <div class="text-white/70 text-sm">
+                                    Quantum algorithm that can factor large numbers exponentially faster, breaking RSA and ECC encryption that protects most of today's data.
+                                </div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-white/5">
+                                <div class="text-3xl mb-3">🔐</div>
+                                <div class="font-bold text-white mb-2">Harvest Now, Decrypt Later</div>
+                                <div class="text-white/70 text-sm">
+                                    Adversaries collect encrypted data today to decrypt later with quantum computers, making immediate action critical.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6 p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
+                            <div class="flex items-start gap-3">
+                                <div class="text-2xl">⚠️</div>
+                                <div>
+                                    <div class="font-bold text-yellow-400 mb-1">Why Act Now?</div>
+                                    <div class="text-white/80 text-sm">
+                                        Data encrypted today with classical methods may only have 8-10 years of protection. Government agencies recommend transitioning to post-quantum cryptography immediately to protect sensitive data with long-term value.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Compliance & Certifications -->
+                    <div class="glass rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-bold text-white mb-4">✅ Compliance & Certifications</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="p-4 rounded-lg bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/30 text-center">
+                                <div class="text-2xl mb-2">🏛️</div>
+                                <div class="font-bold text-white text-sm">NIST PQC</div>
+                                <div class="text-xs text-white/60">Approved</div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-500/30 text-center">
+                                <div class="text-2xl mb-2">🔒</div>
+                                <div class="font-bold text-white text-sm">FIPS 140-3</div>
+                                <div class="text-xs text-white/60">Certified</div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-500/30 text-center">
+                                <div class="text-2xl mb-2">☁️</div>
+                                <div class="font-bold text-white text-sm">FedRAMP</div>
+                                <div class="text-xs text-white/60">High Impact</div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 text-center">
+                                <div class="text-2xl mb-2">🛡️</div>
+                                <div class="font-bold text-white text-sm">CISA PQC</div>
+                                <div class="text-xs text-white/60">Compliant</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create quantum particles animation
+        function createQuantumParticles() {
+            const container = document.getElementById('quantumParticles');
+            if (!container) return;
+
+            container.innerHTML = '';
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'quantum-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 3 + 's';
+                particle.style.animationDuration = (2 + Math.random() * 2) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Calculate quantum security score
+        function calculateQuantumSecurityScore() {
+            const sensitivity = document.getElementById('quantumSensitivityLevel')?.value || 'confidential';
+            const encryption = document.getElementById('quantumEncryptionType')?.value || 'hybrid';
+
+            const sensitivityScores = {
+                'public': 20,
+                'internal': 40,
+                'confidential': 60,
+                'secret': 80,
+                'topsecret': 100
+            };
+
+            const encryptionScores = {
+                'none': 0,
+                'rsa2048': 40,
+                'aes256': 70,
+                'hybrid': 85,
+                'fullpq': 100
+            };
+
+            const sensitivityScore = sensitivityScores[sensitivity] || 0;
+            const encryptionScore = encryptionScores[encryption] || 0;
+
+            // Calculate weighted score
+            const finalScore = Math.round((encryptionScore * 0.7) + (sensitivityScore * 0.3));
+
+            // Update UI
+            const scoreElement = document.getElementById('quantumCalculatedScore');
+            const headerScoreElement = document.getElementById('quantumSecurityScore');
+            if (scoreElement) scoreElement.textContent = finalScore;
+            if (headerScoreElement) headerScoreElement.textContent = finalScore;
+
+            // Update rating
+            let rating = '';
+            let recommendation = '';
+
+            if (finalScore >= 90) {
+                rating = 'Excellent - Quantum-Ready';
+                recommendation = 'Your configuration provides excellent quantum-resistant protection. Continue monitoring for NIST updates.';
+            } else if (finalScore >= 75) {
+                rating = 'Good - Quantum-Aware';
+                recommendation = 'Your current configuration provides good protection. Consider upgrading to full post-quantum encryption for maximum security.';
+            } else if (finalScore >= 50) {
+                rating = 'Fair - Needs Improvement';
+                recommendation = 'Your configuration has vulnerabilities. Upgrade to hybrid or post-quantum encryption immediately.';
+            } else if (finalScore >= 30) {
+                rating = 'Poor - At Risk';
+                recommendation = 'Critical: Your data is at significant risk. Implement post-quantum encryption as soon as possible.';
+            } else {
+                rating = 'Critical - Immediate Action Required';
+                recommendation = 'URGENT: Your data has no quantum protection. Implement encryption immediately to prevent future data breaches.';
+            }
+
+            const ratingElement = document.getElementById('quantumScoreRating');
+            const recommendationElement = document.getElementById('quantumScoreRecommendation');
+            if (ratingElement) ratingElement.textContent = rating;
+            if (recommendationElement) recommendationElement.textContent = recommendation;
+        }
+
+        // Simulate quantum encryption
+        function simulateQuantumEncryption() {
+            const plaintext = document.getElementById('quantumPlaintext')?.value;
+            if (!plaintext) {
+                alert('Please enter a message to encrypt');
+                return;
+            }
+
+            // Simulate encryption process
+            const encrypted = btoa(plaintext)
+                .split('')
+                .map(c => String.fromCharCode(c.charCodeAt(0) + Math.floor(Math.random() * 10)))
+                .join('')
+                .match(/.{1,64}/g)
+                .join('\n');
+
+            const ciphertextElement = document.getElementById('quantumCiphertext');
+            if (ciphertextElement) {
+                ciphertextElement.textContent = encrypted;
+                ciphertextElement.classList.add('quantum-encryption-flow');
+                setTimeout(() => {
+                    ciphertextElement.classList.remove('quantum-encryption-flow');
+                }, 2000);
+            }
+        }
+
+        // Simulate quantum decryption
+        function simulateQuantumDecryption() {
+            const plaintext = document.getElementById('quantumPlaintext')?.value;
+            const ciphertextElement = document.getElementById('quantumCiphertext');
+            if (ciphertextElement) {
+                ciphertextElement.textContent = plaintext || '[No ciphertext to decrypt]';
+            }
+        }
+
+        // Toggle decision tree branches
+        function toggleQuantumDecisionBranch(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.toggle('hidden');
+            }
+        }
+
+        // Update Q-Day countdown
+        function updateQDayCountdown() {
+            const qDay = new Date('2032-01-01');
+            const now = new Date();
+            const years = Math.floor((qDay - now) / (1000 * 60 * 60 * 24 * 365));
+            const countdownElement = document.getElementById('qDayCountdown');
+            if (countdownElement) {
+                countdownElement.textContent = `~${years} years`;
+            }
+        }
+
+        // Schedule manual rotation
+        function scheduleManualRotation() {
+            alert('Manual key rotation scheduled. This would open a detailed rotation scheduling interface in production.');
+        }
+        // ===== END QUANTUM-READY SECURITY MODULE =====
     </script>
 </body>
 </html>
