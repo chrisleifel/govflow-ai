@@ -27,6 +27,16 @@
   - Body: `text-white/80`
   - Labels: `text-white/70`
 
+## Responsive Design
+- **Mobile first approach:** `grid-cols-1 md:grid-cols-2 lg:grid-cols-3`
+- **Minimum tap target:** 44px for all interactive elements
+- **Breakpoints:**
+  - Small (sm): 640px
+  - Medium (md): 768px
+  - Large (lg): 1024px
+  - Extra Large (xl): 1280px
+- Test all layouts at each breakpoint
+
 ## Critical Rules
 
 ### 1. PRESERVE EXISTING
@@ -34,36 +44,32 @@
 - Only add new features alongside current code
 - Don't break what already works
 
-### 2. MOBILE FIRST
-- Use responsive grid: `grid-cols-1 md:grid-cols-2 lg:grid-cols-3`
-- Minimum tap targets: **44px**
-- Test all breakpoints (mobile, tablet, desktop)
-
-### 3. GOVERNMENT DATA STANDARDS
+### 2. GOVERNMENT DATA STANDARDS
 - Use **real agency names** (FBI, EPA, IRS - not "Agency A")
 - Include compliance badges: **CJIS, FedRAMP, FISMA**
 - Realistic metrics (200-500ms response times, not 5ms)
 - **ISO 8601 dates** for all date storage
+- **Formatted dates** for display to users
 
-### 4. ACCESSIBILITY (A11Y)
+### 3. ACCESSIBILITY (A11Y)
 - Add `aria-labels` to all interactive elements
 - Support **keyboard navigation** (Tab, Enter, Escape)
 - **4.5:1 minimum color contrast**
 - Screen reader friendly
 
-### 5. ERROR HANDLING
+### 4. ERROR HANDLING
 Every feature needs:
 - **Loading state** (spinner/skeleton)
 - **Empty state** (helpful message)
 - **Error state** with retry option
 
-### 6. SECURITY
-- **No inline JavaScript** (`onclick` handlers)
+### 5. SECURITY
+- **No inline JavaScript** (`onclick` handlers) - Use event delegation instead
 - **No localStorage** for sensitive data
-- **Validate all user input**
+- **Validate all user input** before processing
 - Mark security TODOs clearly with `// SECURITY TODO:`
 
-### 7. MARK INTEGRATION POINTS
+### 6. MARK INTEGRATION POINTS
 ```javascript
 // TODO: Connect to API endpoint /api/workflows
 // MOCK DATA - Replace in production
@@ -74,23 +80,25 @@ Every feature needs:
 
 ### Naming Conventions
 - **Functions:** camelCase with verb+noun
-  - `createWorkflow()`, `updateDashboard()`, `deleteContact()`
+  - Examples: `createWorkflow()`, `updateDashboard()`, `deleteContact()`
 
-### Comments
-- Mark all **mock data** clearly
-- Document **integration points**
-- Add **dates to new features**: `// Added 2024-10-05: Workflow builder`
+### Comments & Documentation
+- **Mark mock data:** `// MOCK DATA - Replace in production`
+- **Mark integration points:** `// TODO: Connect to API endpoint /api/workflows`
+- **Add dates to new features:** `// Added 2024-10-05: Workflow builder`
+- **Security notes:** `// SECURITY TODO: Validate all user inputs`
 
-### Performance
-- **Debounce inputs:** 300ms delay
+### Performance Best Practices
+- **Debounce inputs:** 300ms delay for search/filter inputs
 - **Pagination:** Max 50 items per page
 - **Use CSS animations** over JavaScript when possible
+- **Lazy load** heavy components
 
 ### Template Structure
 Always use:
-- Glass effect cards
-- Grid layouts with proper spacing
-- Consistent design system
+- Glass effect cards with backdrop-filter
+- Grid layouts with proper spacing (gap-6)
+- Consistent design system across all features
 
 ## Testing Requirements
 Every new feature must be verified:
@@ -103,12 +111,15 @@ Every new feature must be verified:
 - ✅ Mock data clearly marked
 - ✅ Integration points documented
 
-## Build Process
-1. **Build incrementally** - One feature at a time
+## When Building Features - Step-by-Step Process
+1. **Build incrementally** - One component at a time
 2. **Verify each component** works before adding next layer
-3. **Keep it simple** - Don't over-engineer
-4. **Accessible always** - WCAG 2.1 AA minimum
-5. **Preserve functionality** - Never break existing features
+3. **Keep existing code working** - Test that nothing breaks
+4. **Add all states** - Loading, error, and empty states for every feature
+5. **Test on mobile** - Responsive design is non-negotiable
+6. **Add comments** for production integration points
+7. **Accessible always** - WCAG 2.1 AA minimum
+8. **Preserve functionality** - Never break existing features
 
 ---
 
