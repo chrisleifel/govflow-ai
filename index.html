@@ -3345,6 +3345,77 @@
                                 </div>
                             </div>
 
+                            <!-- Intelligent Contact Import & Enrichment - Added 2025-10-18 -->
+                            <div class="glass rounded-xl p-6 bg-gradient-to-r from-purple-600/10 to-blue-600/10 border-purple-500/30">
+                                <div class="flex items-center justify-between mb-6">
+                                    <div class="flex items-center gap-3">
+                                        <i class="fas fa-id-card text-purple-400 text-2xl"></i>
+                                        <div>
+                                            <h4 class="text-xl font-bold text-white">Import Contacts from Documents</h4>
+                                            <p class="text-sm text-white/70">AI-powered extraction from business cards, contact sheets, and files</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-sm bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full border border-purple-500/30">AI-Powered</span>
+                                </div>
+
+                                <!-- Document Type Icons -->
+                                <div class="flex items-center gap-4 mb-6 flex-wrap">
+                                    <div class="flex items-center gap-2 text-sm text-white/70">
+                                        <i class="fas fa-address-card text-blue-400"></i>
+                                        <span>Business Cards</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm text-white/70">
+                                        <i class="fas fa-file-alt text-green-400"></i>
+                                        <span>Contact Sheets</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm text-white/70">
+                                        <i class="fas fa-envelope text-yellow-400"></i>
+                                        <span>Email Signatures</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm text-white/70">
+                                        <i class="fas fa-file-csv text-purple-400"></i>
+                                        <span>Spreadsheets</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm text-white/70">
+                                        <i class="fab fa-linkedin text-blue-300"></i>
+                                        <span>LinkedIn</span>
+                                    </div>
+                                </div>
+
+                                <!-- Import Options Grid -->
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                                    <button onclick="openContactImport('camera')" class="bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-lg font-medium transition-all border border-white/20 flex items-center justify-center gap-2">
+                                        <i class="fas fa-camera"></i>
+                                        <span>Scan Business Card</span>
+                                    </button>
+                                    <button onclick="openContactImport('upload')" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-3 rounded-lg font-medium transition-all shadow-lg flex items-center justify-center gap-2">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <span>Upload Documents</span>
+                                    </button>
+                                    <button onclick="openContactImport('bulk')" class="bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-lg font-medium transition-all border border-white/20 flex items-center justify-center gap-2">
+                                        <i class="fas fa-layer-group"></i>
+                                        <span>Bulk Import</span>
+                                    </button>
+                                </div>
+
+                                <!-- Recent Imports Summary -->
+                                <div class="flex items-center justify-between text-sm">
+                                    <div class="flex items-center gap-4">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-check-circle text-green-400"></i>
+                                            <span class="text-white/70">2,847 imported this month</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-percent text-blue-400"></i>
+                                            <span class="text-white/70">96.3% success rate</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="viewImportHistory()" class="text-purple-400 hover:text-purple-300 transition-colors">
+                                        <i class="fas fa-history mr-1"></i>View History
+                                    </button>
+                                </div>
+                            </div>
+
                             <!-- Advanced Contact Management Interface -->
                             <div class="glass rounded-xl p-6">
                                 <div class="flex items-center justify-between mb-6">
@@ -7964,6 +8035,70 @@
         function generateReport() {
             alert('Generating CRM Report...\\n\\nReport will include:\\n• Contact analytics\\n• Engagement metrics\\n• Compliance status\\n• Security assessment\\n\\nReport will be encrypted and audit-logged.');
         }
+
+        // ===== INTELLIGENT CONTACT IMPORT & ENRICHMENT - Added 2025-10-18 =====
+        // SECURITY TODO: Implement secure file upload with virus scanning
+        // SECURITY TODO: Add file size and type validation (max 10MB, allowed types)
+        // TODO: Connect to OCR service (Google Vision, AWS Textract, Azure Computer Vision)
+        // TODO: Implement LinkedIn API integration for profile enrichment
+        // TODO: Add USPS address validation API
+        // TODO: Connect to company database (Clearbit, ZoomInfo, D&B)
+        // TODO: Implement fuzzy matching algorithm for duplicate detection
+        // TODO: Add social media profile lookup services
+        // TODO: Integrate with email parsing service
+        // TODO: Connect to CRM database for merge operations
+        // TODO: Implement machine learning model for contact scoring
+        // TODO: Add relationship graph database (Neo4j)
+        // SECURITY TODO: Implement PII detection and encryption at rest
+        // SECURITY TODO: Add audit logging for all contact access
+
+        function openContactImport(mode) {
+            console.log(`AUDIT: Opening contact import - mode: ${mode} at ${new Date().toISOString()}`);
+
+            const messages = {
+                camera: '📷 Business Card Scanner\n\nFeatures:\n• Auto-detect card edges\n• Real-time OCR processing\n• Batch scan mode for events\n• Works offline (queue for sync)\n• Voice notes per contact\n\nMobile-optimized interface:\n• Rapid-fire scanning\n• GPS tagging (where contact met)\n• Photo + card attachment\n• Auto follow-up reminders\n\nTODO: Implement camera interface with edge detection',
+
+                upload: '☁️ Smart Document Upload\n\nSupported formats:\n• Business Cards (JPG, PNG, PDF)\n• Contact Sheets (PDF, DOCX)\n• Email Signatures (EML, MSG)\n• Spreadsheets (CSV, XLSX)\n• VCard files (.vcf)\n• Scanned documents\n\nAI Processing:\n• Auto-detect document type\n• Extract all contact fields\n• Confidence scoring per field\n• Duplicate detection (fuzzy matching)\n• Social profile enrichment\n• Company data lookup\n\nProcessing Options:\n• Speed vs Accuracy slider\n• Duplicate sensitivity (50-100%)\n• Auto-merge duplicates >95%\n• Auto-enrich with LinkedIn/social\n• Detect relationships & org structure\n\nTODO: Open full upload interface (from test file)',
+
+                bulk: '📂 Bulk Import Processing\n\nBatch capabilities:\n• Upload up to 50 files at once\n• Automatic document type detection\n• Priority-based processing queue\n• Progress tracking per file\n• Live activity feed\n\nAdvanced features:\n• Conference/event mode (tag all)\n• Company network detection\n• Relationship mapping\n• Organizational chart generation\n• Smart list auto-creation\n\nResults:\n• Success rate dashboard\n• Duplicate merge report\n• Enrichment coverage stats\n• Data quality improvements\n• Time saved vs manual entry\n\nTODO: Implement bulk processing dashboard'
+            };
+
+            alert(messages[mode] || 'Opening contact import interface...');
+
+            // TODO: Open actual import modal/interface
+            console.log('TODO: Load intelligent-contact-import interface');
+        }
+
+        function viewImportHistory() {
+            console.log(`AUDIT: Viewed import history at ${new Date().toISOString()}`);
+
+            alert('📊 Import History\n\nRecent Imports:\n\n' +
+                  '1. GovCon 2024 Conference\n' +
+                  '   • 47 business cards\n' +
+                  '   • 96% success rate\n' +
+                  '   • 3 duplicates merged\n' +
+                  '   • 2 hours ago\n\n' +
+                  '2. Vendor Meeting\n' +
+                  '   • 12 business cards\n' +
+                  '   • 100% success rate\n' +
+                  '   • 1 duplicate merged\n' +
+                  '   • 1 day ago\n\n' +
+                  '3. Email Signature Batch\n' +
+                  '   • 28 contacts extracted\n' +
+                  '   • 93% success rate\n' +
+                  '   • 5 duplicates merged\n' +
+                  '   • 3 days ago\n\n' +
+                  'Statistics:\n' +
+                  '• Total imported this month: 2,847\n' +
+                  '• Success rate: 96.3%\n' +
+                  '• Duplicates prevented: 418\n' +
+                  '• Time saved: 87 hours\n\n' +
+                  'TODO: Create full import history interface with filters and analytics');
+
+            // TODO: Show detailed import history modal
+            console.log('TODO: Display import history modal');
+        }
+        // ===== END INTELLIGENT CONTACT IMPORT =====
 
         // New Enterprise CRM Functions
         function toggleContactView(viewType) {
