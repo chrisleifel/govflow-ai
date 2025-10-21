@@ -5338,8 +5338,9 @@
         
         function startTypingAnimation() {
             const element = document.getElementById('welcomeMessage');
+            if (!element) return; // Element doesn't exist on all tabs
             const text = "Hello! I'm here to help you find the right city service. What can I help you with today?";
-            
+
             element.innerHTML = '';
             element.classList.add('typing');
             let i = 0;
@@ -8133,11 +8134,16 @@
             document.getElementById('databaseLoad').textContent = metrics.database + '%';
             document.getElementById('networkIO').textContent = metrics.network + '%';
 
-            // Update progress bars
-            document.querySelector('[style*="width: 23%"]').style.width = metrics.cpu + '%';
-            document.querySelector('[style*="width: 67%"]').style.width = metrics.memory + '%';
-            document.querySelector('[style*="width: 34%"]').style.width = metrics.database + '%';
-            document.querySelector('[style*="width: 89%"]').style.width = metrics.network + '%';
+            // Update progress bars (only if elements exist)
+            const cpuBar = document.querySelector('[style*="width: 23%"]');
+            const memBar = document.querySelector('[style*="width: 67%"]');
+            const dbBar = document.querySelector('[style*="width: 34%"]');
+            const netBar = document.querySelector('[style*="width: 89%"]');
+
+            if (cpuBar) cpuBar.style.width = metrics.cpu + '%';
+            if (memBar) memBar.style.width = metrics.memory + '%';
+            if (dbBar) dbBar.style.width = metrics.database + '%';
+            if (netBar) netBar.style.width = metrics.network + '%';
         }
 
         // Start Real-time Updates
