@@ -11059,7 +11059,11 @@
 
         function loadInsightsFeed() {
             const feed = document.getElementById('insightsFeed');
-            if (!feed) return;
+            console.log('Intelligence Hub: loadInsightsFeed() called, feed element:', feed);
+            if (!feed) {
+                console.error('Intelligence Hub: insightsFeed element not found!');
+                return;
+            }
             feed.innerHTML = MOCK_INSIGHTS.map(insight => `
                 <div class="insight-card glass rounded-lg p-4" onclick="viewInsightDetails('${insight.id}')">
                     <div class="flex items-start gap-3">
