@@ -1059,6 +1059,50 @@
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(59, 130, 246, 0.15));
             transform: translateY(-2px);
         }
+
+        /* Constituent Inbox Styles - Added 2025-10-27 */
+        .inbox-tab-button {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .inbox-tab-button.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        }
+
+        .inbox-tab-button:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .inbox-filter-chip.active {
+            background: rgba(59, 130, 246, 0.3);
+            border: 1px solid #3b82f6;
+        }
+
+        .inbox-message-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .inbox-message-card:hover {
+            transform: translateX(4px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .inbox-message-card.unread {
+            border-left: 4px solid #3b82f6;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
     </style>
 </head>
 <body class="gradient-bg text-white overflow-hidden">
@@ -1167,6 +1211,16 @@
                             <span class="text-white font-medium">API Integration</span>
                             <div class="ml-auto">
                                 <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('constituent-inbox')">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-inbox text-white"></i>
+                            <span class="text-white font-medium">Constituent Inbox</span>
+                            <div class="ml-auto">
+                                <span class="bg-blue-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">142</span>
                             </div>
                         </div>
                     </div>
@@ -3917,6 +3971,216 @@
                     </div>
                 </div>
 
+                <!-- Constituent Inbox Tab - Added 2025-10-27 -->
+                <div id="constituent-inbox-content" class="tab-content h-full overflow-y-auto" style="display: none;">
+                    <!-- Header -->
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                            <i class="fas fa-inbox text-blue-400"></i>
+                            Universal Constituent Inbox
+                            <span class="text-xs bg-gradient-to-r from-green-500 to-blue-500 text-white px-3 py-1 rounded-full">96.8% Auto-Classified</span>
+                        </h2>
+                        <p class="text-white/70">AI-powered message ingestion, classification, and routing across all channels</p>
+                    </div>
+
+                    <!-- Stats Dashboard -->
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+                        <div class="glass rounded-lg p-4">
+                            <div class="text-white/70 text-sm mb-1">Total Messages</div>
+                            <div class="text-2xl font-bold text-white">1,847</div>
+                            <div class="text-green-400 text-sm mt-1"><i class="fas fa-arrow-up mr-1"></i>23% today</div>
+                        </div>
+                        <div class="glass rounded-lg p-4">
+                            <div class="text-white/70 text-sm mb-1">Unread</div>
+                            <div class="text-2xl font-bold text-blue-400">142</div>
+                            <div class="text-white/60 text-sm mt-1"><i class="fas fa-clock mr-1"></i>Needs attention</div>
+                        </div>
+                        <div class="glass rounded-lg p-4">
+                            <div class="text-white/70 text-sm mb-1">Auto-Classified</div>
+                            <div class="text-2xl font-bold text-purple-400">96.8%</div>
+                            <div class="text-green-400 text-sm mt-1"><i class="fas fa-robot mr-1"></i>AI Processing</div>
+                        </div>
+                        <div class="glass rounded-lg p-4">
+                            <div class="text-white/70 text-sm mb-1">Avg Response Time</div>
+                            <div class="text-2xl font-bold text-green-400">2.4h</div>
+                            <div class="text-green-400 text-sm mt-1"><i class="fas fa-bolt mr-1"></i>Fast</div>
+                        </div>
+                        <div class="glass rounded-lg p-4">
+                            <div class="text-white/70 text-sm mb-1">Channels Active</div>
+                            <div class="text-2xl font-bold text-yellow-400">6</div>
+                            <div class="text-white/60 text-sm mt-1"><i class="fas fa-plug mr-1"></i>All systems</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Left Column: Inbox -->
+                        <div class="lg:col-span-2 space-y-6">
+                            <!-- Filters & Tabs -->
+                            <div class="glass rounded-xl p-6">
+                                <div class="flex flex-wrap items-center gap-3 mb-4">
+                                    <button class="inbox-tab-button active px-4 py-2 rounded-lg text-white text-sm font-medium transition" data-inbox-tab="all" onclick="filterInboxMessages('all')">
+                                        <i class="fas fa-inbox mr-2"></i>All Messages
+                                    </button>
+                                    <button class="inbox-tab-button px-4 py-2 rounded-lg text-white text-sm font-medium transition" data-inbox-tab="unread" onclick="filterInboxMessages('unread')">
+                                        <i class="fas fa-envelope mr-2"></i>Unread (142)
+                                    </button>
+                                    <button class="inbox-tab-button px-4 py-2 rounded-lg text-white text-sm font-medium transition" data-inbox-tab="urgent" onclick="filterInboxMessages('urgent')">
+                                        <i class="fas fa-exclamation-circle mr-2"></i>Urgent
+                                    </button>
+                                    <button class="inbox-tab-button px-4 py-2 rounded-lg text-white text-sm font-medium transition" data-inbox-tab="assigned" onclick="filterInboxMessages('assigned')">
+                                        <i class="fas fa-user-check mr-2"></i>Assigned to Me
+                                    </button>
+                                </div>
+
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <span class="text-white/60 text-sm">Filter by:</span>
+                                    <button class="inbox-filter-chip glass px-3 py-1.5 rounded-full text-white text-xs transition" data-inbox-filter="email" onclick="toggleInboxFilter('email')">
+                                        <i class="fas fa-envelope mr-1"></i>Email
+                                    </button>
+                                    <button class="inbox-filter-chip glass px-3 py-1.5 rounded-full text-white text-xs transition" data-inbox-filter="web" onclick="toggleInboxFilter('web')">
+                                        <i class="fas fa-globe mr-1"></i>Web Form
+                                    </button>
+                                    <button class="inbox-filter-chip glass px-3 py-1.5 rounded-full text-white text-xs transition" data-inbox-filter="social" onclick="toggleInboxFilter('social')">
+                                        <i class="fas fa-comments mr-1"></i>Social Media
+                                    </button>
+                                    <button class="inbox-filter-chip glass px-3 py-1.5 rounded-full text-white text-xs transition" data-inbox-filter="sms" onclick="toggleInboxFilter('sms')">
+                                        <i class="fas fa-sms mr-1"></i>SMS
+                                    </button>
+                                    <div class="ml-auto">
+                                        <input type="text" id="inboxSearchInput" placeholder="Search messages..."
+                                               class="bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/60 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Messages List -->
+                            <div id="inboxMessagesList" class="space-y-3">
+                                <!-- Messages will be inserted here by JavaScript -->
+                            </div>
+
+                            <!-- Pagination -->
+                            <div class="glass rounded-xl p-4 flex items-center justify-between">
+                                <div class="text-white/70 text-sm">Showing 1-20 of 142 messages</div>
+                                <div class="flex items-center gap-2">
+                                    <button class="glass px-3 py-2 rounded-lg text-white hover:bg-white/20 transition">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button class="glass px-3 py-2 rounded-lg text-white bg-blue-500/30">1</button>
+                                    <button class="glass px-3 py-2 rounded-lg text-white hover:bg-white/20 transition">2</button>
+                                    <button class="glass px-3 py-2 rounded-lg text-white hover:bg-white/20 transition">3</button>
+                                    <button class="glass px-3 py-2 rounded-lg text-white hover:bg-white/20 transition">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Analytics -->
+                        <div class="space-y-6">
+                            <!-- Channel Performance -->
+                            <div class="glass rounded-xl p-6">
+                                <h3 class="text-lg font-bold text-white mb-4">
+                                    <i class="fas fa-chart-pie mr-2"></i>Channel Performance
+                                </h3>
+                                <div class="space-y-3">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                                                    <i class="fas fa-envelope text-blue-400"></i>
+                                                </div>
+                                                <span class="text-white text-sm">Email</span>
+                                            </div>
+                                            <span class="text-white/80 text-sm font-semibold">847</span>
+                                        </div>
+                                        <div class="w-full bg-white/10 rounded-full h-2">
+                                            <div class="bg-blue-500 h-2 rounded-full" style="width: 46%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                                                    <i class="fas fa-globe text-green-400"></i>
+                                                </div>
+                                                <span class="text-white text-sm">Web Form</span>
+                                            </div>
+                                            <span class="text-white/80 text-sm font-semibold">623</span>
+                                        </div>
+                                        <div class="w-full bg-white/10 rounded-full h-2">
+                                            <div class="bg-green-500 h-2 rounded-full" style="width: 34%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                                                    <i class="fas fa-comments text-purple-400"></i>
+                                                </div>
+                                                <span class="text-white text-sm">Social Media</span>
+                                            </div>
+                                            <span class="text-white/80 text-sm font-semibold">267</span>
+                                        </div>
+                                        <div class="w-full bg-white/10 rounded-full h-2">
+                                            <div class="bg-purple-500 h-2 rounded-full" style="width: 14%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                                                    <i class="fas fa-sms text-yellow-400"></i>
+                                                </div>
+                                                <span class="text-white text-sm">SMS</span>
+                                            </div>
+                                            <span class="text-white/80 text-sm font-semibold">110</span>
+                                        </div>
+                                        <div class="w-full bg-white/10 rounded-full h-2">
+                                            <div class="bg-yellow-500 h-2 rounded-full" style="width: 6%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Department Distribution -->
+                            <div class="glass rounded-xl p-6">
+                                <h3 class="text-lg font-bold text-white mb-4">
+                                    <i class="fas fa-sitemap mr-2"></i>Department Distribution
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-white/80 text-sm">Building & Safety</span>
+                                        <span class="bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full text-xs font-semibold">412</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-white/80 text-sm">Public Works</span>
+                                        <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs font-semibold">328</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-white/80 text-sm">Parks & Recreation</span>
+                                        <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">267</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-white/80 text-sm">Code Enforcement</span>
+                                        <span class="bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-xs font-semibold">198</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-white/80 text-sm">Finance Department</span>
+                                        <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-xs font-semibold">156</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-white/80 text-sm">Other</span>
+                                        <span class="bg-gray-500/20 text-gray-400 px-3 py-1 rounded-full text-xs font-semibold">486</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Settings Tab -->
                 <div id="settings-content" class="tab-content" style="display: none;">
                     <div class="glass rounded-xl p-6">
@@ -5002,6 +5266,7 @@
                 crm: { title: 'CRM Management', subtitle: 'AI-powered customer relationship management with CJIS compliance' },
                 intelligence: { title: 'Platform Intelligence Hub', subtitle: 'Unified AI insights and actions across all platform sections' },
                 'api-integration': { title: 'API Integration Platform', subtitle: 'CJIS-compliant API discovery, transformation & orchestration for government systems' },
+                'constituent-inbox': { title: 'Universal Constituent Inbox', subtitle: 'AI-powered multi-channel message classification and routing' },
                 settings: { title: 'System Settings', subtitle: 'Configure platform preferences' }
             };
             
@@ -5026,6 +5291,9 @@
             }
             if (tabName === 'security' && document.getElementById('quantumSecurityModule')) {
                 initializeQuantumSecurity();
+            }
+            if (tabName === 'constituent-inbox' && document.getElementById('inboxMessagesList')) {
+                initializeConstituentInbox();
             }
         }
         
@@ -6238,6 +6506,310 @@
         function quickChat(topic) {
             document.getElementById('userInput').value = `I need help with ${topic}`;
             sendMessage();
+        }
+
+        // Constituent Inbox Functions - Added 2025-10-27
+        // MOCK DATA - Replace in production
+        // TODO: Connect to constituent inbox API endpoint
+
+        const CONSTITUENT_MESSAGES = [
+            {
+                id: 'MSG-2024-001847',
+                channel: 'email',
+                from: 'sarah.johnson@email.com',
+                name: 'Sarah Johnson',
+                subject: 'Question about building permit timeline',
+                preview: 'I submitted a building permit application two weeks ago (Permit #RES-2024-00184) and wanted to check on the status...',
+                timestamp: new Date('2024-10-27T09:23:00'),
+                unread: true,
+                intent: 'inquiry',
+                department: 'Building & Safety',
+                urgency: 'low',
+                sentiment: 0.72,
+                confidence: 98.5,
+                tags: ['permit', 'status check', 'residential']
+            },
+            {
+                id: 'MSG-2024-001846',
+                channel: 'web',
+                from: 'contact-form',
+                name: 'Michael Rodriguez',
+                subject: 'Pothole on Elm Street needs urgent repair',
+                preview: 'There is a large pothole at the intersection of Elm Street and 5th Avenue that is causing damage to vehicles...',
+                timestamp: new Date('2024-10-27T08:45:00'),
+                unread: true,
+                intent: 'complaint',
+                department: 'Public Works',
+                urgency: 'high',
+                sentiment: 0.35,
+                confidence: 96.2,
+                tags: ['pothole', 'road repair', 'urgent']
+            },
+            {
+                id: 'MSG-2024-001845',
+                channel: 'social',
+                from: '@springfield_resident',
+                name: 'Jennifer Lee',
+                subject: 'Park hours extension request',
+                preview: 'Would it be possible to extend the hours at Central Park? Many families would benefit from evening access during summer...',
+                timestamp: new Date('2024-10-27T07:12:00'),
+                unread: true,
+                intent: 'request',
+                department: 'Parks & Recreation',
+                urgency: 'low',
+                sentiment: 0.88,
+                confidence: 94.7,
+                tags: ['park', 'hours', 'community request']
+            },
+            {
+                id: 'MSG-2024-001844',
+                channel: 'email',
+                from: 'robert.chen@business.com',
+                name: 'Dr. Robert Chen',
+                subject: 'Business license renewal - payment issue',
+                preview: 'I attempted to renew my business license online but the payment portal is showing an error. License #BUS-2024-8473...',
+                timestamp: new Date('2024-10-27T06:54:00'),
+                unread: false,
+                intent: 'complaint',
+                department: 'Finance Department',
+                urgency: 'medium',
+                sentiment: 0.42,
+                confidence: 97.8,
+                tags: ['business license', 'payment', 'technical issue']
+            },
+            {
+                id: 'MSG-2024-001843',
+                channel: 'sms',
+                from: '+1-555-234-5678',
+                name: 'Maria Garcia',
+                subject: 'Trash pickup missed this week',
+                preview: 'Our trash was not picked up on our scheduled day (Tuesday). Address: 892 Oak Drive...',
+                timestamp: new Date('2024-10-26T18:32:00'),
+                unread: false,
+                intent: 'complaint',
+                department: 'Public Works',
+                urgency: 'medium',
+                sentiment: 0.51,
+                confidence: 95.3,
+                tags: ['trash', 'missed pickup', 'sanitation']
+            },
+            {
+                id: 'MSG-2024-001842',
+                channel: 'web',
+                from: 'contact-form',
+                name: 'David Thompson',
+                subject: 'Request for public records',
+                preview: 'I would like to request copies of all building permits issued on my street (Maple Avenue) in the last 6 months...',
+                timestamp: new Date('2024-10-26T16:18:00'),
+                unread: false,
+                intent: 'request',
+                department: 'City Clerk',
+                urgency: 'low',
+                sentiment: 0.78,
+                confidence: 99.1,
+                tags: ['public records', 'FOIA', 'permits']
+            },
+            {
+                id: 'MSG-2024-001841',
+                channel: 'email',
+                from: 'concerned.citizen@email.com',
+                name: 'Anonymous',
+                subject: 'Noise complaint - ongoing construction',
+                preview: 'There has been construction noise starting at 6 AM every morning for the past week at 1500 Commerce Blvd...',
+                timestamp: new Date('2024-10-26T14:45:00'),
+                unread: false,
+                intent: 'complaint',
+                department: 'Code Enforcement',
+                urgency: 'medium',
+                sentiment: 0.28,
+                confidence: 93.6,
+                tags: ['noise', 'construction', 'code violation']
+            },
+            {
+                id: 'MSG-2024-001840',
+                channel: 'social',
+                from: '@local_business_owner',
+                name: 'James Wilson',
+                subject: 'Thank you for quick permit approval!',
+                preview: 'Just wanted to say thanks to the Building & Safety team for processing my sign permit so quickly. Great service!',
+                timestamp: new Date('2024-10-26T13:22:00'),
+                unread: false,
+                intent: 'inquiry',
+                department: 'Building & Safety',
+                urgency: 'low',
+                sentiment: 0.95,
+                confidence: 98.9,
+                tags: ['positive feedback', 'permit', 'appreciation']
+            }
+        ];
+
+        let currentInboxFilter = 'all';
+        let activeInboxChannelFilters = new Set();
+
+        function initializeConstituentInbox() {
+            renderInboxMessages();
+            setupInboxSearch();
+        }
+
+        function renderInboxMessages() {
+            const container = document.getElementById('inboxMessagesList');
+            if (!container) return;
+
+            let filteredMessages = CONSTITUENT_MESSAGES;
+
+            // Apply tab filter
+            if (currentInboxFilter === 'unread') {
+                filteredMessages = filteredMessages.filter(m => m.unread);
+            } else if (currentInboxFilter === 'urgent') {
+                filteredMessages = filteredMessages.filter(m => m.urgency === 'high');
+            }
+
+            // Apply channel filters
+            if (activeInboxChannelFilters.size > 0) {
+                filteredMessages = filteredMessages.filter(m => activeInboxChannelFilters.has(m.channel));
+            }
+
+            const channelIcons = {
+                email: { icon: 'fa-envelope', color: 'blue' },
+                web: { icon: 'fa-globe', color: 'green' },
+                social: { icon: 'fa-comments', color: 'purple' },
+                sms: { icon: 'fa-sms', color: 'yellow' }
+            };
+
+            const urgencyColors = {
+                high: 'red',
+                medium: 'yellow',
+                low: 'green'
+            };
+
+            const intentIcons = {
+                request: 'fa-hand-holding-heart',
+                complaint: 'fa-exclamation-triangle',
+                inquiry: 'fa-question-circle'
+            };
+
+            const messagesHTML = filteredMessages.map(msg => {
+                const channel = channelIcons[msg.channel];
+                const urgencyColor = urgencyColors[msg.urgency];
+                const timeAgo = getTimeAgo(msg.timestamp);
+
+                return `
+                    <div class="inbox-message-card glass rounded-xl p-4 ${msg.unread ? 'unread' : ''}" onclick="viewInboxMessage('${msg.id}')">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-${channel.color}-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas ${channel.icon} text-${channel.color}-400"></i>
+                            </div>
+
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="text-white font-semibold">${msg.name}</span>
+                                            ${msg.unread ? '<span class="pulse-dot bg-blue-400"></span>' : ''}
+                                        </div>
+                                        <h4 class="text-white/90 font-medium mb-1">${msg.subject}</h4>
+                                        <p class="text-white/60 text-sm">${msg.preview}</p>
+                                    </div>
+                                    <span class="text-white/50 text-xs ml-2 flex-shrink-0">${timeAgo}</span>
+                                </div>
+
+                                <div class="flex flex-wrap items-center gap-2 mt-3">
+                                    <span class="bg-${urgencyColor}-500/20 text-${urgencyColor}-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                        <i class="fas fa-flag mr-1"></i>${msg.urgency}
+                                    </span>
+                                    <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                        <i class="fas ${intentIcons[msg.intent]} mr-1"></i>${msg.intent}
+                                    </span>
+                                    <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                        <i class="fas fa-building mr-1"></i>${msg.department}
+                                    </span>
+                                    <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                        <i class="fas fa-robot mr-1"></i>${msg.confidence}% AI
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = messagesHTML || '<div class="glass rounded-xl p-12 text-center"><p class="text-white/60">No messages found</p></div>';
+        }
+
+        function filterInboxMessages(tab) {
+            currentInboxFilter = tab;
+
+            // Update tab buttons
+            document.querySelectorAll('.inbox-tab-button').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.inboxTab === tab) {
+                    btn.classList.add('active');
+                }
+            });
+
+            renderInboxMessages();
+        }
+
+        function toggleInboxFilter(channel) {
+            const btn = document.querySelector(`[data-inbox-filter="${channel}"]`);
+
+            if (activeInboxChannelFilters.has(channel)) {
+                activeInboxChannelFilters.delete(channel);
+                btn.classList.remove('active');
+            } else {
+                activeInboxChannelFilters.add(channel);
+                btn.classList.add('active');
+            }
+
+            renderInboxMessages();
+        }
+
+        function viewInboxMessage(messageId) {
+            const message = CONSTITUENT_MESSAGES.find(m => m.id === messageId);
+            if (!message) return;
+
+            // Mark as read
+            message.unread = false;
+            renderInboxMessages();
+
+            // Show message details with AI classification
+            const sentimentColor = message.sentiment >= 0.7 ? 'green' : message.sentiment >= 0.4 ? 'yellow' : 'red';
+            const sentimentLabel = message.sentiment >= 0.7 ? 'Positive' : message.sentiment >= 0.4 ? 'Neutral' : 'Negative';
+
+            const channelLabels = {
+                email: 'Email',
+                web: 'Web Form',
+                social: 'Social Media',
+                sms: 'SMS'
+            };
+
+            showNotification(`Viewing message from ${message.name} - ${message.subject}`, 'info');
+
+            // TODO: Open detailed message view modal
+            console.log('Message details:', message);
+        }
+
+        function setupInboxSearch() {
+            const searchInput = document.getElementById('inboxSearchInput');
+            if (!searchInput) return;
+
+            let debounceTimer;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    const query = e.target.value.toLowerCase();
+                    // TODO: Implement search functionality
+                    console.log('Searching inbox for:', query);
+                }, 300);
+            });
+        }
+
+        function getTimeAgo(timestamp) {
+            const seconds = Math.floor((new Date() - timestamp) / 1000);
+            if (seconds < 60) return 'Just now';
+            if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+            if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+            return `${Math.floor(seconds / 86400)}d ago`;
         }
 
         // Regulation Assistant Functions - Added 2025-10-07
