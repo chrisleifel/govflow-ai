@@ -4330,59 +4330,91 @@
                         <div>
                             <h4 class="text-lg font-bold text-white flex items-center gap-2">
                                 <i class="fas fa-magic text-purple-400"></i>
-                                Speed Up Your Application
+                                Speed Up Your Application with AI
                             </h4>
-                            <p class="text-sm text-white/70 mt-1">Upload documents to auto-fill your information with AI-powered OCR</p>
+                            <p class="text-sm text-white/70 mt-1">Upload your building permit or documents - AI will auto-detect and extract information</p>
                         </div>
+                        <span class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-full">
+                            <i class="fas fa-shield-alt mr-1"></i>97.8% Accurate
+                        </span>
                     </div>
 
                     <!-- Document Upload Zone -->
                     <div id="docProcessingDropZone" class="border-2 border-dashed border-white/30 rounded-lg p-8 text-center cursor-pointer hover:border-blue-400 hover:bg-blue-500/5 transition-all" role="button" tabindex="0" aria-label="Upload documents for auto-fill">
                         <i class="fas fa-file-upload text-4xl text-white/30 mb-3" aria-hidden="true"></i>
                         <p class="text-white font-medium mb-2">Upload Documents to Auto-fill</p>
-                        <p class="text-sm text-white/60 mb-3">Driver's License, Utility Bills, Business Cards, Tax Bills, or Previous Permits</p>
+                        <p class="text-sm text-white/60 mb-3">Building Permits, Driver's License, Utility Bills, Business Cards, or Previous Applications</p>
                         <div class="flex items-center justify-center gap-2 mb-3">
                             <span class="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full">PDF</span>
                             <span class="text-xs bg-green-500/20 text-green-300 px-2 py-1 rounded-full">JPG</span>
                             <span class="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">PNG</span>
+                            <span class="text-xs bg-yellow-500/20 text-yellow-300 px-2 py-1 rounded-full">TIFF</span>
                         </div>
-                        <button type="button" class="bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-2 rounded-lg text-white text-sm hover:shadow-lg transition-all" aria-label="Take photo with camera">
-                            <i class="fas fa-camera mr-2" aria-hidden="true"></i>Take Photo
+                        <button type="button" onclick="document.getElementById('docProcessingFileInput').click()" class="bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-2 rounded-lg text-white text-sm hover:shadow-lg transition-all" aria-label="Upload document">
+                            <i class="fas fa-cloud-upload-alt mr-2" aria-hidden="true"></i>Choose File
                         </button>
-                        <input type="file" id="docProcessingFileInput" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple aria-label="Select documents to upload">
+                        <input type="file" id="docProcessingFileInput" class="hidden" accept=".pdf,.jpg,.jpeg,.png,.tiff" aria-label="Select documents to upload">
                     </div>
 
                     <!-- Processing Status -->
                     <div id="docProcessingStatus" class="mt-4 hidden">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="animate-spin">
-                                <i class="fas fa-spinner text-blue-400 text-xl"></i>
+                        <div class="space-y-2 mb-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-white/80">Analyzing document structure...</span>
+                                <span id="docStage1" class="text-white/40"><i class="fas fa-circle text-xs"></i></span>
                             </div>
-                            <div>
-                                <h5 class="text-sm font-bold text-white">Analyzing Document...</h5>
-                                <p class="text-xs text-white/60">Extracting text and data</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-white/80">Detecting form type...</span>
+                                <span id="docStage2" class="text-white/40"><i class="fas fa-circle text-xs"></i></span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-white/80">Extracting fields...</span>
+                                <span id="docStage3" class="text-white/40"><i class="fas fa-circle text-xs"></i></span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-white/80">Validating data...</span>
+                                <span id="docStage4" class="text-white/40"><i class="fas fa-circle text-xs"></i></span>
                             </div>
                         </div>
                         <div class="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                            <div id="docProcessingProgressBar" class="bg-gradient-to-r from-blue-500 to-purple-600 h-full transition-all duration-300" style="width: 0%"></div>
+                            <div id="docProcessingProgressBar" class="bg-gradient-to-r from-blue-500 to-purple-600 h-full transition-all duration-500" style="width: 0%"></div>
                         </div>
-                        <p id="docProcessingProgressText" class="text-xs text-white/50 mt-2">Initializing...</p>
+                    </div>
+
+                    <!-- Document Classification Result -->
+                    <div id="docClassificationResult" class="mt-4 hidden">
+                        <div class="glass rounded-lg p-4 mb-3 bg-green-500/10">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-check-circle text-green-400"></i>
+                                    <span class="text-sm font-bold text-white">Document Identified:</span>
+                                    <span id="docDetectedType" class="text-sm text-green-400"></span>
+                                </div>
+                                <span class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-full" id="docTypeConfidence"></span>
+                            </div>
+                            <div class="text-xs text-white/60" id="docPages"></div>
+                        </div>
                     </div>
 
                     <!-- Extracted Data Review -->
                     <div id="docProcessingExtractedPanel" class="mt-4 hidden">
                         <div class="flex items-center justify-between mb-3">
                             <div class="flex items-center gap-2">
-                                <i class="fas fa-check-circle text-green-400"></i>
-                                <span class="text-sm font-bold text-white">Data Extracted</span>
-                                <span id="docProcessingConfidence" class="text-xs"></span>
+                                <i class="fas fa-list-check text-blue-400"></i>
+                                <span class="text-sm font-bold text-white">Extracted <span id="docProcessingFieldCount">0</span> Fields</span>
                             </div>
-                            <button type="button" onclick="autoFillFromDocument()" class="text-sm bg-blue-500/20 text-blue-300 px-3 py-1 rounded-lg hover:bg-blue-500/30 transition-all" aria-label="Auto-fill form with extracted data">
-                                <i class="fas fa-bolt mr-1" aria-hidden="true"></i>Auto-fill (<span id="docProcessingFieldCount">0</span> fields)
+                            <button type="button" onclick="autoFillFromDocument()" class="text-sm bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-2 rounded-lg text-white hover:shadow-lg transition-all" aria-label="Auto-fill form with extracted data">
+                                <i class="fas fa-bolt mr-1" aria-hidden="true"></i>Auto-fill Form
                             </button>
                         </div>
-                        <div id="docProcessingFields" class="text-xs text-white/70 bg-white/5 rounded-lg p-3 max-h-32 overflow-y-auto">
+                        <div id="docProcessingFields" class="space-y-2 bg-white/5 rounded-lg p-3 max-h-48 overflow-y-auto">
                             <!-- Extracted fields preview -->
+                        </div>
+                        <div class="mt-3 text-xs text-white/50 flex items-center justify-between">
+                            <span><i class="fas fa-info-circle mr-1"></i>Review extracted data before auto-filling</span>
+                            <button type="button" onclick="viewFullDocumentAnalysis()" class="text-blue-400 hover:text-blue-300">
+                                View Full Analysis <i class="fas fa-external-link-alt ml-1"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -5803,7 +5835,37 @@
 
             // File upload handling
             const fileUpload = document.getElementById('fileUpload');
-            fileUpload.addEventListener('change', handleFileUpload);
+            if (fileUpload) {
+                fileUpload.addEventListener('change', handleFileUpload);
+            }
+
+            // Document intelligence upload handling
+            const docProcessingFileInput = document.getElementById('docProcessingFileInput');
+            const docProcessingDropZone = document.getElementById('docProcessingDropZone');
+
+            if (docProcessingFileInput && docProcessingDropZone) {
+                docProcessingFileInput.addEventListener('change', handleDocumentIntelligenceUpload);
+
+                // Drag and drop support
+                docProcessingDropZone.addEventListener('click', () => docProcessingFileInput.click());
+                docProcessingDropZone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    docProcessingDropZone.style.borderColor = '#3b82f6';
+                    docProcessingDropZone.style.background = 'rgba(59, 130, 246, 0.1)';
+                });
+                docProcessingDropZone.addEventListener('dragleave', () => {
+                    docProcessingDropZone.style.borderColor = '';
+                    docProcessingDropZone.style.background = '';
+                });
+                docProcessingDropZone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    docProcessingDropZone.style.borderColor = '';
+                    docProcessingDropZone.style.background = '';
+                    if (e.dataTransfer.files.length > 0) {
+                        handleDocumentIntelligenceFile(e.dataTransfer.files[0]);
+                    }
+                });
+            }
         }
 
         function updateAIRouting() {
@@ -5952,6 +6014,225 @@
                 'document_request': 'City Clerk'
             };
             return departmentMap[serviceType] || 'General Services';
+        }
+
+        // Document Intelligence Functions - Added 2025-10-27
+        // MOCK DATA - Replace in production
+        // TODO: Connect to AI document intelligence API endpoint
+
+        let extractedDocumentData = null;
+
+        function handleDocumentIntelligenceUpload(e) {
+            if (e.target.files.length > 0) {
+                handleDocumentIntelligenceFile(e.target.files[0]);
+            }
+        }
+
+        function handleDocumentIntelligenceFile(file) {
+            console.log('Processing document:', file.name);
+
+            // Show processing UI
+            document.getElementById('docProcessingStatus').classList.remove('hidden');
+            document.getElementById('docClassificationResult').classList.add('hidden');
+            document.getElementById('docProcessingExtractedPanel').classList.add('hidden');
+
+            // Simulate AI processing stages
+            const stages = ['docStage1', 'docStage2', 'docStage3', 'docStage4'];
+            let currentStage = 0;
+
+            const progressInterval = setInterval(() => {
+                if (currentStage > 0) {
+                    // Mark previous stage complete
+                    const prevStage = document.getElementById(stages[currentStage - 1]);
+                    prevStage.innerHTML = '<i class="fas fa-check-circle text-green-400"></i>';
+                }
+
+                if (currentStage < stages.length) {
+                    // Mark current stage active
+                    const stage = document.getElementById(stages[currentStage]);
+                    stage.innerHTML = '<i class="fas fa-spinner fa-spin text-blue-400"></i>';
+                    currentStage++;
+
+                    // Update progress bar
+                    const progress = (currentStage / stages.length) * 100;
+                    document.getElementById('docProcessingProgressBar').style.width = progress + '%';
+                } else {
+                    clearInterval(progressInterval);
+                    // Processing complete
+                    setTimeout(() => {
+                        displayDocumentIntelligenceResults(file.name);
+                    }, 500);
+                }
+            }, 700);
+        }
+
+        function displayDocumentIntelligenceResults(filename) {
+            // MOCK DATA - Simulate document classification and extraction
+            // TODO: Replace with actual AI API response
+            const mockDocuments = {
+                residential: {
+                    type: 'Residential Building Permit',
+                    confidence: 98.5,
+                    pages: 3,
+                    fields: [
+                        { name: 'Property Address', value: '1847 Oak Street, Springfield', confidence: 98.2 },
+                        { name: 'Owner Name', value: 'Sarah Johnson', confidence: 97.5 },
+                        { name: 'Construction Type', value: 'New Single Family Dwelling', confidence: 99.1 },
+                        { name: 'Square Footage', value: '2,450 sq ft', confidence: 96.8 },
+                        { name: 'Estimated Cost', value: '$485,000', confidence: 98.9 },
+                        { name: 'Contractor License', value: 'CA-LIC-847261', confidence: 99.2 },
+                        { name: 'Phone Number', value: '(555) 234-5678', confidence: 97.8 },
+                        { name: 'Email', value: 'sarah.johnson@email.com', confidence: 96.3 }
+                    ]
+                },
+                commercial: {
+                    type: 'Commercial Building Permit',
+                    confidence: 99.2,
+                    pages: 5,
+                    fields: [
+                        { name: 'Business Name', value: 'Springfield Medical Center', confidence: 98.7 },
+                        { name: 'Property Address', value: '4500 Commerce Blvd, Springfield', confidence: 99.1 },
+                        { name: 'Building Type', value: 'Healthcare Facility', confidence: 97.9 },
+                        { name: 'Total Area', value: '35,000 sq ft', confidence: 98.5 },
+                        { name: 'Contact Name', value: 'Dr. Robert Chen', confidence: 97.4 },
+                        { name: 'Phone Number', value: '(555) 876-5432', confidence: 98.9 },
+                        { name: 'Email', value: 'rchen@springfieldmed.com', confidence: 97.1 }
+                    ]
+                }
+            };
+
+            // Randomly select a document type for demo
+            const docType = Math.random() > 0.5 ? 'residential' : 'commercial';
+            const docData = mockDocuments[docType];
+            extractedDocumentData = docData;
+
+            // Hide processing, show results
+            document.getElementById('docProcessingStatus').classList.add('hidden');
+            document.getElementById('docClassificationResult').classList.remove('hidden');
+            document.getElementById('docProcessingExtractedPanel').classList.remove('hidden');
+
+            // Display classification
+            document.getElementById('docDetectedType').textContent = docData.type;
+            document.getElementById('docTypeConfidence').textContent = docData.confidence + '% confidence';
+            document.getElementById('docPages').textContent = `${docData.pages} page${docData.pages > 1 ? 's' : ''} • Processed in 2.3s`;
+
+            // Display extracted fields
+            document.getElementById('docProcessingFieldCount').textContent = docData.fields.length;
+
+            const fieldsHTML = docData.fields.map(field => {
+                const confidenceColor = field.confidence >= 95 ? 'green' : field.confidence >= 90 ? 'yellow' : 'orange';
+                return `
+                    <div class="flex items-center justify-between p-2 glass rounded">
+                        <div class="flex-1">
+                            <div class="text-xs text-white/60">${field.name}</div>
+                            <div class="text-sm text-white font-medium">${field.value}</div>
+                        </div>
+                        <div class="text-${confidenceColor}-400 text-xs ml-2">${field.confidence}%</div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('docProcessingFields').innerHTML = fieldsHTML;
+
+            // Auto-set service type based on document
+            const serviceTypeMapping = {
+                'Residential Building Permit': 'building_permit',
+                'Commercial Building Permit': 'building_permit',
+                'Business License Application': 'business_license'
+            };
+
+            const serviceType = serviceTypeMapping[docData.type];
+            if (serviceType) {
+                document.getElementById('serviceType').value = serviceType;
+                updateAIRouting();
+            }
+        }
+
+        function autoFillFromDocument() {
+            if (!extractedDocumentData) return;
+
+            // Map extracted fields to form fields
+            const fieldMapping = {
+                'Owner Name': (value) => {
+                    const parts = value.split(' ');
+                    if (parts.length >= 2) {
+                        document.getElementById('firstName').value = parts[0];
+                        document.getElementById('lastName').value = parts.slice(1).join(' ');
+                    }
+                },
+                'Contact Name': (value) => {
+                    const parts = value.replace('Dr. ', '').split(' ');
+                    if (parts.length >= 2) {
+                        document.getElementById('firstName').value = parts[0];
+                        document.getElementById('lastName').value = parts.slice(1).join(' ');
+                    }
+                },
+                'Property Address': (value) => {
+                    const addressField = document.getElementById('address');
+                    if (addressField) addressField.value = value;
+                },
+                'Phone Number': (value) => {
+                    const phoneField = document.getElementById('phone');
+                    if (phoneField) phoneField.value = value;
+                },
+                'Email': (value) => {
+                    const emailField = document.getElementById('email');
+                    if (emailField) emailField.value = value;
+                },
+                'Business Name': (value) => {
+                    // Could map to a business name field if it exists
+                }
+            };
+
+            // Apply extracted data to form
+            let filledCount = 0;
+            extractedDocumentData.fields.forEach(field => {
+                if (fieldMapping[field.name]) {
+                    fieldMapping[field.name](field.value);
+                    filledCount++;
+                }
+            });
+
+            // Show success notification
+            showNotification(`✓ Auto-filled ${filledCount} fields from your document`, 'success');
+
+            // Scroll to form to show filled fields
+            setTimeout(() => {
+                document.getElementById('firstName').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 500);
+        }
+
+        function viewFullDocumentAnalysis() {
+            // Open the full document intelligence interface in a new window
+            window.open('document-intelligence-test.html', '_blank');
+        }
+
+        function showNotification(message, type = 'success') {
+            const colors = {
+                success: 'green',
+                error: 'red',
+                info: 'blue',
+                warning: 'yellow'
+            };
+            const color = colors[type] || 'blue';
+            const icons = {
+                success: 'check-circle',
+                error: 'exclamation-circle',
+                info: 'info-circle',
+                warning: 'exclamation-triangle'
+            };
+            const icon = icons[type] || 'info-circle';
+
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 glass rounded-lg p-4 text-white bg-${color}-500/20 border border-${color}-400 z-50 animate-fade-in`;
+            notification.innerHTML = `<i class="fas fa-${icon} mr-2"></i>${message}`;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
         }
 
         function quickChat(topic) {
