@@ -4561,7 +4561,22 @@
                     </div>
                 </div>
                 </div>
-                
+
+                <!-- Enhanced 2024-10-30: Message Detail Modal with CRM Integration -->
+                <div id="messageDetailModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4" role="dialog" aria-labelledby="messageDetailTitle">
+                    <div class="glass rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                        <div class="sticky top-0 glass border-b border-white/10 p-6 flex items-center justify-between">
+                            <h2 id="messageDetailTitle" class="text-xl font-bold text-white">Message Details</h2>
+                            <button onclick="closeMessageDetail()" class="text-white/70 hover:text-white transition">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        <div id="messageDetailContent" class="p-6">
+                            <!-- Message details will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+
                 <!-- CRM Tab -->
                 <div id="crm-content" class="tab-content h-full" style="display: none;">
                     <div class="h-full flex flex-col">
@@ -6861,6 +6876,9 @@
         // Constituent Inbox Functions - Added 2025-10-27
         // MOCK DATA - Replace in production
         // TODO: Connect to constituent inbox API endpoint
+        // TODO: Connect to CRM API endpoint for constituent profiles
+        // SECURITY TODO: Validate all constituent data before processing
+        // Enhanced 2024-10-30: Added CRM integration and relationship intelligence
 
         const CONSTITUENT_MESSAGES = [
             {
@@ -6877,7 +6895,44 @@
                 urgency: 'low',
                 sentiment: 0.72,
                 confidence: 98.5,
-                tags: ['permit', 'status check', 'residential']
+                tags: ['permit', 'status check', 'residential'],
+                // Enhanced CRM Profile Data
+                constituentProfile: {
+                    id: 'CRM-2024-4721',
+                    phone: '(555) 847-2910',
+                    address: '1847 Oak Street, Springfield, IL 62701',
+                    residency: '3 years',
+                    previousContacts: 2,
+                    totalRequests: 3,
+                    avgResponseTime: '1.2 days',
+                    satisfactionScore: 4.5,
+                    lastContact: new Date('2024-09-15T14:30:00'),
+                    preferredChannel: 'email',
+                    language: 'English',
+                    demographics: {
+                        age: '35-44',
+                        householdSize: 4,
+                        propertyOwner: true
+                    }
+                },
+                // Relationship Intelligence
+                relationshipData: {
+                    lifetimeValue: 'High',
+                    engagementLevel: 'Active',
+                    riskScore: 'Low',
+                    activeServices: ['Building Permit', 'Property Tax'],
+                    associatedRecords: [
+                        { type: 'Permit', id: 'RES-2024-00184', status: 'Under Review', date: '2024-10-13' },
+                        { type: 'Tax Payment', id: 'TAX-2024-7821', status: 'Paid', date: '2024-08-01' }
+                    ],
+                    relatedContacts: [
+                        { name: 'John Johnson', relationship: 'Spouse', phone: '(555) 847-2911' }
+                    ],
+                    interactionHistory: [
+                        { date: '2024-09-15', type: 'Phone Call', topic: 'Permit Requirements', duration: '12 min' },
+                        { date: '2024-08-22', type: 'Email', topic: 'Property Tax Question', responded: true }
+                    ]
+                }
             },
             {
                 id: 'MSG-2024-001846',
@@ -6893,7 +6948,44 @@
                 urgency: 'high',
                 sentiment: 0.35,
                 confidence: 96.2,
-                tags: ['pothole', 'road repair', 'urgent']
+                tags: ['pothole', 'road repair', 'urgent'],
+                // Enhanced CRM Profile Data
+                constituentProfile: {
+                    id: 'CRM-2024-8473',
+                    phone: '(555) 293-8471',
+                    address: '892 Maple Drive, Springfield, IL 62704',
+                    residency: '7 years',
+                    previousContacts: 5,
+                    totalRequests: 8,
+                    avgResponseTime: '3.1 days',
+                    satisfactionScore: 3.2,
+                    lastContact: new Date('2024-09-28T11:15:00'),
+                    preferredChannel: 'web',
+                    language: 'English',
+                    demographics: {
+                        age: '45-54',
+                        householdSize: 3,
+                        propertyOwner: true
+                    }
+                },
+                // Relationship Intelligence
+                relationshipData: {
+                    lifetimeValue: 'Medium',
+                    engagementLevel: 'Frequent',
+                    riskScore: 'Medium',
+                    activeServices: ['Public Works Requests'],
+                    associatedRecords: [
+                        { type: 'Service Request', id: 'PW-2024-3847', status: 'In Progress', date: '2024-10-27' },
+                        { type: 'Service Request', id: 'PW-2024-2193', status: 'Completed', date: '2024-09-28' },
+                        { type: 'Service Request', id: 'PW-2024-1056', status: 'Completed', date: '2024-07-15' }
+                    ],
+                    relatedContacts: [],
+                    interactionHistory: [
+                        { date: '2024-09-28', type: 'Web Form', topic: 'Street Light Outage', responded: true },
+                        { date: '2024-07-15', type: 'Web Form', topic: 'Sidewalk Repair', responded: true },
+                        { date: '2024-05-02', type: 'Phone Call', topic: 'Trash Schedule', duration: '5 min' }
+                    ]
+                }
             },
             {
                 id: 'MSG-2024-001845',
@@ -6909,7 +7001,38 @@
                 urgency: 'low',
                 sentiment: 0.88,
                 confidence: 94.7,
-                tags: ['park', 'hours', 'community request']
+                tags: ['park', 'hours', 'community request'],
+                constituentProfile: {
+                    id: 'CRM-2024-5102',
+                    phone: '(555) 921-3847',
+                    address: '2145 Elm Street, Springfield, IL 62702',
+                    residency: '7 years',
+                    previousContacts: 5,
+                    totalRequests: 6,
+                    avgResponseTime: '0.8 days',
+                    satisfactionScore: 4.8,
+                    demographics: {
+                        age: '30-39',
+                        householdSize: 4,
+                        propertyOwner: true
+                    }
+                },
+                relationshipData: {
+                    lifetimeValue: 'High',
+                    engagementLevel: 'Very Active',
+                    riskScore: 'Low',
+                    activeServices: ['Parks & Recreation', 'Community Programs'],
+                    associatedRecords: [
+                        { type: 'Community Program', id: 'CP-2024-892', status: 'Active', date: '2024-06-15' },
+                        { type: 'Park Reservation', id: 'PR-2024-445', status: 'Completed', date: '2024-08-20' }
+                    ],
+                    interactionHistory: [
+                        { date: '2024-10-27', type: 'Social Media', topic: 'Park Hours Extension', responded: false },
+                        { date: '2024-08-20', type: 'Web Form', topic: 'Park Reservation', responded: true },
+                        { date: '2024-06-15', type: 'Email', topic: 'Summer Program Registration', responded: true },
+                        { date: '2024-03-10', type: 'Phone Call', topic: 'Park Facilities Inquiry', duration: '8 min' }
+                    ]
+                }
             },
             {
                 id: 'MSG-2024-001844',
@@ -6925,7 +7048,40 @@
                 urgency: 'medium',
                 sentiment: 0.42,
                 confidence: 97.8,
-                tags: ['business license', 'payment', 'technical issue']
+                tags: ['business license', 'payment', 'technical issue'],
+                constituentProfile: {
+                    id: 'CRM-2024-3298',
+                    phone: '(555) 673-1209',
+                    address: '4720 Business Park Drive, Springfield, IL 62704',
+                    residency: '12 years',
+                    previousContacts: 8,
+                    totalRequests: 12,
+                    avgResponseTime: '1.5 days',
+                    satisfactionScore: 4.0,
+                    demographics: {
+                        age: '45-54',
+                        householdSize: 2,
+                        propertyOwner: true,
+                        businessOwner: true
+                    }
+                },
+                relationshipData: {
+                    lifetimeValue: 'Very High',
+                    engagementLevel: 'Active',
+                    riskScore: 'Medium',
+                    activeServices: ['Business License', 'Property Tax', 'Zoning Compliance'],
+                    associatedRecords: [
+                        { type: 'Business License', id: 'BUS-2024-8473', status: 'Pending Renewal', date: '2024-10-15' },
+                        { type: 'Payment', id: 'PAY-2024-7721', status: 'Failed', date: '2024-10-27', amount: '$450' },
+                        { type: 'Zoning Permit', id: 'ZN-2023-2910', status: 'Active', date: '2023-05-20' }
+                    ],
+                    interactionHistory: [
+                        { date: '2024-10-27', type: 'Email', topic: 'License Renewal Payment Issue', responded: false },
+                        { date: '2024-09-15', type: 'Web Form', topic: 'Business Hours Change', responded: true },
+                        { date: '2024-07-10', type: 'Phone Call', topic: 'Tax Payment Inquiry', duration: '12 min' },
+                        { date: '2023-05-20', type: 'In Person', topic: 'Zoning Application', responded: true }
+                    ]
+                }
             },
             {
                 id: 'MSG-2024-001843',
@@ -6941,7 +7097,38 @@
                 urgency: 'medium',
                 sentiment: 0.51,
                 confidence: 95.3,
-                tags: ['trash', 'missed pickup', 'sanitation']
+                tags: ['trash', 'missed pickup', 'sanitation'],
+                constituentProfile: {
+                    id: 'CRM-2024-6891',
+                    phone: '(555) 234-5678',
+                    address: '892 Oak Drive, Springfield, IL 62703',
+                    residency: '2 years',
+                    previousContacts: 3,
+                    totalRequests: 4,
+                    avgResponseTime: '0.5 days',
+                    satisfactionScore: 3.8,
+                    demographics: {
+                        age: '25-34',
+                        householdSize: 3,
+                        propertyOwner: false,
+                        rentalProperty: true
+                    }
+                },
+                relationshipData: {
+                    lifetimeValue: 'Medium',
+                    engagementLevel: 'Moderate',
+                    riskScore: 'Low',
+                    activeServices: ['Trash Collection', 'Recycling'],
+                    associatedRecords: [
+                        { type: 'Service Request', id: 'SR-2024-3341', status: 'Open', date: '2024-10-26' },
+                        { type: 'Service Request', id: 'SR-2024-1892', status: 'Resolved', date: '2024-06-12' }
+                    ],
+                    interactionHistory: [
+                        { date: '2024-10-26', type: 'SMS', topic: 'Missed Trash Pickup', responded: false },
+                        { date: '2024-06-12', type: 'SMS', topic: 'Recycling Bin Damaged', responded: true },
+                        { date: '2024-03-05', type: 'Web Form', topic: 'Trash Schedule Change', responded: true }
+                    ]
+                }
             },
             {
                 id: 'MSG-2024-001842',
@@ -6957,7 +7144,37 @@
                 urgency: 'low',
                 sentiment: 0.78,
                 confidence: 99.1,
-                tags: ['public records', 'FOIA', 'permits']
+                tags: ['public records', 'FOIA', 'permits'],
+                constituentProfile: {
+                    id: 'CRM-2024-4456',
+                    phone: '(555) 789-4521',
+                    address: '3412 Maple Avenue, Springfield, IL 62701',
+                    residency: '15 years',
+                    previousContacts: 4,
+                    totalRequests: 5,
+                    avgResponseTime: '2.3 days',
+                    satisfactionScore: 4.2,
+                    demographics: {
+                        age: '55-64',
+                        householdSize: 2,
+                        propertyOwner: true
+                    }
+                },
+                relationshipData: {
+                    lifetimeValue: 'Medium',
+                    engagementLevel: 'Low',
+                    riskScore: 'Low',
+                    activeServices: ['Public Records Requests', 'Property Tax'],
+                    associatedRecords: [
+                        { type: 'Public Records Request', id: 'PRR-2024-891', status: 'Processing', date: '2024-10-26' },
+                        { type: 'Public Records Request', id: 'PRR-2023-2341', status: 'Fulfilled', date: '2023-11-10' }
+                    ],
+                    interactionHistory: [
+                        { date: '2024-10-26', type: 'Web Form', topic: 'Public Records - Building Permits', responded: false },
+                        { date: '2023-11-10', type: 'Email', topic: 'Public Records - Zoning Maps', responded: true },
+                        { date: '2022-08-15', type: 'In Person', topic: 'Property Deed Copies', responded: true }
+                    ]
+                }
             },
             {
                 id: 'MSG-2024-001841',
@@ -6973,7 +7190,36 @@
                 urgency: 'medium',
                 sentiment: 0.28,
                 confidence: 93.6,
-                tags: ['noise', 'construction', 'code violation']
+                tags: ['noise', 'construction', 'code violation'],
+                constituentProfile: {
+                    id: 'CRM-ANON-8721',
+                    phone: 'Not Provided',
+                    address: 'Not Disclosed',
+                    residency: 'Unknown',
+                    previousContacts: 2,
+                    totalRequests: 2,
+                    avgResponseTime: '1.0 days',
+                    satisfactionScore: 3.0,
+                    demographics: {
+                        age: 'Unknown',
+                        householdSize: 'Unknown',
+                        propertyOwner: 'Unknown'
+                    }
+                },
+                relationshipData: {
+                    lifetimeValue: 'Low',
+                    engagementLevel: 'Anonymous',
+                    riskScore: 'Medium',
+                    activeServices: ['Code Enforcement'],
+                    associatedRecords: [
+                        { type: 'Code Complaint', id: 'CE-2024-1156', status: 'Under Investigation', date: '2024-10-26' },
+                        { type: 'Code Complaint', id: 'CE-2024-0892', status: 'Resolved', date: '2024-08-05' }
+                    ],
+                    interactionHistory: [
+                        { date: '2024-10-26', type: 'Email', topic: 'Noise Complaint - Construction', responded: false },
+                        { date: '2024-08-05', type: 'Email', topic: 'Parking Violation', responded: true }
+                    ]
+                }
             },
             {
                 id: 'MSG-2024-001840',
@@ -6989,7 +7235,40 @@
                 urgency: 'low',
                 sentiment: 0.95,
                 confidence: 98.9,
-                tags: ['positive feedback', 'permit', 'appreciation']
+                tags: ['positive feedback', 'permit', 'appreciation'],
+                constituentProfile: {
+                    id: 'CRM-2024-2873',
+                    phone: '(555) 445-8821',
+                    address: '780 Main Street, Springfield, IL 62701',
+                    residency: '8 years',
+                    previousContacts: 11,
+                    totalRequests: 15,
+                    avgResponseTime: '1.8 days',
+                    satisfactionScore: 4.7,
+                    demographics: {
+                        age: '40-49',
+                        householdSize: 3,
+                        propertyOwner: true,
+                        businessOwner: true
+                    }
+                },
+                relationshipData: {
+                    lifetimeValue: 'Very High',
+                    engagementLevel: 'Very Active',
+                    riskScore: 'Low',
+                    activeServices: ['Building Permits', 'Business License', 'Sign Permits', 'Property Tax'],
+                    associatedRecords: [
+                        { type: 'Sign Permit', id: 'SP-2024-445', status: 'Approved', date: '2024-10-25' },
+                        { type: 'Business License', id: 'BUS-2024-3389', status: 'Active', date: '2024-01-15' },
+                        { type: 'Building Permit', id: 'BP-2023-7721', status: 'Completed', date: '2023-09-20' }
+                    ],
+                    interactionHistory: [
+                        { date: '2024-10-26', type: 'Social Media', topic: 'Positive Feedback - Sign Permit', responded: false },
+                        { date: '2024-10-20', type: 'Web Form', topic: 'Sign Permit Application', responded: true },
+                        { date: '2024-08-12', type: 'Phone Call', topic: 'Permit Status Inquiry', duration: '6 min' },
+                        { date: '2024-01-15', type: 'In Person', topic: 'Business License Renewal', responded: true }
+                    ]
+                }
             }
         ];
 
@@ -7133,10 +7412,109 @@
                 sms: 'SMS'
             };
 
-            showNotification(`Viewing message from ${message.name} - ${message.subject}`, 'info');
+            const urgencyColors = {
+                high: 'red',
+                medium: 'yellow',
+                low: 'green'
+            };
 
-            // TODO: Open detailed message view modal
-            console.log('Message details:', message);
+            const intentIcons = {
+                request: 'fa-hand-holding-heart',
+                complaint: 'fa-exclamation-triangle',
+                inquiry: 'fa-question-circle'
+            };
+
+            // Enhanced 2024-10-30: Build modal content with CRM data
+            const modalContent = `
+                <div class="space-y-4">
+                    <!-- Message Header -->
+                    <div class="glass rounded-lg p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-1">${message.subject}</h3>
+                                <p class="text-white/70 text-sm">From: ${message.name} (${message.from})</p>
+                                <p class="text-white/70 text-sm">Received: ${message.timestamp.toLocaleString()}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="bg-${urgencyColors[message.urgency]}-500/20 text-${urgencyColors[message.urgency]}-400 px-3 py-1 rounded-full text-xs font-semibold inline-block mb-2">
+                                    <i class="fas fa-flag mr-1"></i>${message.urgency} priority
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i class="fas ${intentIcons[message.intent]} mr-1"></i>${message.intent}
+                            </span>
+                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i class="fas fa-building mr-1"></i>${message.department}
+                            </span>
+                            <span class="bg-${sentimentColor}-500/20 text-${sentimentColor}-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i class="fas fa-smile mr-1"></i>${sentimentLabel} (${Math.round(message.sentiment * 100)}%)
+                            </span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i class="fas fa-robot mr-1"></i>${message.confidence}% AI Confidence
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Message Content -->
+                    <div class="glass rounded-lg p-4">
+                        <h4 class="text-white font-semibold mb-2 flex items-center">
+                            <i class="fas fa-message mr-2 text-blue-400"></i>
+                            Message Content
+                        </h4>
+                        <p class="text-white/80">${message.preview}</p>
+                        ${message.tags ? `
+                            <div class="mt-3 pt-3 border-t border-white/10">
+                                <p class="text-white/70 text-xs mb-2">Tags:</p>
+                                <div class="flex flex-wrap gap-2">
+                                    ${message.tags.map(tag => `<span class="bg-white/10 text-white/70 px-2 py-1 rounded text-xs">#${tag}</span>`).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <!-- CRM Integration: Constituent Profile -->
+                    ${message.constituentProfile ? renderConstituentProfile(message.constituentProfile) : ''}
+
+                    <!-- CRM Integration: Relationship Intelligence -->
+                    ${message.relationshipData ? renderRelationshipIntelligence(message.relationshipData) : ''}
+
+                    <!-- Action Buttons -->
+                    <div class="glass rounded-lg p-4 flex flex-wrap gap-3">
+                        <button class="glass px-4 py-2 rounded-lg text-white hover:bg-blue-500/30 transition flex items-center gap-2">
+                            <i class="fas fa-reply"></i>Reply
+                        </button>
+                        <button class="glass px-4 py-2 rounded-lg text-white hover:bg-purple-500/30 transition flex items-center gap-2">
+                            <i class="fas fa-share"></i>Forward
+                        </button>
+                        <button class="glass px-4 py-2 rounded-lg text-white hover:bg-green-500/30 transition flex items-center gap-2">
+                            <i class="fas fa-check"></i>Mark Resolved
+                        </button>
+                        <button class="glass px-4 py-2 rounded-lg text-white hover:bg-yellow-500/30 transition flex items-center gap-2">
+                            <i class="fas fa-user-plus"></i>Assign
+                        </button>
+                        <button class="glass px-4 py-2 rounded-lg text-white hover:bg-red-500/30 transition flex items-center gap-2">
+                            <i class="fas fa-flag"></i>Escalate
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Show modal
+            const modal = document.getElementById('messageDetailModal');
+            const content = document.getElementById('messageDetailContent');
+            if (modal && content) {
+                content.innerHTML = modalContent;
+                modal.classList.remove('hidden');
+            }
+        }
+
+        function closeMessageDetail() {
+            const modal = document.getElementById('messageDetailModal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
         }
 
         function setupInboxSearch() {
@@ -7160,6 +7538,202 @@
             if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
             if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
             return `${Math.floor(seconds / 86400)}d ago`;
+        }
+
+        // Enhanced 2024-10-30: CRM Integration Functions
+        // MOCK DATA - Replace in production
+        // TODO: Connect to CRM API endpoint
+
+        function renderConstituentProfile(profile) {
+            if (!profile) return '<div class="text-white/60 text-sm">No profile data available</div>';
+
+            const stars = '★'.repeat(Math.floor(profile.satisfactionScore)) + '☆'.repeat(5 - Math.floor(profile.satisfactionScore));
+
+            return `
+                <div class="glass rounded-lg p-4 mb-4">
+                    <h4 class="text-white font-semibold mb-3 flex items-center">
+                        <i class="fas fa-user-circle mr-2 text-blue-400"></i>
+                        Constituent Profile
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-white/70 text-sm mb-1">CRM ID</p>
+                            <p class="text-white font-medium">${profile.id}</p>
+                        </div>
+                        <div>
+                            <p class="text-white/70 text-sm mb-1">Phone</p>
+                            <p class="text-white font-medium">${profile.phone}</p>
+                        </div>
+                        <div class="col-span-2">
+                            <p class="text-white/70 text-sm mb-1">Address</p>
+                            <p class="text-white font-medium">${profile.address}</p>
+                        </div>
+                        <div>
+                            <p class="text-white/70 text-sm mb-1">Residency</p>
+                            <p class="text-white font-medium">${profile.residency}</p>
+                        </div>
+                        <div>
+                            <p class="text-white/70 text-sm mb-1">Previous Contacts</p>
+                            <p class="text-white font-medium">${profile.previousContacts} contacts</p>
+                        </div>
+                        <div>
+                            <p class="text-white/70 text-sm mb-1">Total Requests</p>
+                            <p class="text-white font-medium">${profile.totalRequests} requests</p>
+                        </div>
+                        <div>
+                            <p class="text-white/70 text-sm mb-1">Avg Response Time</p>
+                            <p class="text-white font-medium">${profile.avgResponseTime}</p>
+                        </div>
+                        <div class="col-span-2">
+                            <p class="text-white/70 text-sm mb-1">Satisfaction Score</p>
+                            <p class="text-yellow-400 text-lg">${stars} <span class="text-white text-sm">${profile.satisfactionScore}/5.0</span></p>
+                        </div>
+                        ${profile.demographics ? `
+                        <div class="col-span-2 pt-3 border-t border-white/10">
+                            <p class="text-white/70 text-sm mb-2">Demographics</p>
+                            <div class="flex flex-wrap gap-2">
+                                ${profile.demographics.age !== 'Unknown' ? `<span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-xs">Age: ${profile.demographics.age}</span>` : ''}
+                                ${profile.demographics.householdSize !== 'Unknown' ? `<span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs">Household: ${profile.demographics.householdSize}</span>` : ''}
+                                ${profile.demographics.propertyOwner === true ? '<span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs">Property Owner</span>' : ''}
+                                ${profile.demographics.businessOwner === true ? '<span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-xs">Business Owner</span>' : ''}
+                                ${profile.demographics.rentalProperty === true ? '<span class="bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full text-xs">Rental Property</span>' : ''}
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRelationshipIntelligence(data) {
+            if (!data) return '<div class="text-white/60 text-sm">No relationship data available</div>';
+
+            const lifetimeColors = {
+                'Very High': 'green',
+                'High': 'blue',
+                'Medium': 'yellow',
+                'Low': 'red'
+            };
+
+            const engagementColors = {
+                'Very Active': 'green',
+                'Active': 'blue',
+                'Moderate': 'yellow',
+                'Low': 'orange',
+                'Anonymous': 'purple'
+            };
+
+            const riskColors = {
+                'Low': 'green',
+                'Medium': 'yellow',
+                'High': 'red'
+            };
+
+            return `
+                <div class="glass rounded-lg p-4">
+                    <h4 class="text-white font-semibold mb-3 flex items-center">
+                        <i class="fas fa-chart-line mr-2 text-purple-400"></i>
+                        Relationship Intelligence
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div class="glass rounded-lg p-3">
+                            <p class="text-white/70 text-xs mb-1">Lifetime Value</p>
+                            <p class="text-${lifetimeColors[data.lifetimeValue]}-400 font-bold text-lg">${data.lifetimeValue}</p>
+                        </div>
+                        <div class="glass rounded-lg p-3">
+                            <p class="text-white/70 text-xs mb-1">Engagement Level</p>
+                            <p class="text-${engagementColors[data.engagementLevel]}-400 font-bold text-lg">${data.engagementLevel}</p>
+                        </div>
+                        <div class="glass rounded-lg p-3">
+                            <p class="text-white/70 text-xs mb-1">Risk Score</p>
+                            <p class="text-${riskColors[data.riskScore]}-400 font-bold text-lg">${data.riskScore}</p>
+                        </div>
+                    </div>
+
+                    ${data.activeServices && data.activeServices.length > 0 ? `
+                    <div class="mb-4">
+                        <p class="text-white/70 text-sm mb-2">Active Services</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${data.activeServices.map(service => `
+                                <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                    <i class="fas fa-briefcase mr-1"></i>${service}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    ${data.associatedRecords && data.associatedRecords.length > 0 ? `
+                    <div class="mb-4">
+                        <p class="text-white/70 text-sm mb-2">Associated Records</p>
+                        <div class="space-y-2">
+                            ${data.associatedRecords.map(record => {
+                                const statusColors = {
+                                    'Active': 'green',
+                                    'Completed': 'blue',
+                                    'Approved': 'green',
+                                    'Pending': 'yellow',
+                                    'Pending Renewal': 'yellow',
+                                    'Open': 'yellow',
+                                    'Failed': 'red',
+                                    'Resolved': 'blue',
+                                    'Processing': 'yellow',
+                                    'Fulfilled': 'green',
+                                    'Under Investigation': 'orange'
+                                };
+                                const statusColor = statusColors[record.status] || 'gray';
+                                return `
+                                    <div class="glass rounded-lg p-2 flex items-center justify-between">
+                                        <div class="flex-1">
+                                            <p class="text-white text-sm font-medium">${record.type} #${record.id}</p>
+                                            <p class="text-white/60 text-xs">${record.date}${record.amount ? ` • ${record.amount}` : ''}</p>
+                                        </div>
+                                        <span class="bg-${statusColor}-500/20 text-${statusColor}-400 px-2 py-1 rounded text-xs font-semibold">
+                                            ${record.status}
+                                        </span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    ${data.interactionHistory && data.interactionHistory.length > 0 ? `
+                    <div>
+                        <p class="text-white/70 text-sm mb-2">Interaction History</p>
+                        <div class="space-y-2 max-h-60 overflow-y-auto">
+                            ${data.interactionHistory.map((interaction, index) => {
+                                const typeIcons = {
+                                    'Email': 'fa-envelope',
+                                    'Phone Call': 'fa-phone',
+                                    'Web Form': 'fa-globe',
+                                    'SMS': 'fa-sms',
+                                    'Social Media': 'fa-comments',
+                                    'In Person': 'fa-user'
+                                };
+                                const icon = typeIcons[interaction.type] || 'fa-circle';
+                                const isFirst = index === 0;
+                                return `
+                                    <div class="flex items-start gap-3 ${isFirst ? 'opacity-100' : 'opacity-70'}">
+                                        <div class="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                            <i class="fas ${icon} text-blue-400 text-xs"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-white text-sm">${interaction.topic}</p>
+                                            <p class="text-white/60 text-xs">
+                                                ${interaction.date} • ${interaction.type}
+                                                ${interaction.duration ? ` • ${interaction.duration}` : ''}
+                                                ${interaction.responded !== undefined ? ` • ${interaction.responded ? '<span class="text-green-400">Responded</span>' : '<span class="text-yellow-400">Pending</span>'}` : ''}
+                                            </p>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
         }
 
         // CJIS Security Configuration Functions - Added 2025-10-29
