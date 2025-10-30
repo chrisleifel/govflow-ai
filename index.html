@@ -1818,6 +1818,117 @@
                                     </button>
                                 </div>
                             </div>
+
+                            <!-- Enhanced 2024-10-30: Intelligent Workflow Orchestration -->
+                            <!-- Cross-Department Orchestration -->
+                            <div class="glass rounded-xl p-6 mt-6">
+                                <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-project-diagram text-purple-400"></i>
+                                    Cross-Department Orchestration
+                                </h3>
+                                <div class="space-y-4">
+                                    <!-- Department Assignment -->
+                                    <div class="glass rounded-lg p-4">
+                                        <h4 class="text-white font-semibold mb-3">Department Routing</h4>
+                                        <div id="departmentRouting" class="space-y-2">
+                                            <!-- Will be populated by JavaScript -->
+                                            <div class="text-white/60 text-sm">Add workflow steps to configure department routing</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Handoff Points -->
+                                    <div class="glass rounded-lg p-4">
+                                        <h4 class="text-white font-semibold mb-3">Department Handoffs</h4>
+                                        <div id="handoffPoints" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            <!-- Mock handoff examples -->
+                                            <div class="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <i class="fas fa-arrow-right text-blue-400"></i>
+                                                    <span class="text-white text-sm font-medium">Step 2 → Step 3</span>
+                                                </div>
+                                                <div class="text-xs text-white/70">Building & Safety → Public Works</div>
+                                                <div class="text-xs text-green-400 mt-1">Avg: 45 min</div>
+                                            </div>
+                                            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <i class="fas fa-arrow-right text-yellow-400"></i>
+                                                    <span class="text-white text-sm font-medium">Step 4 → Step 5</span>
+                                                </div>
+                                                <div class="text-xs text-white/70">Public Works → City Manager</div>
+                                                <div class="text-xs text-yellow-400 mt-1">Avg: 2.5 hrs</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SLA Monitoring & Predictions -->
+                            <div class="glass rounded-xl p-6 mt-6">
+                                <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-clock text-blue-400"></i>
+                                    SLA Monitoring & Predictions
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                    <div class="glass rounded-lg p-4">
+                                        <div class="text-white/70 text-xs mb-1">Predicted Completion</div>
+                                        <div class="text-green-400 text-2xl font-bold">4.2 days</div>
+                                        <div class="text-white/60 text-xs mt-1">95% confidence</div>
+                                    </div>
+                                    <div class="glass rounded-lg p-4">
+                                        <div class="text-white/70 text-xs mb-1">SLA Compliance</div>
+                                        <div class="text-blue-400 text-2xl font-bold">94.7%</div>
+                                        <div class="text-white/60 text-xs mt-1">Last 90 days</div>
+                                    </div>
+                                    <div class="glass rounded-lg p-4">
+                                        <div class="text-white/70 text-xs mb-1">At-Risk Workflows</div>
+                                        <div class="text-yellow-400 text-2xl font-bold">3</div>
+                                        <div class="text-white/60 text-xs mt-1">Requires attention</div>
+                                    </div>
+                                </div>
+
+                                <!-- SLA Timeline Visualization -->
+                                <div class="glass rounded-lg p-4">
+                                    <h4 class="text-white font-semibold mb-3">SLA Timeline</h4>
+                                    <div class="space-y-3">
+                                        <div>
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="text-white/80 text-sm">Step 1: Document Submission</span>
+                                                <span class="text-green-400 text-xs font-semibold">15 min</span>
+                                            </div>
+                                            <div class="w-full bg-white/10 rounded-full h-2">
+                                                <div class="bg-green-500 h-2 rounded-full" style="width: 10%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="text-white/80 text-sm">Step 2: Initial Review</span>
+                                                <span class="text-blue-400 text-xs font-semibold">1.5 hrs</span>
+                                            </div>
+                                            <div class="w-full bg-white/10 rounded-full h-2">
+                                                <div class="bg-blue-500 h-2 rounded-full" style="width: 35%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="text-white/80 text-sm">Step 3: Department Review</span>
+                                                <span class="text-yellow-400 text-xs font-semibold">2 days</span>
+                                            </div>
+                                            <div class="w-full bg-white/10 rounded-full h-2">
+                                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 65%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="text-white/80 text-sm">Step 4: Final Approval</span>
+                                                <span class="text-purple-400 text-xs font-semibold">1 day</span>
+                                            </div>
+                                            <div class="w-full bg-white/10 rounded-full h-2">
+                                                <div class="bg-purple-500 h-2 rounded-full" style="width: 45%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Right: Step Library & Saved Workflows -->
@@ -1835,7 +1946,7 @@
                             </div>
 
                             <!-- Saved Workflows -->
-                            <div class="glass rounded-xl p-6">
+                            <div class="glass rounded-xl p-6 mb-6">
                                 <h3 class="font-bold text-white mb-4 flex items-center gap-2">
                                     <i class="fas fa-bookmark text-purple-400"></i>
                                     Saved Workflows
@@ -1843,6 +1954,130 @@
                                 <div id="savedWorkflows" class="space-y-2 max-h-[300px] overflow-y-auto pr-2">
                                     <div class="text-white/50 text-sm text-center py-4">
                                         No saved workflows yet
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced 2024-10-30: Workflow Analytics & Optimization -->
+                            <div class="glass rounded-xl p-6 mb-6">
+                                <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-chart-line text-green-400"></i>
+                                    Workflow Analytics
+                                </h3>
+                                <div class="space-y-4">
+                                    <!-- Performance Metrics -->
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="text-white/70 text-xs mb-2">Average Completion Time</div>
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-green-400 text-xl font-bold">4.8 days</div>
+                                            <div class="flex items-center gap-1 text-green-400 text-xs">
+                                                <i class="fas fa-arrow-down"></i>
+                                                <span>12% faster</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="text-white/70 text-xs mb-2">Bottleneck Detection</div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center justify-between text-xs">
+                                                <span class="text-white/80">Step 3: Department Review</span>
+                                                <span class="bg-red-500/20 text-red-400 px-2 py-1 rounded">Critical</span>
+                                            </div>
+                                            <div class="text-white/60 text-xs">Avg delay: 1.8 days</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Optimization Suggestions -->
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="text-white/70 text-xs mb-2">AI Optimization Suggestions</div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-start gap-2">
+                                                <i class="fas fa-lightbulb text-yellow-400 text-xs mt-1"></i>
+                                                <div class="text-white/70 text-xs">Parallel processing for Steps 2-3 could save 6 hours</div>
+                                            </div>
+                                            <div class="flex items-start gap-2">
+                                                <i class="fas fa-lightbulb text-yellow-400 text-xs mt-1"></i>
+                                                <div class="text-white/70 text-xs">Auto-approval for low-risk cases (saves 45%)</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Workflow Health Score -->
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="text-white/70 text-xs mb-2">Workflow Health Score</div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="flex-1">
+                                                <div class="w-full bg-white/10 rounded-full h-3">
+                                                    <div class="bg-gradient-to-r from-green-500 to-blue-500 h-3 rounded-full" style="width: 87%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="text-green-400 text-lg font-bold">87%</div>
+                                        </div>
+                                        <div class="text-white/60 text-xs mt-1">Excellent performance</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced 2024-10-30: Compliance Verification -->
+                            <div class="glass rounded-xl p-6">
+                                <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-shield-alt text-blue-400"></i>
+                                    Compliance Verification
+                                </h3>
+                                <div class="space-y-3">
+                                    <!-- Compliance Status -->
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-white/80 text-sm">CJIS Compliance</span>
+                                            <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-semibold">
+                                                <i class="fas fa-check mr-1"></i>Compliant
+                                            </span>
+                                        </div>
+                                        <div class="text-white/60 text-xs">Last audit: Oct 15, 2024</div>
+                                    </div>
+
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-white/80 text-sm">FedRAMP Moderate</span>
+                                            <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-semibold">
+                                                <i class="fas fa-check mr-1"></i>Compliant
+                                            </span>
+                                        </div>
+                                        <div class="text-white/60 text-xs">Last audit: Oct 10, 2024</div>
+                                    </div>
+
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-white/80 text-sm">FISMA Controls</span>
+                                            <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-semibold">
+                                                <i class="fas fa-check mr-1"></i>Compliant
+                                            </span>
+                                        </div>
+                                        <div class="text-white/60 text-xs">Last audit: Oct 20, 2024</div>
+                                    </div>
+
+                                    <!-- Compliance Requirements -->
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="text-white/70 text-xs mb-2">Workflow Requirements</div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center gap-2">
+                                                <i class="fas fa-check-circle text-green-400 text-xs"></i>
+                                                <span class="text-white/70 text-xs">Audit trail enabled</span>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <i class="fas fa-check-circle text-green-400 text-xs"></i>
+                                                <span class="text-white/70 text-xs">Multi-factor approval</span>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <i class="fas fa-check-circle text-green-400 text-xs"></i>
+                                                <span class="text-white/70 text-xs">Data encryption at rest</span>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <i class="fas fa-check-circle text-green-400 text-xs"></i>
+                                                <span class="text-white/70 text-xs">Role-based access control</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -11028,6 +11263,110 @@
         }
 
         function createStepFromType(typeId) { const stepType = stepTypes.find(s => s.id === typeId); return { id: Date.now() + Math.random(), typeId: typeId, name: stepType.name, icon: stepType.icon, color: stepType.color }; }
+
+        // Enhanced 2024-10-30: Intelligent Workflow Orchestration Functions
+        // MOCK DATA - Replace in production
+        // TODO: Connect to workflow orchestration API endpoint /api/workflow-orchestration
+        // TODO: Connect to department routing API endpoint /api/departments
+        // TODO: Connect to SLA monitoring API endpoint /api/sla-monitoring
+        // TODO: Connect to workflow analytics API endpoint /api/workflow-analytics
+
+        // Department mapping for workflow steps
+        const DEPARTMENT_MAP = {
+            'form-input': 'Constituent Services',
+            'document-upload': 'Document Management',
+            'validation': 'Data Quality',
+            'compliance-check': 'Compliance Office',
+            'background-check': 'FBI / Security',
+            'assignment': 'Routing Engine',
+            'single-approval': 'Department Manager',
+            'multi-approval': 'Multi-Department Review',
+            'parallel-approval': 'Cross-Department Review',
+            'conditional-approval': 'Smart Routing',
+            'email': 'Notification Service',
+            'sms': 'SMS Gateway',
+            'escalation': 'Escalation Management',
+            'database-write': 'Database Services',
+            'generate-report': 'Reporting Engine',
+            'audit-log': 'Audit Services',
+            'completion': 'Workflow Completion'
+        };
+
+        function updateDepartmentRouting() {
+            const container = document.getElementById('departmentRouting');
+            if (!container || currentWorkflow.length === 0) return;
+
+            const routingHTML = currentWorkflow.map((step, index) => {
+                const department = DEPARTMENT_MAP[step.typeId] || 'General Services';
+                const departmentColor = index % 3 === 0 ? 'blue' : index % 3 === 1 ? 'purple' : 'green';
+
+                return `
+                    <div class="flex items-center justify-between bg-white/5 rounded-lg p-2">
+                        <div class="flex items-center gap-2 flex-1">
+                            <span class="text-white/70 text-xs">Step ${index + 1}:</span>
+                            <span class="text-white text-sm font-medium truncate">${step.name}</span>
+                        </div>
+                        <span class="bg-${departmentColor}-500/20 text-${departmentColor}-400 px-2 py-1 rounded text-xs whitespace-nowrap">
+                            ${department}
+                        </span>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = routingHTML || '<div class="text-white/60 text-sm">Add workflow steps to configure department routing</div>';
+        }
+
+        function calculateWorkflowMetrics() {
+            if (currentWorkflow.length === 0) return null;
+
+            // MOCK DATA - In production, calculate from historical data
+            const baseTimePerStep = 0.5; // days
+            const predictedTime = currentWorkflow.length * baseTimePerStep;
+            const confidence = Math.min(95, 75 + (currentWorkflow.length * 2));
+
+            return {
+                predictedCompletion: predictedTime.toFixed(1) + ' days',
+                confidence: confidence + '%',
+                slaCompliance: '94.7%',
+                atRiskCount: Math.floor(Math.random() * 5),
+                avgCompletionTime: (predictedTime * 1.1).toFixed(1) + ' days',
+                bottleneckStep: currentWorkflow.length > 3 ? 3 : null,
+                healthScore: Math.min(95, 70 + (currentWorkflow.length * 3)),
+                optimizationPotential: currentWorkflow.length > 4 ? 'High' : 'Medium'
+            };
+        }
+
+        function renderWorkflowOrchestration() {
+            updateDepartmentRouting();
+            const metrics = calculateWorkflowMetrics();
+
+            if (metrics) {
+                // Update SLA metrics in UI if elements exist
+                console.log('Workflow Orchestration Metrics:', metrics);
+                // TODO: Update DOM elements with real-time metrics
+            }
+        }
+
+        // Enhanced renderWorkflow to include orchestration updates
+        const originalRenderWorkflow = renderWorkflow;
+        renderWorkflow = function() {
+            originalRenderWorkflow();
+            renderWorkflowOrchestration();
+        };
+
+        // Enhanced addStepToWorkflow to include orchestration
+        const originalAddStepToWorkflow = addStepToWorkflow;
+        addStepToWorkflow = function(stepId) {
+            originalAddStepToWorkflow(stepId);
+            renderWorkflowOrchestration();
+        };
+
+        // Enhanced removeStep to update orchestration
+        const originalRemoveStep = removeStep;
+        removeStep = function(stepId) {
+            originalRemoveStep(stepId);
+            renderWorkflowOrchestration();
+        };
 
         // Initialize workflow builder when workflows tab is shown
         let workflowBuilderInitialized = false;
