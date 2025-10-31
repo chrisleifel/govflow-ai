@@ -4876,6 +4876,16 @@
                             <button onclick="switchAPIModule('workspace')" class="api-tab-button px-4 py-3 rounded-lg text-white text-sm font-medium whitespace-nowrap" data-api-module="workspace">
                                 <i class="fas fa-users mr-2"></i>Workspace
                             </button>
+                            <!-- Enhanced 2024-10-30: CJIS-Compliant Integration Hub -->
+                            <button onclick="switchAPIModule('gov-connectors')" class="api-tab-button px-4 py-3 rounded-lg text-white text-sm font-medium whitespace-nowrap" data-api-module="gov-connectors">
+                                <i class="fas fa-building mr-2"></i>Gov Connectors
+                            </button>
+                            <button onclick="switchAPIModule('cjis-transfer')" class="api-tab-button px-4 py-3 rounded-lg text-white text-sm font-medium whitespace-nowrap" data-api-module="cjis-transfer">
+                                <i class="fas fa-lock mr-2"></i>CJIS Transfer
+                            </button>
+                            <button onclick="switchAPIModule('audit-logs')" class="api-tab-button px-4 py-3 rounded-lg text-white text-sm font-medium whitespace-nowrap" data-api-module="audit-logs">
+                                <i class="fas fa-clipboard-list mr-2"></i>Audit Logs
+                            </button>
                         </div>
                     </div>
 
@@ -5355,6 +5365,660 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Module: Pre-Built Government System Connectors -->
+                    <!-- Added 2024-10-30: CJIS-Compliant Integration Hub Enhancement -->
+                    <div id="api-module-gov-connectors" class="api-module-content hidden">
+                        <div class="glass rounded-xl p-6 mb-6">
+                            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                <i class="fas fa-building text-blue-400"></i>
+                                Pre-Built Government System Connectors
+                                <span class="text-xs bg-green-500/20 text-green-400 px-3 py-1 rounded-full">CJIS Certified</span>
+                            </h3>
+                            <p class="text-white/70 text-sm mb-6">
+                                Ready-to-use integrations with common government systems. All connectors are pre-configured for CJIS compliance, FedRAMP authorization, and NIST 800-53 security controls.
+                            </p>
+
+                            <!-- Connector Categories -->
+                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                                <!-- Law Enforcement Systems -->
+                                <div class="glass rounded-xl p-6">
+                                    <h4 class="text-white font-semibold mb-4 flex items-center gap-2">
+                                        <i class="fas fa-shield-alt text-blue-400"></i>
+                                        Law Enforcement
+                                    </h4>
+                                    <div class="space-y-3">
+                                        <!-- FBI CJIS -->
+                                        <div class="glass rounded-lg p-4 hover:bg-white/10 transition cursor-pointer">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-white font-semibold">FBI CJIS</span>
+                                                <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs">Active</span>
+                                            </div>
+                                            <div class="text-white/60 text-xs mb-2">Criminal Justice Information Services</div>
+                                            <div class="flex items-center gap-2 text-xs">
+                                                <span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded">CJIS Compliant</span>
+                                                <span class="text-white/50">v2.4.1</span>
+                                            </div>
+                                        </div>
+                                        <!-- NCIC -->
+                                        <div class="glass rounded-lg p-4 hover:bg-white/10 transition cursor-pointer">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-white font-semibold">NCIC</span>
+                                                <span class="bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded text-xs">Setup</span>
+                                            </div>
+                                            <div class="text-white/60 text-xs mb-2">National Crime Information Center</div>
+                                            <div class="flex items-center gap-2 text-xs">
+                                                <span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded">FBI Certified</span>
+                                                <span class="text-white/50">v1.8.3</span>
+                                            </div>
+                                        </div>
+                                        <!-- NLETS -->
+                                        <div class="glass rounded-lg p-4 hover:bg-white/10 transition cursor-pointer">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-white font-semibold">NLETS</span>
+                                                <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs">Active</span>
+                                            </div>
+                                            <div class="text-white/60 text-xs mb-2">National Law Enforcement Telecom</div>
+                                            <div class="flex items-center gap-2 text-xs">
+                                                <span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded">CJIS Compliant</span>
+                                                <span class="text-white/50">v3.1.0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Vital Records & Identity Systems -->
+                                <div class="glass rounded-xl p-6">
+                                    <h4 class="text-white font-semibold mb-4 flex items-center gap-2">
+                                        <i class="fas fa-id-card text-purple-400"></i>
+                                        Vital Records
+                                    </h4>
+                                    <div class="space-y-3">
+                                        <!-- State DMV -->
+                                        <div class="glass rounded-lg p-4 hover:bg-white/10 transition cursor-pointer">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-white font-semibold">State DMV</span>
+                                                <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs">Active</span>
+                                            </div>
+                                            <div class="text-white/60 text-xs mb-2">Department of Motor Vehicles Integration</div>
+                                            <div class="flex items-center gap-2 text-xs">
+                                                <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded">Real ID Ready</span>
+                                                <span class="text-white/50">v4.2.0</span>
+                                            </div>
+                                        </div>
+                                        <!-- SSA -->
+                                        <div class="glass rounded-lg p-4 hover:bg-white/10 transition cursor-pointer">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-white font-semibold">SSA</span>
+                                                <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs">Active</span>
+                                            </div>
+                                            <div class="text-white/60 text-xs mb-2">Social Security Administration</div>
+                                            <div class="flex items-center gap-2 text-xs">
+                                                <span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded">FedRAMP High</span>
+                                                <span class="text-white/50">v2.1.5</span>
+                                            </div>
+                                        </div>
+                                        <!-- Vital Records -->
+                                        <div class="glass rounded-lg p-4 hover:bg-white/10 transition cursor-pointer">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-white font-semibold">Vital Records</span>
+                                                <span class="bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded text-xs">Setup</span>
+                                            </div>
+                                            <div class="text-white/60 text-xs mb-2">Birth, Death, Marriage Records</div>
+                                            <div class="flex items-center gap-2 text-xs">
+                                                <span class="bg-purple-500/20 text-purple-400 px-2 py-1 rounded">EVVE Compliant</span>
+                                                <span class="text-white/50">v1.6.2</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Financial & Tax Systems -->
+                                <div class="glass rounded-xl p-6">
+                                    <h4 class="text-white font-semibold mb-4 flex items-center gap-2">
+                                        <i class="fas fa-dollar-sign text-green-400"></i>
+                                        Financial Systems
+                                    </h4>
+                                    <div class="space-y-3">
+                                        <!-- IRS e-Services -->
+                                        <div class="glass rounded-lg p-4 hover:bg-white/10 transition cursor-pointer">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-white font-semibold">IRS e-Services</span>
+                                                <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs">Active</span>
+                                            </div>
+                                            <div class="text-white/60 text-xs mb-2">Tax Information & Verification</div>
+                                            <div class="flex items-center gap-2 text-xs">
+                                                <span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded">FISMA High</span>
+                                                <span class="text-white/50">v3.5.1</span>
+                                            </div>
+                                        </div>
+                                        <!-- Treasury -->
+                                        <div class="glass rounded-lg p-4 hover:bg-white/10 transition cursor-pointer">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-white font-semibold">Treasury</span>
+                                                <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs">Active</span>
+                                            </div>
+                                            <div class="text-white/60 text-xs mb-2">US Department of Treasury Services</div>
+                                            <div class="flex items-center gap-2 text-xs">
+                                                <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded">FedRAMP High</span>
+                                                <span class="text-white/50">v2.8.0</span>
+                                            </div>
+                                        </div>
+                                        <!-- SAM.gov -->
+                                        <div class="glass rounded-lg p-4 hover:bg-white/10 transition cursor-pointer">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-white font-semibold">SAM.gov</span>
+                                                <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs">Active</span>
+                                            </div>
+                                            <div class="text-white/60 text-xs mb-2">System for Award Management</div>
+                                            <div class="flex items-center gap-2 text-xs">
+                                                <span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded">FedRAMP Mod</span>
+                                                <span class="text-white/50">v1.9.4</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Connection Statistics -->
+                            <div class="glass rounded-xl p-6">
+                                <h4 class="text-white font-semibold mb-4">Connection Statistics</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                    <div class="glass rounded-xl p-4">
+                                        <div class="text-white/70 text-xs mb-1">Total Connectors</div>
+                                        <div class="text-2xl font-bold text-white">24</div>
+                                        <div class="text-green-400 text-xs mt-1">
+                                            <i class="fas fa-arrow-up mr-1"></i>+3 this month
+                                        </div>
+                                    </div>
+                                    <div class="glass rounded-xl p-4">
+                                        <div class="text-white/70 text-xs mb-1">Active Connections</div>
+                                        <div class="text-2xl font-bold text-green-400">18</div>
+                                        <div class="text-white/60 text-xs mt-1">75% utilization</div>
+                                    </div>
+                                    <div class="glass rounded-xl p-4">
+                                        <div class="text-white/70 text-xs mb-1">Avg Response Time</div>
+                                        <div class="text-2xl font-bold text-blue-400">247ms</div>
+                                        <div class="text-green-400 text-xs mt-1">
+                                            <i class="fas fa-arrow-down mr-1"></i>-12ms vs last week
+                                        </div>
+                                    </div>
+                                    <div class="glass rounded-xl p-4">
+                                        <div class="text-white/70 text-xs mb-1">Success Rate</div>
+                                        <div class="text-2xl font-bold text-green-400">99.8%</div>
+                                        <div class="text-white/60 text-xs mt-1">Last 30 days</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MOCK DATA - Replace in production -->
+                            <!-- TODO: Connect to government connector registry API -->
+                        </div>
+                    </div>
+
+                    <!-- Module: CJIS-Compliant Data Transfer -->
+                    <!-- Added 2024-10-30: CJIS-Compliant Integration Hub Enhancement -->
+                    <div id="api-module-cjis-transfer" class="api-module-content hidden">
+                        <div class="glass rounded-xl p-6 mb-6">
+                            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                <i class="fas fa-lock text-blue-400"></i>
+                                CJIS-Compliant Secure Data Transfer
+                                <span class="text-xs bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full">Encrypted</span>
+                            </h3>
+                            <p class="text-white/70 text-sm mb-6">
+                                All data transfers are automatically encrypted with AES-256 at rest and TLS 1.3 in transit. Multi-factor authentication required for all operations.
+                            </p>
+
+                            <!-- Security Status Dashboard -->
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                                <div class="glass rounded-xl p-6">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-white/70 text-sm">Encryption Status</span>
+                                        <i class="fas fa-shield-alt text-green-400"></i>
+                                    </div>
+                                    <div class="text-2xl font-bold text-green-400">Active</div>
+                                    <div class="text-xs text-white/60 mt-1">AES-256 + TLS 1.3</div>
+                                </div>
+                                <div class="glass rounded-xl p-6">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-white/70 text-sm">CJIS Compliance</span>
+                                        <i class="fas fa-check-circle text-green-400"></i>
+                                    </div>
+                                    <div class="text-2xl font-bold text-green-400">100%</div>
+                                    <div class="text-xs text-white/60 mt-1">All checks passed</div>
+                                </div>
+                                <div class="glass rounded-xl p-6">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-white/70 text-sm">Data in Transit</span>
+                                        <i class="fas fa-exchange-alt text-blue-400"></i>
+                                    </div>
+                                    <div class="text-2xl font-bold text-blue-400">24.7 GB</div>
+                                    <div class="text-xs text-white/60 mt-1">3 active transfers</div>
+                                </div>
+                                <div class="glass rounded-xl p-6">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-white/70 text-sm">Security Incidents</span>
+                                        <i class="fas fa-exclamation-triangle text-gray-400"></i>
+                                    </div>
+                                    <div class="text-2xl font-bold text-gray-400">0</div>
+                                    <div class="text-xs text-green-400 mt-1">Last 90 days</div>
+                                </div>
+                            </div>
+
+                            <!-- Active Secure Transfers -->
+                            <div class="glass rounded-xl p-6 mb-6">
+                                <h4 class="text-white font-semibold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-sync-alt text-blue-400 fa-spin"></i>
+                                    Active Secure Transfers
+                                </h4>
+                                <div class="space-y-4">
+                                    <!-- Transfer 1 -->
+                                    <div class="glass rounded-lg p-4">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div>
+                                                <div class="text-white font-semibold">Criminal Records Sync</div>
+                                                <div class="text-white/60 text-xs">FBI CJIS → Local Database</div>
+                                            </div>
+                                            <span class="text-white/80 text-sm">47%</span>
+                                        </div>
+                                        <div class="w-full bg-white/10 rounded-full h-2 mb-2">
+                                            <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full" style="width: 47%"></div>
+                                        </div>
+                                        <div class="flex items-center justify-between text-xs">
+                                            <div class="flex items-center gap-2">
+                                                <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded">
+                                                    <i class="fas fa-lock mr-1"></i>Encrypted: AES-256
+                                                </span>
+                                                <span class="text-white/60">12.3 GB / 26.2 GB</span>
+                                            </div>
+                                            <span class="text-white/60">ETA: 8 min</span>
+                                        </div>
+                                    </div>
+                                    <!-- Transfer 2 -->
+                                    <div class="glass rounded-lg p-4">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div>
+                                                <div class="text-white font-semibold">Vehicle Registration Update</div>
+                                                <div class="text-white/60 text-xs">State DMV → Verification System</div>
+                                            </div>
+                                            <span class="text-white/80 text-sm">82%</span>
+                                        </div>
+                                        <div class="w-full bg-white/10 rounded-full h-2 mb-2">
+                                            <div class="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full" style="width: 82%"></div>
+                                        </div>
+                                        <div class="flex items-center justify-between text-xs">
+                                            <div class="flex items-center gap-2">
+                                                <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded">
+                                                    <i class="fas fa-lock mr-1"></i>Encrypted: TLS 1.3
+                                                </span>
+                                                <span class="text-white/60">4.1 GB / 5.0 GB</span>
+                                            </div>
+                                            <span class="text-white/60">ETA: 2 min</span>
+                                        </div>
+                                    </div>
+                                    <!-- Transfer 3 -->
+                                    <div class="glass rounded-lg p-4">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div>
+                                                <div class="text-white font-semibold">Tax Information Verification</div>
+                                                <div class="text-white/60 text-xs">IRS e-Services → Financial System</div>
+                                            </div>
+                                            <span class="text-white/80 text-sm">23%</span>
+                                        </div>
+                                        <div class="w-full bg-white/10 rounded-full h-2 mb-2">
+                                            <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" style="width: 23%"></div>
+                                        </div>
+                                        <div class="flex items-center justify-between text-xs">
+                                            <div class="flex items-center gap-2">
+                                                <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded">
+                                                    <i class="fas fa-lock mr-1"></i>Encrypted: AES-256
+                                                </span>
+                                                <span class="text-white/60">1.8 GB / 7.8 GB</span>
+                                            </div>
+                                            <span class="text-white/60">ETA: 15 min</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Security Features -->
+                            <div class="glass rounded-xl p-6 mb-6">
+                                <h4 class="text-white font-semibold mb-4">Security Features</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-lock text-green-400"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-white font-medium">End-to-End Encryption</div>
+                                            <div class="text-white/60 text-sm">AES-256 at rest, TLS 1.3 in transit</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-user-shield text-blue-400"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-white font-medium">Multi-Factor Authentication</div>
+                                            <div class="text-white/60 text-sm">Required for all data transfers</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-clipboard-check text-purple-400"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-white font-medium">Audit Logging</div>
+                                            <div class="text-white/60 text-sm">Complete transfer history tracked</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-check-double text-yellow-400"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-white font-medium">Data Validation</div>
+                                            <div class="text-white/60 text-sm">Integrity checks on all transfers</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-redo text-red-400"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-white font-medium">Automatic Retry</div>
+                                            <div class="text-white/60 text-sm">Up to 3 attempts on failure</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-pink-500/20 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-bell text-pink-400"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-white font-medium">Real-Time Alerts</div>
+                                            <div class="text-white/60 text-sm">Instant notification on issues</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Compliance Certifications -->
+                            <div class="glass rounded-xl p-6">
+                                <h4 class="text-white font-semibold mb-4">Compliance Certifications</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                    <div class="glass rounded-lg p-4 text-center">
+                                        <div class="text-3xl mb-2">🛡️</div>
+                                        <div class="text-white font-medium">CJIS Security Policy v5.9</div>
+                                        <div class="text-green-400 text-sm mt-1">Certified</div>
+                                    </div>
+                                    <div class="glass rounded-lg p-4 text-center">
+                                        <div class="text-3xl mb-2">☁️</div>
+                                        <div class="text-white font-medium">FedRAMP Moderate</div>
+                                        <div class="text-green-400 text-sm mt-1">Authorized</div>
+                                    </div>
+                                    <div class="glass rounded-lg p-4 text-center">
+                                        <div class="text-3xl mb-2">📋</div>
+                                        <div class="text-white font-medium">FISMA Compliance</div>
+                                        <div class="text-green-400 text-sm mt-1">Certified</div>
+                                    </div>
+                                    <div class="glass rounded-lg p-4 text-center">
+                                        <div class="text-3xl mb-2">🔐</div>
+                                        <div class="text-white font-medium">NIST 800-53</div>
+                                        <div class="text-green-400 text-sm mt-1">Compliant</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MOCK DATA - Replace in production -->
+                            <!-- TODO: Connect to secure transfer monitoring API -->
+                            <!-- SECURITY TODO: Implement real-time transfer validation -->
+                        </div>
+                    </div>
+
+                    <!-- Module: Comprehensive Audit Logging -->
+                    <!-- Added 2024-10-30: CJIS-Compliant Integration Hub Enhancement -->
+                    <div id="api-module-audit-logs" class="api-module-content hidden">
+                        <div class="glass rounded-xl p-6 mb-6">
+                            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                <i class="fas fa-clipboard-list text-blue-400"></i>
+                                Comprehensive Audit Logging
+                                <span class="text-xs bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full">CJIS Required</span>
+                            </h3>
+                            <p class="text-white/70 text-sm mb-6">
+                                Complete audit trail of all integration activities with 7-year retention for CJIS compliance. All logs are tamper-proof and encrypted.
+                            </p>
+
+                            <!-- Audit Filters -->
+                            <div class="glass rounded-xl p-4 mb-6">
+                                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                                    <input type="text" placeholder="Search logs..."
+                                           class="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <select class="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option>All Event Types</option>
+                                        <option>Data Transfer</option>
+                                        <option>Authentication</option>
+                                        <option>Configuration</option>
+                                        <option>Security Alert</option>
+                                    </select>
+                                    <select class="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option>All Users</option>
+                                        <option>System Admin</option>
+                                        <option>API User</option>
+                                        <option>Service Account</option>
+                                    </select>
+                                    <select class="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option>Last 24 Hours</option>
+                                        <option>Last 7 Days</option>
+                                        <option>Last 30 Days</option>
+                                        <option>Last 90 Days</option>
+                                    </select>
+                                    <button class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white font-medium hover:shadow-lg transition-all">
+                                        <i class="fas fa-download mr-2"></i>Export
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Audit Statistics -->
+                            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+                                <div class="glass rounded-xl p-4">
+                                    <div class="text-white/70 text-xs mb-1">Total Events</div>
+                                    <div class="text-2xl font-bold text-white">12,847</div>
+                                    <div class="text-white/60 text-xs mt-1">Last 24 hours</div>
+                                </div>
+                                <div class="glass rounded-xl p-4">
+                                    <div class="text-white/70 text-xs mb-1">Data Transfers</div>
+                                    <div class="text-2xl font-bold text-blue-400">1,023</div>
+                                    <div class="text-green-400 text-xs mt-1">79.6% success</div>
+                                </div>
+                                <div class="glass rounded-xl p-4">
+                                    <div class="text-white/70 text-xs mb-1">Auth Events</div>
+                                    <div class="text-2xl font-bold text-purple-400">4,892</div>
+                                    <div class="text-green-400 text-xs mt-1">All successful</div>
+                                </div>
+                                <div class="glass rounded-xl p-4">
+                                    <div class="text-white/70 text-xs mb-1">Security Alerts</div>
+                                    <div class="text-2xl font-bold text-yellow-400">3</div>
+                                    <div class="text-green-400 text-xs mt-1">All resolved</div>
+                                </div>
+                                <div class="glass rounded-xl p-4">
+                                    <div class="text-white/70 text-xs mb-1">Failed Events</div>
+                                    <div class="text-2xl font-bold text-red-400">12</div>
+                                    <div class="text-white/60 text-xs mt-1">0.09% rate</div>
+                                </div>
+                            </div>
+
+                            <!-- Recent Audit Events -->
+                            <div class="glass rounded-xl p-6 mb-6">
+                                <h4 class="text-white font-semibold mb-4">Recent Audit Events</h4>
+                                <div class="space-y-3">
+                                    <!-- Event 1 -->
+                                    <div class="glass rounded-lg p-4 hover:bg-white/10 transition">
+                                        <div class="flex items-start justify-between">
+                                            <div class="flex items-start gap-3">
+                                                <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                                                    <i class="fas fa-check text-green-400"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-white font-medium">Data Transfer Completed</div>
+                                                    <div class="text-white/60 text-sm">FBI CJIS → Local Database</div>
+                                                    <div class="text-white/50 text-xs mt-1">2.4 GB transferred • MFA verified • Checksum validated</div>
+                                                </div>
+                                            </div>
+                                            <div class="text-white/60 text-xs text-right">
+                                                <div>2 min ago</div>
+                                                <div>User: system.admin</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Event 2 -->
+                                    <div class="glass rounded-lg p-4 hover:bg-white/10 transition">
+                                        <div class="flex items-start justify-between">
+                                            <div class="flex items-start gap-3">
+                                                <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                                                    <i class="fas fa-user-check text-blue-400"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-white font-medium">MFA Authentication Success</div>
+                                                    <div class="text-white/60 text-sm">IRS e-Services connector authentication</div>
+                                                    <div class="text-white/50 text-xs mt-1">Method: Hardware token • IP: 192.168.1.45</div>
+                                                </div>
+                                            </div>
+                                            <div class="text-white/60 text-xs text-right">
+                                                <div>8 min ago</div>
+                                                <div>User: j.williams</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Event 3 -->
+                                    <div class="glass rounded-lg p-4 hover:bg-white/10 transition">
+                                        <div class="flex items-start justify-between">
+                                            <div class="flex items-start gap-3">
+                                                <div class="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
+                                                    <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-white font-medium">Security Alert Triggered</div>
+                                                    <div class="text-white/60 text-sm">Unusual access pattern detected</div>
+                                                    <div class="text-white/50 text-xs mt-1">Source: NCIC connector • Action: Auto-blocked • Alert sent</div>
+                                                </div>
+                                            </div>
+                                            <div class="text-white/60 text-xs text-right">
+                                                <div>15 min ago</div>
+                                                <div>System: Auto</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Event 4 -->
+                                    <div class="glass rounded-lg p-4 hover:bg-white/10 transition">
+                                        <div class="flex items-start justify-between">
+                                            <div class="flex items-start gap-3">
+                                                <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                                                    <i class="fas fa-cog text-purple-400"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-white font-medium">Configuration Changed</div>
+                                                    <div class="text-white/60 text-sm">DMV connector settings updated</div>
+                                                    <div class="text-white/50 text-xs mt-1">Change: Encryption protocol upgraded to TLS 1.3</div>
+                                                </div>
+                                            </div>
+                                            <div class="text-white/60 text-xs text-right">
+                                                <div>32 min ago</div>
+                                                <div>User: m.santos</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Event 5 -->
+                                    <div class="glass rounded-lg p-4 hover:bg-white/10 transition">
+                                        <div class="flex items-start justify-between">
+                                            <div class="flex items-start gap-3">
+                                                <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                                                    <i class="fas fa-database text-green-400"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-white font-medium">Database Sync Completed</div>
+                                                    <div class="text-white/60 text-sm">State DMV → Vehicle Verification System</div>
+                                                    <div class="text-white/50 text-xs mt-1">2,890 records updated • 0 conflicts • 100% integrity</div>
+                                                </div>
+                                            </div>
+                                            <div class="text-white/60 text-xs text-right">
+                                                <div>1 hour ago</div>
+                                                <div>User: system.sync</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Event 6 -->
+                                    <div class="glass rounded-lg p-4 hover:bg-white/10 transition">
+                                        <div class="flex items-start justify-between">
+                                            <div class="flex items-start gap-3">
+                                                <div class="w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center flex-shrink-0">
+                                                    <i class="fas fa-times text-red-400"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-white font-medium">Transfer Failed</div>
+                                                    <div class="text-white/60 text-sm">NLETS connector timeout</div>
+                                                    <div class="text-white/50 text-xs mt-1">Reason: Network timeout (30s) • Auto-retry scheduled in 5 min</div>
+                                                </div>
+                                            </div>
+                                            <div class="text-white/60 text-xs text-right">
+                                                <div>2 hours ago</div>
+                                                <div>System: Auto</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Retention Policy -->
+                            <div class="glass rounded-xl p-6">
+                                <h4 class="text-white font-semibold mb-4">Audit Log Retention Policy</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div class="glass rounded-lg p-4">
+                                        <div class="flex items-center gap-3 mb-3">
+                                            <div class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                                                <i class="fas fa-clock text-blue-400 text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <div class="text-white font-medium">Active Storage</div>
+                                                <div class="text-white/60 text-xs">Hot storage</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-2xl font-bold text-white mb-1">90 Days</div>
+                                        <div class="text-white/60 text-sm">Quick access for recent audits</div>
+                                    </div>
+                                    <div class="glass rounded-lg p-4">
+                                        <div class="flex items-center gap-3 mb-3">
+                                            <div class="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                                                <i class="fas fa-archive text-purple-400 text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <div class="text-white font-medium">Archive Storage</div>
+                                                <div class="text-white/60 text-xs">Cold storage</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-2xl font-bold text-white mb-1">7 Years</div>
+                                        <div class="text-white/60 text-sm">CJIS compliance requirement</div>
+                                    </div>
+                                    <div class="glass rounded-lg p-4">
+                                        <div class="flex items-center gap-3 mb-3">
+                                            <div class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center">
+                                                <i class="fas fa-hdd text-green-400 text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <div class="text-white font-medium">Total Log Size</div>
+                                                <div class="text-white/60 text-xs">Compressed</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-2xl font-bold text-white mb-1">847 GB</div>
+                                        <div class="text-white/60 text-sm">Encrypted and deduplicated</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MOCK DATA - Replace in production -->
+                            <!-- TODO: Connect to audit logging API -->
+                            <!-- TODO: Implement tamper-proof log storage -->
                         </div>
                     </div>
                 </div>
