@@ -1265,6 +1265,12 @@
             0%, 100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.5); }
             50% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.8); }
         }
+
+        /* Fix for tab content scrolling */
+        .tab-content {
+            min-height: 0;
+            height: auto;
+        }
     </style>
 </head>
 <body class="gradient-bg text-white overflow-hidden">
@@ -1276,7 +1282,7 @@
 
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="sidebar w-64 flex-shrink-0">
+        <div class="sidebar w-64 flex-shrink-0 overflow-y-auto">
             <div class="p-6">
                 <div class="flex items-center space-x-3 mb-8">
                     <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
@@ -6090,7 +6096,7 @@
                 </div>
 
                 <!-- Added 2024-10-31: Autonomous Government Operations Module -->
-                <div id="autonomous-operations-content" class="tab-content" style="display: none;">
+                <div id="autonomous-operations-content" class="tab-content h-full overflow-y-auto" style="display: none;">
                     <!-- Header -->
                     <div class="glass rounded-xl p-6 mb-6">
                         <div class="flex items-center justify-between">
@@ -7567,7 +7573,7 @@
                 </div>
 
                 <!-- Added 2024-10-31: Government Digital Twin Module -->
-                <div id="digital-twin-content" class="tab-content" style="display: none;">
+                <div id="digital-twin-content" class="tab-content h-full overflow-y-auto" style="display: none;">
         <!-- Header -->
         <div class="glass rounded-xl p-6 mb-6">
             <div class="flex items-center justify-between">
