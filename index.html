@@ -20613,9 +20613,9 @@
         }
 
         // Enhanced switchTab to initialize public engagement
-        const originalSwitchTab = window.switchTab;
-        window.switchTab = function(tabName) {
-            originalSwitchTab(tabName);
+        const originalSwitchTabForEngagement = switchTab;
+        switchTab = function(tabName) {
+            originalSwitchTabForEngagement(tabName);
             if (tabName === 'citizen') {
                 initializePublicEngagement();
             }
