@@ -2785,16 +2785,37 @@
                     </div>
                 </div>
 
-                <!-- Added 2024-11-06: Department Process Center -->
+                <!-- Added 2024-11-06: Department Process Center & Workflow Builder -->
                 <!-- Workflows Tab -->
                 <div id="workflows-content" class="tab-content h-full overflow-y-auto" style="display: none;">
-                    <!-- Department Selection Hub -->
-                    <div class="glass rounded-xl p-6 mb-6">
-                        <h3 class="text-xl font-bold text-white mb-4">Select Department</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="departmentHub">
-                            <!-- Populated by JavaScript -->
+                    <!-- Workflow Mode Toggle -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <h2 class="text-2xl font-bold text-white">Workflows</h2>
+                            <div class="glass rounded-lg p-1 flex gap-1">
+                                <button id="departmentModeBtn" onclick="switchWorkflowView('department')" class="px-4 py-2 rounded-lg text-sm font-medium transition-all bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+                                    <i class="fas fa-building mr-2"></i>Department Center
+                                </button>
+                                <button id="builderModeBtn" onclick="switchWorkflowView('builder')" class="px-4 py-2 rounded-lg text-sm font-medium transition-all text-white/70 hover:text-white">
+                                    <i class="fas fa-project-diagram mr-2"></i>Workflow Builder
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 text-white/60 text-sm">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="workflowViewDescription">Department-focused process management</span>
                         </div>
                     </div>
+
+                    <!-- Department Process Center Mode -->
+                    <div id="departmentProcessCenterMode">
+                        <!-- Department Selection Hub -->
+                        <div class="glass rounded-xl p-6 mb-6">
+                            <h3 class="text-xl font-bold text-white mb-4">Select Department</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="departmentHub">
+                                <!-- Populated by JavaScript -->
+                            </div>
+                        </div>
 
                     <!-- Department Dashboard (Hidden until department selected) -->
                     <div id="departmentDashboard" class="hidden">
@@ -3045,6 +3066,79 @@
                             </div>
                         </div>
                     </div>
+                    </div>
+                    <!-- End Department Process Center Mode -->
+
+                    <!-- Workflow Builder Mode -->
+                    <div id="workflowBuilderMode" class="hidden">
+                        <div class="glass rounded-xl p-6 mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+                                        <i class="fas fa-robot text-white text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white">AI Workflow Builder</h3>
+                                        <p class="text-sm text-white/70">Describe your workflow in plain language</p>
+                                    </div>
+                                </div>
+                                <button onclick="createBlankWorkflow()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all">
+                                    <i class="fas fa-plus mr-2"></i>Create Blank Workflow
+                                </button>
+                            </div>
+
+                            <textarea
+                                id="aiWorkflowInput"
+                                rows="4"
+                                placeholder="Example: Create a permit approval workflow with document validation, supervisor review, and email notifications..."
+                                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-3"
+                                aria-label="Describe your workflow"></textarea>
+
+                            <div class="flex justify-between items-center">
+                                <div class="flex gap-2">
+                                    <button onclick="loadWorkflowExample('permit')" class="text-sm px-3 py-2 bg-purple-500/20 rounded-lg text-purple-300 hover:bg-purple-500/30 transition-all">
+                                        <i class="fas fa-building mr-1"></i>Permit Example
+                                    </button>
+                                    <button onclick="loadWorkflowExample('hr')" class="text-sm px-3 py-2 bg-blue-500/20 rounded-lg text-blue-300 hover:bg-blue-500/30 transition-all">
+                                        <i class="fas fa-users mr-1"></i>HR Example
+                                    </button>
+                                    <button onclick="loadWorkflowExample('invoice')" class="text-sm px-3 py-2 bg-green-500/20 rounded-lg text-green-300 hover:bg-green-500/30 transition-all">
+                                        <i class="fas fa-file-invoice mr-1"></i>Invoice Example
+                                    </button>
+                                </div>
+                                <button onclick="generateWorkflowFromAI()" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all">
+                                    <i class="fas fa-magic mr-2"></i>Generate Workflow
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Workflow Canvas -->
+                        <div class="glass rounded-xl p-6 mb-6">
+                            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                <i class="fas fa-project-diagram text-blue-400"></i>
+                                Workflow Canvas
+                            </h3>
+                            <div id="workflowCanvas" class="bg-white/5 rounded-lg p-8 min-h-[400px] border-2 border-dashed border-white/20">
+                                <div class="flex flex-col items-center justify-center h-full text-center">
+                                    <i class="fas fa-diagram-project text-white/30 text-6xl mb-4"></i>
+                                    <p class="text-white/60 mb-2">No workflow loaded</p>
+                                    <p class="text-white/40 text-sm">Use the AI builder above or create a blank workflow to get started</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Workflow Library -->
+                        <div class="glass rounded-xl p-6">
+                            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                <i class="fas fa-folder text-yellow-400"></i>
+                                Saved Workflows
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="savedWorkflowsList">
+                                <!-- Populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Workflow Builder Mode -->
                 </div>
 
                 <!-- Save Workflow Modal -->
@@ -22415,8 +22509,168 @@
         console.log('SecureMesh module loaded successfully');
         // ===== END SECUREMESH JAVASCRIPT =====
 
-        // ===== DEPARTMENT PROCESS CENTER JAVASCRIPT =====
-        // Added 2024-11-06: Department-Focused Process Center
+        // ===== DEPARTMENT PROCESS CENTER & WORKFLOW BUILDER JAVASCRIPT =====
+        // Added 2024-11-06: Department-Focused Process Center & AI Workflow Builder
+
+        // Workflow View Switcher
+        let currentWorkflowView = 'department'; // 'department' or 'builder'
+
+        function switchWorkflowView(view) {
+            currentWorkflowView = view;
+
+            // Update button styles
+            const deptBtn = document.getElementById('departmentModeBtn');
+            const builderBtn = document.getElementById('builderModeBtn');
+            const description = document.getElementById('workflowViewDescription');
+
+            if (view === 'department') {
+                deptBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium transition-all bg-gradient-to-r from-blue-500 to-purple-600 text-white';
+                builderBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium transition-all text-white/70 hover:text-white';
+                description.textContent = 'Department-focused process management';
+
+                // Show department mode, hide builder mode
+                document.getElementById('departmentProcessCenterMode').classList.remove('hidden');
+                document.getElementById('workflowBuilderMode').classList.add('hidden');
+            } else {
+                deptBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium transition-all text-white/70 hover:text-white';
+                builderBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium transition-all bg-gradient-to-r from-blue-500 to-purple-600 text-white';
+                description.textContent = 'Build custom workflows with AI assistance';
+
+                // Show builder mode, hide department mode
+                document.getElementById('departmentProcessCenterMode').classList.add('hidden');
+                document.getElementById('workflowBuilderMode').classList.remove('hidden');
+
+                // Load saved workflows
+                loadSavedWorkflows();
+            }
+        }
+
+        // ===== WORKFLOW BUILDER FUNCTIONS =====
+
+        function createBlankWorkflow() {
+            // TODO: Implement blank workflow creator
+            alert('Blank workflow builder would open here. TODO: Implement visual workflow canvas.');
+        }
+
+        function loadWorkflowExample(type) {
+            const examples = {
+                permit: 'Create a building permit approval workflow that validates submitted documents, routes to plan review, requires supervisor approval, and sends email notifications to the applicant.',
+                hr: 'Create an employee onboarding workflow that collects new hire paperwork, sets up IT accounts, schedules orientation, and assigns a mentor.',
+                invoice: 'Create an invoice approval workflow that verifies line items, routes to department manager, requires finance approval for amounts over $5000, and triggers payment processing.'
+            };
+
+            document.getElementById('aiWorkflowInput').value = examples[type] || '';
+        }
+
+        function generateWorkflowFromAI() {
+            const input = document.getElementById('aiWorkflowInput').value.trim();
+            if (!input) {
+                alert('Please describe your workflow first.');
+                return;
+            }
+
+            // TODO: Connect to AI API endpoint /api/ai/generate-workflow
+            // MOCK: Simulate AI workflow generation
+            const canvas = document.getElementById('workflowCanvas');
+            canvas.innerHTML = `
+                <div class="space-y-4">
+                    <div class="text-white mb-4">
+                        <i class="fas fa-magic text-purple-400 mr-2"></i>
+                        <span class="font-semibold">AI Generated Workflow</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="glass rounded-lg p-4 flex-1">
+                            <div class="text-white font-medium mb-1">Step 1: Document Validation</div>
+                            <div class="text-white/60 text-sm">Verify all required documents are submitted</div>
+                        </div>
+                        <i class="fas fa-arrow-right text-blue-400"></i>
+                        <div class="glass rounded-lg p-4 flex-1">
+                            <div class="text-white font-medium mb-1">Step 2: Review Process</div>
+                            <div class="text-white/60 text-sm">Route to appropriate department reviewer</div>
+                        </div>
+                        <i class="fas fa-arrow-right text-blue-400"></i>
+                        <div class="glass rounded-lg p-4 flex-1">
+                            <div class="text-white font-medium mb-1">Step 3: Approval</div>
+                            <div class="text-white/60 text-sm">Supervisor approval required</div>
+                        </div>
+                        <i class="fas fa-arrow-right text-blue-400"></i>
+                        <div class="glass rounded-lg p-4 flex-1">
+                            <div class="text-white font-medium mb-1">Step 4: Notification</div>
+                            <div class="text-white/60 text-sm">Send email to applicant</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 mt-4">
+                        <button onclick="saveGeneratedWorkflow()" class="px-4 py-2 bg-green-500 rounded-lg text-white hover:bg-green-600 transition-all">
+                            <i class="fas fa-save mr-2"></i>Save Workflow
+                        </button>
+                        <button onclick="editWorkflow()" class="px-4 py-2 bg-blue-500 rounded-lg text-white hover:bg-blue-600 transition-all">
+                            <i class="fas fa-edit mr-2"></i>Edit Steps
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function saveGeneratedWorkflow() {
+            // TODO: Implement workflow save
+            alert('Workflow would be saved here. TODO: Connect to /api/workflows/save');
+        }
+
+        function editWorkflow() {
+            // TODO: Implement workflow editor
+            alert('Visual workflow editor would open here. TODO: Implement drag-and-drop canvas.');
+        }
+
+        function loadSavedWorkflows() {
+            // MOCK DATA - Replace with API call
+            const savedWorkflows = [
+                { id: 1, name: 'Building Permit Approval', steps: 8, status: 'active', uses: 247 },
+                { id: 2, name: 'Employee Onboarding', steps: 12, status: 'active', uses: 89 },
+                { id: 3, name: 'Invoice Processing', steps: 6, status: 'active', uses: 534 }
+            ];
+
+            const container = document.getElementById('savedWorkflowsList');
+            if (!container) return;
+
+            if (savedWorkflows.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-3 text-center text-white/60 py-8">
+                        <i class="fas fa-folder-open text-4xl mb-3"></i>
+                        <p>No saved workflows yet</p>
+                        <p class="text-sm">Create your first workflow using the AI builder above</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = savedWorkflows.map(wf => `
+                <div class="glass rounded-xl p-4 hover:bg-white/15 transition-all cursor-pointer" onclick="loadWorkflow(${wf.id})">
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="font-bold text-white">${wf.name}</h4>
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-500/20 text-green-400">${wf.status.toUpperCase()}</span>
+                    </div>
+                    <div class="space-y-1 text-xs text-white/60 mb-3">
+                        <div><i class="fas fa-list-ol mr-2"></i>${wf.steps} steps</div>
+                        <div><i class="fas fa-chart-line mr-2"></i>${wf.uses} executions</div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="loadWorkflow(${wf.id}); event.stopPropagation();" class="flex-1 px-3 py-1 bg-blue-500/20 rounded-lg text-blue-300 hover:bg-blue-500/30 transition-all text-xs">
+                            <i class="fas fa-play mr-1"></i>Run
+                        </button>
+                        <button onclick="editWorkflow(${wf.id}); event.stopPropagation();" class="flex-1 px-3 py-1 bg-purple-500/20 rounded-lg text-purple-300 hover:bg-purple-500/30 transition-all text-xs">
+                            <i class="fas fa-edit mr-1"></i>Edit
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadWorkflow(workflowId) {
+            // TODO: Load workflow from API
+            alert(`Loading workflow ${workflowId}. TODO: Connect to /api/workflows/${workflowId}`);
+        }
+
+        // ===== DEPARTMENT PROCESS CENTER FUNCTIONS =====
 
         // MOCK DATA - Replace in production
         // TODO: Connect to API endpoint /api/departments
