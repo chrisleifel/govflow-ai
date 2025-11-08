@@ -1631,6 +1631,116 @@
             0%, 100% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
             50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8); }
         }
+
+        /* Added 2024-11-07: Mobile Command Center Styles */
+        /* Connectivity Status Animations */
+        .mobile-status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .mobile-status-online { background: #10b981; }
+        .mobile-status-offline { background: #f59e0b; }
+        .mobile-status-limited { background: #ef4444; }
+        .mobile-status-syncing { background: #3b82f6; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Emergency Button Pulse Animation */
+        .emergency-fab {
+            animation: emergency-pulse 2s infinite;
+        }
+
+        @keyframes emergency-pulse {
+            0%, 100% {
+                box-shadow: 0 8px 24px rgba(239, 68, 68, 0.5);
+            }
+            50% {
+                box-shadow: 0 8px 32px rgba(239, 68, 68, 0.8);
+                transform: scale(1.05);
+            }
+        }
+
+        /* Mobile-Optimized Touch Targets */
+        .mobile-action-tile {
+            min-height: 100px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-action-tile:active {
+            transform: scale(0.95);
+        }
+
+        .mobile-touch-button {
+            min-height: 44px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-touch-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Glassmorphism for Mobile */
+        .mobile-glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Route Optimization Styles */
+        .route-stat-old {
+            text-decoration: line-through;
+            color: #ef4444;
+        }
+
+        .route-stat-new {
+            color: #10b981;
+        }
+
+        /* Checklist Interactions */
+        .checklist-btn {
+            transition: all 0.3s ease;
+        }
+
+        .checklist-btn:active {
+            transform: scale(0.95);
+        }
+
+        .checklist-btn.selected {
+            opacity: 1;
+            font-weight: 900;
+        }
+
+        /* Priority Badges */
+        .priority-high {
+            background: #ef4444;
+            color: white;
+        }
+
+        .priority-normal {
+            background: #f59e0b;
+            color: #000000;
+        }
+
+        /* Loading Skeleton for Mobile */
+        .mobile-skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        /* End Added 2024-11-07: Mobile Command Center Styles */
     </style>
 </head>
 <body class="gradient-bg text-white overflow-hidden">
@@ -1759,6 +1869,16 @@
                             <span class="text-white font-medium">Digital Twin</span>
                             <div class="ml-auto">
                                 <div class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('mobile-command')">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-mobile-screen-button text-white"></i>
+                            <span class="text-white font-medium">Mobile Command</span>
+                            <div class="ml-auto">
+                                <span class="bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">FIELD</span>
                             </div>
                         </div>
                     </div>
@@ -11468,6 +11588,364 @@
                     </div>
                 </div>
                 <!-- End Added 2024-11-06: SecureMesh Module -->
+
+                <!-- Added 2024-11-07: Mobile Command Center -->
+                <div id="mobile-command-content" class="tab-content h-full overflow-y-auto" style="display: none;">
+                    <div class="p-6 max-w-md mx-auto">
+                        <!-- CJIS COMPLIANCE NOTICE -->
+                        <!-- SECURITY TODO: Implement CJIS-compliant security -->
+                        <!-- TODO: Implement encrypted local storage (FIPS 140-2) -->
+                        <!-- TODO: Add remote wipe capability -->
+                        <!-- TODO: Integrate biometric authentication (Touch ID/Face ID) -->
+
+                        <!-- Field Status Bar -->
+                        <div class="mobile-glass rounded-xl p-4 mb-6 sticky top-0 z-50">
+                            <div class="flex justify-between items-center mb-2">
+                                <div class="text-sm font-semibold text-white">Building Inspection - 3 of 8 today</div>
+                                <div class="flex items-center gap-2">
+                                    <span class="mobile-status-dot mobile-status-syncing"></span>
+                                    <span class="text-xs text-white">Syncing</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between text-xs text-white/70">
+                                <div class="flex items-center gap-1">
+                                    <span>🔋</span>
+                                    <span>6.5 hours remaining</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span>🔒</span>
+                                    <span>Encrypted Session Active</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Action Tiles -->
+                        <h2 class="text-xl font-bold text-white mb-4">Quick Actions</h2>
+                        <div class="grid grid-cols-3 gap-3 mb-6">
+                            <div class="mobile-action-tile mobile-glass rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer relative" onclick="mobileShowAssignments()">
+                                <div class="absolute top-2 right-2 bg-red-500 text-white rounded-full px-2 py-0.5 text-xs font-bold">8</div>
+                                <div class="text-3xl mb-2">📋</div>
+                                <div class="text-xs font-semibold text-white">Today's Assignments</div>
+                            </div>
+                            <div class="mobile-action-tile mobile-glass rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer" onclick="mobileQuickCapture()">
+                                <div class="text-3xl mb-2">📸</div>
+                                <div class="text-xs font-semibold text-white">Quick Capture</div>
+                            </div>
+                            <div class="mobile-action-tile mobile-glass rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer" onclick="mobileShowRouteOptimizer()">
+                                <div class="text-3xl mb-2">🗺️</div>
+                                <div class="text-xs font-semibold text-white">Route Optimizer</div>
+                            </div>
+                            <div class="mobile-action-tile mobile-glass rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer" onclick="mobileDocumentScanner()">
+                                <div class="text-3xl mb-2">📄</div>
+                                <div class="text-xs font-semibold text-white">Document Scanner</div>
+                            </div>
+                            <div class="mobile-action-tile mobile-glass rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer" onclick="mobileChecklistMode()">
+                                <div class="text-3xl mb-2">✅</div>
+                                <div class="text-xs font-semibold text-white">Checklist Mode</div>
+                            </div>
+                            <div class="mobile-action-tile bg-gradient-to-br from-red-600 to-red-700 rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer col-span-2" onclick="mobileShowEmergencyModal()">
+                                <div class="text-3xl mb-2">🆘</div>
+                                <div class="text-xs font-semibold text-white">Emergency Report</div>
+                            </div>
+                        </div>
+
+                        <!-- Active Work Section -->
+                        <h2 class="text-xl font-bold text-white mb-4">Active Work</h2>
+                        <div class="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 mobile-glass rounded-2xl p-6 mb-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="text-lg font-bold text-white">Building Inspection</div>
+                                <div class="bg-white/20 px-3 py-1 rounded-xl text-xs font-semibold text-white">INSP-2024-00847</div>
+                            </div>
+                            <div class="text-sm text-white/70 mb-4">📍 123 Oak Street, Springfield, IL 62701</div>
+
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="relative">
+                                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center">
+                                        <div class="w-16 h-16 rounded-full bg-gray-900 flex items-center justify-center">
+                                            <span class="text-lg font-bold text-white">5/12</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm text-white/70">Inspection Progress</div>
+                                    <div class="text-lg font-bold text-white">5 of 12 points completed</div>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-3 mb-4">
+                                <button class="mobile-touch-button flex-1 bg-green-600 text-white rounded-xl font-semibold">Complete Current</button>
+                                <button class="mobile-touch-button flex-1 bg-white/10 text-white rounded-xl font-semibold">Skip</button>
+                            </div>
+
+                            <div class="bg-white/5 rounded-xl p-3">
+                                <div class="text-xs text-white/70 mb-2">NEXT UP</div>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm font-semibold text-white">Plumbing Inspection - 456 Maple Ave</div>
+                                    <div class="bg-blue-500 px-3 py-1 rounded-xl text-xs font-semibold text-white">ETA 18 min</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Route Optimization Module -->
+                        <h2 class="text-xl font-bold text-white mb-4">Route Optimizer</h2>
+                        <div class="mobile-glass rounded-2xl p-6 mb-6">
+                            <div class="bg-gradient-to-r from-red-500/10 to-green-500/10 rounded-xl p-4 mb-4">
+                                <div class="flex justify-around mb-4">
+                                    <div class="text-center">
+                                        <div class="text-xs text-white/70 uppercase mb-1">Distance</div>
+                                        <div class="text-lg font-bold route-stat-old">47.3 mi</div>
+                                        <div class="text-lg font-bold route-stat-new">35.1 mi</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-xs text-white/70 uppercase mb-1">Time</div>
+                                        <div class="text-lg font-bold route-stat-old">6.5 hrs</div>
+                                        <div class="text-lg font-bold route-stat-new">5.75 hrs</div>
+                                    </div>
+                                </div>
+                                <div class="bg-green-600 text-white px-3 py-2 rounded-lg text-center font-bold text-sm">
+                                    💡 AI route saves 45 minutes, 12.2 miles
+                                </div>
+                            </div>
+
+                            <div class="bg-gray-800 h-48 rounded-xl mb-4 flex items-center justify-center text-white/70">
+                                <!-- TODO: Connect to mapping service (Google Maps/Mapbox) -->
+                                🗺️ Interactive Map View
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">1️⃣ 123 Oak St</div>
+                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">2️⃣ 789 Pine Rd</div>
+                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">3️⃣ 321 Birch Ln</div>
+                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">4️⃣ 456 Maple Ave</div>
+                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">5️⃣ 654 Cedar Dr</div>
+                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">6️⃣ 159 Elm St</div>
+                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">7️⃣ 951 Ash Ct</div>
+                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">8️⃣ 753 Walnut Pl</div>
+                            </div>
+
+                            <button class="mobile-touch-button w-full bg-blue-600 text-white rounded-xl font-bold h-14">
+                                🧭 Start Navigation
+                            </button>
+                        </div>
+
+                        <!-- Offline Sync Queue -->
+                        <h2 class="text-xl font-bold text-white mb-4">Sync Queue</h2>
+                        <div class="mobile-glass rounded-2xl p-6 mb-6">
+                            <div class="space-y-3 mb-4">
+                                <div class="bg-white/5 rounded-xl p-3 flex items-center gap-3">
+                                    <div class="text-2xl">📋</div>
+                                    <div class="flex-1">
+                                        <div class="text-sm font-semibold text-white">Inspection Complete</div>
+                                        <div class="text-xs text-white/70">12 photos • 2.3 MB</div>
+                                    </div>
+                                    <div class="priority-normal px-3 py-1 rounded-xl text-xs font-bold uppercase">Normal</div>
+                                </div>
+
+                                <div class="bg-white/5 rounded-xl p-3 flex items-center gap-3">
+                                    <div class="text-2xl">⚠️</div>
+                                    <div class="flex-1">
+                                        <div class="text-sm font-semibold text-white">Violation Issued</div>
+                                        <div class="text-xs text-white/70">3 photos • 456 KB</div>
+                                    </div>
+                                    <div class="priority-high px-3 py-1 rounded-xl text-xs font-bold uppercase">High</div>
+                                </div>
+
+                                <div class="bg-white/5 rounded-xl p-3 flex items-center gap-3">
+                                    <div class="text-2xl">📝</div>
+                                    <div class="flex-1">
+                                        <div class="text-sm font-semibold text-white">Field Notes</div>
+                                        <div class="text-xs text-white/70">Voice memo • 1.2 MB</div>
+                                    </div>
+                                    <div class="priority-normal px-3 py-1 rounded-xl text-xs font-bold uppercase">Normal</div>
+                                </div>
+                            </div>
+
+                            <!-- Last Synced Timestamp -->
+                            <div class="mt-4 pt-4 border-t border-white/10">
+                                <div class="flex items-center justify-between text-xs text-white/60">
+                                    <span>Last synced</span>
+                                    <span class="font-medium">5 minutes ago</span>
+                                </div>
+                            </div>
+
+                            <!-- Storage Info -->
+                            <div class="mt-4 bg-white/5 rounded-xl p-3 flex justify-between">
+                                <div>
+                                    <div class="text-xs text-white/70">Cached Data</div>
+                                    <div class="text-sm font-semibold text-white">4.2 GB</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-white/70">Available</div>
+                                    <div class="text-sm font-semibold text-white">10.8 GB</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Today's Assignments -->
+                        <h2 class="text-xl font-bold text-white mb-4">Today's Assignments</h2>
+                        <div class="space-y-4 mb-6" id="mobileAssignmentsList">
+                            <!-- Populated by JavaScript -->
+                        </div>
+
+                        <!-- Document Capture Interface -->
+                        <h2 class="text-xl font-bold text-white mb-4">Document Capture</h2>
+                        <div class="mobile-glass rounded-2xl p-6 mb-6">
+                            <button class="w-full min-h-32 bg-gradient-to-br from-blue-600 to-cyan-600 border-2 border-dashed border-white/30 rounded-2xl text-white font-bold flex flex-col items-center justify-center gap-3 mb-4" onclick="mobileOpenCamera()">
+                                <div class="text-5xl">📷</div>
+                                <div>Tap to Capture Photo</div>
+                                <div class="text-xs opacity-80">Camera • Voice • GPS Auto-Tagged</div>
+                            </button>
+
+                            <div class="grid grid-cols-3 gap-2">
+                                <div class="aspect-square bg-gray-800 rounded-lg flex flex-col items-center justify-center text-white/70 relative">
+                                    <div>📸</div>
+                                    <div class="absolute bottom-0 left-0 right-0 bg-black/80 py-1 text-xs text-center">Exterior</div>
+                                </div>
+                                <div class="aspect-square bg-gray-800 rounded-lg flex flex-col items-center justify-center text-white/70 relative">
+                                    <div>📸</div>
+                                    <div class="absolute bottom-0 left-0 right-0 bg-black/80 py-1 text-xs text-center">Electrical</div>
+                                </div>
+                                <div class="aspect-square bg-gray-800 rounded-lg flex flex-col items-center justify-center text-white/70 relative">
+                                    <div>📸</div>
+                                    <div class="absolute bottom-0 left-0 right-0 bg-black/80 py-1 text-xs text-center">Plumbing</div>
+                                </div>
+                                <div class="aspect-square bg-gray-800 rounded-lg flex flex-col items-center justify-center text-white/70 relative">
+                                    <div>📸</div>
+                                    <div class="absolute bottom-0 left-0 right-0 bg-black/80 py-1 text-xs text-center">HVAC</div>
+                                </div>
+                                <div class="aspect-square bg-gray-800 rounded-lg flex flex-col items-center justify-center text-white/70 relative">
+                                    <div>📸</div>
+                                    <div class="absolute bottom-0 left-0 right-0 bg-black/80 py-1 text-xs text-center">Violation</div>
+                                </div>
+                                <div class="aspect-square bg-gray-800 rounded-lg flex items-center justify-center text-white/70 text-2xl">
+                                    +
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Digital Inspection Checklist -->
+                        <h2 class="text-xl font-bold text-white mb-4">Inspection Checklist</h2>
+                        <div class="mobile-glass rounded-2xl p-6 mb-6">
+                            <div class="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-thin">
+                                <button class="px-4 py-2 bg-blue-600 border border-blue-600 rounded-full text-white text-sm font-semibold whitespace-nowrap">Building</button>
+                                <button class="px-4 py-2 bg-white/10 border border-white/20 rounded-full text-white text-sm font-semibold whitespace-nowrap">Electrical</button>
+                                <button class="px-4 py-2 bg-white/10 border border-white/20 rounded-full text-white text-sm font-semibold whitespace-nowrap">Plumbing</button>
+                                <button class="px-4 py-2 bg-white/10 border border-white/20 rounded-full text-white text-sm font-semibold whitespace-nowrap">Fire</button>
+                                <button class="px-4 py-2 bg-white/10 border border-white/20 rounded-full text-white text-sm font-semibold whitespace-nowrap">Health</button>
+                            </div>
+
+                            <div class="space-y-4 mb-4">
+                                <div class="bg-white/5 rounded-xl p-4">
+                                    <div class="text-sm font-semibold text-white mb-3">1. Foundation and Structure</div>
+                                    <div class="flex gap-2">
+                                        <button class="checklist-btn flex-1 min-h-11 bg-green-500/20 border-2 border-green-500 text-green-500 rounded-lg font-bold text-sm">✓ Pass</button>
+                                        <button class="checklist-btn flex-1 min-h-11 bg-red-500/20 border-2 border-red-500 text-red-500 rounded-lg font-bold text-sm">✗ Fail</button>
+                                        <button class="checklist-btn flex-1 min-h-11 bg-gray-500/20 border-2 border-transparent text-white/70 rounded-lg font-bold text-sm">— N/A</button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white/5 rounded-xl p-4">
+                                    <div class="text-sm font-semibold text-white mb-3">2. Roof and Drainage</div>
+                                    <div class="flex gap-2">
+                                        <button class="checklist-btn flex-1 min-h-11 bg-green-500/20 border-2 border-green-500 text-green-500 rounded-lg font-bold text-sm">✓ Pass</button>
+                                        <button class="checklist-btn flex-1 min-h-11 bg-red-500/20 border-2 border-red-500 text-red-500 rounded-lg font-bold text-sm">✗ Fail</button>
+                                        <button class="checklist-btn flex-1 min-h-11 bg-gray-500/20 border-2 border-transparent text-white/70 rounded-lg font-bold text-sm">— N/A</button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white/5 rounded-xl p-4">
+                                    <div class="text-sm font-semibold text-white mb-3">3. Exterior Walls and Siding</div>
+                                    <div class="flex gap-2">
+                                        <button class="checklist-btn flex-1 min-h-11 bg-green-500/20 border-2 border-green-500 text-green-500 rounded-lg font-bold text-sm">✓ Pass</button>
+                                        <button class="checklist-btn flex-1 min-h-11 bg-red-500/20 border-2 border-red-500 text-red-500 rounded-lg font-bold text-sm">✗ Fail</button>
+                                        <button class="checklist-btn flex-1 min-h-11 bg-gray-500/20 border-2 border-transparent text-white/70 rounded-lg font-bold text-sm">— N/A</button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white/5 rounded-xl p-4">
+                                    <div class="text-sm font-semibold text-white mb-3">4. Windows and Doors</div>
+                                    <div class="flex gap-2">
+                                        <button class="checklist-btn flex-1 min-h-11 bg-green-500/20 border-2 border-green-500 text-green-500 rounded-lg font-bold text-sm">✓ Pass</button>
+                                        <button class="checklist-btn flex-1 min-h-11 bg-red-500/20 border-2 border-red-500 text-red-500 rounded-lg font-bold text-sm">✗ Fail</button>
+                                        <button class="checklist-btn flex-1 min-h-11 bg-gray-500/20 border-2 border-transparent text-white/70 rounded-lg font-bold text-sm">— N/A</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white h-40 rounded-xl flex items-center justify-center text-gray-600 text-sm">
+                                <!-- TODO: Implement digital signature capture -->
+                                ✍️ Digital Signature Area
+                            </div>
+                        </div>
+
+                        <!-- Property Intelligence Panel -->
+                        <h2 class="text-xl font-bold text-white mb-4">Property Intelligence</h2>
+                        <div class="mobile-glass rounded-2xl p-6 mb-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="text-xs text-white/70 uppercase mb-1">Property Owner</div>
+                                    <div class="text-sm font-semibold text-white">John Smith</div>
+                                </div>
+
+                                <div>
+                                    <div class="text-xs text-white/70 uppercase mb-1">Contact</div>
+                                    <div class="text-sm font-semibold text-white">📞 (217) 555-0100</div>
+                                </div>
+
+                                <div>
+                                    <div class="text-xs text-white/70 uppercase mb-2">Previous Inspections (Last 5 Years)</div>
+                                    <div class="space-y-2">
+                                        <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">2023-03-15: Annual Inspection - Passed</div>
+                                        <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">2022-08-22: Re-Inspection - Passed</div>
+                                        <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">2022-07-10: Building Inspection - Failed (HVAC)</div>
+                                        <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">2021-04-05: Annual Inspection - Passed</div>
+                                        <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">2020-09-30: Electrical Inspection - Passed</div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="text-xs text-white/70 uppercase mb-2">Open Permits</div>
+                                    <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">PERMIT-2024-1247: Residential Addition (Expires: 2024-12-31)</div>
+                                </div>
+
+                                <div>
+                                    <div class="text-xs text-white/70 uppercase mb-2">Violations History</div>
+                                    <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">2022-07: HVAC system non-compliant (Resolved)</div>
+                                </div>
+
+                                <div class="bg-gradient-to-r from-blue-600/20 to-cyan-600/20 border-l-4 border-blue-500 px-4 py-3 rounded-lg">
+                                    <div class="text-xs text-blue-400 font-bold uppercase mb-2">🤖 AI Prediction</div>
+                                    <div class="text-sm text-white">This property type typically has: HVAC issues (67%), Electrical upgrades needed (45%), Plumbing concerns (23%)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Team Collaboration -->
+                        <h2 class="text-xl font-bold text-white mb-4">Team Collaboration</h2>
+                        <div class="mobile-glass rounded-2xl p-6 mb-20">
+                            <div class="bg-gray-800 h-40 rounded-xl mb-4 flex items-center justify-center text-white/70 text-sm">
+                                <!-- TODO: Connect to mapping service for team locations -->
+                                🗺️ Team Location Map (5 members nearby)
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-3">
+                                <button class="mobile-touch-button bg-blue-600/20 border border-blue-500 rounded-xl text-white font-semibold text-xs flex flex-col items-center justify-center gap-1 py-3">
+                                    <div>📻</div>
+                                    <div>Push-to-Talk</div>
+                                </button>
+                                <button class="mobile-touch-button bg-blue-600/20 border border-blue-500 rounded-xl text-white font-semibold text-xs flex flex-col items-center justify-center gap-1 py-3">
+                                    <div>💬</div>
+                                    <div>Messages</div>
+                                </button>
+                                <button class="mobile-touch-button bg-blue-600/20 border border-blue-500 rounded-xl text-white font-semibold text-xs flex flex-col items-center justify-center gap-1 py-3">
+                                    <div>🆘</div>
+                                    <div>Request Backup</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Added 2024-11-07: Mobile Command Center -->
 
                 <!-- Settings Tab -->
                 <div id="settings-content" class="tab-content" style="display: none;">
@@ -23228,6 +23706,297 @@
 
         console.log('Department Process Center loaded successfully');
         // ===== END DEPARTMENT PROCESS CENTER JAVASCRIPT =====
+
+        // ===== MOBILE COMMAND CENTER JAVASCRIPT =====
+        // Added 2024-11-07: Mobile Command Center for Field Operations
+
+        // TODO: Connect to device GPS API
+        // TODO: Implement offline storage (IndexedDB/SQLite)
+        // TODO: Add background sync service worker
+        // TODO: Connect to camera API
+        // TODO: Integrate biometric authentication (Touch ID/Face ID)
+        // TODO: Add push notifications
+        // TODO: Connect to mapping service (Google Maps/Mapbox)
+        // TODO: Implement route optimization algorithm
+        // TODO: Add speech-to-text service
+        // TODO: Connect to OCR service
+        // TODO: Implement encrypted local storage (FIPS 140-2)
+        // TODO: Add remote wipe capability
+
+        // MOCK DATA - Replace in production
+        const MOBILE_TODAYS_ASSIGNMENTS = [
+            {
+                id: 'INSP-2024-00847',
+                type: 'Building Inspection',
+                subtype: 'Final - Residential Addition',
+                address: '123 Oak Street, Springfield, IL 62701',
+                time: '9:00 AM',
+                duration: '45 min',
+                owner: 'John Smith',
+                phone: '(217) 555-0100',
+                notes: 'Large dog on property - call before entering',
+                offline: true
+            },
+            {
+                id: 'INSP-2024-00848',
+                type: 'Plumbing Inspection',
+                subtype: 'Rough-In - Commercial',
+                address: '456 Maple Avenue, Springfield, IL 62702',
+                time: '10:30 AM',
+                duration: '60 min',
+                owner: 'ABC Construction LLC',
+                phone: '(217) 555-0101',
+                notes: 'Meet contractor on site',
+                offline: true
+            },
+            {
+                id: 'INSP-2024-00849',
+                type: 'Electrical Inspection',
+                subtype: 'Service Upgrade - Residential',
+                address: '789 Pine Road, Springfield, IL 62703',
+                time: '12:00 PM',
+                duration: '30 min',
+                owner: 'Sarah Johnson',
+                phone: '(217) 555-0102',
+                notes: '',
+                offline: false
+            },
+            {
+                id: 'INSP-2024-00850',
+                type: 'Fire Safety Inspection',
+                subtype: 'Annual - Restaurant',
+                address: '321 Birch Lane, Springfield, IL 62704',
+                time: '1:30 PM',
+                duration: '90 min',
+                owner: 'Downtown Diner Inc',
+                phone: '(217) 555-0103',
+                notes: 'Previous violation: Fire suppression system',
+                offline: false
+            },
+            {
+                id: 'INSP-2024-00851',
+                type: 'Building Inspection',
+                subtype: 'Re-Inspection',
+                address: '654 Cedar Drive, Springfield, IL 62705',
+                time: '3:30 PM',
+                duration: '30 min',
+                owner: 'Michael Davis',
+                phone: '(217) 555-0104',
+                notes: 'Follow-up on HVAC repairs',
+                offline: false
+            },
+            {
+                id: 'INSP-2024-00852',
+                type: 'Health Inspection',
+                subtype: 'Routine - Grocery Store',
+                address: '159 Elm Street, Springfield, IL 62706',
+                time: '4:30 PM',
+                duration: '75 min',
+                owner: 'Fresh Foods Market',
+                phone: '(217) 555-0105',
+                notes: 'Refrigeration units require attention',
+                offline: false
+            },
+            {
+                id: 'INSP-2024-00853',
+                type: 'Electrical Inspection',
+                subtype: 'Final - New Construction',
+                address: '951 Ash Court, Springfield, IL 62707',
+                time: '6:00 PM',
+                duration: '45 min',
+                owner: 'Green Valley Homes',
+                phone: '(217) 555-0106',
+                notes: 'Final walk-through for occupancy permit',
+                offline: false
+            },
+            {
+                id: 'INSP-2024-00854',
+                type: 'Building Inspection',
+                subtype: 'Complaint - Code Violation',
+                address: '753 Walnut Place, Springfield, IL 62708',
+                time: '7:00 PM',
+                duration: '30 min',
+                owner: 'Robert Williams',
+                phone: '(217) 555-0107',
+                notes: 'Neighbor complaint: Fence height violation',
+                offline: false
+            }
+        ];
+
+        const MOBILE_SYNC_QUEUE = {
+            pending: [
+                { type: 'inspection_complete', photos: 12, size: '2.3 MB', priority: 'normal' },
+                { type: 'violation_issued', photos: 3, size: '456 KB', priority: 'high' },
+                { type: 'field_notes', photos: 0, size: '1.2 MB', priority: 'normal' }
+            ]
+        };
+
+        const MOBILE_ROUTE_OPTIMIZATION = {
+            original: { distance: 47.3, time: 6.5, order: [1,2,3,4,5,6,7,8] },
+            optimized: { distance: 35.1, time: 5.75, order: [1,4,7,2,5,3,8,6], savings: '45 min, 12.2 mi' }
+        };
+
+        const MOBILE_PROPERTY_DATA = {
+            owner: 'John Smith',
+            phone: '(217) 555-0100',
+            history: [
+                { date: '2023-03-15', type: 'Annual Inspection', result: 'Passed' },
+                { date: '2022-08-22', type: 'Re-Inspection', result: 'Passed' },
+                { date: '2022-07-10', type: 'Building Inspection', result: 'Failed (HVAC)' },
+                { date: '2021-04-05', type: 'Annual Inspection', result: 'Passed' },
+                { date: '2020-09-30', type: 'Electrical Inspection', result: 'Passed' }
+            ]
+        };
+
+        // Initialize Mobile Command Center on page load
+        let mobileCommandInitialized = false;
+
+        function initializeMobileCommand() {
+            if (mobileCommandInitialized) return;
+
+            populateMobileAssignments();
+            updateMobileConnectivity();
+            initializeMobileChecklist();
+
+            mobileCommandInitialized = true;
+            console.log('Mobile Command Center initialized');
+        }
+
+        // Populate assignments list
+        function populateMobileAssignments() {
+            const assignmentsList = document.getElementById('mobileAssignmentsList');
+            if (!assignmentsList) return;
+
+            assignmentsList.innerHTML = '';
+
+            MOBILE_TODAYS_ASSIGNMENTS.forEach(assignment => {
+                const card = document.createElement('div');
+                card.className = 'mobile-glass rounded-2xl p-4 relative';
+
+                card.innerHTML = `
+                    ${assignment.offline ? '<div class="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-lg text-xs font-bold">CACHED</div>' : ''}
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="text-base font-bold text-white">${assignment.type}</div>
+                        <div class="bg-blue-500 px-3 py-1 rounded-xl text-xs font-semibold text-white">${assignment.time}</div>
+                    </div>
+                    <div class="text-xs text-white/70 mb-2">${assignment.subtype}</div>
+                    <div class="text-sm text-white/70 mb-2">${assignment.address}</div>
+                    <div class="text-sm text-white mb-1">👤 ${assignment.owner} • ${assignment.phone}</div>
+                    <div class="text-xs text-white/70">⏱️ ${assignment.duration} • ID: ${assignment.id}</div>
+                    ${assignment.notes ? `<div class="bg-yellow-500/20 border-l-4 border-yellow-500 px-3 py-2 mt-3 rounded text-xs text-yellow-400">⚠️ Note: ${assignment.notes}</div>` : ''}
+                `;
+
+                assignmentsList.appendChild(card);
+            });
+        }
+
+        // Mobile Quick Action Functions
+        function mobileShowAssignments() {
+            const assignmentsList = document.getElementById('mobileAssignmentsList');
+            if (assignmentsList) {
+                assignmentsList.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function mobileQuickCapture() {
+            // TODO: Connect to camera API
+            alert('Quick Capture: Opening camera with GPS auto-tagging and voice notes');
+        }
+
+        function mobileShowRouteOptimizer() {
+            const routeOptimizer = document.querySelector('#mobile-command-content .mobile-glass:has(button:contains("Start Navigation"))');
+            if (routeOptimizer) {
+                routeOptimizer.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function mobileDocumentScanner() {
+            // TODO: Connect to OCR service
+            alert('Document Scanner: Opening camera with OCR capabilities');
+        }
+
+        function mobileChecklistMode() {
+            const checklist = document.querySelector('#mobile-command-content h2:contains("Inspection Checklist")');
+            if (checklist) {
+                checklist.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function mobileOpenCamera() {
+            // TODO: Connect to camera API
+            alert('Opening camera with auto-categorization and GPS tagging');
+        }
+
+        function mobileShowEmergencyModal() {
+            // TODO: Create emergency modal
+            // TODO: Connect to device GPS API
+            // TODO: Start audio/video recording
+            // TODO: Alert dispatch system
+            alert('🚨 Emergency Report Activated\n\nGPS captured\nRecording started\nDispatch alerted\n\nSelect incident type:\n- Immediate Danger\n- Public Safety\n- Officer Safety\n- Medical Emergency\n- Fire Hazard\n- Structural Failure\n- Chemical Spill\n- Other Emergency');
+
+            // Haptic feedback simulation
+            if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200]);
+            }
+        }
+
+        // Connectivity Status Simulation
+        function updateMobileConnectivity() {
+            const statuses = ['online', 'offline', 'limited', 'syncing'];
+            const statusText = ['Online', 'Offline', 'Limited', 'Syncing'];
+            let currentIndex = 3; // Start with syncing
+
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % statuses.length;
+                const dots = document.querySelectorAll('.mobile-status-dot');
+                const texts = document.querySelectorAll('#mobile-command-content .connectivity-status span:last-child');
+
+                dots.forEach(dot => {
+                    dot.className = 'mobile-status-dot mobile-status-' + statuses[currentIndex];
+                });
+
+                texts.forEach(text => {
+                    if (text) text.textContent = statusText[currentIndex];
+                });
+            }, 5000);
+        }
+
+        // Checklist Button Interactions
+        function initializeMobileChecklist() {
+            // This will be called when the tab is initialized
+            // The actual event listeners will be set up in the document ready handler
+        }
+
+        // Enhanced switchTab to initialize Mobile Command
+        const originalSwitchTabForMobileCommand = switchTab;
+        switchTab = function(tabName) {
+            originalSwitchTabForMobileCommand(tabName);
+            if (tabName === 'mobile-command') {
+                initializeMobileCommand();
+
+                // Initialize checklist button interactions after DOM is ready
+                setTimeout(() => {
+                    document.querySelectorAll('#mobile-command-content .checklist-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            // Remove selected from siblings
+                            this.parentElement.querySelectorAll('.checklist-btn').forEach(b => {
+                                b.classList.remove('selected');
+                            });
+                            // Add selected to clicked button
+                            this.classList.add('selected');
+
+                            // Haptic feedback simulation
+                            if (navigator.vibrate) {
+                                navigator.vibrate(50);
+                            }
+                        });
+                    });
+                }, 100);
+            }
+        };
+
+        console.log('Mobile Command Center loaded successfully');
+        // ===== END MOBILE COMMAND CENTER JAVASCRIPT =====
     </script>
 </body>
 </html>
