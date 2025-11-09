@@ -446,12 +446,9 @@
         document.getElementById('adminPortal').addEventListener('click', function(e) {
             if (!e.target.closest('button')) return;
 
-            // TODO: Navigate to admin portal
-            alert('Admin Portal coming soon!\n\nThis will provide full administrative access to:\n- Review permit applications\n- Schedule inspections\n- Manage workflows\n- Generate reports');
-
-            // TODO: Implement navigation
-            // window.location.href = 'permits-admin.html';
+            // Navigate to admin portal
             console.log('Navigate to Admin Portal');
+            window.location.href = 'admin-permits-portal.html';
         });
 
         document.getElementById('citizenPortal').addEventListener('click', function(e) {
