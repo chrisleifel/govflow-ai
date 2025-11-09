@@ -890,6 +890,10 @@
                 <i class="fas fa-chart-line"></i>
                 Analytics
             </div>
+            <div class="nav-tab" data-section="ai-intelligence">
+                <i class="fas fa-brain"></i>
+                AI Intelligence
+            </div>
             <div class="nav-tab" data-section="settings">
                 <i class="fas fa-cog"></i>
                 Settings
@@ -1683,7 +1687,354 @@
             </div>
         </div>
 
-        <!-- Section 5: Settings -->
+        <!-- Section 5: AI Intelligence Dashboard -->
+        <div id="aiIntelligenceSection" class="section-content hidden">
+            <div style="margin-bottom: 24px;">
+                <h2 style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px;">
+                    <i class="fas fa-brain" style="color: var(--permit-primary); margin-right: 12px;"></i>
+                    AI Intelligence Dashboard
+                </h2>
+                <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7);">AI-powered insights, predictions, and risk analysis for permit management</p>
+            </div>
+
+            <!-- AI Insights Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value">95%</div>
+                            <div class="stat-label">AI Prediction Accuracy</div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-check-circle"></i>
+                                Last 30 days
+                            </div>
+                        </div>
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value">487</div>
+                            <div class="stat-label">Issues Auto-Detected</div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-shield-alt"></i>
+                                This month
+                            </div>
+                        </div>
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value">3.8 hrs</div>
+                            <div class="stat-label">Time Saved per Permit</div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                42% improvement
+                            </div>
+                        </div>
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #06b6d4, #0284c7);">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value">23</div>
+                            <div class="stat-label">High Risk Permits Flagged</div>
+                            <div class="stat-change negative">
+                                <i class="fas fa-flag"></i>
+                                Requires attention
+                            </div>
+                        </div>
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Predictive Analytics -->
+            <div class="chart-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <div>
+                        <h3 class="chart-title" style="margin-bottom: 4px;">
+                            <i class="fas fa-chart-line" style="color: var(--permit-primary); margin-right: 8px;"></i>
+                            Predictive Permit Volume
+                        </h3>
+                        <p style="font-size: 13px; color: rgba(255, 255, 255, 0.6);">AI forecasts next 30 days based on historical patterns</p>
+                    </div>
+                    <button class="btn btn-secondary" style="padding: 8px 16px;">
+                        <i class="fas fa-download"></i>
+                        Export Forecast
+                    </button>
+                </div>
+
+                <!-- MOCK DATA - Forecast Chart -->
+                <div style="background: rgba(255, 255, 255, 0.02); border-radius: 12px; padding: 24px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+                        <div style="text-align: center; padding: 16px; background: rgba(16, 185, 129, 0.1); border-radius: 8px;">
+                            <div style="font-size: 28px; font-weight: 700; color: var(--permit-primary); margin-bottom: 4px;">↑ 18%</div>
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.7);">Next Week</div>
+                            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.5); margin-top: 4px;">Building permits peak</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: rgba(59, 130, 246, 0.1); border-radius: 8px;">
+                            <div style="font-size: 28px; font-weight: 700; color: #3b82f6; margin-bottom: 4px;">↓ 12%</div>
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.7);">Week 3</div>
+                            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.5); margin-top: 4px;">Holiday slowdown</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: rgba(245, 158, 11, 0.1); border-radius: 8px;">
+                            <div style="font-size: 28px; font-weight: 700; color: #f59e0b; margin-bottom: 4px;">→ 2%</div>
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.7);">Week 4</div>
+                            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.5); margin-top: 4px;">Seasonal average</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px; padding: 16px; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px;">
+                        <div style="display: flex; align-items: start; gap: 12px;">
+                            <i class="fas fa-lightbulb" style="color: #8b5cf6; font-size: 20px;"></i>
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: #8b5cf6; margin-bottom: 4px;">AI Recommendation</div>
+                                <div style="font-size: 13px; color: rgba(255, 255, 255, 0.8);">
+                                    Increase staffing by 2 reviewers next week to handle predicted building permit surge. Consider pre-scheduling 5 additional inspection slots.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Scoring Engine -->
+            <div class="chart-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <div>
+                        <h3 class="chart-title" style="margin-bottom: 4px;">
+                            <i class="fas fa-shield-alt" style="color: #f59e0b; margin-right: 8px;"></i>
+                            Risk Assessment & Scoring
+                        </h3>
+                        <p style="font-size: 13px; color: rgba(255, 255, 255, 0.6);">AI evaluates permits based on 50+ risk factors</p>
+                    </div>
+                </div>
+
+                <!-- MOCK DATA - High Risk Permits -->
+                <div class="permits-list">
+                    <div class="permit-card priority-high" style="border-left-width: 4px;">
+                        <div class="permit-card-header">
+                            <div>
+                                <div class="permit-id">BLD-2025-0187</div>
+                                <span class="permit-type-badge" style="background: rgba(239, 68, 68, 0.1); border-color: #ef4444; color: #ef4444;">High Risk - 87/100</span>
+                            </div>
+                            <span class="status-badge under-review">Requires Enhanced Review</span>
+                        </div>
+
+                        <div class="permit-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Contractor</span>
+                                <span class="meta-value">XYZ Construction LLC</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Project Type</span>
+                                <span class="meta-value">4-Story Mixed Use Building</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Value</span>
+                                <span class="meta-value">$2.4M</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Location</span>
+                                <span class="meta-value">Downtown Historic District</span>
+                            </div>
+                        </div>
+
+                        <div class="ai-insights">
+                            <div class="ai-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="ai-content">
+                                <div class="ai-title" style="color: #ef4444;">Risk Factors Detected</div>
+                                <div class="ai-text">
+                                    • Contractor has 3 OSHA violations in past 12 months<br>
+                                    • Project in designated historic preservation zone - requires additional review<br>
+                                    • Underground utility conflicts detected at site<br>
+                                    • Structural engineer license expires in 30 days<br>
+                                    • 2 neighboring properties have active permits (coordination required)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="permit-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-clipboard-check"></i>
+                                Detailed Risk Report
+                            </button>
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-user-tie"></i>
+                                Assign Senior Reviewer
+                            </button>
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-calendar-alt"></i>
+                                Schedule Site Visit
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="permit-card priority-medium" style="border-left-width: 4px;">
+                        <div class="permit-card-header">
+                            <div>
+                                <div class="permit-id">ELC-2025-0201</div>
+                                <span class="permit-type-badge" style="background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; color: #f59e0b;">Medium Risk - 54/100</span>
+                            </div>
+                            <span class="status-badge under-review">Standard Review</span>
+                        </div>
+
+                        <div class="permit-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Contractor</span>
+                                <span class="meta-value">ABC Electric Pro</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Project Type</span>
+                                <span class="meta-value">Commercial Panel Upgrade</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Value</span>
+                                <span class="meta-value">$18,500</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Location</span>
+                                <span class="meta-value">456 Commerce Blvd</span>
+                            </div>
+                        </div>
+
+                        <div class="ai-insights">
+                            <div class="ai-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="ai-content">
+                                <div class="ai-title" style="color: #f59e0b;">Moderate Risk Factors</div>
+                                <div class="ai-text">
+                                    ✓ Contractor licensed and insured (verified)<br>
+                                    • Building is 40+ years old - may have asbestos<br>
+                                    • Work requires temporary power shutdown affecting 8 businesses<br>
+                                    💡 Recommend coordination meeting with building tenants
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="permit-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-eye"></i>
+                                Review Permit
+                            </button>
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-users"></i>
+                                Schedule Coordination Meeting
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Automated Compliance Checks -->
+            <div class="chart-container">
+                <h3 class="chart-title">
+                    <i class="fas fa-tasks" style="color: var(--permit-primary); margin-right: 8px;"></i>
+                    Automated Compliance Verification
+                </h3>
+                <p style="font-size: 13px; color: rgba(255, 255, 255, 0.6); margin-bottom: 20px;">Real-time verification against 500+ building codes and regulations</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <!-- Compliance Check Card -->
+                    <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 20px;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <i class="fas fa-check-circle" style="font-size: 28px; color: #10b981;"></i>
+                            <div>
+                                <div style="font-size: 24px; font-weight: 700; color: white;">2,847</div>
+                                <div style="font-size: 12px; color: rgba(255, 255, 255, 0.7);">Checks Passed</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">
+                            Zoning, setbacks, height limits, fire codes, accessibility
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 20px;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <i class="fas fa-times-circle" style="font-size: 28px; color: #ef4444;"></i>
+                            <div>
+                                <div style="font-size: 24px; font-weight: 700; color: white;">142</div>
+                                <div style="font-size: 12px; color: rgba(255, 255, 255, 0.7);">Violations Found</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">
+                            Auto-flagged for review with recommended corrections
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 20px;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <i class="fas fa-exclamation-circle" style="font-size: 28px; color: #f59e0b;"></i>
+                            <div>
+                                <div style="font-size: 24px; font-weight: 700; color: white;">68</div>
+                                <div style="font-size: 12px; color: rgba(255, 255, 255, 0.7);">Needs Clarification</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">
+                            AI requested additional documentation from applicants
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integration Status -->
+            <div class="chart-container">
+                <h3 class="chart-title">
+                    <i class="fas fa-plug" style="color: var(--permit-primary); margin-right: 8px;"></i>
+                    External Database Integrations
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 16px;">
+                    <div style="background: rgba(255, 255, 255, 0.03); border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 12px;">
+                        <i class="fas fa-check-circle" style="color: #10b981; font-size: 20px;"></i>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600; color: white;">State Licensing Board</div>
+                            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.6);">Real-time verification</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.03); border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 12px;">
+                        <i class="fas fa-check-circle" style="color: #10b981; font-size: 20px;"></i>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600; color: white;">EPA Databases</div>
+                            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.6);">Environmental checks</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.03); border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 12px;">
+                        <i class="fas fa-check-circle" style="color: #10b981; font-size: 20px;"></i>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600; color: white;">OSHA Records</div>
+                            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.6);">Safety violation history</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.03); border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 12px;">
+                        <i class="fas fa-check-circle" style="color: #10b981; font-size: 20px;"></i>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600; color: white;">Property Records</div>
+                            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.6);">Ownership & liens</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Settings -->
         <div id="settingsSection" class="section-content hidden">
             <div style="margin-bottom: 24px;">
                 <h2 style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px;">Settings</h2>
@@ -1760,6 +2111,7 @@
                 'all-permits': 'allPermitsSection',
                 'inspections': 'inspectionsSection',
                 'analytics': 'analyticsSection',
+                'ai-intelligence': 'aiIntelligenceSection',
                 'settings': 'settingsSection'
             };
 

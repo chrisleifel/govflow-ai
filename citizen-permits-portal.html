@@ -966,6 +966,60 @@
             </div>
         </div>
 
+        <!-- AI Permit Concierge -->
+        <div style="max-width: 1200px; margin: 0 auto 40px; padding: 0 20px;">
+            <div class="glass" style="border-radius: 16px; padding: 32px;">
+                <div style="display: flex; align-items: start; gap: 20px; margin-bottom: 24px;">
+                    <div style="width: 64px; height: 64px; background: var(--permit-gradient); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fas fa-robot" style="font-size: 32px; color: white;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <h3 style="font-size: 22px; font-weight: 700; color: white; margin-bottom: 8px;">
+                            AI Permit Concierge
+                        </h3>
+                        <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7);">
+                            Not sure which permit you need? Ask our AI assistant anything about permits, requirements, and the application process.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Quick Questions -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; margin-bottom: 20px;">
+                    <button class="btn btn-secondary ai-quick-question" data-question="I want to build a deck in my backyard" style="justify-content: flex-start; text-align: left;">
+                        <i class="fas fa-comment-dots"></i>
+                        "I want to build a deck"
+                    </button>
+                    <button class="btn btn-secondary ai-quick-question" data-question="What permits do I need to remodel my kitchen?" style="justify-content: flex-start; text-align: left;">
+                        <i class="fas fa-comment-dots"></i>
+                        "Remodel my kitchen"
+                    </button>
+                    <button class="btn btn-secondary ai-quick-question" data-question="How much does a building permit cost?" style="justify-content: flex-start; text-align: left;">
+                        <i class="fas fa-comment-dots"></i>
+                        "How much does it cost?"
+                    </button>
+                </div>
+
+                <!-- Chat Input -->
+                <div style="display: flex; gap: 12px;">
+                    <input type="text" id="aiConciergeInput" class="form-input" placeholder="Ask me anything about permits... (e.g., 'Do I need a permit to replace my water heater?')" style="flex: 1;">
+                    <button class="btn btn-primary" id="aiConciergeSubmit" style="padding: 12px 24px;">
+                        <i class="fas fa-paper-plane"></i>
+                        Ask AI
+                    </button>
+                </div>
+
+                <!-- AI Response Area (Hidden by default) -->
+                <div id="aiConciergeResponse" class="hidden" style="margin-top: 24px; padding: 20px; background: rgba(16, 185, 129, 0.1); border: 1px solid var(--permit-primary); border-radius: 12px;">
+                    <div style="display: flex; gap: 12px;">
+                        <i class="fas fa-robot" style="color: var(--permit-primary); font-size: 20px; flex-shrink: 0;"></i>
+                        <div id="aiConciergeText" style="flex: 1; font-size: 14px; color: rgba(255, 255, 255, 0.9); line-height: 1.6;">
+                            <!-- AI response will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="permit-grid">
             <div class="permit-card" data-permit-type="building">
                 <div class="permit-icon">
@@ -2017,6 +2071,123 @@
         // TODO: Implement real-time status updates via WebSocket
         // TODO: Add payment processing integration
         // TODO: Implement document viewer for uploaded files
+
+        // AI Permit Concierge
+        const aiConciergeInput = document.getElementById('aiConciergeInput');
+        const aiConciergeSubmit = document.getElementById('aiConciergeSubmit');
+        const aiConciergeResponse = document.getElementById('aiConciergeResponse');
+        const aiConciergeText = document.getElementById('aiConciergeText');
+
+        function askAIConcierge(question) {
+            if (!question || question.trim() === '') return;
+
+            console.log('AI Concierge question:', question);
+
+            // Show loading state
+            aiConciergeResponse.classList.remove('hidden');
+            aiConciergeText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing your question...';
+
+            // TODO: Connect to API endpoint /api/ai/concierge
+            // MOCK DATA - Simulate AI response based on question keywords
+            setTimeout(() => {
+                let response = generateAIResponse(question.toLowerCase());
+                aiConciergeText.innerHTML = response;
+            }, 1500);
+        }
+
+        function generateAIResponse(question) {
+            // MOCK DATA - Simple keyword-based responses
+            if (question.includes('deck')) {
+                return `<strong>Building a Deck:</strong><br><br>
+                    For a deck, you'll typically need:<br>
+                    • <strong>Building Permit</strong> ($150-$350) - Required for decks over 30 inches high or attached to house<br>
+                    • Processing time: 5-7 business days<br>
+                    • Required documents: Site plan, elevation drawings, structural details<br><br>
+                    <strong>Next Steps:</strong><br>
+                    1. Check your property's setback requirements (usually 5-10 feet from property line)<br>
+                    2. Prepare a simple site plan showing deck location<br>
+                    3. Determine if you'll hire a contractor or DIY (affects requirements)<br><br>
+                    <button class="btn btn-primary" onclick="document.querySelector('[data-permit-type=building]').click()" style="margin-top: 12px;">
+                        <i class="fas fa-arrow-right"></i> Start Building Permit Application
+                    </button>`;
+            } else if (question.includes('kitchen') || question.includes('remodel')) {
+                return `<strong>Kitchen Remodel Permits:</strong><br><br>
+                    Depending on your project scope, you may need:<br>
+                    • <strong>Building Permit</strong> - If removing walls or structural changes<br>
+                    • <strong>Electrical Permit</strong> ($75-$200) - New outlets, lighting, or appliance circuits<br>
+                    • <strong>Plumbing Permit</strong> ($75-$150) - Moving sinks, dishwashers, or gas lines<br><br>
+                    <strong>Estimated Total Cost:</strong> $300-$550<br>
+                    <strong>Processing Time:</strong> 3-7 business days (depending on complexity)<br><br>
+                    💡 <strong>Pro Tip:</strong> If you're only replacing cabinets and countertops without moving plumbing or electrical, you may not need any permits!<br><br>
+                    <button class="btn btn-primary" onclick="document.querySelector('[data-section=wizard]').click()" style="margin-top: 12px;">
+                        <i class="fas fa-magic"></i> Start AI-Guided Application
+                    </button>`;
+            } else if (question.includes('cost') || question.includes('fee') || question.includes('price')) {
+                return `<strong>Permit Fees Overview:</strong><br><br>
+                    <strong>Residential Permits:</strong><br>
+                    • Building Permit: $150-$2,500 (based on project value)<br>
+                    • Electrical Permit: $75-$500<br>
+                    • Plumbing Permit: $75-$400<br>
+                    • HVAC Permit: $100-$600<br>
+                    • Sign Permit: $50-$300<br>
+                    • Demolition Permit: $200-$1,000<br><br>
+                    <strong>Fee Calculation:</strong><br>
+                    Most fees are based on project value or scope. Our AI wizard will calculate exact fees as you complete your application.<br><br>
+                    💳 <strong>Payment Options:</strong> Credit card, debit card, or electronic check<br><br>
+                    <button class="btn btn-primary" onclick="document.querySelector('[data-section=wizard]').click()" style="margin-top: 12px;">
+                        <i class="fas fa-calculator"></i> Calculate My Permit Fee
+                    </button>`;
+            } else if (question.includes('water heater')) {
+                return `<strong>Water Heater Replacement:</strong><br><br>
+                    ✓ Yes, you need a permit!<br><br>
+                    <strong>Required Permit:</strong> Plumbing Permit ($75-$150)<br>
+                    <strong>Processing Time:</strong> 2-3 business days<br>
+                    <strong>Inspection Required:</strong> Yes - after installation<br><br>
+                    <strong>Requirements:</strong><br>
+                    • Licensed contractor (must provide license number)<br>
+                    • Water heater must meet current energy efficiency standards<br>
+                    • Proper venting if gas unit<br>
+                    • Earthquake straps required (in seismic zones)<br><br>
+                    <strong>Good News:</strong> This qualifies for expedited review!<br><br>
+                    <button class="btn btn-primary" onclick="document.querySelector('[data-permit-type=plumbing]').click()" style="margin-top: 12px;">
+                        <i class="fas fa-tint"></i> Apply for Plumbing Permit
+                    </button>`;
+            } else {
+                return `<strong>General Permit Information:</strong><br><br>
+                    I can help you with:<br>
+                    • Which permits you need for your project<br>
+                    • Estimated costs and processing times<br>
+                    • Required documents and forms<br>
+                    • Step-by-step application guidance<br><br>
+                    <strong>Common Questions:</strong><br>
+                    • "I want to build a deck" - Get deck permit requirements<br>
+                    • "Remodel my kitchen" - Learn about renovation permits<br>
+                    • "Do I need a permit to..." - Check permit requirements<br><br>
+                    Or choose a permit type below to get started!<br><br>
+                    💡 <strong>Tip:</strong> Use specific project details for more accurate guidance.`;
+            }
+        }
+
+        // Quick Question Buttons
+        document.querySelectorAll('.ai-quick-question').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const question = this.dataset.question;
+                aiConciergeInput.value = question;
+                askAIConcierge(question);
+            });
+        });
+
+        // Submit Button
+        aiConciergeSubmit.addEventListener('click', function() {
+            askAIConcierge(aiConciergeInput.value);
+        });
+
+        // Enter key support
+        aiConciergeInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                askAIConcierge(aiConciergeInput.value);
+            }
+        });
 
         console.log('Citizen Permits Portal initialized');
     </script>
