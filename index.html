@@ -1923,8 +1923,8 @@
         /* Added 2025-01-08: GovFlow App Switcher Styles */
         .app-switcher-btn {
             position: fixed;
-            top: 16px;
-            left: 280px;
+            bottom: 20px;
+            left: 20px;
             z-index: 1001;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -1947,10 +1947,10 @@
         .app-switcher-dropdown {
             display: none;
             position: fixed;
-            top: 76px;
-            left: 280px;
+            bottom: 80px;
+            left: 20px;
             width: 400px;
-            max-width: calc(100vw - 320px);
+            max-width: calc(100vw - 40px);
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
@@ -2026,11 +2026,13 @@
 
         @media (max-width: 768px) {
             .app-switcher-btn {
-                left: 20px;
-                top: 80px;
+                bottom: 80px;
+                left: 50%;
+                transform: translateX(-50%);
             }
             .app-switcher-dropdown {
                 left: 20px;
+                bottom: 140px;
                 width: calc(100vw - 40px);
                 max-width: none;
             }
