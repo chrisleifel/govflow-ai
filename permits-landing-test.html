@@ -442,18 +442,14 @@
     <script>
         // Added 2025-01-08: Permits Landing Page JavaScript
 
-        // Handle portal card clicks
+        // Handle portal card clicks - entire card is clickable
         document.getElementById('adminPortal').addEventListener('click', function(e) {
-            if (!e.target.closest('button')) return;
-
             // Navigate to admin portal
             console.log('Navigate to Admin Portal');
             window.location.href = 'admin-permits-portal.html';
         });
 
         document.getElementById('citizenPortal').addEventListener('click', function(e) {
-            if (!e.target.closest('button')) return;
-
             // Navigate to citizen portal
             console.log('Navigate to Citizen Portal');
             window.location.href = 'citizen-permits-portal.html';
