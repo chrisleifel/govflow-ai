@@ -7,16 +7,68 @@
 4. **Test changes in a separate file before integrating**
 5. **Commit working state before attempting major changes**
 
-## Design System - Blue Ocean Aesthetic
-**Cutting Edge Design:** Every new feature must use modern, sleek blue ocean themed design
-- **Glassmorphism:** `background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2);`
-- **Colors:**
-  - Primary Blue: `#1e40af`
-  - Secondary Blue: `#3b82f6`
-  - Purple: `#8b5cf6`
-  - Green: `#10b981`
-  - Yellow: `#f59e0b`
-  - Red: `#ef4444`
+## Design System - Professional Blue Ocean Aesthetic
+**Cutting Edge Design:** Every new feature must use modern, sophisticated blue ocean themed design with depth and professionalism
+
+### Glassmorphism
+- **Standard Glass:** `background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(20px); border: 1px solid rgba(6, 182, 212, 0.25);`
+- **Dark Glass:** `background: rgba(10, 22, 40, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(6, 182, 212, 0.15);`
+- **Glass Shadow:** `box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);`
+
+### Color Palette
+
+**Primary Ocean Colors:**
+- Deep Ocean: `#0a1628` (darkest backgrounds)
+- Ocean Dark: `#0c4a6e` (primary backgrounds, sidebar base)
+- Ocean Primary: `#0369a1` (main accent)
+- Azure Blue: `#0284c7` (highlights, sidebar gradient)
+- Sky Blue: `#0ea5e9` (interactive elements)
+- Cyan Bright: `#06b6d4` (buttons, active states, borders)
+- Teal Accent: `#14b8a6` (success indicators, positive states)
+
+**Neutral Depths:**
+- Navy Deep: `#0f172a` (base backgrounds)
+- Slate Dark: `#1e293b` (card backgrounds)
+- Slate Medium: `#334155` (borders, dividers)
+- Slate Light: `#475569` (secondary borders)
+
+**Accent Colors:**
+- Emerald Success: `#10b981` (success states)
+- Amber Warning: `#f59e0b` (warnings)
+- Rose Danger: `#f43f5e` (errors, alerts)
+- Violet Special: `#8b5cf6` (special features)
+
+**Glow Effects:**
+- Cyan Glow: `rgba(6, 182, 212, 0.4)` for hover/active glows
+- Azure Glow: `rgba(2, 132, 199, 0.5)` for secondary glows
+
+### Gradients
+
+**Background:**
+```css
+background: linear-gradient(135deg,
+    #0a1628 0%,
+    #0c2340 25%,
+    #0e3a5f 50%,
+    #1e3a5f 75%,
+    #164e7f 100%
+);
+```
+
+**Sidebar:**
+```css
+background: linear-gradient(180deg,
+    #0c4a6e 0%,
+    #0369a1 50%,
+    #0284c7 100%
+);
+```
+
+**Buttons (Primary):**
+```css
+background: linear-gradient(90deg, #06b6d4, #0284c7);
+```
+
 - **Transitions:** `transition: all 0.3s ease;`
 - **Spacing:**
   - Cards: `p-6`
