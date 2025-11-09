@@ -457,12 +457,9 @@
         document.getElementById('citizenPortal').addEventListener('click', function(e) {
             if (!e.target.closest('button')) return;
 
-            // TODO: Navigate to citizen portal
-            alert('Citizen Portal coming soon!\n\nThis will allow citizens to:\n- Apply for permits online\n- Track application status\n- Schedule inspections\n- Pay fees securely');
-
-            // TODO: Implement navigation
-            // window.location.href = 'permits-citizen.html';
+            // Navigate to citizen portal
             console.log('Navigate to Citizen Portal');
+            window.location.href = 'citizen-permits-portal.html';
         });
 
         // TODO: Connect to API endpoint /api/permits/stats for real-time statistics
