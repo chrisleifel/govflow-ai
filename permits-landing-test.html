@@ -450,9 +450,18 @@
         });
 
         document.getElementById('citizenPortal').addEventListener('click', function(e) {
-            // Navigate to citizen portal
-            console.log('Navigate to Citizen Portal');
-            window.location.href = 'citizen-permits-portal.html';
+            // Check if user has active session, otherwise go to login
+            const userSession = sessionStorage.getItem('citizenUser') || localStorage.getItem('citizenUser');
+
+            if (userSession) {
+                // User is logged in, go directly to portal
+                console.log('User logged in, navigating to Citizen Portal');
+                window.location.href = 'citizen-permits-portal.html';
+            } else {
+                // No session, go to login page
+                console.log('No session, navigating to Login');
+                window.location.href = 'citizen-permits-login.html';
+            }
         });
 
         // TODO: Connect to API endpoint /api/permits/stats for real-time statistics

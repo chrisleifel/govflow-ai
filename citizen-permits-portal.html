@@ -908,10 +908,46 @@
                         GovFlow Permits
                     </h1>
                 </div>
-                <button class="btn btn-primary" id="newPermitBtn">
-                    <i class="fas fa-plus"></i>
-                    New Permit Application
-                </button>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <button class="btn btn-primary" id="newPermitBtn">
+                        <i class="fas fa-plus"></i>
+                        New Permit Application
+                    </button>
+                    <div style="position: relative;">
+                        <button id="userMenuBtn" style="display: flex; align-items: center; gap: 12px; padding: 8px 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; cursor: pointer; transition: all 0.3s ease; min-height: 44px; color: white;">
+                            <div style="width: 32px; height: 32px; background: var(--permit-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 14px;" id="userAvatar">
+                                U
+                            </div>
+                            <div style="text-align: left; display: none;" class="user-info-desktop">
+                                <div style="font-size: 14px; font-weight: 600; color: white;" id="userName">User</div>
+                                <div style="font-size: 11px; color: rgba(255, 255, 255, 0.6);">Citizen Account</div>
+                            </div>
+                            <i class="fas fa-chevron-down" style="color: rgba(255, 255, 255, 0.5); font-size: 12px;"></i>
+                        </button>
+                        <!-- User Dropdown -->
+                        <div id="userDropdown" class="hidden" style="position: absolute; right: 0; top: calc(100% + 8px); background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 12px; min-width: 220px; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3); z-index: 1000;">
+                            <div style="padding: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                                <div style="font-size: 14px; font-weight: 600; color: white; margin-bottom: 4px;" id="dropdownUserName">User</div>
+                                <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);" id="dropdownUserEmail">user@example.com</div>
+                            </div>
+                            <div style="padding: 8px;">
+                                <button id="profileBtn" style="width: 100%; text-align: left; padding: 12px 16px; background: transparent; border: none; color: white; font-size: 14px; cursor: pointer; border-radius: 6px; transition: all 0.3s ease; display: flex; align-items: center; gap: 12px; min-height: 44px;">
+                                    <i class="fas fa-user" style="width: 16px;"></i>
+                                    My Profile
+                                </button>
+                                <button id="settingsBtn" style="width: 100%; text-align: left; padding: 12px 16px; background: transparent; border: none; color: white; font-size: 14px; cursor: pointer; border-radius: 6px; transition: all 0.3s ease; display: flex; align-items: center; gap: 12px; min-height: 44px;">
+                                    <i class="fas fa-cog" style="width: 16px;"></i>
+                                    Settings
+                                </button>
+                                <div style="height: 1px; background: rgba(255, 255, 255, 0.1); margin: 8px 0;"></div>
+                                <button id="logoutBtn" style="width: 100%; text-align: left; padding: 12px 16px; background: transparent; border: none; color: #ef4444; font-size: 14px; cursor: pointer; border-radius: 6px; transition: all 0.3s ease; display: flex; align-items: center; gap: 12px; min-height: 44px;">
+                                    <i class="fas fa-sign-out-alt" style="width: 16px;"></i>
+                                    Sign Out
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="nav-tabs">
                 <div class="nav-tab active" data-section="home">
@@ -1807,6 +1843,154 @@
 
     <script>
         // Added 2025-01-09: Citizen Permits Portal JavaScript
+
+        // Session Management & Authentication
+        let currentUser = null;
+
+        function checkSession() {
+            // Check sessionStorage first (session only)
+            let userSession = sessionStorage.getItem('citizenUser');
+
+            // If not in session, check localStorage (remember me)
+            if (!userSession) {
+                userSession = localStorage.getItem('citizenUser');
+                const expiry = localStorage.getItem('citizenUserExpiry');
+
+                // Check if remembered session has expired
+                if (userSession && expiry) {
+                    if (new Date(expiry) < new Date()) {
+                        // Session expired, clear it
+                        localStorage.removeItem('citizenUser');
+                        localStorage.removeItem('citizenUserExpiry');
+                        userSession = null;
+                    }
+                }
+            }
+
+            if (!userSession) {
+                // No valid session, redirect to login
+                console.log('No valid session found, redirecting to login...');
+                window.location.href = 'citizen-permits-login.html';
+                return false;
+            }
+
+            // Parse user data
+            try {
+                currentUser = JSON.parse(userSession);
+                console.log('User session found:', currentUser.email);
+                updateUserInterface();
+                return true;
+            } catch (e) {
+                console.error('Error parsing user session:', e);
+                window.location.href = 'citizen-permits-login.html';
+                return false;
+            }
+        }
+
+        function updateUserInterface() {
+            if (!currentUser) return;
+
+            // Update user avatar (first letter of email)
+            const userAvatar = document.getElementById('userAvatar');
+            if (userAvatar) {
+                userAvatar.textContent = currentUser.email.charAt(0).toUpperCase();
+            }
+
+            // Update user name displays
+            const userName = document.getElementById('userName');
+            const dropdownUserName = document.getElementById('dropdownUserName');
+            const dropdownUserEmail = document.getElementById('dropdownUserEmail');
+
+            if (userName) userName.textContent = currentUser.name || 'User';
+            if (dropdownUserName) dropdownUserName.textContent = currentUser.name || 'User';
+            if (dropdownUserEmail) dropdownUserEmail.textContent = currentUser.email;
+
+            // Show desktop user info on larger screens
+            const userInfoDesktop = document.querySelector('.user-info-desktop');
+            if (userInfoDesktop && window.innerWidth > 768) {
+                userInfoDesktop.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            console.log('Logging out user:', currentUser.email);
+
+            // Clear all session data
+            sessionStorage.removeItem('citizenUser');
+            localStorage.removeItem('citizenUser');
+            localStorage.removeItem('citizenUserExpiry');
+
+            // Redirect to login
+            window.location.href = 'citizen-permits-login.html';
+        }
+
+        // Check session on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            checkSession();
+        });
+
+        // User Menu Dropdown
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const userDropdown = document.getElementById('userDropdown');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const profileBtn = document.getElementById('profileBtn');
+        const settingsBtn = document.getElementById('settingsBtn');
+
+        if (userMenuBtn) {
+            userMenuBtn.addEventListener('click', function() {
+                userDropdown.classList.toggle('hidden');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!userMenuBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+                    userDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to sign out?')) {
+                    logout();
+                }
+            });
+        }
+
+        if (profileBtn) {
+            profileBtn.addEventListener('click', function() {
+                // TODO: Navigate to profile page
+                alert('Profile Page\n\nView and edit your account information:\n- Personal details\n- Contact information\n- Notification preferences');
+                userDropdown.classList.add('hidden');
+            });
+        }
+
+        if (settingsBtn) {
+            settingsBtn.addEventListener('click', function() {
+                // TODO: Navigate to settings page
+                alert('Settings Page\n\nManage your account settings:\n- Email notifications\n- Password change\n- Security settings');
+                userDropdown.classList.add('hidden');
+            });
+        }
+
+        // Hover effects for dropdown buttons
+        document.querySelectorAll('#userDropdown button').forEach(btn => {
+            if (btn.id !== 'logoutBtn') {
+                btn.addEventListener('mouseover', function() {
+                    this.style.background = 'rgba(255, 255, 255, 0.05)';
+                });
+                btn.addEventListener('mouseout', function() {
+                    this.style.background = 'transparent';
+                });
+            } else {
+                btn.addEventListener('mouseover', function() {
+                    this.style.background = 'rgba(239, 68, 68, 0.1)';
+                });
+                btn.addEventListener('mouseout', function() {
+                    this.style.background = 'transparent';
+                });
+            }
+        });
 
         // Navigation
         document.querySelectorAll('.nav-tab').forEach(tab => {
