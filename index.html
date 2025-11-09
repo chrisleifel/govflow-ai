@@ -24380,11 +24380,10 @@
                 const appType = card.dataset.app;
 
                 if (appType === 'permits') {
-                    // TODO: Implement Permits module navigation
-                    alert('Permits module coming soon! This will navigate to the Permits & Inspections application.');
+                    // Navigate to Permits landing page
                     closeAppSwitcher();
-                    // TODO: Load permits module/navigate to permits route
-                    console.log('Navigate to Permits module');
+                    window.location.href = 'permits-landing-test.html';
+                    console.log('Navigate to Permits landing page');
                 } else if (appType === 'new') {
                     // TODO: Open new module creation wizard
                     alert('Create New Module wizard coming soon! This will allow you to build custom applications.');
