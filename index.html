@@ -24378,18 +24378,29 @@
                 if (!card) return;
 
                 const appType = card.dataset.app;
+                console.log('Card clicked:', appType);
+
+                // Prevent default and stop propagation
+                e.preventDefault();
+                e.stopPropagation();
 
                 if (appType === 'permits') {
                     // Navigate to Permits landing page
+                    console.log('Navigating to Permits landing page...');
                     closeAppSwitcher();
-                    window.location.href = 'permits-landing-test.html';
-                    console.log('Navigate to Permits landing page');
+                    setTimeout(() => {
+                        window.location.href = 'permits-landing-test.html';
+                    }, 100);
                 } else if (appType === 'new') {
                     // TODO: Open new module creation wizard
                     alert('Create New Module wizard coming soon! This will allow you to build custom applications.');
                     closeAppSwitcher();
                     // TODO: Open modal/wizard for creating new modules
                     console.log('Open new module creation wizard');
+                } else if (appType === 'core') {
+                    // Already on core platform
+                    console.log('Already on Core Platform');
+                    closeAppSwitcher();
                 }
             }
 
