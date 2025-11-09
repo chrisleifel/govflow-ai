@@ -7,26 +7,128 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script>
+        // Tailwind Configuration Override for Professional Blue Ocean Theme
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        blue: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        cyan: {
+                            50: '#ecfeff',
+                            100: '#cffafe',
+                            200: '#a5f3fc',
+                            300: '#67e8f9',
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            700: '#0e7490',
+                            800: '#155e75',
+                            900: '#164e63',
+                        },
+                        purple: {
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
+        /* PROFESSIONAL BLUE OCEAN COLOR SCHEME */
         :root {
-            --primary-blue: #1e40af;
-            --secondary-blue: #3b82f6;
-            --accent-purple: #8b5cf6;
-            --success-green: #10b981;
-            --warning-yellow: #f59e0b;
-            --danger-red: #ef4444;
+            /* NEW PROFESSIONAL BLUE OCEAN PALETTE */
+            --deep-ocean: #0a1628;
+            --ocean-dark: #0c4a6e;
+            --ocean-primary: #0369a1;
+            --azure-blue: #0284c7;
+            --sky-blue: #0ea5e9;
+            --cyan-bright: #06b6d4;
+            --teal-accent: #14b8a6;
+
+            /* Neutral Depths */
+            --navy-deep: #0f172a;
+            --slate-dark: #1e293b;
+            --slate-medium: #334155;
+            --slate-light: #475569;
+
+            /* Accent Colors */
+            --emerald-success: #10b981;
+            --amber-warning: #f59e0b;
+            --rose-danger: #f43f5e;
+            --violet-special: #8b5cf6;
+
+            /* Glass & Overlay */
+            --glass-bg: rgba(15, 23, 42, 0.75);
+            --glass-border: rgba(6, 182, 212, 0.25);
+            --glow-cyan: rgba(6, 182, 212, 0.4);
+            --glow-azure: rgba(2, 132, 199, 0.5);
         }
-        
+
         .gradient-bg {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            /* Deep ocean gradient with subtle cyan undertones */
+            background: linear-gradient(135deg,
+                #0a1628 0%,
+                #0c2340 25%,
+                #0e3a5f 50%,
+                #1e3a5f 75%,
+                #164e7f 100%
+            );
             min-height: 100vh;
+            position: relative;
         }
-        
+
+        .gradient-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(2, 132, 199, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
         .sidebar {
-            background: linear-gradient(180deg, #1e40af 0%, #3730a3 100%);
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
-            border-right: 1px solid rgba(59, 130, 246, 0.3);
+            /* Sophisticated ocean depth gradient */
+            background: linear-gradient(180deg,
+                #0c4a6e 0%,
+                #0369a1 50%,
+                #0284c7 100%
+            );
+            box-shadow: 4px 0 30px rgba(6, 182, 212, 0.2), 4px 0 60px rgba(0, 0, 0, 0.4);
+            border-right: 1px solid rgba(6, 182, 212, 0.3);
             transition: transform 0.3s ease, opacity 0.3s ease;
+            position: relative;
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0.05) 0%,
+                transparent 50%,
+                rgba(0, 0, 0, 0.1) 100%
+            );
+            pointer-events: none;
         }
 
         /* Sidebar Collapse - Mobile Optimized */
@@ -54,9 +156,9 @@
             transform: translateY(-50%);
             width: 32px;
             height: 32px;
-            background: rgba(30, 64, 175, 0.25);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -64,12 +166,13 @@
             cursor: pointer;
             z-index: 999;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 15px var(--glow-cyan);
         }
 
         .sidebar-toggle:hover {
-            background: rgba(30, 64, 175, 0.5);
+            background: rgba(6, 182, 212, 0.3);
             transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 4px 15px var(--glow-cyan);
         }
 
         .sidebar-toggle:active {
@@ -96,48 +199,52 @@
             opacity: 0;
             pointer-events: none;
         }
-        
+
         .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
-        
+
         .glass-dark {
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(10, 22, 40, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(6, 182, 212, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
-        
+
         .nav-item {
             transition: all 0.3s ease;
             cursor: pointer;
         }
-        
+
         .nav-item:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(6, 182, 212, 0.15);
             transform: translateX(5px);
+            box-shadow: inset 4px 0 0 var(--cyan-bright);
         }
-        
+
         .nav-item.active {
-            background: rgba(255, 255, 255, 0.25);
-            border-right: 3px solid #ffffff;
+            background: rgba(6, 182, 212, 0.25);
+            border-right: 3px solid var(--cyan-bright);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
         }
-        
+
         .workflow-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
-        
+
         .workflow-card:hover {
             transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 30px var(--glow-cyan);
         }
-        
+
         .workflow-card.selected {
-            background: rgba(59, 130, 246, 0.3);
-            border-color: #3b82f6;
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
+            background: rgba(6, 182, 212, 0.25);
+            border-color: var(--cyan-bright);
+            box-shadow: 0 0 25px var(--glow-cyan), 0 8px 32px rgba(0, 0, 0, 0.3);
         }
         
         .security-alert {
@@ -166,9 +273,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(10, 22, 40, 0.9);
             z-index: 1000;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
         }
         
         .modal.active {
@@ -285,17 +392,19 @@
         }
 
         .scrollbar-thin::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(6, 182, 212, 0.05);
             border-radius: 10px;
         }
 
         .scrollbar-thin::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #3b82f6, #1e40af);
+            background: linear-gradient(180deg, var(--cyan-bright), var(--ocean-primary));
             border-radius: 10px;
+            border: 1px solid rgba(6, 182, 212, 0.3);
         }
 
         .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #60a5fa, #3b82f6);
+            background: linear-gradient(180deg, var(--sky-blue), var(--cyan-bright));
+            box-shadow: 0 0 10px var(--glow-cyan);
         }
 
         /* Predictive Analytics Dashboard Styles - Added 2024-12-09 */
