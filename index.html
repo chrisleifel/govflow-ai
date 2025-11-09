@@ -24367,7 +24367,13 @@
 
             // Close dropdown when clicking outside
             function closeAppSwitcher(e) {
-                if (!appSwitcherBtn.contains(e.target) && !appSwitcherDropdown.contains(e.target)) {
+                if (e && e.target) {
+                    // Called from document click event
+                    if (!appSwitcherBtn.contains(e.target) && !appSwitcherDropdown.contains(e.target)) {
+                        appSwitcherDropdown.classList.remove('active');
+                    }
+                } else {
+                    // Called directly without event
                     appSwitcherDropdown.classList.remove('active');
                 }
             }
