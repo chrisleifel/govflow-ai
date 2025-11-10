@@ -6,6 +6,9 @@
     <title>GovFlow Permits - Staff Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Mapbox GL JS for GIS Intelligence -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css' rel='stylesheet' />
     <style>
         /* Added 2025-01-09: Admin Permits Portal */
         :root {
@@ -831,6 +834,241 @@
         .hidden {
             display: none !important;
         }
+
+        /* Added 2025-01-09: GIS Intelligence Center Styles */
+        .gis-map-container {
+            width: 100%;
+            height: 600px;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+        }
+
+        #gisMap {
+            width: 100%;
+            height: 100%;
+        }
+
+        .gis-controls {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .gis-control-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 16px;
+            min-width: 280px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .gis-control-header {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .layer-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .layer-toggle:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--permit-primary);
+        }
+
+        .layer-toggle-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .layer-toggle-switch {
+            width: 44px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .layer-toggle-switch.active {
+            background: var(--permit-gradient);
+        }
+
+        .layer-toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .layer-toggle-switch.active::after {
+            left: 23px;
+        }
+
+        .gis-legend {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            z-index: 10;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 16px;
+            min-width: 200px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .conflict-alert-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .conflict-alert-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .conflict-alert-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .conflict-alert-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ef4444;
+        }
+
+        .conflict-details {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+
+        .inspector-route-card {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .inspector-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .route-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .route-stat {
+            text-align: center;
+        }
+
+        .route-stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--permit-primary);
+        }
+
+        .route-stat-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .heat-map-intensity {
+            background: linear-gradient(90deg,
+                rgba(16, 185, 129, 0.3) 0%,
+                rgba(251, 191, 36, 0.5) 50%,
+                rgba(239, 68, 68, 0.7) 100%
+            );
+            height: 8px;
+            border-radius: 4px;
+            margin: 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .gis-map-container {
+                height: 400px;
+            }
+
+            .gis-control-panel {
+                min-width: 240px;
+            }
+
+            .gis-legend {
+                bottom: auto;
+                top: 16px;
+                right: 16px;
+                min-width: 160px;
+            }
+        }
     </style>
 </head>
 <body class="gradient-bg">
@@ -893,6 +1131,10 @@
             <div class="nav-tab" data-section="ai-intelligence">
                 <i class="fas fa-brain"></i>
                 AI Intelligence
+            </div>
+            <div class="nav-tab" data-section="gis-intelligence">
+                <i class="fas fa-map-marked-alt"></i>
+                GIS Intelligence
             </div>
             <div class="nav-tab" data-section="settings">
                 <i class="fas fa-cog"></i>
@@ -2034,7 +2276,415 @@
             </div>
         </div>
 
-        <!-- Section 6: Settings -->
+        <!-- Section 6: GIS Intelligence Command Center -->
+        <div id="gisIntelligenceSection" class="section-content hidden">
+            <div style="margin-bottom: 24px;">
+                <h2 style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px;">
+                    <i class="fas fa-map-marked-alt" style="color: var(--permit-primary); margin-right: 12px;"></i>
+                    GIS Intelligence Command Center
+                </h2>
+                <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7);">Real-time spatial analytics, conflict detection, and inspector optimization powered by AI</p>
+            </div>
+
+            <!-- GIS Stats Overview -->
+            <div class="stats-grid" style="margin-bottom: 24px;">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value">243</div>
+                            <div class="stat-label">Active Permits on Map</div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-map-pin"></i>
+                                Real-time tracking
+                            </div>
+                        </div>
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #14b8a6);">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value">7</div>
+                            <div class="stat-label">Spatial Conflicts Detected</div>
+                            <div class="stat-change negative">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Requires attention
+                            </div>
+                        </div>
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Inspectors Active Today</div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-route"></i>
+                                Optimized routes
+                            </div>
+                        </div>
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value">34%</div>
+                            <div class="stat-label">Traffic Impact Reduction</div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-chart-line"></i>
+                                Via AI scheduling
+                            </div>
+                        </div>
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                            <i class="fas fa-traffic-light"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Map Section -->
+            <div class="chart-container" style="margin-bottom: 24px;">
+                <h3 class="chart-title">
+                    <i class="fas fa-globe-americas"></i>
+                    Live Permit Tracking Map
+                </h3>
+
+                <div class="gis-map-container">
+                    <div id="gisMap"></div>
+
+                    <!-- Map Controls -->
+                    <div class="gis-controls">
+                        <div class="gis-control-panel">
+                            <div class="gis-control-header">
+                                <span><i class="fas fa-layer-group"></i> Map Layers</span>
+                                <button onclick="resetMapView()" style="background: none; border: none; color: var(--permit-primary); cursor: pointer; font-size: 12px;">
+                                    <i class="fas fa-sync-alt"></i> Reset
+                                </button>
+                            </div>
+
+                            <div class="layer-toggle" onclick="toggleLayer('permits')">
+                                <span class="layer-toggle-label">
+                                    <i class="fas fa-map-pin" style="color: var(--permit-primary);"></i>
+                                    Active Permits
+                                </span>
+                                <div class="layer-toggle-switch active" id="layer-permits"></div>
+                            </div>
+
+                            <div class="layer-toggle" onclick="toggleLayer('heatmap')">
+                                <span class="layer-toggle-label">
+                                    <i class="fas fa-fire" style="color: #f59e0b;"></i>
+                                    Development Heat Map
+                                </span>
+                                <div class="layer-toggle-switch" id="layer-heatmap"></div>
+                            </div>
+
+                            <div class="layer-toggle" onclick="toggleLayer('conflicts')">
+                                <span class="layer-toggle-label">
+                                    <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
+                                    Conflict Zones
+                                </span>
+                                <div class="layer-toggle-switch active" id="layer-conflicts"></div>
+                            </div>
+
+                            <div class="layer-toggle" onclick="toggleLayer('zoning')">
+                                <span class="layer-toggle-label">
+                                    <i class="fas fa-border-all" style="color: #3b82f6;"></i>
+                                    Zoning Boundaries
+                                </span>
+                                <div class="layer-toggle-switch" id="layer-zoning"></div>
+                            </div>
+
+                            <div class="layer-toggle" onclick="toggleLayer('utilities')">
+                                <span class="layer-toggle-label">
+                                    <i class="fas fa-bolt" style="color: #fbbf24;"></i>
+                                    Underground Utilities
+                                </span>
+                                <div class="layer-toggle-switch" id="layer-utilities"></div>
+                            </div>
+
+                            <div class="layer-toggle" onclick="toggleLayer('traffic')">
+                                <span class="layer-toggle-label">
+                                    <i class="fas fa-car" style="color: #06b6d4;"></i>
+                                    Traffic Impact
+                                </span>
+                                <div class="layer-toggle-switch" id="layer-traffic"></div>
+                            </div>
+
+                            <div class="layer-toggle" onclick="toggleLayer('inspectors')">
+                                <span class="layer-toggle-label">
+                                    <i class="fas fa-user-tie" style="color: #8b5cf6;"></i>
+                                    Inspector Locations
+                                </span>
+                                <div class="layer-toggle-switch" id="layer-inspectors"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Map Legend -->
+                    <div class="gis-legend">
+                        <div class="gis-control-header" style="margin-bottom: 12px;">
+                            <i class="fas fa-info-circle"></i> Legend
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #10b981;"></div>
+                            <span>Building Permits</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #3b82f6;"></div>
+                            <span>Electrical Permits</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #f59e0b;"></div>
+                            <span>Plumbing Permits</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #8b5cf6;"></div>
+                            <span>Event Permits</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #ef4444;"></div>
+                            <span>Conflict Zone</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spatial Conflict Detection -->
+            <div class="chart-container" style="margin-bottom: 24px;">
+                <h3 class="chart-title">
+                    <i class="fas fa-project-diagram"></i>
+                    Intelligent Conflict Detection
+                </h3>
+
+                <div class="conflict-alert-box">
+                    <div class="conflict-alert-header">
+                        <div class="conflict-alert-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div>
+                            <div class="conflict-alert-title">Critical: Emergency Route Blocked</div>
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">
+                                <i class="fas fa-map-marker-alt"></i> Main St & 5th Ave • Detected 2 hours ago
+                            </div>
+                        </div>
+                    </div>
+                    <div class="conflict-details">
+                        <strong>Issue:</strong> Construction permit BLD-2025-0156 blocks Fire Department access route to downtown district.<br>
+                        <strong>Impact:</strong> Emergency response time increased by 4.2 minutes to 847 properties.<br>
+                        <strong>AI Recommendation:</strong> Restrict work hours to 9am-3pm, require fire lane maintained during construction.
+                    </div>
+                    <div style="margin-top: 12px; display: flex; gap: 8px;">
+                        <button class="action-btn primary" style="flex: 1;">
+                            <i class="fas fa-calendar-alt"></i>
+                            Reschedule Work
+                        </button>
+                        <button class="action-btn" style="flex: 1;">
+                            <i class="fas fa-bell"></i>
+                            Notify Fire Dept
+                        </button>
+                    </div>
+                </div>
+
+                <div class="conflict-alert-box" style="background: rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.3);">
+                    <div class="conflict-alert-header">
+                        <div class="conflict-alert-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            <i class="fas fa-wrench"></i>
+                        </div>
+                        <div>
+                            <div class="conflict-alert-title" style="color: #f59e0b;">Warning: Utility Line Overlap</div>
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">
+                                <i class="fas fa-map-marker-alt"></i> Oak Blvd, Block 400 • Detected 45 minutes ago
+                            </div>
+                        </div>
+                    </div>
+                    <div class="conflict-details">
+                        <strong>Issue:</strong> PLB-2025-0089 and ELC-2025-0134 both plan excavation affecting same gas main.<br>
+                        <strong>Impact:</strong> Risk of utility damage, service disruption to 234 customers.<br>
+                        <strong>AI Recommendation:</strong> Coordinate with Gas Company, sequence permits 2 weeks apart.
+                    </div>
+                    <div style="margin-top: 12px; display: flex; gap: 8px;">
+                        <button class="action-btn primary" style="flex: 1;">
+                            <i class="fas fa-calendar-check"></i>
+                            Coordinate Schedule
+                        </button>
+                        <button class="action-btn" style="flex: 1;">
+                            <i class="fas fa-phone"></i>
+                            Contact Utility
+                        </button>
+                    </div>
+                </div>
+
+                <div class="conflict-alert-box" style="background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3);">
+                    <div class="conflict-alert-header">
+                        <div class="conflict-alert-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div>
+                            <div class="conflict-alert-title" style="color: #3b82f6;">Notice: Event & Construction Overlap</div>
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">
+                                <i class="fas fa-map-marker-alt"></i> City Park District • This Weekend
+                            </div>
+                        </div>
+                    </div>
+                    <div class="conflict-details">
+                        <strong>Issue:</strong> Music festival permit EVT-2025-0023 coincides with park renovation BLD-2025-0167.<br>
+                        <strong>Impact:</strong> Parking reduction (350 spaces), noise complaints, pedestrian safety concerns.<br>
+                        <strong>AI Recommendation:</strong> Suspend construction Friday-Sunday, add temporary parking at City Hall lot.
+                    </div>
+                    <div style="margin-top: 12px; display: flex; gap: 8px;">
+                        <button class="action-btn primary" style="flex: 1;">
+                            <i class="fas fa-pause"></i>
+                            Pause Construction
+                        </button>
+                        <button class="action-btn" style="flex: 1;">
+                            <i class="fas fa-info-circle"></i>
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inspector Field Optimization -->
+            <div class="chart-container">
+                <h3 class="chart-title">
+                    <i class="fas fa-route"></i>
+                    Inspector Field Optimization
+                </h3>
+
+                <div class="inspector-route-card">
+                    <div class="inspector-name">
+                        <i class="fas fa-user-tie"></i>
+                        Sarah Chen - Building Inspector
+                        <span style="float: right; font-size: 12px; color: var(--permit-primary);">
+                            <i class="fas fa-circle" style="font-size: 8px; animation: pulse 2s infinite;"></i>
+                            Active
+                        </span>
+                    </div>
+                    <div style="font-size: 13px; color: rgba(255, 255, 255, 0.7); margin-bottom: 8px;">
+                        <i class="fas fa-map-marked-alt"></i> Current Route: Downtown District → Industrial Zone
+                    </div>
+                    <div class="route-stats">
+                        <div class="route-stat">
+                            <div class="route-stat-value">8</div>
+                            <div class="route-stat-label">Sites Today</div>
+                        </div>
+                        <div class="route-stat">
+                            <div class="route-stat-value">24 mi</div>
+                            <div class="route-stat-label">Total Distance</div>
+                        </div>
+                        <div class="route-stat">
+                            <div class="route-stat-value">3.2 hrs</div>
+                            <div class="route-stat-label">Drive Time</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 12px; color: rgba(255, 255, 255, 0.8);">
+                        <i class="fas fa-lightbulb" style="color: #fbbf24;"></i>
+                        <strong>AI Optimization:</strong> Saved 37 minutes by clustering inspections geographically
+                    </div>
+                </div>
+
+                <div class="inspector-route-card">
+                    <div class="inspector-name">
+                        <i class="fas fa-user-tie"></i>
+                        Marcus Thompson - Electrical Inspector
+                        <span style="float: right; font-size: 12px; color: var(--permit-primary);">
+                            <i class="fas fa-circle" style="font-size: 8px; animation: pulse 2s infinite;"></i>
+                            Active
+                        </span>
+                    </div>
+                    <div style="font-size: 13px; color: rgba(255, 255, 255, 0.7); margin-bottom: 8px;">
+                        <i class="fas fa-map-marked-alt"></i> Current Route: Residential North → Commercial Center
+                    </div>
+                    <div class="route-stats">
+                        <div class="route-stat">
+                            <div class="route-stat-value">12</div>
+                            <div class="route-stat-label">Sites Today</div>
+                        </div>
+                        <div class="route-stat">
+                            <div class="route-stat-value">31 mi</div>
+                            <div class="route-stat-label">Total Distance</div>
+                        </div>
+                        <div class="route-stat">
+                            <div class="route-stat-value">2.8 hrs</div>
+                            <div class="route-stat-label">Drive Time</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 12px; color: rgba(255, 255, 255, 0.8);">
+                        <i class="fas fa-cloud-sun-rain" style="color: #06b6d4;"></i>
+                        <strong>Weather Alert:</strong> Rain forecasted 2pm - outdoor inspections moved to morning
+                    </div>
+                </div>
+
+                <div class="inspector-route-card">
+                    <div class="inspector-name">
+                        <i class="fas fa-user-tie"></i>
+                        Jennifer Park - Plumbing Inspector
+                        <span style="float: right; font-size: 12px; color: rgba(255, 255, 255, 0.4);">
+                            <i class="fas fa-circle" style="font-size: 8px;"></i>
+                            Scheduled 1pm
+                        </span>
+                    </div>
+                    <div style="font-size: 13px; color: rgba(255, 255, 255, 0.7); margin-bottom: 8px;">
+                        <i class="fas fa-map-marked-alt"></i> Planned Route: Suburban West Loop
+                    </div>
+                    <div class="route-stats">
+                        <div class="route-stat">
+                            <div class="route-stat-value">6</div>
+                            <div class="route-stat-label">Sites Planned</div>
+                        </div>
+                        <div class="route-stat">
+                            <div class="route-stat-value">18 mi</div>
+                            <div class="route-stat-label">Total Distance</div>
+                        </div>
+                        <div class="route-stat">
+                            <div class="route-stat-value">1.5 hrs</div>
+                            <div class="route-stat-label">Drive Time</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 12px; color: rgba(255, 255, 255, 0.8);">
+                        <i class="fas fa-school" style="color: #f59e0b;"></i>
+                        <strong>Traffic Avoidance:</strong> Route avoids school zones during 3pm dismissal
+                    </div>
+                </div>
+
+                <div style="margin-top: 16px; padding: 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px;">
+                    <div style="font-size: 14px; font-weight: 700; color: var(--permit-primary); margin-bottom: 8px;">
+                        <i class="fas fa-chart-line"></i> Today's Optimization Impact
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; font-size: 13px; color: rgba(255, 255, 255, 0.9);">
+                        <div>
+                            <strong>2.4 hours</strong><br>
+                            <span style="color: rgba(255, 255, 255, 0.7);">Total time saved</span>
+                        </div>
+                        <div>
+                            <strong>47 miles</strong><br>
+                            <span style="color: rgba(255, 255, 255, 0.7);">Reduced driving</span>
+                        </div>
+                        <div>
+                            <strong>$187</strong><br>
+                            <span style="color: rgba(255, 255, 255, 0.7);">Cost savings</span>
+                        </div>
+                        <div>
+                            <strong>34% less CO₂</strong><br>
+                            <span style="color: rgba(255, 255, 255, 0.7);">Environmental impact</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 7: Settings -->
         <div id="settingsSection" class="section-content hidden">
             <div style="margin-bottom: 24px;">
                 <h2 style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px;">Settings</h2>
@@ -2112,12 +2762,18 @@
                 'inspections': 'inspectionsSection',
                 'analytics': 'analyticsSection',
                 'ai-intelligence': 'aiIntelligenceSection',
+                'gis-intelligence': 'gisIntelligenceSection',
                 'settings': 'settingsSection'
             };
 
             const targetSection = document.getElementById(sectionMap[sectionName]);
             if (targetSection) {
                 targetSection.classList.remove('hidden');
+
+                // Initialize GIS map when section is shown
+                if (sectionName === 'gis-intelligence' && !window.gisMapInitialized) {
+                    initializeGISMap();
+                }
             }
         }
 
@@ -2219,6 +2875,228 @@
         // SECURITY TODO: Implement role-based access control (RBAC)
         // SECURITY TODO: Validate all user actions server-side
         // TODO: Add authentication check before loading portal
+
+        // Added 2025-01-09: GIS Intelligence Center JavaScript
+        let gisMap;
+        let gisMarkers = [];
+        let gisLayers = {
+            permits: true,
+            heatmap: false,
+            conflicts: true,
+            zoning: false,
+            utilities: false,
+            traffic: false,
+            inspectors: false
+        };
+
+        // TODO: Replace with actual Mapbox access token
+        // For demo purposes, using a placeholder - replace with: pk.YOUR_MAPBOX_TOKEN
+        const MAPBOX_TOKEN = 'pk.eyJ1IjoiZ292Zmxvdy1haS1kZW1vIiwiYSI6ImRlbW8tdG9rZW4ifQ.demo';
+
+        function initializeGISMap() {
+            if (window.gisMapInitialized) return;
+
+            // TODO: Connect to API endpoint /api/permits/gis for real-time permit locations
+            // MOCK DATA - Replace in production
+            const mockPermitLocations = [
+                { id: 'BLD-2025-0143', type: 'Building', lat: 40.7589, lng: -73.9851, status: 'Under Review', color: '#10b981' },
+                { id: 'ELC-2025-0089', type: 'Electrical', lat: 40.7614, lng: -73.9776, status: 'Approved', color: '#3b82f6' },
+                { id: 'PLB-2025-0067', type: 'Plumbing', lat: 40.7549, lng: -73.9840, status: 'Inspection', color: '#f59e0b' },
+                { id: 'BLD-2025-0156', type: 'Building', lat: 40.7580, lng: -73.9855, status: 'Conflict', color: '#ef4444' },
+                { id: 'EVT-2025-0023', type: 'Event', lat: 40.7829, lng: -73.9654, status: 'Approved', color: '#8b5cf6' },
+                { id: 'BLD-2025-0167', type: 'Building', lat: 40.7688, lng: -73.9815, status: 'Active', color: '#10b981' },
+                { id: 'ELC-2025-0134', type: 'Electrical', lat: 40.7505, lng: -73.9934, status: 'Under Review', color: '#3b82f6' },
+                { id: 'PLB-2025-0089', type: 'Plumbing', lat: 40.7502, lng: -73.9930, status: 'Conflict', color: '#ef4444' },
+            ];
+
+            // For demo without actual Mapbox token, create a placeholder
+            try {
+                if (typeof mapboxgl === 'undefined') {
+                    // Mapbox not loaded, show placeholder
+                    showMapPlaceholder();
+                    return;
+                }
+
+                mapboxgl.accessToken = MAPBOX_TOKEN;
+
+                gisMap = new mapboxgl.Map({
+                    container: 'gisMap',
+                    style: 'mapbox://styles/mapbox/dark-v11',
+                    center: [-73.9851, 40.7589], // NYC coordinates
+                    zoom: 12,
+                    pitch: 45,
+                    bearing: -17.6
+                });
+
+                gisMap.on('load', function() {
+                    // Add 3D buildings layer
+                    const layers = gisMap.getStyle().layers;
+                    const labelLayerId = layers.find(
+                        (layer) => layer.type === 'symbol' && layer.layout['text-field']
+                    ).id;
+
+                    gisMap.addLayer({
+                        'id': '3d-buildings',
+                        'source': 'composite',
+                        'source-layer': 'building',
+                        'filter': ['==', 'extrude', 'true'],
+                        'type': 'fill-extrusion',
+                        'minzoom': 15,
+                        'paint': {
+                            'fill-extrusion-color': '#aaa',
+                            'fill-extrusion-height': [
+                                'interpolate',
+                                ['linear'],
+                                ['zoom'],
+                                15,
+                                0,
+                                15.05,
+                                ['get', 'height']
+                            ],
+                            'fill-extrusion-base': [
+                                'interpolate',
+                                ['linear'],
+                                ['zoom'],
+                                15,
+                                0,
+                                15.05,
+                                ['get', 'min_height']
+                            ],
+                            'fill-extrusion-opacity': 0.6
+                        }
+                    }, labelLayerId);
+
+                    // Add permit markers
+                    addPermitMarkers(mockPermitLocations);
+
+                    console.log('GIS Map initialized successfully');
+                });
+
+                // Add navigation controls
+                gisMap.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+                window.gisMapInitialized = true;
+
+            } catch (error) {
+                console.error('Error initializing Mapbox map:', error);
+                showMapPlaceholder();
+            }
+        }
+
+        function showMapPlaceholder() {
+            // Show a visual placeholder when Mapbox isn't available
+            const mapContainer = document.getElementById('gisMap');
+            mapContainer.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: rgba(10, 22, 40, 0.9); padding: 40px; text-align: center;">
+                    <i class="fas fa-map-marked-alt" style="font-size: 64px; color: var(--permit-primary); margin-bottom: 24px;"></i>
+                    <h3 style="font-size: 24px; font-weight: 700; color: white; margin-bottom: 16px;">GIS Intelligence Map</h3>
+                    <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7); max-width: 500px; margin-bottom: 24px;">
+                        Interactive map showing 243 active permits, 7 spatial conflicts, and 12 inspector routes in real-time.
+                    </p>
+                    <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 20px; max-width: 600px;">
+                        <div style="font-size: 13px; color: rgba(255, 255, 255, 0.8); text-align: left;">
+                            <strong style="color: var(--permit-primary);">Production Features:</strong><br><br>
+                            • Real-time 3D city model with permit pins<br>
+                            • Heat mapping for development hotspots<br>
+                            • Conflict detection visualization<br>
+                            • Zoning & utility overlays<br>
+                            • Live inspector tracking<br>
+                            • Traffic impact modeling<br><br>
+                            <em>Configure Mapbox access token to enable interactive map</em>
+                        </div>
+                    </div>
+                </div>
+            `;
+            window.gisMapInitialized = true;
+        }
+
+        function addPermitMarkers(locations) {
+            locations.forEach(permit => {
+                // Create custom marker element
+                const el = document.createElement('div');
+                el.className = 'permit-marker';
+                el.style.cssText = `
+                    background: ${permit.color};
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    border: 3px solid white;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                `;
+
+                el.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.3)';
+                });
+
+                el.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+
+                // Create popup
+                const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
+                    <div style="padding: 8px;">
+                        <strong style="color: ${permit.color};">${permit.id}</strong><br>
+                        <span style="font-size: 12px;">Type: ${permit.type}</span><br>
+                        <span style="font-size: 12px;">Status: ${permit.status}</span><br>
+                        <button style="margin-top: 8px; padding: 6px 12px; background: ${permit.color}; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">
+                            View Details
+                        </button>
+                    </div>
+                `);
+
+                // Add marker to map
+                const marker = new mapboxgl.Marker(el)
+                    .setLngLat([permit.lng, permit.lat])
+                    .setPopup(popup)
+                    .addTo(gisMap);
+
+                gisMarkers.push(marker);
+            });
+        }
+
+        function toggleLayer(layerName) {
+            gisLayers[layerName] = !gisLayers[layerName];
+            const switchElement = document.getElementById(`layer-${layerName}`);
+
+            if (gisLayers[layerName]) {
+                switchElement.classList.add('active');
+            } else {
+                switchElement.classList.remove('active');
+            }
+
+            // TODO: Connect to actual layer toggling on Mapbox map
+            console.log(`Layer ${layerName} toggled:`, gisLayers[layerName]);
+
+            // For demo: show/hide permit markers when permits layer is toggled
+            if (layerName === 'permits' && gisMarkers.length > 0) {
+                gisMarkers.forEach(marker => {
+                    marker.getElement().style.display = gisLayers[layerName] ? 'block' : 'none';
+                });
+            }
+        }
+
+        function resetMapView() {
+            if (gisMap) {
+                gisMap.flyTo({
+                    center: [-73.9851, 40.7589],
+                    zoom: 12,
+                    pitch: 45,
+                    bearing: -17.6,
+                    duration: 2000
+                });
+                console.log('Map view reset');
+            }
+        }
+
+        // TODO: Connect to API endpoints:
+        // - /api/permits/gis - Get all permit locations
+        // - /api/gis/conflicts - Get spatial conflicts
+        // - /api/inspectors/routes - Get inspector routes
+        // - /api/gis/layers - Get layer data (zoning, utilities, etc.)
+        // - /api/gis/heatmap - Get development heatmap data
+        // - /api/traffic/impact - Get traffic impact modeling
 
         console.log('Admin Permits Portal initialized');
     </script>

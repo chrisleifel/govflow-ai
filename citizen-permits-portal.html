@@ -6,6 +6,12 @@
     <title>GovFlow Permits - Citizen Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Mapbox GL JS for GIS Features -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css' rel='stylesheet' />
+    <!-- Mapbox Draw for Draw Your Project Tool -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.4.3/mapbox-gl-draw.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.4.3/mapbox-gl-draw.css' type='text/css' />
     <style>
         /* Added 2025-01-09: Citizen Permits Portal */
         :root {
@@ -875,6 +881,22 @@
             display: none !important;
         }
 
+        /* Added 2025-01-09: GIS Feature Styles */
+        .nearby-permit-item {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nearby-permit-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--permit-primary);
+            transform: translateY(-2px);
+        }
+
         /* Loading Spinner */
         .spinner {
             border: 3px solid rgba(255, 255, 255, 0.1);
@@ -965,6 +987,10 @@
                 <div class="nav-tab" data-section="track">
                     <i class="fas fa-search"></i>
                     Track Status
+                </div>
+                <div class="nav-tab" data-section="gis">
+                    <i class="fas fa-map-marked-alt"></i>
+                    Map & Location
                 </div>
             </div>
         </div>
@@ -1841,6 +1867,347 @@
         </div>
     </div>
 
+    <!-- Section 5: Map & Location (GIS Intelligence for Citizens) -->
+    <div id="gisSection" class="section-content hidden">
+        <div class="hero-section" style="padding: 40px 20px; text-align: center;">
+            <h1 style="font-size: 36px; font-weight: 800; color: white; margin-bottom: 16px;">
+                <i class="fas fa-map-marked-alt" style="color: var(--permit-primary);"></i>
+                Map & Location Tools
+            </h1>
+            <p style="font-size: 16px; color: rgba(255, 255, 255, 0.8); max-width: 700px; margin: 0 auto;">
+                Plan your project with smart GIS tools, see permits in your neighborhood, and explore property information.
+            </p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Draw Your Project Tool -->
+            <div class="card" style="grid-column: span 2;">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-draw-polygon"></i>
+                        Draw Your Project
+                    </h3>
+                    <div class="badge" style="background: var(--permit-gradient); color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;">
+                        <i class="fas fa-magic"></i>
+                        AI-Powered
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 16px; padding: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px;">
+                    <p style="font-size: 13px; color: rgba(255, 255, 255, 0.9); margin: 0;">
+                        <i class="fas fa-info-circle" style="color: var(--permit-primary);"></i>
+                        <strong>How it works:</strong> Find your property on the map, draw your planned addition/structure, and get instant AI feedback on required permits and compliance.
+                    </p>
+                </div>
+
+                <!-- Address Search for Draw Tool -->
+                <div style="margin-bottom: 16px;">
+                    <label class="form-label">Find Your Property</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="propertySearchInput" class="form-input" placeholder="Enter your address (e.g., 123 Main St)" style="flex: 1;">
+                        <button class="btn btn-primary" onclick="searchProperty()">
+                            <i class="fas fa-search"></i>
+                            Find
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Map Container for Drawing -->
+                <div style="position: relative; height: 500px; border-radius: 12px; overflow: hidden; background: var(--glass-bg); border: 1px solid var(--glass-border); margin-bottom: 16px;">
+                    <div id="drawYourProjectMap"></div>
+
+                    <!-- Draw Controls Overlay -->
+                    <div style="position: absolute; top: 16px; left: 16px; z-index: 10;">
+                        <div style="background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px;">
+                            <div style="font-size: 12px; font-weight: 700; color: white; margin-bottom: 12px;">
+                                <i class="fas fa-pencil-ruler"></i> Draw Tools
+                            </div>
+                            <button class="btn btn-secondary" onclick="startDrawing('polygon')" style="width: 100%; margin-bottom: 8px; font-size: 13px;">
+                                <i class="fas fa-draw-polygon"></i>
+                                Draw Addition
+                            </button>
+                            <button class="btn btn-secondary" onclick="startDrawing('rectangle')" style="width: 100%; margin-bottom: 8px; font-size: 13px;">
+                                <i class="fas fa-square"></i>
+                                Draw Deck/Shed
+                            </button>
+                            <button class="btn btn-secondary" onclick="clearDrawing()" style="width: 100%; font-size: 13px; background: rgba(239, 68, 68, 0.2); border-color: #ef4444;">
+                                <i class="fas fa-trash"></i>
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AI Feedback Overlay -->
+                    <div id="drawFeedback" class="hidden" style="position: absolute; bottom: 16px; left: 16px; right: 16px; z-index: 10; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 12px; padding: 16px;">
+                        <div style="display: flex; align-items: start; gap: 12px;">
+                            <div id="feedbackIcon" style="width: 40px; height: 40px; background: var(--permit-gradient); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: white; flex-shrink: 0;">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <div id="feedbackTitle" style="font-size: 14px; font-weight: 700; color: white; margin-bottom: 8px;">
+                                    Project Analysis Complete
+                                </div>
+                                <div id="feedbackText" style="font-size: 13px; color: rgba(255, 255, 255, 0.9); margin-bottom: 12px;">
+                                    <!-- AI feedback will appear here -->
+                                </div>
+                                <button class="btn btn-primary" onclick="applyFromDrawing()" style="font-size: 13px;">
+                                    <i class="fas fa-file-alt"></i>
+                                    Start Application
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Neighborhood Impact Viewer -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-home"></i>
+                        Neighborhood Permits
+                    </h3>
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <label class="form-label">Search Location</label>
+                    <input type="text" id="neighborhoodSearchInput" class="form-input" placeholder="Enter address or zip code">
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <label class="form-label">Search Radius</label>
+                    <select class="form-select" id="radiusSelect" onchange="updateNeighborhoodView()">
+                        <option value="0.25">¼ mile (1 block)</option>
+                        <option value="0.5" selected>½ mile (neighborhood)</option>
+                        <option value="1">1 mile</option>
+                        <option value="2">2 miles</option>
+                    </select>
+                </div>
+
+                <!-- Nearby Permits List -->
+                <div id="nearbyPermitsList">
+                    <div style="font-size: 13px; font-weight: 700; color: white; margin-bottom: 12px;">
+                        Active Permits Nearby (½ mile):
+                    </div>
+
+                    <div class="nearby-permit-item">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                            <div style="width: 12px; height: 12px; background: #10b981; border-radius: 50%; flex-shrink: 0;"></div>
+                            <div style="flex: 1;">
+                                <div style="font-size: 13px; font-weight: 600; color: white;">BLD-2025-0156</div>
+                                <div style="font-size: 11px; color: rgba(255, 255, 255, 0.7);">Kitchen Renovation • 0.2 mi away</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 11px; color: rgba(255, 255, 255, 0.6); margin-bottom: 8px;">
+                            127 Main St • Est. completion: Mar 2025
+                        </div>
+                        <button class="btn btn-secondary" onclick="viewPermitDetails('BLD-2025-0156')" style="width: 100%; font-size: 12px;">
+                            <i class="fas fa-eye"></i>
+                            View Details
+                        </button>
+                    </div>
+
+                    <div class="nearby-permit-item">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                            <div style="width: 12px; height: 12px; background: #3b82f6; border-radius: 50%; flex-shrink: 0;"></div>
+                            <div style="flex: 1;">
+                                <div style="font-size: 13px; font-weight: 600; color: white;">ELC-2025-0089</div>
+                                <div style="font-size: 11px; color: rgba(255, 255, 255, 0.7);">Electrical Upgrade • 0.3 mi away</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 11px; color: rgba(255, 255, 255, 0.6); margin-bottom: 8px;">
+                            85 Oak Blvd • Est. completion: Feb 2025
+                        </div>
+                        <button class="btn btn-secondary" onclick="viewPermitDetails('ELC-2025-0089')" style="width: 100%; font-size: 12px;">
+                            <i class="fas fa-eye"></i>
+                            View Details
+                        </button>
+                    </div>
+
+                    <div class="nearby-permit-item">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                            <div style="width: 12px; height: 12px; background: #8b5cf6; border-radius: 50%; flex-shrink: 0;"></div>
+                            <div style="flex: 1;">
+                                <div style="font-size: 13px; font-weight: 600; color: white;">EVT-2025-0023</div>
+                                <div style="font-size: 11px; color: rgba(255, 255, 255, 0.7);">Block Party • 0.4 mi away</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 11px; color: rgba(255, 255, 255, 0.6); margin-bottom: 8px;">
+                            Elm Street • Date: Jan 18, 2025
+                        </div>
+                        <button class="btn btn-secondary" onclick="viewPermitDetails('EVT-2025-0023')" style="width: 100%; font-size: 12px;">
+                            <i class="fas fa-eye"></i>
+                            View Details
+                        </button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 16px; padding: 12px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px;">
+                    <div style="font-size: 12px; color: rgba(255, 255, 255, 0.9);">
+                        <i class="fas fa-bell" style="color: #3b82f6;"></i>
+                        <strong>Get Alerts:</strong> Subscribe to notifications for new permits in your area
+                    </div>
+                    <button class="btn btn-primary" onclick="subscribeToAlerts()" style="width: 100%; margin-top: 8px; font-size: 12px;">
+                        <i class="fas fa-envelope"></i>
+                        Subscribe to Alerts
+                    </button>
+                </div>
+            </div>
+
+            <!-- Smart Address Search -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-search-location"></i>
+                        Property Information
+                    </h3>
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <label class="form-label">Search Any Address</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="addressSearchInput" class="form-input" placeholder="Enter any address" style="flex: 1;">
+                        <button class="btn btn-primary" onclick="searchAddress()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Property Info Results (hidden by default) -->
+                <div id="propertyInfo" class="hidden">
+                    <div style="margin-bottom: 16px; padding: 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px;">
+                        <div style="font-size: 14px; font-weight: 700; color: white; margin-bottom: 12px;">
+                            <i class="fas fa-map-marker-alt" style="color: var(--permit-primary);"></i>
+                            123 Main Street
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; color: rgba(255, 255, 255, 0.9);">
+                            <div>
+                                <strong>Zoning:</strong><br>
+                                R-2 Residential
+                            </div>
+                            <div>
+                                <strong>Lot Size:</strong><br>
+                                7,500 sq ft
+                            </div>
+                            <div>
+                                <strong>Flood Zone:</strong><br>
+                                Zone X (Low Risk)
+                            </div>
+                            <div>
+                                <strong>Fire District:</strong><br>
+                                District 4
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
+                        <div style="font-size: 13px; font-weight: 700; color: white; margin-bottom: 8px;">
+                            Permit History:
+                        </div>
+                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8); padding: 10px 12px; background: rgba(255, 255, 255, 0.05); border-radius: 8px; margin-bottom: 6px;">
+                            <strong>BLD-2023-0456</strong> - Deck Addition<br>
+                            <span style="color: rgba(255, 255, 255, 0.6);">Approved: Mar 2023 • Final: Jun 2023</span>
+                        </div>
+                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8); padding: 10px 12px; background: rgba(255, 255, 255, 0.05); border-radius: 8px; margin-bottom: 6px;">
+                            <strong>ELC-2021-0789</strong> - Panel Upgrade<br>
+                            <span style="color: rgba(255, 255, 255, 0.6);">Approved: Aug 2021 • Final: Sep 2021</span>
+                        </div>
+                    </div>
+
+                    <div style="padding: 12px; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 8px;">
+                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.9);">
+                            <i class="fas fa-lightbulb" style="color: #fbbf24;"></i>
+                            <strong>Similar Properties:</strong> See 12 similar projects completed nearby
+                        </div>
+                        <button class="btn btn-secondary" onclick="showSimilarProjects()" style="width: 100%; margin-top: 8px; font-size: 12px;">
+                            <i class="fas fa-th"></i>
+                            View Similar Projects
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div style="text-align: center; padding: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: 700; color: var(--permit-primary);">
+                            243
+                        </div>
+                        <div style="font-size: 11px; color: rgba(255, 255, 255, 0.7);">
+                            City-wide<br>Active Permits
+                        </div>
+                    </div>
+                    <div style="text-align: center; padding: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: 700; color: var(--permit-primary);">
+                            18
+                        </div>
+                        <div style="font-size: 11px; color: rgba(255, 255, 255, 0.7);">
+                            In Your<br>Neighborhood
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map View All Permits -->
+        <div class="card" style="margin-top: 24px;">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-globe-americas"></i>
+                    City-Wide Permit Map
+                </h3>
+            </div>
+
+            <div style="position: relative; height: 500px; border-radius: 12px; overflow: hidden; background: var(--glass-bg); border: 1px solid var(--glass-border);">
+                <div id="cityWideMap"></div>
+
+                <!-- Map Legend -->
+                <div style="position: absolute; bottom: 16px; right: 16px; z-index: 10; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px; min-width: 180px;">
+                    <div style="font-size: 12px; font-weight: 700; color: white; margin-bottom: 8px;">
+                        <i class="fas fa-info-circle"></i> Legend
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 11px; color: rgba(255, 255, 255, 0.9);">
+                        <div style="width: 16px; height: 16px; background: #10b981; border-radius: 50%;"></div>
+                        Building Permits
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 11px; color: rgba(255, 255, 255, 0.9);">
+                        <div style="width: 16px; height: 16px; background: #3b82f6; border-radius: 50%;"></div>
+                        Electrical Permits
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 11px; color: rgba(255, 255, 255, 0.9);">
+                        <div style="width: 16px; height: 16px; background: #f59e0b; border-radius: 50%;"></div>
+                        Plumbing Permits
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; color: rgba(255, 255, 255, 0.9);">
+                        <div style="width: 16px; height: 16px; background: #8b5cf6; border-radius: 50%;"></div>
+                        Event Permits
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 16px; padding: 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; font-size: 13px; color: rgba(255, 255, 255, 0.9);">
+                    <div>
+                        <strong>94%</strong><br>
+                        <span style="color: rgba(255, 255, 255, 0.7);">Approval Rate</span>
+                    </div>
+                    <div>
+                        <strong>3.2 days</strong><br>
+                        <span style="color: rgba(255, 255, 255, 0.7);">Avg. Processing</span>
+                    </div>
+                    <div>
+                        <strong>87</strong><br>
+                        <span style="color: rgba(255, 255, 255, 0.7);">Pending Reviews</span>
+                    </div>
+                    <div>
+                        <strong>$250-500</strong><br>
+                        <span style="color: rgba(255, 255, 255, 0.7);">Typical Fee Range</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Added 2025-01-09: Citizen Permits Portal JavaScript
 
@@ -2015,10 +2382,16 @@
                 'home': 'homeSection',
                 'wizard': 'wizardSection',
                 'dashboard': 'dashboardSection',
-                'track': 'trackSection'
+                'track': 'trackSection',
+                'gis': 'gisSection'
             };
 
             document.getElementById(sectionMap[sectionName]).classList.remove('hidden');
+
+            // Initialize GIS maps when section is shown
+            if (sectionName === 'gis' && !window.citizenGISInitialized) {
+                initializeCitizenGIS();
+            }
         }
 
         // Permit Type Selection
@@ -2372,6 +2745,233 @@
                 askAIConcierge(aiConciergeInput.value);
             }
         });
+
+        // Added 2025-01-09: Citizen GIS Intelligence Features
+        let drawYourProjectMap;
+        let cityWideMap;
+        let drawControl;
+        let currentDrawnFeature = null;
+
+        // TODO: Replace with actual Mapbox access token
+        const MAPBOX_TOKEN = 'pk.eyJ1IjoiZ292Zmxvdy1haS1kZW1vIiwiYSI6ImRlbW8tdG9rZW4ifQ.demo';
+
+        function initializeCitizenGIS() {
+            if (window.citizenGISInitialized) return;
+
+            console.log('Initializing Citizen GIS features...');
+
+            // Initialize both maps
+            initializeDrawYourProjectMap();
+            initializeCityWideMap();
+
+            window.citizenGISInitialized = true;
+        }
+
+        function initializeDrawYourProjectMap() {
+            const mapContainer = document.getElementById('drawYourProjectMap');
+
+            // Create placeholder for demo
+            mapContainer.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: rgba(10, 22, 40, 0.9); padding: 40px; text-align: center;">
+                    <i class="fas fa-draw-polygon" style="font-size: 48px; color: var(--permit-primary); margin-bottom: 16px;"></i>
+                    <h3 style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 12px;">Draw Your Project Map</h3>
+                    <p style="font-size: 13px; color: rgba(255, 255, 255, 0.7); max-width: 400px;">
+                        Interactive satellite map with drawing tools. Draw your planned addition, deck, or structure and get instant AI feedback on permits, setbacks, and compliance.
+                    </p>
+                    <div style="margin-top: 16px; padding: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; max-width: 400px;">
+                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8); text-align: left;">
+                            <strong style="color: var(--permit-primary);">Features:</strong><br>
+                            • Satellite imagery of your property<br>
+                            • AR-style property line overlay<br>
+                            • Setback requirement visualization<br>
+                            • Real-time compliance checking<br>
+                            • Instant permit recommendations
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // TODO: Connect to API endpoint /api/gis/geocode for address search
+            // TODO: Connect to API endpoint /api/gis/property for property boundaries
+        }
+
+        function initializeCityWideMap() {
+            const mapContainer = document.getElementById('cityWideMap');
+
+            // Create placeholder for demo
+            mapContainer.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: rgba(10, 22, 40, 0.9); padding: 40px; text-align: center;">
+                    <i class="fas fa-globe-americas" style="font-size: 48px; color: var(--permit-primary); margin-bottom: 16px;"></i>
+                    <h3 style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 12px;">City-Wide Permit Map</h3>
+                    <p style="font-size: 13px; color: rgba(255, 255, 255, 0.7); max-width: 400px;">
+                        Interactive map showing all 243 active permits across the city. Click any marker to see permit details, timelines, and estimated completion dates.
+                    </p>
+                    <div style="margin-top: 16px; padding: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; max-width: 400px;">
+                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.8); text-align: left;">
+                            <strong style="color: var(--permit-primary);">Features:</strong><br>
+                            • Filter by permit type<br>
+                            • Search by radius<br>
+                            • Timeline view of projects<br>
+                            • Traffic impact predictions<br>
+                            • Subscribe to area alerts
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // TODO: Connect to API endpoint /api/permits/public for public permit data
+        }
+
+        function searchProperty() {
+            const address = document.getElementById('propertySearchInput').value;
+
+            if (!address || address.trim() === '') {
+                alert('Please enter a property address');
+                return;
+            }
+
+            console.log('Searching for property:', address);
+
+            // TODO: Connect to API endpoint /api/gis/geocode
+            // MOCK DATA - Simulate successful search
+            alert(`Property Found!\n\nAddress: ${address}\n\nThe map would zoom to your property location. You can now use the drawing tools to sketch your project.`);
+        }
+
+        function startDrawing(shapeType) {
+            console.log('Starting drawing mode:', shapeType);
+
+            // TODO: Activate Mapbox Draw control for selected shape type
+            // MOCK DATA - Simulate drawing action
+            const feedbackBox = document.getElementById('drawFeedback');
+            feedbackBox.classList.remove('hidden');
+
+            // Simulate AI analysis
+            document.getElementById('feedbackTitle').textContent = 'Analyzing Your Project...';
+            document.getElementById('feedbackText').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking setbacks, zoning, and permit requirements...';
+
+            setTimeout(() => {
+                analyzeDrawnProject(shapeType);
+            }, 2000);
+        }
+
+        function analyzeDrawnProject(shapeType) {
+            // TODO: Connect to API endpoint /api/gis/analyze for AI-powered analysis
+            // MOCK DATA - Generate realistic feedback based on shape type
+
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            const feedbackTitle = document.getElementById('feedbackTitle');
+            const feedbackText = document.getElementById('feedbackText');
+
+            if (shapeType === 'polygon') {
+                feedbackIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                feedbackIcon.style.background = 'var(--permit-gradient)';
+                feedbackTitle.textContent = 'Looks Good! Building Permit Required';
+                feedbackText.innerHTML = `
+                    <strong>AI Analysis Complete:</strong><br>
+                    • Proposed addition: ~450 sq ft<br>
+                    • Within setback requirements ✓<br>
+                    • Zoning: R-2 Residential (compliant) ✓<br>
+                    • Height restrictions: OK ✓<br><br>
+                    <strong>Required Permits:</strong><br>
+                    • Building Permit (estimated $385)<br>
+                    • Electrical Permit if adding circuits<br><br>
+                    <strong>Estimated Timeline:</strong> 3-5 days review
+                `;
+            } else if (shapeType === 'rectangle') {
+                feedbackIcon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+                feedbackIcon.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+                feedbackTitle.textContent = 'Setback Issue Detected';
+                feedbackText.innerHTML = `
+                    <strong>AI Analysis Complete:</strong><br>
+                    • Proposed structure: ~200 sq ft (deck/shed)<br>
+                    • <span style="color: #f59e0b;">⚠ Too close to property line (2ft, requires 5ft)</span><br>
+                    • Zoning: R-2 Residential (compliant) ✓<br><br>
+                    <strong>Recommendation:</strong><br>
+                    Move structure 3 feet away from property line to meet setback requirements.<br><br>
+                    <strong>Required Permits:</strong><br>
+                    • Building Permit (estimated $250)
+                `;
+            }
+        }
+
+        function clearDrawing() {
+            console.log('Clearing drawing');
+            document.getElementById('drawFeedback').classList.add('hidden');
+
+            // TODO: Clear Mapbox Draw features
+            alert('Drawing cleared! You can start a new sketch.');
+        }
+
+        function applyFromDrawing() {
+            // Navigate to application wizard with pre-filled data
+            console.log('Starting application from drawn project');
+
+            alert('Starting Your Application!\n\nYour project details have been pre-filled. You will be guided through the complete application process.');
+
+            showSection('wizard');
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('[data-section="wizard"]').classList.add('active');
+        }
+
+        function updateNeighborhoodView() {
+            const radius = document.getElementById('radiusSelect').value;
+            console.log('Updating neighborhood view with radius:', radius, 'miles');
+
+            // TODO: Connect to API endpoint /api/permits/nearby
+            // MOCK DATA - Would update the nearby permits list based on radius
+            alert(`Searching for permits within ${radius} mile radius...\n\nThis would update the list with permits in the selected area.`);
+        }
+
+        function viewPermitDetails(permitId) {
+            console.log('Viewing permit details:', permitId);
+
+            // TODO: Connect to API endpoint /api/permits/{permitId}/public
+            // MOCK DATA - Show permit details
+            alert(`Permit Details\n\nID: ${permitId}\n\nThis would show:\n• Project description\n• Timeline and milestones\n• Expected impact on neighborhood\n• Contact information\n• Public comments`);
+        }
+
+        function subscribeToAlerts() {
+            const email = currentUser ? currentUser.email : 'your email';
+            console.log('Subscribing to neighborhood alerts');
+
+            // TODO: Connect to API endpoint /api/alerts/subscribe
+            // MOCK DATA - Simulate subscription
+            alert(`Alert Subscription\n\nYou will receive notifications at ${email} when:\n\n• New permits are filed in your area\n• Existing permits have status updates\n• Public hearings are scheduled nearby\n\nFrequency: Weekly digest`);
+        }
+
+        function searchAddress() {
+            const address = document.getElementById('addressSearchInput').value;
+
+            if (!address || address.trim() === '') {
+                alert('Please enter an address to search');
+                return;
+            }
+
+            console.log('Searching address:', address);
+
+            // TODO: Connect to API endpoint /api/gis/property/{address}
+            // MOCK DATA - Show property info
+            document.getElementById('propertyInfo').classList.remove('hidden');
+
+            alert(`Property Information Retrieved!\n\nAddress: ${address}\n\nShowing zoning, permit history, and nearby projects.`);
+        }
+
+        function showSimilarProjects() {
+            console.log('Showing similar projects');
+
+            // TODO: Connect to API endpoint /api/permits/similar
+            // MOCK DATA - Would show similar projects
+            alert(`Similar Projects Nearby\n\n12 properties in your area have completed similar kitchen renovation projects:\n\n• Average cost: $35,000-$55,000\n• Average timeline: 45-60 days\n• Common contractors: [List]\n• Success rate: 96% approval\n\nWould you like to see detailed case studies?`);
+        }
+
+        // TODO: Connect to API endpoints:
+        // - /api/gis/geocode - Address to coordinates
+        // - /api/gis/property - Property boundary data
+        // - /api/gis/analyze - AI project analysis
+        // - /api/permits/nearby - Permits within radius
+        // - /api/permits/public - Public permit data for map
+        // - /api/alerts/subscribe - Subscribe to area notifications
+        // - /api/permits/similar - Find similar completed projects
 
         console.log('Citizen Permits Portal initialized');
     </script>
