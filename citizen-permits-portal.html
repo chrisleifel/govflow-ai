@@ -2147,6 +2147,137 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Mobile Photo Location Capture -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-camera"></i>
+                        Photo Location
+                    </h3>
+                    <div class="badge" style="background: var(--permit-gradient); color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;">
+                        <i class="fas fa-mobile-alt"></i>
+                        Mobile
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 16px; padding: 12px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px;">
+                    <p style="font-size: 13px; color: rgba(255, 255, 255, 0.9); margin: 0;">
+                        <i class="fas fa-info-circle" style="color: #06b6d4;"></i>
+                        <strong>Take a photo on-site</strong> and we'll automatically extract the GPS location and drop a pin on your map!
+                    </p>
+                </div>
+
+                <!-- Camera Capture Area -->
+                <div id="photoCaptureArea">
+                    <!-- Camera Button -->
+                    <button class="btn btn-primary" id="capturePhotoBtn" style="width: 100%; margin-bottom: 16px; min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; font-size: 16px; background: var(--permit-gradient); position: relative; overflow: hidden;">
+                        <i class="fas fa-camera" style="font-size: 48px;"></i>
+                        <span style="font-weight: 700;">Take Photo with Location</span>
+                        <span style="font-size: 12px; opacity: 0.9;">Camera + GPS</span>
+                    </button>
+
+                    <!-- Hidden file input for camera -->
+                    <input type="file" id="photoInput" accept="image/*" capture="environment" style="display: none;">
+
+                    <!-- Photo Preview Area (hidden by default) -->
+                    <div id="photoPreviewArea" class="hidden" style="margin-bottom: 16px;">
+                        <div style="position: relative; border-radius: 12px; overflow: hidden; border: 2px solid var(--permit-primary);">
+                            <img id="photoPreview" style="width: 100%; height: auto; display: block; max-height: 300px; object-fit: cover;">
+                            <button id="clearPhotoBtn" style="position: absolute; top: 12px; right: 12px; background: rgba(239, 68, 68, 0.9); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+
+                        <!-- Location Info from Photo -->
+                        <div id="photoLocationInfo" class="hidden" style="margin-top: 12px; padding: 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                                <div style="width: 40px; height: 40px; background: var(--permit-gradient); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: white;">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 14px; font-weight: 700; color: white;">Location Captured!</div>
+                                    <div id="photoCoordinates" style="font-size: 12px; color: rgba(255, 255, 255, 0.7);"></div>
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; color: rgba(255, 255, 255, 0.9); margin-bottom: 12px;">
+                                <div>
+                                    <strong>Latitude:</strong><br>
+                                    <span id="photoLat" style="color: var(--permit-primary);">--</span>
+                                </div>
+                                <div>
+                                    <strong>Longitude:</strong><br>
+                                    <span id="photoLng" style="color: var(--permit-primary);">--</span>
+                                </div>
+                                <div>
+                                    <strong>Timestamp:</strong><br>
+                                    <span id="photoTime" style="color: rgba(255, 255, 255, 0.7);">--</span>
+                                </div>
+                                <div>
+                                    <strong>Accuracy:</strong><br>
+                                    <span id="photoAccuracy" style="color: rgba(255, 255, 255, 0.7);">--</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary" id="dropPinBtn" style="width: 100%; font-size: 14px;">
+                                <i class="fas fa-map-pin"></i>
+                                Drop Pin on Map
+                            </button>
+                        </div>
+
+                        <!-- Manual Location Fallback -->
+                        <div id="manualLocationFallback" class="hidden" style="margin-top: 12px; padding: 16px; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 12px;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: white;">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 14px; font-weight: 700; color: #f59e0b;">No GPS Data in Photo</div>
+                                    <div style="font-size: 12px; color: rgba(255, 255, 255, 0.7);">Use your current location instead</div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-secondary" id="useCurrentLocationBtn" style="width: 100%; font-size: 13px; background: rgba(251, 191, 36, 0.2); border-color: #f59e0b; color: white;">
+                                <i class="fas fa-crosshairs"></i>
+                                Use My Current Location
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Location Status (shown when pin dropped) -->
+                    <div id="locationDroppedStatus" class="hidden" style="padding: 16px; background: rgba(16, 185, 129, 0.15); border: 2px solid var(--permit-primary); border-radius: 12px; margin-bottom: 16px;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <div style="width: 48px; height: 48px; background: var(--permit-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; animation: pulse 2s infinite;">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="font-size: 16px; font-weight: 700; color: white;">Pin Dropped on Map!</div>
+                                <div id="droppedAddress" style="font-size: 13px; color: rgba(255, 255, 255, 0.8); margin-top: 4px;">Estimated address...</div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-primary" id="viewOnMapBtn" style="flex: 1; font-size: 13px;">
+                                <i class="fas fa-map"></i>
+                                View on Map
+                            </button>
+                            <button class="btn btn-secondary" id="startPermitFromLocationBtn" style="flex: 1; font-size: 13px;">
+                                <i class="fas fa-file-alt"></i>
+                                Start Permit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Info -->
+                <div style="padding: 12px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px;">
+                    <div style="font-size: 12px; color: rgba(255, 255, 255, 0.9);">
+                        <i class="fas fa-lightbulb" style="color: #3b82f6;"></i>
+                        <strong>Pro Tip:</strong> Take photos at your property to automatically capture the exact location for your permit application
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Map View All Permits -->
@@ -2972,6 +3103,309 @@
         // - /api/permits/public - Public permit data for map
         // - /api/alerts/subscribe - Subscribe to area notifications
         // - /api/permits/similar - Find similar completed projects
+
+        // Added 2025-01-09: Mobile Photo Location Capture Feature
+        let capturedPhotoData = null;
+        let capturedLocationData = null;
+
+        // Event listeners for photo capture feature
+        const initPhotoCapture = () => {
+            const capturePhotoBtn = document.getElementById('capturePhotoBtn');
+            const photoInput = document.getElementById('photoInput');
+            const clearPhotoBtn = document.getElementById('clearPhotoBtn');
+            const dropPinBtn = document.getElementById('dropPinBtn');
+            const useCurrentLocationBtn = document.getElementById('useCurrentLocationBtn');
+            const viewOnMapBtn = document.getElementById('viewOnMapBtn');
+            const startPermitFromLocationBtn = document.getElementById('startPermitFromLocationBtn');
+
+            if (capturePhotoBtn) {
+                capturePhotoBtn.addEventListener('click', openCameraCapture);
+            }
+
+            if (photoInput) {
+                photoInput.addEventListener('change', handlePhotoCapture);
+            }
+
+            if (clearPhotoBtn) {
+                clearPhotoBtn.addEventListener('click', clearPhoto);
+            }
+
+            if (dropPinBtn) {
+                dropPinBtn.addEventListener('click', dropPinOnMap);
+            }
+
+            if (useCurrentLocationBtn) {
+                useCurrentLocationBtn.addEventListener('click', useCurrentLocation);
+            }
+
+            if (viewOnMapBtn) {
+                viewOnMapBtn.addEventListener('click', viewOnMap);
+            }
+
+            if (startPermitFromLocationBtn) {
+                startPermitFromLocationBtn.addEventListener('click', startPermitFromLocation);
+            }
+        };
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPhotoCapture);
+        } else {
+            initPhotoCapture();
+        }
+
+        function openCameraCapture() {
+            console.log('Opening camera capture...');
+            const photoInput = document.getElementById('photoInput');
+            if (photoInput) {
+                photoInput.click();
+            }
+        }
+
+        function handlePhotoCapture(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            console.log('Photo captured, processing...', file.name, file.size, 'bytes');
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const photoPreview = document.getElementById('photoPreview');
+                photoPreview.src = e.target.result;
+                document.getElementById('photoPreviewArea').classList.remove('hidden');
+                capturedPhotoData = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            // Try to extract EXIF data (GPS location from photo)
+            extractPhotoLocation(file);
+        }
+
+        function extractPhotoLocation(file) {
+            // In production, use EXIF.js library to extract GPS data
+            // TODO: Connect to API endpoint /api/photos/extract-location
+            // For demo, simulate GPS extraction
+
+            console.log('Attempting to extract GPS data from photo...');
+
+            // Show loading state
+            const photoLocationInfo = document.getElementById('photoLocationInfo');
+            const manualLocationFallback = document.getElementById('manualLocationFallback');
+
+            // Simulate extraction delay
+            setTimeout(() => {
+                // MOCK DATA - Simulate 70% chance of GPS data in photo
+                const hasGPS = Math.random() > 0.3;
+
+                if (hasGPS) {
+                    // Simulate GPS data extraction success
+                    const mockLat = 40.7589 + (Math.random() - 0.5) * 0.01;
+                    const mockLng = -73.9851 + (Math.random() - 0.5) * 0.01;
+                    const timestamp = new Date().toLocaleString();
+
+                    capturedLocationData = {
+                        latitude: mockLat,
+                        longitude: mockLng,
+                        accuracy: Math.floor(Math.random() * 10) + 5, // 5-15 meters
+                        timestamp: timestamp,
+                        source: 'photo-exif'
+                    };
+
+                    // Display location data
+                    document.getElementById('photoLat').textContent = mockLat.toFixed(6);
+                    document.getElementById('photoLng').textContent = mockLng.toFixed(6);
+                    document.getElementById('photoTime').textContent = timestamp;
+                    document.getElementById('photoAccuracy').textContent = `±${capturedLocationData.accuracy}m`;
+                    document.getElementById('photoCoordinates').textContent = `${mockLat.toFixed(4)}, ${mockLng.toFixed(4)}`;
+
+                    photoLocationInfo.classList.remove('hidden');
+                    manualLocationFallback.classList.add('hidden');
+
+                    console.log('GPS data extracted successfully:', capturedLocationData);
+                } else {
+                    // No GPS data in photo
+                    photoLocationInfo.classList.add('hidden');
+                    manualLocationFallback.classList.remove('hidden');
+
+                    console.log('No GPS data found in photo, showing manual location option');
+                }
+            }, 1000);
+        }
+
+        function useCurrentLocation() {
+            console.log('Requesting current device location...');
+
+            const photoLocationInfo = document.getElementById('photoLocationInfo');
+            const manualLocationFallback = document.getElementById('manualLocationFallback');
+
+            // Check if geolocation is supported
+            if (!navigator.geolocation) {
+                alert('Geolocation is not supported by your browser.\n\nPlease use the address search instead.');
+                return;
+            }
+
+            // Show loading state
+            const useCurrentLocationBtn = document.getElementById('useCurrentLocationBtn');
+            const originalContent = useCurrentLocationBtn.innerHTML;
+            useCurrentLocationBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting location...';
+            useCurrentLocationBtn.disabled = true;
+
+            // Request current position
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    // Success
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    const accuracy = Math.round(position.coords.accuracy);
+                    const timestamp = new Date(position.timestamp).toLocaleString();
+
+                    capturedLocationData = {
+                        latitude: latitude,
+                        longitude: longitude,
+                        accuracy: accuracy,
+                        timestamp: timestamp,
+                        source: 'device-gps'
+                    };
+
+                    // Display location data
+                    document.getElementById('photoLat').textContent = latitude.toFixed(6);
+                    document.getElementById('photoLng').textContent = longitude.toFixed(6);
+                    document.getElementById('photoTime').textContent = timestamp;
+                    document.getElementById('photoAccuracy').textContent = `±${accuracy}m`;
+                    document.getElementById('photoCoordinates').textContent = `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+
+                    // Show location info, hide fallback
+                    photoLocationInfo.classList.remove('hidden');
+                    manualLocationFallback.classList.add('hidden');
+
+                    // Reset button
+                    useCurrentLocationBtn.innerHTML = originalContent;
+                    useCurrentLocationBtn.disabled = false;
+
+                    console.log('Device location captured successfully:', capturedLocationData);
+                },
+                function(error) {
+                    // Error
+                    console.error('Error getting location:', error.message);
+
+                    let errorMessage = 'Could not get your location.\n\n';
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage += 'Location permission was denied. Please enable location access in your browser settings.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage += 'Location information is unavailable.';
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage += 'Location request timed out. Please try again.';
+                            break;
+                        default:
+                            errorMessage += 'An unknown error occurred.';
+                    }
+
+                    alert(errorMessage);
+
+                    // Reset button
+                    useCurrentLocationBtn.innerHTML = originalContent;
+                    useCurrentLocationBtn.disabled = false;
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        }
+
+        function dropPinOnMap() {
+            if (!capturedLocationData) {
+                alert('No location data available');
+                return;
+            }
+
+            console.log('Dropping pin on map:', capturedLocationData);
+
+            // TODO: Connect to API endpoint /api/gis/reverse-geocode to get address
+            // TODO: Update cityWideMap with new marker
+            // MOCK DATA - Simulate dropping pin
+
+            // Show success status
+            document.getElementById('locationDroppedStatus').classList.remove('hidden');
+
+            // Simulate reverse geocoding to get address
+            const mockAddress = `${Math.floor(Math.random() * 999) + 1} Main Street, City, State ${Math.floor(Math.random() * 90000) + 10000}`;
+            document.getElementById('droppedAddress').textContent = mockAddress;
+
+            // Scroll to show the status
+            document.getElementById('locationDroppedStatus').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            console.log('Pin dropped successfully at:', mockAddress);
+        }
+
+        function clearPhoto() {
+            console.log('Clearing captured photo...');
+
+            // Reset all displays
+            document.getElementById('photoPreviewArea').classList.add('hidden');
+            document.getElementById('photoLocationInfo').classList.add('hidden');
+            document.getElementById('manualLocationFallback').classList.add('hidden');
+            document.getElementById('locationDroppedStatus').classList.add('hidden');
+            document.getElementById('photoPreview').src = '';
+            document.getElementById('photoInput').value = '';
+
+            // Reset data
+            capturedPhotoData = null;
+            capturedLocationData = null;
+
+            console.log('Photo cleared');
+        }
+
+        function viewOnMap() {
+            if (!capturedLocationData) {
+                alert('No location data available');
+                return;
+            }
+
+            console.log('Viewing location on map...');
+
+            // Scroll to city-wide map
+            const cityWideMapCard = document.querySelector('.card:has(#cityWideMap)');
+            if (cityWideMapCard) {
+                cityWideMapCard.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // TODO: Connect to cityWideMap and add marker at capturedLocationData coordinates
+            // TODO: Zoom to location and highlight marker
+
+            alert(`View on Map\n\nShowing your location:\n\nLatitude: ${capturedLocationData.latitude.toFixed(6)}\nLongitude: ${capturedLocationData.longitude.toFixed(6)}\n\nThe map would zoom to this location and add a highlighted marker.`);
+        }
+
+        function startPermitFromLocation() {
+            if (!capturedLocationData) {
+                alert('No location data available');
+                return;
+            }
+
+            console.log('Starting permit application from location:', capturedLocationData);
+
+            // Navigate to wizard with pre-filled location data
+            alert(`Starting Permit Application\n\nLocation pre-filled:\n\nLatitude: ${capturedLocationData.latitude.toFixed(6)}\nLongitude: ${capturedLocationData.longitude.toFixed(6)}\n\nYou will be guided through the complete application process with this location automatically attached.`);
+
+            // Switch to wizard section
+            showSection('wizard');
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('[data-section="wizard"]').classList.add('active');
+        }
+
+        // TODO: Connect to API endpoints:
+        // - /api/photos/extract-location - Extract EXIF GPS data from photo
+        // - /api/gis/reverse-geocode - Convert coordinates to address
+        // - /api/permits/attach-location - Attach photo and location to permit application
+
+        // SECURITY TODO: Validate and sanitize photo uploads
+        // SECURITY TODO: Limit photo file size (max 10MB)
+        // SECURITY TODO: Only allow image file types (JPEG, PNG, HEIC)
 
         console.log('Citizen Permits Portal initialized');
     </script>
