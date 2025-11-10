@@ -795,6 +795,7 @@
         }
 
         /* Responsive */
+        /* Added 2025-01-09: Comprehensive Mobile Responsiveness for Admin */
         @media (max-width: 768px) {
             .staff-header-content {
                 flex-direction: column;
@@ -808,6 +809,7 @@
 
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
             }
 
             .filters-bar {
@@ -828,6 +830,95 @@
 
             .calendar-day {
                 padding: 4px;
+            }
+
+            /* GIS Mobile Adjustments */
+            .gis-map-container {
+                height: 400px !important;
+            }
+
+            .gis-control-panel {
+                min-width: 240px;
+                max-height: 300px;
+            }
+
+            .gis-legend {
+                bottom: auto;
+                top: 16px;
+                right: 16px;
+                min-width: 160px;
+                font-size: 11px;
+            }
+
+            /* Chart containers */
+            .chart-container {
+                padding: 16px;
+            }
+
+            /* Fix inline grids on mobile */
+            .conflict-alert-box,
+            .inspector-route-card,
+            .ai-grid {
+                margin-bottom: 16px;
+            }
+
+            /* Reduce padding */
+            .section-content {
+                padding: 16px;
+            }
+        }
+
+        /* Extra small devices for admin */
+        @media (max-width: 575px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .permit-card {
+                padding: 16px;
+            }
+
+            .permit-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .gis-map-container {
+                height: 350px !important;
+            }
+
+            .gis-control-panel {
+                min-width: 200px;
+            }
+
+            /* Stack all inline grids */
+            [style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            [style*="display: grid"] {
+                gap: 12px !important;
+            }
+
+            /* Button groups */
+            [style*="display: flex"][style*="gap"] {
+                flex-direction: column;
+                gap: 8px !important;
+            }
+
+            /* Navigation tabs */
+            .nav-tab {
+                padding: 10px 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* Landscape phones for admin */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .gis-map-container {
+                height: 300px !important;
             }
         }
 

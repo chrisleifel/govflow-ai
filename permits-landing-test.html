@@ -129,16 +129,135 @@
         /* Portal Cards */
         .portal-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 32px;
             max-width: 1000px;
             margin: 0 auto;
             padding: 0 20px 80px;
         }
 
+        /* Added 2025-01-09: Enhanced Mobile Responsiveness */
         @media (max-width: 768px) {
             .portal-cards {
                 grid-template-columns: 1fr;
+                padding: 0 16px 40px;
+                gap: 24px;
+            }
+
+            .portal-card {
+                padding: 32px 24px;
+            }
+
+            .hero {
+                padding: 60px 16px 40px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+                padding: 0 16px;
+                margin: -30px auto 40px;
+            }
+
+            .stat-card {
+                padding: 16px;
+            }
+
+            .stat-value {
+                font-size: 28px;
+            }
+
+            .compliance-badges {
+                padding: 0 16px;
+                gap: 12px;
+            }
+        }
+
+        /* Extra small devices (phones, less than 576px) */
+        @media (max-width: 575px) {
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+                padding: 0 16px;
+            }
+
+            .hero-icon {
+                width: 100px;
+                height: 100px;
+                font-size: 52px;
+                margin-bottom: 24px;
+            }
+
+            .portal-cards {
+                grid-template-columns: 1fr;
+                padding: 0 12px 32px;
+                gap: 20px;
+            }
+
+            .portal-card {
+                padding: 24px 20px;
+            }
+
+            .portal-card-icon {
+                width: 64px;
+                height: 64px;
+                font-size: 32px;
+                margin-bottom: 20px;
+            }
+
+            .portal-card-title {
+                font-size: 24px;
+            }
+
+            .portal-card-description {
+                font-size: 14px;
+                margin-bottom: 24px;
+            }
+
+            .portal-card-features li {
+                font-size: 13px;
+                padding: 6px 0;
+            }
+
+            .portal-card-button {
+                padding: 14px;
+                font-size: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                margin: -20px auto 32px;
+            }
+
+            .stat-value {
+                font-size: 24px;
+            }
+
+            .stat-label {
+                font-size: 12px;
+            }
+
+            .compliance-badges {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .badge {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .back-button {
+                top: 16px;
+                left: 16px;
+                padding: 10px 16px;
+                font-size: 14px;
             }
         }
 
