@@ -2010,11 +2010,28 @@
             border: 1px solid var(--glass-border);
             border-radius: 16px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px var(--glow-cyan);
-            z-index: 9999;
+            z-index: 99999;
             animation: slideDown 0.3s ease-out;
         }
 
         .app-switcher-dropdown.active {
+            display: block;
+        }
+
+        /* Backdrop overlay for mobile - ensures dropdown is above all content */
+        .app-switcher-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99998;
+            backdrop-filter: blur(2px);
+        }
+
+        .app-switcher-backdrop.active {
             display: block;
         }
 
@@ -2080,7 +2097,7 @@
 
         .app-switcher-container {
             position: relative;
-            z-index: 9998;
+            z-index: 99999;
         }
 
         @media (max-width: 768px) {
@@ -2113,6 +2130,9 @@
 
     <!-- Tooltip for Blockchain -->
     <div id="blockchainTooltip" class="tooltip"></div>
+
+    <!-- App Switcher Backdrop -->
+    <div id="appSwitcherBackdrop" class="app-switcher-backdrop"></div>
 
     <!-- Sidebar Toggle Button -->
     <button class="sidebar-toggle sidebar-open" id="sidebarToggle" aria-label="Toggle sidebar">
@@ -24428,11 +24448,15 @@
         (function() {
             const appSwitcherBtn = document.getElementById('appSwitcherBtn');
             const appSwitcherDropdown = document.getElementById('appSwitcherDropdown');
+            const appSwitcherBackdrop = document.getElementById('appSwitcherBackdrop');
 
             // Toggle dropdown
             function toggleAppSwitcher(e) {
                 e.stopPropagation();
                 appSwitcherDropdown.classList.toggle('active');
+                if (appSwitcherBackdrop) {
+                    appSwitcherBackdrop.classList.toggle('active');
+                }
             }
 
             // Close dropdown when clicking outside
@@ -24441,10 +24465,16 @@
                     // Called from document click event
                     if (!appSwitcherBtn.contains(e.target) && !appSwitcherDropdown.contains(e.target)) {
                         appSwitcherDropdown.classList.remove('active');
+                        if (appSwitcherBackdrop) {
+                            appSwitcherBackdrop.classList.remove('active');
+                        }
                     }
                 } else {
                     // Called directly without event
                     appSwitcherDropdown.classList.remove('active');
+                    if (appSwitcherBackdrop) {
+                        appSwitcherBackdrop.classList.remove('active');
+                    }
                 }
             }
 
@@ -24487,6 +24517,10 @@
 
             if (appSwitcherDropdown) {
                 appSwitcherDropdown.addEventListener('click', handleAppCardClick);
+            }
+
+            if (appSwitcherBackdrop) {
+                appSwitcherBackdrop.addEventListener('click', closeAppSwitcher);
             }
 
             document.addEventListener('click', closeAppSwitcher);
