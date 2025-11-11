@@ -1960,7 +1960,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 16px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px var(--glow-cyan);
-            z-index: 1000;
+            z-index: 9999;
             animation: slideDown 0.3s ease-out;
         }
 
@@ -2030,6 +2030,7 @@
 
         .app-switcher-container {
             position: relative;
+            z-index: 9998;
         }
 
         @media (max-width: 768px) {
