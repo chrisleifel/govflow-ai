@@ -2000,13 +2000,13 @@
 
         .app-switcher-dropdown {
             display: none;
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
+            position: fixed;
+            top: 60px;
+            left: 20px;
             width: 400px;
             max-width: calc(100vw - 40px);
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(30px);
             border: 1px solid var(--glass-border);
             border-radius: 16px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px var(--glow-cyan);
@@ -2095,11 +2095,6 @@
             letter-spacing: 0.5px;
         }
 
-        .app-switcher-container {
-            position: relative;
-            z-index: 999999;
-        }
-
         @media (max-width: 768px) {
             .app-switcher-btn {
                 padding: 6px 10px;
@@ -2134,6 +2129,50 @@
 
     <!-- App Switcher Backdrop -->
     <div id="appSwitcherBackdrop" class="app-switcher-backdrop"></div>
+
+    <!-- App Switcher Dropdown (Portal to body) -->
+    <div id="appSwitcherDropdown" class="app-switcher-dropdown">
+        <div class="p-5 border-b border-white/10">
+            <h3 class="text-white font-bold text-base mb-1">GovFlow Platform</h3>
+            <p class="text-white/60 text-xs">Switch between applications</p>
+        </div>
+
+        <div class="p-5 grid grid-cols-2 gap-3">
+            <!-- Core Platform App -->
+            <div class="app-card active" data-app="core">
+                <div class="app-badge">Active</div>
+                <div class="app-icon" style="background: linear-gradient(135deg, #0284c7, #8b5cf6);">
+                    <i class="fas fa-building text-white"></i>
+                </div>
+                <h4 class="text-white font-semibold text-xs mb-1">Core Platform</h4>
+                <p class="text-white/60 text-xs">Workflows & CRM</p>
+            </div>
+
+            <!-- Permits App -->
+            <div class="app-card" data-app="permits" style="cursor: pointer;">
+                <div class="app-icon" style="background: linear-gradient(135deg, #10b981, #14b8a6);">
+                    <i class="fas fa-clipboard-check text-white"></i>
+                </div>
+                <h4 class="text-white font-semibold text-xs mb-1">Permits</h4>
+                <p class="text-white/60 text-xs">& Inspections</p>
+            </div>
+
+            <!-- Create New Module -->
+            <div class="app-card" data-app="new" style="cursor: pointer; border: 2px dashed rgba(6, 182, 212, 0.4); background: rgba(6, 182, 212, 0.05);">
+                <div class="app-icon" style="background: rgba(6, 182, 212, 0.2); border: 2px dashed var(--cyan-bright);">
+                    <i class="fas fa-plus text-cyan-400"></i>
+                </div>
+                <h4 class="text-cyan-400 font-semibold text-xs mb-1">New Module</h4>
+                <p class="text-white/60 text-xs">Create custom app</p>
+            </div>
+        </div>
+
+        <div class="p-4 border-t border-white/10">
+            <div class="text-center text-xs text-white/40">
+                Click to switch apps or create new modules
+            </div>
+        </div>
+    </div>
 
     <!-- Sidebar Toggle Button -->
     <button class="sidebar-toggle sidebar-open" id="sidebarToggle" aria-label="Toggle sidebar">
@@ -2338,60 +2377,14 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-4">
                         <!-- Added 2025-01-11: App Switcher in Header -->
-                        <div class="app-switcher-container">
-                            <button class="app-switcher-btn" id="appSwitcherBtn" aria-label="Open app switcher">
-                                <i class="fas fa-th text-cyan-400"></i>
-                                <div class="flex flex-col items-start">
-                                    <span class="text-xs text-white/60">GovFlow</span>
-                                    <span class="text-sm font-semibold text-white" id="currentAppName">Core Platform</span>
-                                </div>
-                                <i class="fas fa-chevron-down text-xs text-white/40"></i>
-                            </button>
-
-                            <!-- App Switcher Dropdown -->
-                            <div id="appSwitcherDropdown" class="app-switcher-dropdown">
-                                <div class="p-5 border-b border-white/10">
-                                    <h3 class="text-white font-bold text-base mb-1">GovFlow Platform</h3>
-                                    <p class="text-white/60 text-xs">Switch between applications</p>
-                                </div>
-
-                                <div class="p-5 grid grid-cols-2 gap-3">
-                                    <!-- Core Platform App -->
-                                    <div class="app-card active" data-app="core">
-                                        <div class="app-badge">Active</div>
-                                        <div class="app-icon" style="background: linear-gradient(135deg, #0284c7, #8b5cf6);">
-                                            <i class="fas fa-building text-white"></i>
-                                        </div>
-                                        <h4 class="text-white font-semibold text-xs mb-1">Core Platform</h4>
-                                        <p class="text-white/60 text-xs">Workflows & CRM</p>
-                                    </div>
-
-                                    <!-- Permits App -->
-                                    <div class="app-card" data-app="permits" style="cursor: pointer;">
-                                        <div class="app-icon" style="background: linear-gradient(135deg, #10b981, #14b8a6);">
-                                            <i class="fas fa-clipboard-check text-white"></i>
-                                        </div>
-                                        <h4 class="text-white font-semibold text-xs mb-1">Permits</h4>
-                                        <p class="text-white/60 text-xs">& Inspections</p>
-                                    </div>
-
-                                    <!-- Create New Module -->
-                                    <div class="app-card" data-app="new" style="cursor: pointer; border: 2px dashed rgba(6, 182, 212, 0.4); background: rgba(6, 182, 212, 0.05);">
-                                        <div class="app-icon" style="background: rgba(6, 182, 212, 0.2); border: 2px dashed var(--cyan-bright);">
-                                            <i class="fas fa-plus text-cyan-400"></i>
-                                        </div>
-                                        <h4 class="text-cyan-400 font-semibold text-xs mb-1">New Module</h4>
-                                        <p class="text-white/60 text-xs">Create custom app</p>
-                                    </div>
-                                </div>
-
-                                <div class="p-4 border-t border-white/10">
-                                    <div class="text-center text-xs text-white/40">
-                                        Click to switch apps or create new modules
-                                    </div>
-                                </div>
+                        <button class="app-switcher-btn" id="appSwitcherBtn" aria-label="Open app switcher">
+                            <i class="fas fa-th text-cyan-400"></i>
+                            <div class="flex flex-col items-start">
+                                <span class="text-xs text-white/60">GovFlow</span>
+                                <span class="text-sm font-semibold text-white" id="currentAppName">Core Platform</span>
                             </div>
-                        </div>
+                            <i class="fas fa-chevron-down text-xs text-white/40"></i>
+                        </button>
                         <div>
                             <h2 id="pageTitle" class="text-2xl font-bold text-white">City Services Portal</h2>
                             <p id="pageSubtitle" class="text-sm text-white/70">Submit requests, track applications, and access city services</p>
