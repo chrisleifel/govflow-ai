@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GovFlow AI - Government Workflow & Security Platform</title>
+    <title>GovFlow AI - Professional Blue Ocean Theme Test</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
@@ -47,8 +47,12 @@
         }
     </script>
     <style>
-        /* PROFESSIONAL BLUE OCEAN COLOR SCHEME */
+        /* PROFESSIONAL BLUE OCEAN COLOR SCHEME - Updated for sophisticated government platform aesthetic */
         :root {
+            /* OLD: --primary-blue: #1e40af; */
+            /* OLD: --secondary-blue: #3b82f6; */
+            /* OLD: --accent-purple: #8b5cf6; */
+
             /* NEW PROFESSIONAL BLUE OCEAN PALETTE */
             --deep-ocean: #0a1628;
             --ocean-dark: #0c4a6e;
@@ -78,7 +82,8 @@
         }
 
         .gradient-bg {
-            /* Deep ocean gradient with subtle cyan undertones */
+            /* OLD: background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%); */
+            /* NEW: Deep ocean gradient with subtle cyan undertones */
             background: linear-gradient(135deg,
                 #0a1628 0%,
                 #0c2340 25%,
@@ -104,7 +109,8 @@
         }
 
         .sidebar {
-            /* Sophisticated ocean depth gradient */
+            /* OLD: background: linear-gradient(180deg, #1e40af 0%, #3730a3 100%); */
+            /* NEW: Sophisticated ocean depth gradient */
             background: linear-gradient(180deg,
                 #0c4a6e 0%,
                 #0369a1 50%,
@@ -112,11 +118,8 @@
             );
             box-shadow: 4px 0 30px rgba(6, 182, 212, 0.2), 4px 0 60px rgba(0, 0, 0, 0.4);
             border-right: 1px solid rgba(6, 182, 212, 0.3);
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease;
             position: relative;
-            width: 256px;
-            min-width: 256px;
-            flex-shrink: 0;
         }
 
         .sidebar::before {
@@ -134,15 +137,11 @@
             pointer-events: none;
         }
 
-        /* Sidebar Collapse - Desktop Auto-Expand */
-        /* Modified 2025-01-11: Main content now expands when sidebar collapses */
+        /* Sidebar Collapse - Mobile Optimized */
         .sidebar.collapsed {
-            width: 0;
-            min-width: 0;
+            transform: translateX(-100%);
             opacity: 0;
-            overflow: hidden;
-            border-right: none;
-            box-shadow: none;
+            pointer-events: none;
         }
 
         @media (max-width: 768px) {
@@ -163,6 +162,7 @@
             transform: translateY(-50%);
             width: 32px;
             height: 32px;
+            /* OLD: background: rgba(30, 64, 175, 0.25); */
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
@@ -206,8 +206,9 @@
             opacity: 0;
             pointer-events: none;
         }
-
+        
         .glass {
+            /* OLD: background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); */
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
@@ -215,73 +216,11 @@
         }
 
         .glass-dark {
+            /* OLD: background: rgba(0, 0, 0, 0.2); */
             background: rgba(10, 22, 40, 0.6);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(6, 182, 212, 0.15);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Modified 2025-01-11: Compact mobile header */
-        @media (max-width: 768px) {
-            header.glass-dark {
-                padding: 8px 12px !important;
-            }
-
-            header #pageTitle {
-                font-size: 16px !important;
-                line-height: 1.2;
-            }
-
-            header #pageSubtitle {
-                display: none !important;
-            }
-
-            /* Hide secure badge on mobile (but keep help button) */
-            header .glass.rounded-lg:not(#helpButton) {
-                display: none !important;
-            }
-
-            /* Help button on mobile */
-            header #helpButton {
-                padding: 6px 10px !important;
-            }
-
-            header #helpButton span {
-                display: none !important;
-            }
-
-            header #helpButton i {
-                font-size: 18px !important;
-            }
-
-            /* Make user icon smaller */
-            header .flex.items-center.space-x-4 {
-                gap: 0 !important;
-            }
-
-            header .bg-blue-500 {
-                width: 32px !important;
-                height: 32px !important;
-            }
-
-            /* Tighten app switcher button */
-            header .app-switcher-btn {
-                padding: 6px 8px !important;
-                gap: 6px !important;
-            }
-
-            header .app-switcher-btn i {
-                font-size: 14px;
-            }
-
-            header .app-switcher-btn .text-sm {
-                font-size: 12px !important;
-            }
-
-            /* Reduce gap between elements */
-            header .flex.items-center.gap-4 {
-                gap: 8px !important;
-            }
         }
 
         .nav-item {
@@ -290,12 +229,14 @@
         }
 
         .nav-item:hover {
+            /* OLD: background: rgba(255, 255, 255, 0.2); */
             background: rgba(6, 182, 212, 0.15);
             transform: translateX(5px);
             box-shadow: inset 4px 0 0 var(--cyan-bright);
         }
 
         .nav-item.active {
+            /* OLD: background: rgba(255, 255, 255, 0.25); border-right: 3px solid #ffffff; */
             background: rgba(6, 182, 212, 0.25);
             border-right: 3px solid var(--cyan-bright);
             box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
@@ -308,10 +249,12 @@
 
         .workflow-card:hover {
             transform: translateY(-5px) scale(1.02);
+            /* OLD: box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); */
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 30px var(--glow-cyan);
         }
 
         .workflow-card.selected {
+            /* OLD: background: rgba(59, 130, 246, 0.3); border-color: #3b82f6; box-shadow: 0 0 25px rgba(59, 130, 246, 0.5); */
             background: rgba(6, 182, 212, 0.25);
             border-color: var(--cyan-bright);
             box-shadow: 0 0 25px var(--glow-cyan), 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -322,20 +265,21 @@
         }
         
         @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
-            50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
+            /* Updated for rose danger color */
+            0%, 100% { box-shadow: 0 0 10px rgba(244, 63, 94, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(244, 63, 94, 0.8); }
         }
-        
+
         .typing {
-            border-right: 2px solid var(--success-green);
+            border-right: 2px solid var(--teal-accent);
             animation: blink 1s infinite;
         }
-        
+
         @keyframes blink {
             0%, 50% { border-color: transparent; }
-            51%, 100% { border-color: var(--success-green); }
+            51%, 100% { border-color: var(--teal-accent); }
         }
-        
+
         .modal {
             display: none;
             position: fixed;
@@ -343,6 +287,7 @@
             left: 0;
             width: 100%;
             height: 100%;
+            /* OLD: background: rgba(0, 0, 0, 0.8); */
             background: rgba(10, 22, 40, 0.9);
             z-index: 1000;
             backdrop-filter: blur(10px);
@@ -370,12 +315,16 @@
         }
 
         .api-tab-button:hover {
-            background: rgba(255, 255, 255, 0.15);
+            /* OLD: background: rgba(255, 255, 255, 0.15); */
+            background: rgba(6, 182, 212, 0.2);
+            box-shadow: inset 0 -3px 0 var(--cyan-bright);
         }
 
         .api-tab-button.active {
-            background: rgba(59, 130, 246, 0.3);
-            border-bottom: 3px solid #3b82f6;
+            /* OLD: background: rgba(59, 130, 246, 0.3); border-bottom: 3px solid #3b82f6; */
+            background: rgba(6, 182, 212, 0.3);
+            border-bottom: 3px solid var(--cyan-bright);
+            box-shadow: 0 0 20px var(--glow-cyan);
         }
 
         .api-module-content {
@@ -387,16 +336,19 @@
         }
 
         .compatibility-score {
-            background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981);
+            /* Updated gradient with new colors */
+            background: linear-gradient(90deg, var(--rose-danger), var(--amber-warning), var(--emerald-success));
             height: 8px;
             border-radius: 4px;
         }
 
         .terminal {
-            background: rgba(0, 0, 0, 0.5);
+            /* OLD: background: rgba(0, 0, 0, 0.5); color: #10b981; */
+            background: rgba(10, 22, 40, 0.8);
             font-family: 'Courier New', monospace;
             font-size: 12px;
-            color: #10b981;
+            color: var(--teal-accent);
+            border: 1px solid rgba(6, 182, 212, 0.2);
         }
 
         /* Enhanced 2024-10-30: Advanced Security Operations Center Styles */
@@ -406,12 +358,16 @@
         }
 
         .security-module-tab:hover {
-            background: rgba(255, 255, 255, 0.15);
+            /* OLD: background: rgba(255, 255, 255, 0.15); */
+            background: rgba(6, 182, 212, 0.2);
+            box-shadow: inset 0 -3px 0 var(--cyan-bright);
         }
 
         .security-module-tab.active {
-            background: rgba(59, 130, 246, 0.3);
-            border-bottom: 3px solid #3b82f6;
+            /* OLD: background: rgba(59, 130, 246, 0.3); border-bottom: 3px solid #3b82f6; */
+            background: rgba(6, 182, 212, 0.3);
+            border-bottom: 3px solid var(--cyan-bright);
+            box-shadow: 0 0 20px var(--glow-cyan);
         }
 
         .security-module-content {
@@ -448,15 +404,17 @@
         }
 
         .drop-zone.drag-over {
-            background: rgba(59, 130, 246, 0.1);
-            border-color: #3b82f6;
+            /* OLD: background: rgba(59, 130, 246, 0.1); border-color: #3b82f6; */
+            background: rgba(6, 182, 212, 0.15);
+            border-color: var(--cyan-bright);
+            box-shadow: 0 0 30px var(--glow-cyan);
         }
 
         .saved-workflow-card {
             transition: all 0.3s ease;
         }
 
-        /* Custom scrollbar - Blue Ocean theme */
+        /* Custom scrollbar - Professional Blue Ocean theme */
         .scrollbar-thin::-webkit-scrollbar {
             width: 8px;
         }
@@ -467,12 +425,14 @@
         }
 
         .scrollbar-thin::-webkit-scrollbar-thumb {
+            /* OLD: background: linear-gradient(180deg, #3b82f6, #1e40af); */
             background: linear-gradient(180deg, var(--cyan-bright), var(--ocean-primary));
             border-radius: 10px;
             border: 1px solid rgba(6, 182, 212, 0.3);
         }
 
         .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            /* OLD: background: linear-gradient(180deg, #60a5fa, #3b82f6); */
             background: linear-gradient(180deg, var(--sky-blue), var(--cyan-bright));
             box-shadow: 0 0 10px var(--glow-cyan);
         }
@@ -1889,10 +1849,10 @@
             animation: pulse 2s infinite;
         }
 
-        .mobile-status-online { background: #10b981; }
-        .mobile-status-offline { background: #f59e0b; }
-        .mobile-status-limited { background: #ef4444; }
-        .mobile-status-syncing { background: #3b82f6; }
+        .mobile-status-online { background: var(--emerald-success); }
+        .mobile-status-offline { background: var(--amber-warning); }
+        .mobile-status-limited { background: var(--rose-danger); }
+        .mobile-status-syncing { background: var(--cyan-bright); }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -1989,148 +1949,6 @@
             100% { background-position: -200% 0; }
         }
         /* End Added 2024-11-07: Mobile Command Center Styles */
-
-        /* Added 2025-01-08: GovFlow App Switcher Styles */
-        /* Modified 2025-01-11: Moved to header for cleaner mobile experience */
-        .app-switcher-btn {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 8px 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .app-switcher-btn:hover {
-            background: rgba(6, 182, 212, 0.2);
-            box-shadow: 0 4px 20px var(--glow-cyan);
-        }
-
-        .app-switcher-dropdown {
-            display: none;
-            position: fixed;
-            top: 60px;
-            left: 20px;
-            width: 400px;
-            max-width: calc(100vw - 40px);
-            background: rgba(15, 23, 42, 0.98);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px var(--glow-cyan);
-            z-index: 999999;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        .app-switcher-dropdown.active {
-            display: block;
-        }
-
-        /* Backdrop overlay for mobile - ensures dropdown is above all content */
-        .app-switcher-backdrop {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999998;
-            backdrop-filter: blur(2px);
-        }
-
-        .app-switcher-backdrop.active {
-            display: block;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .app-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .app-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--cyan-bright);
-            box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
-            background: rgba(6, 182, 212, 0.1);
-        }
-
-        .app-card.active {
-            background: rgba(6, 182, 212, 0.2);
-            border-color: var(--cyan-bright);
-            box-shadow: 0 0 20px var(--glow-cyan);
-        }
-
-        .app-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin-bottom: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .app-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: var(--cyan-bright);
-            color: white;
-            font-size: 9px;
-            font-weight: 600;
-            padding: 3px 8px;
-            border-radius: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        @media (max-width: 768px) {
-            .app-switcher-btn {
-                padding: 6px 10px;
-                gap: 8px;
-            }
-
-            .app-switcher-btn .text-xs {
-                display: none;
-            }
-
-            .app-switcher-dropdown {
-                position: fixed;
-                top: 50px;
-                left: 12px;
-                right: 12px;
-                width: auto;
-                max-width: none;
-                background: rgba(15, 23, 42, 0.98);
-                backdrop-filter: blur(30px);
-                z-index: 999999;
-            }
-        }
-        /* End Added 2025-01-08: GovFlow App Switcher Styles */
     </style>
 </head>
 <body class="gradient-bg text-white overflow-hidden">
@@ -2140,53 +1958,6 @@
     <!-- Tooltip for Blockchain -->
     <div id="blockchainTooltip" class="tooltip"></div>
 
-    <!-- App Switcher Backdrop -->
-    <div id="appSwitcherBackdrop" class="app-switcher-backdrop"></div>
-
-    <!-- App Switcher Dropdown (Portal to body) -->
-    <div id="appSwitcherDropdown" class="app-switcher-dropdown">
-        <div class="p-5 border-b border-white/10">
-            <h3 class="text-white font-bold text-base mb-1">GovFlow Platform</h3>
-            <p class="text-white/60 text-xs">Switch between applications</p>
-        </div>
-
-        <div class="p-5 grid grid-cols-2 gap-3">
-            <!-- Core Platform App -->
-            <div class="app-card active" data-app="core">
-                <div class="app-badge">Active</div>
-                <div class="app-icon" style="background: linear-gradient(135deg, #0284c7, #8b5cf6);">
-                    <i class="fas fa-building text-white"></i>
-                </div>
-                <h4 class="text-white font-semibold text-xs mb-1">Core Platform</h4>
-                <p class="text-white/60 text-xs">Workflows & CRM</p>
-            </div>
-
-            <!-- Permits App -->
-            <div class="app-card" data-app="permits" style="cursor: pointer;">
-                <div class="app-icon" style="background: linear-gradient(135deg, #10b981, #14b8a6);">
-                    <i class="fas fa-clipboard-check text-white"></i>
-                </div>
-                <h4 class="text-white font-semibold text-xs mb-1">Permits</h4>
-                <p class="text-white/60 text-xs">& Inspections</p>
-            </div>
-
-            <!-- Create New Module -->
-            <div class="app-card" data-app="new" style="cursor: pointer; border: 2px dashed rgba(6, 182, 212, 0.4); background: rgba(6, 182, 212, 0.05);">
-                <div class="app-icon" style="background: rgba(6, 182, 212, 0.2); border: 2px dashed var(--cyan-bright);">
-                    <i class="fas fa-plus text-cyan-400"></i>
-                </div>
-                <h4 class="text-cyan-400 font-semibold text-xs mb-1">New Module</h4>
-                <p class="text-white/60 text-xs">Create custom app</p>
-            </div>
-        </div>
-
-        <div class="p-4 border-t border-white/10">
-            <div class="text-center text-xs text-white/40">
-                Click to switch apps or create new modules
-            </div>
-        </div>
-    </div>
-
     <!-- Sidebar Toggle Button -->
     <button class="sidebar-toggle sidebar-open" id="sidebarToggle" aria-label="Toggle sidebar">
         <i class="fas fa-chevron-left"></i>
@@ -2194,7 +1965,7 @@
 
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="sidebar overflow-y-auto">
+        <div class="sidebar w-64 flex-shrink-0 overflow-y-auto">
             <div class="p-6">
                 <div class="flex items-center space-x-3 mb-8">
                     <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
@@ -2388,20 +2159,9 @@
             <!-- Header -->
             <header class="glass-dark border-b border-white/10 p-4">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <!-- Added 2025-01-11: App Switcher in Header -->
-                        <button class="app-switcher-btn" id="appSwitcherBtn" aria-label="Open app switcher">
-                            <i class="fas fa-th text-cyan-400"></i>
-                            <div class="flex flex-col items-start">
-                                <span class="text-xs text-white/60">GovFlow</span>
-                                <span class="text-sm font-semibold text-white" id="currentAppName">Core Platform</span>
-                            </div>
-                            <i class="fas fa-chevron-down text-xs text-white/40"></i>
-                        </button>
-                        <div>
-                            <h2 id="pageTitle" class="text-2xl font-bold text-white">City Services Portal</h2>
-                            <p id="pageSubtitle" class="text-sm text-white/70">Submit requests, track applications, and access city services</p>
-                        </div>
+                    <div>
+                        <h2 id="pageTitle" class="text-2xl font-bold text-white">City Services Portal</h2>
+                        <p id="pageSubtitle" class="text-sm text-white/70">Submit requests, track applications, and access city services</p>
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="glass rounded-lg px-3 py-2">
@@ -2410,13 +2170,6 @@
                                 <span class="text-sm text-white">Secure</span>
                             </div>
                         </div>
-                        <!-- Help/Training Button -->
-                        <button id="helpButton" class="glass rounded-lg px-3 py-2 hover:bg-white/10 transition-all" aria-label="Open training">
-                            <div class="flex items-center space-x-2">
-                                <i class="fas fa-graduation-cap text-cyan-400"></i>
-                                <span class="text-sm text-white">Help</span>
-                            </div>
-                        </button>
                         <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                             <i class="fas fa-user text-white text-sm"></i>
                         </div>
@@ -24457,112 +24210,6 @@
 
         console.log('Mobile Command Center loaded successfully');
         // ===== END MOBILE COMMAND CENTER JAVASCRIPT =====
-
-        // ===== APP SWITCHER FUNCTIONALITY - Added 2025-01-08 =====
-        (function() {
-            const appSwitcherBtn = document.getElementById('appSwitcherBtn');
-            const appSwitcherDropdown = document.getElementById('appSwitcherDropdown');
-            const appSwitcherBackdrop = document.getElementById('appSwitcherBackdrop');
-
-            // Toggle dropdown
-            function toggleAppSwitcher(e) {
-                e.stopPropagation();
-                appSwitcherDropdown.classList.toggle('active');
-                if (appSwitcherBackdrop) {
-                    appSwitcherBackdrop.classList.toggle('active');
-                }
-            }
-
-            // Close dropdown when clicking outside
-            function closeAppSwitcher(e) {
-                if (e && e.target) {
-                    // Called from document click event
-                    if (!appSwitcherBtn.contains(e.target) && !appSwitcherDropdown.contains(e.target)) {
-                        appSwitcherDropdown.classList.remove('active');
-                        if (appSwitcherBackdrop) {
-                            appSwitcherBackdrop.classList.remove('active');
-                        }
-                    }
-                } else {
-                    // Called directly without event
-                    appSwitcherDropdown.classList.remove('active');
-                    if (appSwitcherBackdrop) {
-                        appSwitcherBackdrop.classList.remove('active');
-                    }
-                }
-            }
-
-            // Handle app card clicks
-            function handleAppCardClick(e) {
-                const card = e.target.closest('.app-card');
-                if (!card) return;
-
-                const appType = card.dataset.app;
-                console.log('Card clicked:', appType);
-
-                // Prevent default and stop propagation
-                e.preventDefault();
-                e.stopPropagation();
-
-                if (appType === 'permits') {
-                    // Navigate to Permits landing page
-                    console.log('Navigating to Permits landing page...');
-                    closeAppSwitcher();
-                    setTimeout(() => {
-                        window.location.href = 'permits-landing-test.html';
-                    }, 100);
-                } else if (appType === 'new') {
-                    // TODO: Open new module creation wizard
-                    alert('Create New Module wizard coming soon! This will allow you to build custom applications.');
-                    closeAppSwitcher();
-                    // TODO: Open modal/wizard for creating new modules
-                    console.log('Open new module creation wizard');
-                } else if (appType === 'core') {
-                    // Already on core platform
-                    console.log('Already on Core Platform');
-                    closeAppSwitcher();
-                }
-            }
-
-            // Event listeners
-            if (appSwitcherBtn) {
-                appSwitcherBtn.addEventListener('click', toggleAppSwitcher);
-            }
-
-            if (appSwitcherDropdown) {
-                appSwitcherDropdown.addEventListener('click', handleAppCardClick);
-            }
-
-            if (appSwitcherBackdrop) {
-                appSwitcherBackdrop.addEventListener('click', closeAppSwitcher);
-            }
-
-            document.addEventListener('click', closeAppSwitcher);
-
-            // TODO: Connect to API endpoint /api/user/apps for allowed apps
-            // MOCK DATA - Currently showing Core Platform, Permits, and New Module option
-            // TODO: Implement app switching logic when multiple apps are available
-            // TODO: Track app usage analytics
-            // TODO: Implement Permits module full functionality
-            // TODO: Implement new module creation wizard
-
-            console.log('App Switcher initialized with Permits and New Module options');
-        })();
-        // ===== END APP SWITCHER FUNCTIONALITY =====
-
-        // ===== HELP/TRAINING BUTTON FUNCTIONALITY - Added 2025-01-11 =====
-        (function() {
-            const helpButton = document.getElementById('helpButton');
-
-            if (helpButton) {
-                helpButton.addEventListener('click', function() {
-                    // Open training curriculum in new tab
-                    window.open('training-curriculum.html', '_blank', 'width=1400,height=900');
-                    console.log('Opening training curriculum');
-                });
-            }
-        })();
-        // ===== END HELP/TRAINING FUNCTIONALITY =====
 
         // ===== SIDEBAR TOGGLE FUNCTIONALITY =====
         function toggleSidebar() {

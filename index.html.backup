@@ -7,314 +7,68 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-    <script>
-        // Tailwind Configuration Override for Professional Blue Ocean Theme
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        blue: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        },
-                        cyan: {
-                            50: '#ecfeff',
-                            100: '#cffafe',
-                            200: '#a5f3fc',
-                            300: '#67e8f9',
-                            400: '#22d3ee',
-                            500: '#06b6d4',
-                            600: '#0891b2',
-                            700: '#0e7490',
-                            800: '#155e75',
-                            900: '#164e63',
-                        },
-                        purple: {
-                            500: '#8b5cf6',
-                            600: '#7c3aed',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        /* PROFESSIONAL BLUE OCEAN COLOR SCHEME */
         :root {
-            /* NEW PROFESSIONAL BLUE OCEAN PALETTE */
-            --deep-ocean: #0a1628;
-            --ocean-dark: #0c4a6e;
-            --ocean-primary: #0369a1;
-            --azure-blue: #0284c7;
-            --sky-blue: #0ea5e9;
-            --cyan-bright: #06b6d4;
-            --teal-accent: #14b8a6;
-
-            /* Neutral Depths */
-            --navy-deep: #0f172a;
-            --slate-dark: #1e293b;
-            --slate-medium: #334155;
-            --slate-light: #475569;
-
-            /* Accent Colors */
-            --emerald-success: #10b981;
-            --amber-warning: #f59e0b;
-            --rose-danger: #f43f5e;
-            --violet-special: #8b5cf6;
-
-            /* Glass & Overlay */
-            --glass-bg: rgba(15, 23, 42, 0.75);
-            --glass-border: rgba(6, 182, 212, 0.25);
-            --glow-cyan: rgba(6, 182, 212, 0.4);
-            --glow-azure: rgba(2, 132, 199, 0.5);
+            --primary-blue: #1e40af;
+            --secondary-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --success-green: #10b981;
+            --warning-yellow: #f59e0b;
+            --danger-red: #ef4444;
         }
-
+        
         .gradient-bg {
-            /* Deep ocean gradient with subtle cyan undertones */
-            background: linear-gradient(135deg,
-                #0a1628 0%,
-                #0c2340 25%,
-                #0e3a5f 50%,
-                #1e3a5f 75%,
-                #164e7f 100%
-            );
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
             min-height: 100vh;
-            position: relative;
         }
-
-        .gradient-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(2, 132, 199, 0.06) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
+        
         .sidebar {
-            /* Sophisticated ocean depth gradient */
-            background: linear-gradient(180deg,
-                #0c4a6e 0%,
-                #0369a1 50%,
-                #0284c7 100%
-            );
-            box-shadow: 4px 0 30px rgba(6, 182, 212, 0.2), 4px 0 60px rgba(0, 0, 0, 0.4);
-            border-right: 1px solid rgba(6, 182, 212, 0.3);
-            transition: all 0.3s ease;
-            position: relative;
-            width: 256px;
-            min-width: 256px;
-            flex-shrink: 0;
+            background: linear-gradient(180deg, #1e40af 0%, #3730a3 100%);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+            border-right: 1px solid rgba(59, 130, 246, 0.3);
         }
-
-        .sidebar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(180deg,
-                rgba(255, 255, 255, 0.05) 0%,
-                transparent 50%,
-                rgba(0, 0, 0, 0.1) 100%
-            );
-            pointer-events: none;
-        }
-
-        /* Sidebar Collapse - Desktop Auto-Expand */
-        /* Modified 2025-01-11: Main content now expands when sidebar collapses */
-        .sidebar.collapsed {
-            width: 0;
-            min-width: 0;
-            opacity: 0;
-            overflow: hidden;
-            border-right: none;
-            box-shadow: none;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                left: 0;
-                top: 0;
-                height: 100vh;
-                z-index: 1000;
-            }
-        }
-
-        /* Sidebar Toggle Button */
-        .sidebar-toggle {
-            position: fixed;
-            left: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 32px;
-            height: 32px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 999;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 15px var(--glow-cyan);
-        }
-
-        .sidebar-toggle:hover {
-            background: rgba(6, 182, 212, 0.3);
-            transform: translateY(-50%) scale(1.05);
-            box-shadow: 0 4px 15px var(--glow-cyan);
-        }
-
-        .sidebar-toggle:active {
-            transform: translateY(-50%) scale(0.95);
-        }
-
-        .sidebar-toggle i {
-            color: white;
-            font-size: 14px;
-            transition: transform 0.3s ease;
-        }
-
-        .sidebar-toggle.sidebar-open {
-            left: 264px; /* 256px sidebar + 8px margin */
-        }
-
-        @media (max-width: 768px) {
-            .sidebar-toggle.sidebar-open {
-                left: 264px;
-            }
-        }
-
-        .sidebar-toggle.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
+        
         .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-
+        
         .glass-dark {
-            background: rgba(10, 22, 40, 0.6);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(6, 182, 212, 0.15);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        /* Modified 2025-01-11: Compact mobile header */
-        @media (max-width: 768px) {
-            header.glass-dark {
-                padding: 8px 12px !important;
-            }
-
-            header #pageTitle {
-                font-size: 16px !important;
-                line-height: 1.2;
-            }
-
-            header #pageSubtitle {
-                display: none !important;
-            }
-
-            /* Hide secure badge on mobile (but keep help button) */
-            header .glass.rounded-lg:not(#helpButton) {
-                display: none !important;
-            }
-
-            /* Help button on mobile */
-            header #helpButton {
-                padding: 6px 10px !important;
-            }
-
-            header #helpButton span {
-                display: none !important;
-            }
-
-            header #helpButton i {
-                font-size: 18px !important;
-            }
-
-            /* Make user icon smaller */
-            header .flex.items-center.space-x-4 {
-                gap: 0 !important;
-            }
-
-            header .bg-blue-500 {
-                width: 32px !important;
-                height: 32px !important;
-            }
-
-            /* Tighten app switcher button */
-            header .app-switcher-btn {
-                padding: 6px 8px !important;
-                gap: 6px !important;
-            }
-
-            header .app-switcher-btn i {
-                font-size: 14px;
-            }
-
-            header .app-switcher-btn .text-sm {
-                font-size: 12px !important;
-            }
-
-            /* Reduce gap between elements */
-            header .flex.items-center.gap-4 {
-                gap: 8px !important;
-            }
-        }
-
+        
         .nav-item {
             transition: all 0.3s ease;
             cursor: pointer;
         }
-
+        
         .nav-item:hover {
-            background: rgba(6, 182, 212, 0.15);
+            background: rgba(255, 255, 255, 0.2);
             transform: translateX(5px);
-            box-shadow: inset 4px 0 0 var(--cyan-bright);
         }
-
+        
         .nav-item.active {
-            background: rgba(6, 182, 212, 0.25);
-            border-right: 3px solid var(--cyan-bright);
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+            background: rgba(255, 255, 255, 0.25);
+            border-right: 3px solid #ffffff;
         }
-
+        
         .workflow-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
-
+        
         .workflow-card:hover {
             transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 30px var(--glow-cyan);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
         }
-
+        
         .workflow-card.selected {
-            background: rgba(6, 182, 212, 0.25);
-            border-color: var(--cyan-bright);
-            box-shadow: 0 0 25px var(--glow-cyan), 0 8px 32px rgba(0, 0, 0, 0.3);
+            background: rgba(59, 130, 246, 0.3);
+            border-color: #3b82f6;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
         }
         
         .security-alert {
@@ -343,9 +97,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 22, 40, 0.9);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 1000;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
         }
         
         .modal.active {
@@ -462,19 +216,17 @@
         }
 
         .scrollbar-thin::-webkit-scrollbar-track {
-            background: rgba(6, 182, 212, 0.05);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
         }
 
         .scrollbar-thin::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--cyan-bright), var(--ocean-primary));
+            background: linear-gradient(180deg, #3b82f6, #1e40af);
             border-radius: 10px;
-            border: 1px solid rgba(6, 182, 212, 0.3);
         }
 
         .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, var(--sky-blue), var(--cyan-bright));
-            box-shadow: 0 0 10px var(--glow-cyan);
+            background: linear-gradient(180deg, #60a5fa, #3b82f6);
         }
 
         /* Predictive Analytics Dashboard Styles - Added 2024-12-09 */
@@ -1724,413 +1476,6 @@
             50% { opacity: 0.7; transform: scale(1.05); }
         }
         /* End Added 2024-11-06: SecureMesh Module Styles */
-
-        /* Added 2024-11-06: Department Process Center Styles */
-
-        /* Department Color Coding */
-        .dept-building {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        }
-        .dept-building-light {
-            background: rgba(245, 158, 11, 0.2);
-            border: 1px solid #f59e0b;
-            color: #fbbf24;
-        }
-
-        .dept-tax {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-        .dept-tax-light {
-            background: rgba(16, 185, 129, 0.2);
-            border: 1px solid #10b981;
-            color: #34d399;
-        }
-
-        .dept-public-works {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-        }
-        .dept-public-works-light {
-            background: rgba(59, 130, 246, 0.2);
-            border: 1px solid #3b82f6;
-            color: #60a5fa;
-        }
-
-        .dept-health {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        }
-        .dept-health-light {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid #ef4444;
-            color: #f87171;
-        }
-
-        .dept-planning {
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-        }
-        .dept-planning-light {
-            background: rgba(139, 92, 246, 0.2);
-            border: 1px solid #8b5cf6;
-            color: #a78bfa;
-        }
-
-        .dept-legal {
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-        }
-        .dept-legal-light {
-            background: rgba(99, 102, 241, 0.2);
-            border: 1px solid #6366f1;
-            color: #818cf8;
-        }
-
-        .dept-hr {
-            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
-        }
-        .dept-hr-light {
-            background: rgba(236, 72, 153, 0.2);
-            border: 1px solid #ec4899;
-            color: #f472b6;
-        }
-
-        .dept-it {
-            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-        }
-        .dept-it-light {
-            background: rgba(6, 182, 212, 0.2);
-            border: 1px solid #06b6d4;
-            color: #22d3ee;
-        }
-
-        /* Compliance Status Badges */
-        .compliance-good {
-            background: rgba(16, 185, 129, 0.2);
-            border: 1px solid #10b981;
-            color: #10b981;
-        }
-
-        .compliance-warning {
-            background: rgba(245, 158, 11, 0.2);
-            border: 1px solid #f59e0b;
-            color: #fbbf24;
-        }
-
-        .compliance-critical {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid #ef4444;
-            color: #f87171;
-        }
-
-        /* Tab Navigation */
-        .dept-tab-button {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .dept-tab-button:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .dept-tab-button.active {
-            background: rgba(59, 130, 246, 0.3);
-            border-bottom: 3px solid #3b82f6;
-        }
-
-        /* Module Content */
-        .dept-module-content {
-            display: none;
-        }
-
-        .dept-module-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Workflow Status */
-        .workflow-status-active {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-        }
-
-        .workflow-status-pending {
-            background: rgba(245, 158, 11, 0.2);
-            color: #fbbf24;
-        }
-
-        .workflow-status-paused {
-            background: rgba(239, 68, 68, 0.2);
-            color: #f87171;
-        }
-
-        /* Progress Animation */
-        .progress-bar {
-            transition: width 0.5s ease;
-        }
-
-        /* Pulse Effect */
-        .pulse-effect {
-            animation: pulse-glow 2s infinite;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
-            50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8); }
-        }
-
-        /* Added 2024-11-07: Mobile Command Center Styles */
-        /* Connectivity Status Animations */
-        .mobile-status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        .mobile-status-online { background: #10b981; }
-        .mobile-status-offline { background: #f59e0b; }
-        .mobile-status-limited { background: #ef4444; }
-        .mobile-status-syncing { background: #3b82f6; }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Emergency Button Pulse Animation */
-        .emergency-fab {
-            animation: emergency-pulse 2s infinite;
-        }
-
-        @keyframes emergency-pulse {
-            0%, 100% {
-                box-shadow: 0 8px 24px rgba(239, 68, 68, 0.5);
-            }
-            50% {
-                box-shadow: 0 8px 32px rgba(239, 68, 68, 0.8);
-                transform: scale(1.05);
-            }
-        }
-
-        /* Mobile-Optimized Touch Targets */
-        .mobile-action-tile {
-            min-height: 100px;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-action-tile:active {
-            transform: scale(0.95);
-        }
-
-        .mobile-touch-button {
-            min-height: 44px;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-touch-button:active {
-            transform: scale(0.98);
-        }
-
-        /* Glassmorphism for Mobile */
-        .mobile-glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* Route Optimization Styles */
-        .route-stat-old {
-            text-decoration: line-through;
-            color: #ef4444;
-        }
-
-        .route-stat-new {
-            color: #10b981;
-        }
-
-        /* Checklist Interactions */
-        .checklist-btn {
-            transition: all 0.3s ease;
-        }
-
-        .checklist-btn:active {
-            transform: scale(0.95);
-        }
-
-        .checklist-btn.selected {
-            opacity: 1;
-            font-weight: 900;
-        }
-
-        /* Priority Badges */
-        .priority-high {
-            background: #ef4444;
-            color: white;
-        }
-
-        .priority-normal {
-            background: #f59e0b;
-            color: #000000;
-        }
-
-        /* Loading Skeleton for Mobile */
-        .mobile-skeleton {
-            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            border-radius: 8px;
-        }
-
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        /* End Added 2024-11-07: Mobile Command Center Styles */
-
-        /* Added 2025-01-08: GovFlow App Switcher Styles */
-        /* Modified 2025-01-11: Moved to header for cleaner mobile experience */
-        .app-switcher-btn {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 8px 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .app-switcher-btn:hover {
-            background: rgba(6, 182, 212, 0.2);
-            box-shadow: 0 4px 20px var(--glow-cyan);
-        }
-
-        .app-switcher-dropdown {
-            display: none;
-            position: fixed;
-            top: 60px;
-            left: 20px;
-            width: 400px;
-            max-width: calc(100vw - 40px);
-            background: rgba(15, 23, 42, 0.98);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px var(--glow-cyan);
-            z-index: 999999;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        .app-switcher-dropdown.active {
-            display: block;
-        }
-
-        /* Backdrop overlay for mobile - ensures dropdown is above all content */
-        .app-switcher-backdrop {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999998;
-            backdrop-filter: blur(2px);
-        }
-
-        .app-switcher-backdrop.active {
-            display: block;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .app-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .app-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--cyan-bright);
-            box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
-            background: rgba(6, 182, 212, 0.1);
-        }
-
-        .app-card.active {
-            background: rgba(6, 182, 212, 0.2);
-            border-color: var(--cyan-bright);
-            box-shadow: 0 0 20px var(--glow-cyan);
-        }
-
-        .app-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin-bottom: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .app-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: var(--cyan-bright);
-            color: white;
-            font-size: 9px;
-            font-weight: 600;
-            padding: 3px 8px;
-            border-radius: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        @media (max-width: 768px) {
-            .app-switcher-btn {
-                padding: 6px 10px;
-                gap: 8px;
-            }
-
-            .app-switcher-btn .text-xs {
-                display: none;
-            }
-
-            .app-switcher-dropdown {
-                position: fixed;
-                top: 50px;
-                left: 12px;
-                right: 12px;
-                width: auto;
-                max-width: none;
-                background: rgba(15, 23, 42, 0.98);
-                backdrop-filter: blur(30px);
-                z-index: 999999;
-            }
-        }
-        /* End Added 2025-01-08: GovFlow App Switcher Styles */
     </style>
 </head>
 <body class="gradient-bg text-white overflow-hidden">
@@ -2140,61 +1485,9 @@
     <!-- Tooltip for Blockchain -->
     <div id="blockchainTooltip" class="tooltip"></div>
 
-    <!-- App Switcher Backdrop -->
-    <div id="appSwitcherBackdrop" class="app-switcher-backdrop"></div>
-
-    <!-- App Switcher Dropdown (Portal to body) -->
-    <div id="appSwitcherDropdown" class="app-switcher-dropdown">
-        <div class="p-5 border-b border-white/10">
-            <h3 class="text-white font-bold text-base mb-1">GovFlow Platform</h3>
-            <p class="text-white/60 text-xs">Switch between applications</p>
-        </div>
-
-        <div class="p-5 grid grid-cols-2 gap-3">
-            <!-- Core Platform App -->
-            <div class="app-card active" data-app="core">
-                <div class="app-badge">Active</div>
-                <div class="app-icon" style="background: linear-gradient(135deg, #0284c7, #8b5cf6);">
-                    <i class="fas fa-building text-white"></i>
-                </div>
-                <h4 class="text-white font-semibold text-xs mb-1">Core Platform</h4>
-                <p class="text-white/60 text-xs">Workflows & CRM</p>
-            </div>
-
-            <!-- Permits App -->
-            <div class="app-card" data-app="permits" style="cursor: pointer;">
-                <div class="app-icon" style="background: linear-gradient(135deg, #10b981, #14b8a6);">
-                    <i class="fas fa-clipboard-check text-white"></i>
-                </div>
-                <h4 class="text-white font-semibold text-xs mb-1">Permits</h4>
-                <p class="text-white/60 text-xs">& Inspections</p>
-            </div>
-
-            <!-- Create New Module -->
-            <div class="app-card" data-app="new" style="cursor: pointer; border: 2px dashed rgba(6, 182, 212, 0.4); background: rgba(6, 182, 212, 0.05);">
-                <div class="app-icon" style="background: rgba(6, 182, 212, 0.2); border: 2px dashed var(--cyan-bright);">
-                    <i class="fas fa-plus text-cyan-400"></i>
-                </div>
-                <h4 class="text-cyan-400 font-semibold text-xs mb-1">New Module</h4>
-                <p class="text-white/60 text-xs">Create custom app</p>
-            </div>
-        </div>
-
-        <div class="p-4 border-t border-white/10">
-            <div class="text-center text-xs text-white/40">
-                Click to switch apps or create new modules
-            </div>
-        </div>
-    </div>
-
-    <!-- Sidebar Toggle Button -->
-    <button class="sidebar-toggle sidebar-open" id="sidebarToggle" aria-label="Toggle sidebar">
-        <i class="fas fa-chevron-left"></i>
-    </button>
-
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="sidebar overflow-y-auto">
+        <div class="sidebar w-64 flex-shrink-0 overflow-y-auto">
             <div class="p-6">
                 <div class="flex items-center space-x-3 mb-8">
                     <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
@@ -2315,16 +1608,6 @@
                         </div>
                     </div>
 
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('mobile-command')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-mobile-screen-button text-white"></i>
-                            <span class="text-white font-medium">Mobile Command</span>
-                            <div class="ml-auto">
-                                <span class="bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">FIELD</span>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="nav-item p-3 rounded-lg" onclick="switchTab('securemesh')">
                         <div class="flex items-center space-x-3">
                             <i class="fas fa-network-wired text-white"></i>
@@ -2388,20 +1671,9 @@
             <!-- Header -->
             <header class="glass-dark border-b border-white/10 p-4">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <!-- Added 2025-01-11: App Switcher in Header -->
-                        <button class="app-switcher-btn" id="appSwitcherBtn" aria-label="Open app switcher">
-                            <i class="fas fa-th text-cyan-400"></i>
-                            <div class="flex flex-col items-start">
-                                <span class="text-xs text-white/60">GovFlow</span>
-                                <span class="text-sm font-semibold text-white" id="currentAppName">Core Platform</span>
-                            </div>
-                            <i class="fas fa-chevron-down text-xs text-white/40"></i>
-                        </button>
-                        <div>
-                            <h2 id="pageTitle" class="text-2xl font-bold text-white">City Services Portal</h2>
-                            <p id="pageSubtitle" class="text-sm text-white/70">Submit requests, track applications, and access city services</p>
-                        </div>
+                    <div>
+                        <h2 id="pageTitle" class="text-2xl font-bold text-white">City Services Portal</h2>
+                        <p id="pageSubtitle" class="text-sm text-white/70">Submit requests, track applications, and access city services</p>
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="glass rounded-lg px-3 py-2">
@@ -2410,13 +1682,6 @@
                                 <span class="text-sm text-white">Secure</span>
                             </div>
                         </div>
-                        <!-- Help/Training Button -->
-                        <button id="helpButton" class="glass rounded-lg px-3 py-2 hover:bg-white/10 transition-all" aria-label="Open training">
-                            <div class="flex items-center space-x-2">
-                                <i class="fas fa-graduation-cap text-cyan-400"></i>
-                                <span class="text-sm text-white">Help</span>
-                            </div>
-                        </button>
                         <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                             <i class="fas fa-user text-white text-sm"></i>
                         </div>
@@ -3365,360 +2630,375 @@
                     </div>
                 </div>
 
-                <!-- Added 2024-11-06: Department Process Center & Workflow Builder -->
                 <!-- Workflows Tab -->
-                <div id="workflows-content" class="tab-content h-full overflow-y-auto" style="display: none;">
+                <div id="workflows-content" class="tab-content" style="display: none;">
                     <!-- Workflow Mode Toggle -->
                     <div class="flex items-center justify-between mb-6">
                         <div class="flex items-center gap-3">
                             <h2 class="text-2xl font-bold text-white">Workflows</h2>
                             <div class="glass rounded-lg p-1 flex gap-1">
-                                <button id="departmentModeBtn" onclick="switchWorkflowView('department')" class="px-4 py-2 rounded-lg text-sm font-medium transition-all bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-                                    <i class="fas fa-building mr-2"></i>Department Center
+                                <button id="simpleWorkflowBtn" onclick="switchWorkflowMode('simple')" class="px-4 py-2 rounded-lg text-sm font-medium transition-all bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+                                    <i class="fas fa-magic mr-2"></i>Simple Mode
                                 </button>
-                                <button id="builderModeBtn" onclick="switchWorkflowView('builder')" class="px-4 py-2 rounded-lg text-sm font-medium transition-all text-white/70 hover:text-white">
-                                    <i class="fas fa-project-diagram mr-2"></i>Workflow Builder
+                                <button id="advancedWorkflowBtn" onclick="switchWorkflowMode('advanced')" class="px-4 py-2 rounded-lg text-sm font-medium transition-all text-white/70 hover:text-white">
+                                    <i class="fas fa-project-diagram mr-2"></i>Advanced Canvas
                                 </button>
                             </div>
                         </div>
                         <div class="flex items-center gap-2 text-white/60 text-sm">
                             <i class="fas fa-info-circle"></i>
-                            <span id="workflowViewDescription">Department-focused process management</span>
+                            <span id="workflowModeDescription">Use AI to describe your workflow</span>
                         </div>
                     </div>
 
-                    <!-- Department Process Center Mode -->
-                    <div id="departmentProcessCenterMode">
-                        <!-- Department Selection Hub -->
-                        <div class="glass rounded-xl p-6 mb-6">
-                            <h3 class="text-xl font-bold text-white mb-4">Select Department</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="departmentHub">
-                                <!-- Populated by JavaScript -->
-                            </div>
-                        </div>
-
-                    <!-- Department Dashboard (Hidden until department selected) -->
-                    <div id="departmentDashboard" class="hidden">
-                        <!-- Department Header -->
-                        <div class="glass rounded-xl p-6 mb-6">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-4">
-                                    <div id="deptIcon" class="w-16 h-16 rounded-xl flex items-center justify-center text-white text-2xl">
-                                        <i class="fas fa-building"></i>
+                    <!-- Simple Workflow Mode -->
+                    <div id="simpleWorkflowMode">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <!-- Left: AI Agent Input -->
+                            <div class="lg:col-span-2">
+                                <!-- AI Agent Section -->
+                                <div class="glass rounded-xl p-6 mb-6">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center mr-3">
+                                        <i class="fas fa-robot text-white"></i>
                                     </div>
                                     <div>
-                                        <h2 id="deptName" class="text-3xl font-bold text-white">Department Name</h2>
-                                        <p id="deptDescription" class="text-white/70">Department description</p>
-                                    </div>
-                                </div>
-                                <button onclick="backToDepartments()" class="px-4 py-2 glass rounded-lg text-white hover:bg-white/20 transition-all">
-                                    <i class="fas fa-arrow-left mr-2"></i>Back to Departments
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Module Navigation -->
-                        <div class="glass rounded-xl p-2 mb-6">
-                            <div class="flex items-center space-x-2 overflow-x-auto scrollbar-thin">
-                                <button onclick="switchDeptModule('overview')" class="dept-tab-button active px-4 py-3 rounded-lg text-white text-sm font-medium whitespace-nowrap transition-all" data-dept-module="overview">
-                                    <i class="fas fa-dashboard mr-2"></i>Overview
-                                </button>
-                                <button onclick="switchDeptModule('workflows')" class="dept-tab-button px-4 py-3 rounded-lg text-white text-sm font-medium whitespace-nowrap transition-all" data-dept-module="workflows">
-                                    <i class="fas fa-diagram-project mr-2"></i>Workflows
-                                </button>
-                                <button onclick="switchDeptModule('compliance')" class="dept-tab-button px-4 py-3 rounded-lg text-white text-sm font-medium whitespace-nowrap transition-all" data-dept-module="compliance">
-                                    <i class="fas fa-clipboard-check mr-2"></i>Compliance
-                                </button>
-                                <button onclick="switchDeptModule('knowledge')" class="dept-tab-button px-4 py-3 rounded-lg text-white text-sm font-medium whitespace-nowrap transition-all" data-dept-module="knowledge">
-                                    <i class="fas fa-book mr-2"></i>Knowledge Base
-                                </button>
-                                <button onclick="switchDeptModule('integration')" class="dept-tab-button px-4 py-3 rounded-lg text-white text-sm font-medium whitespace-nowrap transition-all" data-dept-module="integration">
-                                    <i class="fas fa-link mr-2"></i>Integration
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Module 1: Overview Dashboard -->
-                        <div id="dept-module-overview" class="dept-module-content active">
-                            <!-- KPI Cards -->
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6" id="deptKPIs">
-                                <!-- Populated by JavaScript -->
-                            </div>
-
-                            <!-- Active Workflows & Quick Actions -->
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                                <!-- Active Workflows -->
-                                <div class="glass rounded-xl p-6">
-                                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                        <i class="fas fa-tasks text-blue-400"></i>
-                                        Active Workflows
-                                    </h3>
-                                    <div class="space-y-3" id="activeWorkflowsList">
-                                        <!-- Populated by JavaScript -->
-                                    </div>
-                                </div>
-
-                                <!-- Quick Actions -->
-                                <div class="glass rounded-xl p-6">
-                                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                        <i class="fas fa-bolt text-yellow-400"></i>
-                                        Quick Actions
-                                    </h3>
-                                    <div class="grid grid-cols-2 gap-3" id="quickActionsList">
-                                        <!-- Populated by JavaScript -->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Recent Activity -->
-                            <div class="glass rounded-xl p-6">
-                                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                    <i class="fas fa-clock text-purple-400"></i>
-                                    Recent Activity
-                                </h3>
-                                <div class="space-y-3" id="recentActivityList">
-                                    <!-- Populated by JavaScript -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Module 2: Workflows -->
-                        <div id="dept-module-workflows" class="dept-module-content">
-                            <!-- Workflow Templates -->
-                            <div class="glass rounded-xl p-6 mb-6">
-                                <div class="flex items-center justify-between mb-4">
-                                    <h3 class="text-xl font-bold text-white">Workflow Templates</h3>
-                                    <button onclick="createCustomWorkflow()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all">
-                                        <i class="fas fa-plus mr-2"></i>Create Custom Workflow
-                                    </button>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="workflowTemplatesList">
-                                    <!-- Populated by JavaScript -->
-                                </div>
-                            </div>
-
-                            <!-- Running Workflows -->
-                            <div class="glass rounded-xl p-6">
-                                <h3 class="text-xl font-bold text-white mb-4">Running Workflows</h3>
-                                <div class="space-y-4" id="runningWorkflowsList">
-                                    <!-- Populated by JavaScript -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Module 3: Compliance -->
-                        <div id="dept-module-compliance" class="dept-module-content">
-                            <!-- Compliance Overview -->
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                                <div class="glass rounded-xl p-6">
-                                    <div class="text-white/70 text-xs mb-2">Compliance Score</div>
-                                    <div class="text-3xl font-bold text-green-400 mb-2">98.5%</div>
-                                    <div class="text-xs text-green-400">All regulations met</div>
-                                </div>
-                                <div class="glass rounded-xl p-6">
-                                    <div class="text-white/70 text-xs mb-2">Active Audits</div>
-                                    <div class="text-3xl font-bold text-blue-400 mb-2">3</div>
-                                    <div class="text-xs text-white/50">In progress</div>
-                                </div>
-                                <div class="glass rounded-xl p-6">
-                                    <div class="text-white/70 text-xs mb-2">Pending Reviews</div>
-                                    <div class="text-3xl font-bold text-yellow-400 mb-2">7</div>
-                                    <div class="text-xs text-yellow-400">Requires attention</div>
-                                </div>
-                            </div>
-
-                            <!-- Compliance Monitoring -->
-                            <div class="glass rounded-xl p-6 mb-6">
-                                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                    <i class="fas fa-shield-check text-green-400"></i>
-                                    Compliance Monitoring
-                                </h3>
-                                <div class="space-y-4" id="complianceMonitoringList">
-                                    <!-- Populated by JavaScript -->
-                                </div>
-                            </div>
-
-                            <!-- Audit Trail -->
-                            <div class="glass rounded-xl p-6">
-                                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                    <i class="fas fa-file-alt text-blue-400"></i>
-                                    Audit Trail
-                                </h3>
-                                <div class="space-y-3" id="auditTrailList">
-                                    <!-- Populated by JavaScript -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Module 4: Knowledge Base -->
-                        <div id="dept-module-knowledge" class="dept-module-content">
-                            <!-- Search -->
-                            <div class="glass rounded-xl p-4 mb-6">
-                                <div class="flex gap-3">
-                                    <input type="text" id="knowledgeSearch" placeholder="Search best practices, regulations, and procedures..." class="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50">
-                                    <button onclick="searchKnowledge()" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all">
-                                        <i class="fas fa-search mr-2"></i>Search
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Knowledge Categories -->
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                                <!-- Best Practices -->
-                                <div class="glass rounded-xl p-6">
-                                    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                                        <i class="fas fa-lightbulb text-yellow-400"></i>
-                                        Best Practices
-                                    </h3>
-                                    <div class="space-y-2" id="bestPracticesList">
-                                        <!-- Populated by JavaScript -->
-                                    </div>
-                                </div>
-
-                                <!-- Regulations -->
-                                <div class="glass rounded-xl p-6">
-                                    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                                        <i class="fas fa-gavel text-blue-400"></i>
-                                        Regulations
-                                    </h3>
-                                    <div class="space-y-2" id="regulationsList">
-                                        <!-- Populated by JavaScript -->
-                                    </div>
-                                </div>
-
-                                <!-- AI Suggestions -->
-                                <div class="glass rounded-xl p-6">
-                                    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                                        <i class="fas fa-brain text-purple-400"></i>
-                                        AI Suggestions
-                                    </h3>
-                                    <div class="space-y-2" id="aiSuggestionsList">
-                                        <!-- Populated by JavaScript -->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Document Library -->
-                            <div class="glass rounded-xl p-6">
-                                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                    <i class="fas fa-folder text-blue-400"></i>
-                                    Document Library
-                                </h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="documentLibraryList">
-                                    <!-- Populated by JavaScript -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Module 5: Integration -->
-                        <div id="dept-module-integration" class="dept-module-content">
-                            <!-- Cross-Department Connections -->
-                            <div class="glass rounded-xl p-6 mb-6">
-                                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                    <i class="fas fa-link text-blue-400"></i>
-                                    Cross-Department Connections
-                                </h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="crossDeptConnectionsList">
-                                    <!-- Populated by JavaScript -->
-                                </div>
-                            </div>
-
-                            <!-- Workflow Handoffs -->
-                            <div class="glass rounded-xl p-6 mb-6">
-                                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                    <i class="fas fa-exchange-alt text-purple-400"></i>
-                                    Workflow Handoffs
-                                </h3>
-                                <div class="space-y-4" id="workflowHandoffsList">
-                                    <!-- Populated by JavaScript -->
-                                </div>
-                            </div>
-
-                            <!-- Shared Documents -->
-                            <div class="glass rounded-xl p-6">
-                                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                    <i class="fas fa-share-nodes text-green-400"></i>
-                                    Shared Document Repositories
-                                </h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="sharedDocsList">
-                                    <!-- Populated by JavaScript -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                    <!-- End Department Process Center Mode -->
-
-                    <!-- Workflow Builder Mode -->
-                    <div id="workflowBuilderMode" class="hidden">
-                        <div class="glass rounded-xl p-6 mb-6">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-                                        <i class="fas fa-robot text-white text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-xl font-bold text-white">AI Workflow Builder</h3>
+                                        <h3 class="font-bold text-white">AI Workflow Assistant</h3>
                                         <p class="text-sm text-white/70">Describe your workflow in plain language</p>
                                     </div>
                                 </div>
-                                <button onclick="createBlankWorkflow()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all">
-                                    <i class="fas fa-plus mr-2"></i>Create Blank Workflow
-                                </button>
-                            </div>
 
-                            <textarea
-                                id="aiWorkflowInput"
-                                rows="4"
-                                placeholder="Example: Create a permit approval workflow with document validation, supervisor review, and email notifications..."
-                                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-3"
-                                aria-label="Describe your workflow"></textarea>
+                                <textarea
+                                    id="aiWorkflowInput"
+                                    rows="3"
+                                    placeholder="Example: Create a permit approval workflow with document validation, supervisor review, and email notifications..."
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-3"
+                                    aria-label="Describe your workflow"></textarea>
 
-                            <div class="flex justify-between items-center">
-                                <div class="flex gap-2">
-                                    <button onclick="loadWorkflowExample('permit')" class="text-sm px-3 py-2 bg-purple-500/20 rounded-lg text-purple-300 hover:bg-purple-500/30 transition-all">
-                                        <i class="fas fa-building mr-1"></i>Permit Example
-                                    </button>
-                                    <button onclick="loadWorkflowExample('hr')" class="text-sm px-3 py-2 bg-blue-500/20 rounded-lg text-blue-300 hover:bg-blue-500/30 transition-all">
-                                        <i class="fas fa-users mr-1"></i>HR Example
-                                    </button>
-                                    <button onclick="loadWorkflowExample('invoice')" class="text-sm px-3 py-2 bg-green-500/20 rounded-lg text-green-300 hover:bg-green-500/30 transition-all">
-                                        <i class="fas fa-file-invoice mr-1"></i>Invoice Example
+                                <div class="flex justify-between items-center">
+                                    <div class="flex gap-2">
+                                        <button class="text-sm px-3 py-1 bg-purple-500/20 rounded-lg text-purple-300 hover:bg-purple-500/30 transition-all"
+                                                aria-label="Example: Permit workflow">
+                                            Permit Example
+                                        </button>
+                                        <button class="text-sm px-3 py-1 bg-blue-500/20 rounded-lg text-blue-300 hover:bg-blue-500/30 transition-all"
+                                                aria-label="Example: Approval workflow">
+                                            Approval Example
+                                        </button>
+                                    </div>
+                                    <button
+                                        id="generateBtn"
+                                        class="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-2 rounded-lg hover:shadow-lg transition-all font-medium"
+                                        aria-label="Generate workflow with AI">
+                                        <i class="fas fa-magic mr-2"></i>Generate Workflow
                                     </button>
                                 </div>
-                                <button onclick="generateWorkflowFromAI()" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all">
-                                    <i class="fas fa-magic mr-2"></i>Generate Workflow
-                                </button>
+
+                                <!-- Loading/Error/Success States -->
+                                <div id="aiStatus" class="mt-4 hidden"></div>
+                            </div>
+
+                            <!-- Drop Zone -->
+                            <div class="glass rounded-xl p-6">
+                                <h3 class="font-bold text-white mb-4">Workflow Canvas</h3>
+                                <div
+                                    id="dropZone"
+                                    class="drop-zone glass rounded-lg border-2 border-dashed border-white/30 p-6"
+                                    role="region"
+                                    aria-label="Workflow drop zone">
+                                    <div id="emptyState" class="text-center py-12">
+                                        <i class="fas fa-layer-group text-6xl text-white/30 mb-4"></i>
+                                        <p class="text-white/50">Drag steps here or use AI to generate</p>
+                                    </div>
+                                    <div id="workflowStepsCanvas" class="space-y-3"></div>
+                                </div>
+
+                                <div class="flex justify-end gap-3 mt-4">
+                                    <button
+                                        id="clearBtn"
+                                        class="px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all"
+                                        aria-label="Clear workflow">
+                                        <i class="fas fa-trash mr-2"></i>Clear
+                                    </button>
+                                    <button
+                                        id="saveBtn"
+                                        class="px-6 py-2 bg-gradient-to-r from-green-500 to-blue-600 rounded-lg hover:shadow-lg transition-all font-medium"
+                                        aria-label="Save workflow">
+                                        <i class="fas fa-save mr-2"></i>Save Workflow
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced 2024-10-30: Intelligent Workflow Orchestration -->
+                            <!-- Cross-Department Orchestration -->
+                            <div class="glass rounded-xl p-6 mt-6">
+                                <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-project-diagram text-purple-400"></i>
+                                    Cross-Department Orchestration
+                                </h3>
+                                <div class="space-y-4">
+                                    <!-- Department Assignment -->
+                                    <div class="glass rounded-lg p-4">
+                                        <h4 class="text-white font-semibold mb-3">Department Routing</h4>
+                                        <div id="departmentRouting" class="space-y-2">
+                                            <!-- Will be populated by JavaScript -->
+                                            <div class="text-white/60 text-sm">Add workflow steps to configure department routing</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Handoff Points -->
+                                    <div class="glass rounded-lg p-4">
+                                        <h4 class="text-white font-semibold mb-3">Department Handoffs</h4>
+                                        <div id="handoffPoints" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            <!-- Mock handoff examples -->
+                                            <div class="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <i class="fas fa-arrow-right text-blue-400"></i>
+                                                    <span class="text-white text-sm font-medium">Step 2 → Step 3</span>
+                                                </div>
+                                                <div class="text-xs text-white/70">Building & Safety → Public Works</div>
+                                                <div class="text-xs text-green-400 mt-1">Avg: 45 min</div>
+                                            </div>
+                                            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <i class="fas fa-arrow-right text-yellow-400"></i>
+                                                    <span class="text-white text-sm font-medium">Step 4 → Step 5</span>
+                                                </div>
+                                                <div class="text-xs text-white/70">Public Works → City Manager</div>
+                                                <div class="text-xs text-yellow-400 mt-1">Avg: 2.5 hrs</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SLA Monitoring & Predictions -->
+                            <div class="glass rounded-xl p-6 mt-6">
+                                <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-clock text-blue-400"></i>
+                                    SLA Monitoring & Predictions
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                    <div class="glass rounded-lg p-4">
+                                        <div class="text-white/70 text-xs mb-1">Predicted Completion</div>
+                                        <div class="text-green-400 text-2xl font-bold">4.2 days</div>
+                                        <div class="text-white/60 text-xs mt-1">95% confidence</div>
+                                    </div>
+                                    <div class="glass rounded-lg p-4">
+                                        <div class="text-white/70 text-xs mb-1">SLA Compliance</div>
+                                        <div class="text-blue-400 text-2xl font-bold">94.7%</div>
+                                        <div class="text-white/60 text-xs mt-1">Last 90 days</div>
+                                    </div>
+                                    <div class="glass rounded-lg p-4">
+                                        <div class="text-white/70 text-xs mb-1">At-Risk Workflows</div>
+                                        <div class="text-yellow-400 text-2xl font-bold">3</div>
+                                        <div class="text-white/60 text-xs mt-1">Requires attention</div>
+                                    </div>
+                                </div>
+
+                                <!-- SLA Timeline Visualization -->
+                                <div class="glass rounded-lg p-4">
+                                    <h4 class="text-white font-semibold mb-3">SLA Timeline</h4>
+                                    <div class="space-y-3">
+                                        <div>
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="text-white/80 text-sm">Step 1: Document Submission</span>
+                                                <span class="text-green-400 text-xs font-semibold">15 min</span>
+                                            </div>
+                                            <div class="w-full bg-white/10 rounded-full h-2">
+                                                <div class="bg-green-500 h-2 rounded-full" style="width: 10%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="text-white/80 text-sm">Step 2: Initial Review</span>
+                                                <span class="text-blue-400 text-xs font-semibold">1.5 hrs</span>
+                                            </div>
+                                            <div class="w-full bg-white/10 rounded-full h-2">
+                                                <div class="bg-blue-500 h-2 rounded-full" style="width: 35%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="text-white/80 text-sm">Step 3: Department Review</span>
+                                                <span class="text-yellow-400 text-xs font-semibold">2 days</span>
+                                            </div>
+                                            <div class="w-full bg-white/10 rounded-full h-2">
+                                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 65%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="text-white/80 text-sm">Step 4: Final Approval</span>
+                                                <span class="text-purple-400 text-xs font-semibold">1 day</span>
+                                            </div>
+                                            <div class="w-full bg-white/10 rounded-full h-2">
+                                                <div class="bg-purple-500 h-2 rounded-full" style="width: 45%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Workflow Canvas -->
-                        <div class="glass rounded-xl p-6 mb-6">
-                            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                <i class="fas fa-project-diagram text-blue-400"></i>
-                                Workflow Canvas
-                            </h3>
-                            <div id="workflowCanvas" class="bg-white/5 rounded-lg p-8 min-h-[400px] border-2 border-dashed border-white/20">
-                                <div class="flex flex-col items-center justify-center h-full text-center">
-                                    <i class="fas fa-diagram-project text-white/30 text-6xl mb-4"></i>
-                                    <p class="text-white/60 mb-2">No workflow loaded</p>
-                                    <p class="text-white/40 text-sm">Use the AI builder above or create a blank workflow to get started</p>
+                        <!-- Right: Step Library & Saved Workflows -->
+                        <div>
+                            <!-- Step Library -->
+                            <div class="glass rounded-xl p-6 mb-6">
+                                <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-toolbox text-blue-400"></i>
+                                    Step Library
+                                    <span class="ml-auto text-xs text-white/50 bg-blue-500/20 px-2 py-1 rounded-full">40+ Steps</span>
+                                </h3>
+                                <div id="stepLibrary" class="space-y-2 max-h-[600px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-blue-500/50 scrollbar-track-white/10">
+                                    <!-- Steps will be populated by JS -->
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Workflow Library -->
-                        <div class="glass rounded-xl p-6">
-                            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                <i class="fas fa-folder text-yellow-400"></i>
-                                Saved Workflows
-                            </h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="savedWorkflowsList">
-                                <!-- Populated by JavaScript -->
+                            <!-- Saved Workflows -->
+                            <div class="glass rounded-xl p-6 mb-6">
+                                <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-bookmark text-purple-400"></i>
+                                    Saved Workflows
+                                </h3>
+                                <div id="savedWorkflows" class="space-y-2 max-h-[300px] overflow-y-auto pr-2">
+                                    <div class="text-white/50 text-sm text-center py-4">
+                                        No saved workflows yet
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced 2024-10-30: Workflow Analytics & Optimization -->
+                            <div class="glass rounded-xl p-6 mb-6">
+                                <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-chart-line text-green-400"></i>
+                                    Workflow Analytics
+                                </h3>
+                                <div class="space-y-4">
+                                    <!-- Performance Metrics -->
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="text-white/70 text-xs mb-2">Average Completion Time</div>
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-green-400 text-xl font-bold">4.8 days</div>
+                                            <div class="flex items-center gap-1 text-green-400 text-xs">
+                                                <i class="fas fa-arrow-down"></i>
+                                                <span>12% faster</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="text-white/70 text-xs mb-2">Bottleneck Detection</div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center justify-between text-xs">
+                                                <span class="text-white/80">Step 3: Department Review</span>
+                                                <span class="bg-red-500/20 text-red-400 px-2 py-1 rounded">Critical</span>
+                                            </div>
+                                            <div class="text-white/60 text-xs">Avg delay: 1.8 days</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Optimization Suggestions -->
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="text-white/70 text-xs mb-2">AI Optimization Suggestions</div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-start gap-2">
+                                                <i class="fas fa-lightbulb text-yellow-400 text-xs mt-1"></i>
+                                                <div class="text-white/70 text-xs">Parallel processing for Steps 2-3 could save 6 hours</div>
+                                            </div>
+                                            <div class="flex items-start gap-2">
+                                                <i class="fas fa-lightbulb text-yellow-400 text-xs mt-1"></i>
+                                                <div class="text-white/70 text-xs">Auto-approval for low-risk cases (saves 45%)</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Workflow Health Score -->
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="text-white/70 text-xs mb-2">Workflow Health Score</div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="flex-1">
+                                                <div class="w-full bg-white/10 rounded-full h-3">
+                                                    <div class="bg-gradient-to-r from-green-500 to-blue-500 h-3 rounded-full" style="width: 87%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="text-green-400 text-lg font-bold">87%</div>
+                                        </div>
+                                        <div class="text-white/60 text-xs mt-1">Excellent performance</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced 2024-10-30: Compliance Verification -->
+                            <div class="glass rounded-xl p-6">
+                                <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-shield-alt text-blue-400"></i>
+                                    Compliance Verification
+                                </h3>
+                                <div class="space-y-3">
+                                    <!-- Compliance Status -->
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-white/80 text-sm">CJIS Compliance</span>
+                                            <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-semibold">
+                                                <i class="fas fa-check mr-1"></i>Compliant
+                                            </span>
+                                        </div>
+                                        <div class="text-white/60 text-xs">Last audit: Oct 15, 2024</div>
+                                    </div>
+
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-white/80 text-sm">FedRAMP Moderate</span>
+                                            <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-semibold">
+                                                <i class="fas fa-check mr-1"></i>Compliant
+                                            </span>
+                                        </div>
+                                        <div class="text-white/60 text-xs">Last audit: Oct 10, 2024</div>
+                                    </div>
+
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-white/80 text-sm">FISMA Controls</span>
+                                            <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-semibold">
+                                                <i class="fas fa-check mr-1"></i>Compliant
+                                            </span>
+                                        </div>
+                                        <div class="text-white/60 text-xs">Last audit: Oct 20, 2024</div>
+                                    </div>
+
+                                    <!-- Compliance Requirements -->
+                                    <div class="glass rounded-lg p-3">
+                                        <div class="text-white/70 text-xs mb-2">Workflow Requirements</div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center gap-2">
+                                                <i class="fas fa-check-circle text-green-400 text-xs"></i>
+                                                <span class="text-white/70 text-xs">Audit trail enabled</span>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <i class="fas fa-check-circle text-green-400 text-xs"></i>
+                                                <span class="text-white/70 text-xs">Multi-factor approval</span>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <i class="fas fa-check-circle text-green-400 text-xs"></i>
+                                                <span class="text-white/70 text-xs">Data encryption at rest</span>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <i class="fas fa-check-circle text-green-400 text-xs"></i>
+                                                <span class="text-white/70 text-xs">Role-based access control</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- End Workflow Builder Mode -->
+                    </div>
+
+                    <!-- Advanced Workflow Canvas Mode -->
+                    <div id="advancedWorkflowMode" style="display: none;">
+                        <!-- Canvas content will be inserted here -->
+                    </div>
                 </div>
 
                 <!-- Save Workflow Modal -->
@@ -12048,364 +11328,6 @@
                     </div>
                 </div>
                 <!-- End Added 2024-11-06: SecureMesh Module -->
-
-                <!-- Added 2024-11-07: Mobile Command Center -->
-                <div id="mobile-command-content" class="tab-content h-full overflow-y-auto" style="display: none;">
-                    <div class="p-6 max-w-md mx-auto">
-                        <!-- CJIS COMPLIANCE NOTICE -->
-                        <!-- SECURITY TODO: Implement CJIS-compliant security -->
-                        <!-- TODO: Implement encrypted local storage (FIPS 140-2) -->
-                        <!-- TODO: Add remote wipe capability -->
-                        <!-- TODO: Integrate biometric authentication (Touch ID/Face ID) -->
-
-                        <!-- Field Status Bar -->
-                        <div class="mobile-glass rounded-xl p-4 mb-6 sticky top-0 z-50">
-                            <div class="flex justify-between items-center mb-2">
-                                <div class="text-sm font-semibold text-white">Building Inspection - 3 of 8 today</div>
-                                <div class="flex items-center gap-2">
-                                    <span class="mobile-status-dot mobile-status-syncing"></span>
-                                    <span class="text-xs text-white">Syncing</span>
-                                </div>
-                            </div>
-                            <div class="flex justify-between text-xs text-white/70">
-                                <div class="flex items-center gap-1">
-                                    <span>🔋</span>
-                                    <span>6.5 hours remaining</span>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <span>🔒</span>
-                                    <span>Encrypted Session Active</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Quick Action Tiles -->
-                        <h2 class="text-xl font-bold text-white mb-4">Quick Actions</h2>
-                        <div class="grid grid-cols-3 gap-3 mb-6">
-                            <div class="mobile-action-tile mobile-glass rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer relative" onclick="mobileShowAssignments()">
-                                <div class="absolute top-2 right-2 bg-red-500 text-white rounded-full px-2 py-0.5 text-xs font-bold">8</div>
-                                <div class="text-3xl mb-2">📋</div>
-                                <div class="text-xs font-semibold text-white">Today's Assignments</div>
-                            </div>
-                            <div class="mobile-action-tile mobile-glass rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer" onclick="mobileQuickCapture()">
-                                <div class="text-3xl mb-2">📸</div>
-                                <div class="text-xs font-semibold text-white">Quick Capture</div>
-                            </div>
-                            <div class="mobile-action-tile mobile-glass rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer" onclick="mobileShowRouteOptimizer()">
-                                <div class="text-3xl mb-2">🗺️</div>
-                                <div class="text-xs font-semibold text-white">Route Optimizer</div>
-                            </div>
-                            <div class="mobile-action-tile mobile-glass rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer" onclick="mobileDocumentScanner()">
-                                <div class="text-3xl mb-2">📄</div>
-                                <div class="text-xs font-semibold text-white">Document Scanner</div>
-                            </div>
-                            <div class="mobile-action-tile mobile-glass rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer" onclick="mobileChecklistMode()">
-                                <div class="text-3xl mb-2">✅</div>
-                                <div class="text-xs font-semibold text-white">Checklist Mode</div>
-                            </div>
-                            <div class="mobile-action-tile bg-gradient-to-br from-red-600 to-red-700 rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer col-span-2" onclick="mobileShowEmergencyModal()">
-                                <div class="text-3xl mb-2">🆘</div>
-                                <div class="text-xs font-semibold text-white">Emergency Report</div>
-                            </div>
-                        </div>
-
-                        <!-- Active Work Section -->
-                        <h2 class="text-xl font-bold text-white mb-4">Active Work</h2>
-                        <div class="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 mobile-glass rounded-2xl p-6 mb-6">
-                            <div class="flex justify-between items-start mb-4">
-                                <div class="text-lg font-bold text-white">Building Inspection</div>
-                                <div class="bg-white/20 px-3 py-1 rounded-xl text-xs font-semibold text-white">INSP-2024-00847</div>
-                            </div>
-                            <div class="text-sm text-white/70 mb-4">📍 123 Oak Street, Springfield, IL 62701</div>
-
-                            <div class="flex items-center gap-4 mb-4">
-                                <div class="relative">
-                                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center">
-                                        <div class="w-16 h-16 rounded-full bg-gray-900 flex items-center justify-center">
-                                            <span class="text-lg font-bold text-white">5/12</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="text-sm text-white/70">Inspection Progress</div>
-                                    <div class="text-lg font-bold text-white">5 of 12 points completed</div>
-                                </div>
-                            </div>
-
-                            <div class="flex gap-3 mb-4">
-                                <button class="mobile-touch-button flex-1 bg-green-600 text-white rounded-xl font-semibold">Complete Current</button>
-                                <button class="mobile-touch-button flex-1 bg-white/10 text-white rounded-xl font-semibold">Skip</button>
-                            </div>
-
-                            <div class="bg-white/5 rounded-xl p-3">
-                                <div class="text-xs text-white/70 mb-2">NEXT UP</div>
-                                <div class="flex justify-between items-center">
-                                    <div class="text-sm font-semibold text-white">Plumbing Inspection - 456 Maple Ave</div>
-                                    <div class="bg-blue-500 px-3 py-1 rounded-xl text-xs font-semibold text-white">ETA 18 min</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Route Optimization Module -->
-                        <h2 class="text-xl font-bold text-white mb-4">Route Optimizer</h2>
-                        <div class="mobile-glass rounded-2xl p-6 mb-6">
-                            <div class="bg-gradient-to-r from-red-500/10 to-green-500/10 rounded-xl p-4 mb-4">
-                                <div class="flex justify-around mb-4">
-                                    <div class="text-center">
-                                        <div class="text-xs text-white/70 uppercase mb-1">Distance</div>
-                                        <div class="text-lg font-bold route-stat-old">47.3 mi</div>
-                                        <div class="text-lg font-bold route-stat-new">35.1 mi</div>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="text-xs text-white/70 uppercase mb-1">Time</div>
-                                        <div class="text-lg font-bold route-stat-old">6.5 hrs</div>
-                                        <div class="text-lg font-bold route-stat-new">5.75 hrs</div>
-                                    </div>
-                                </div>
-                                <div class="bg-green-600 text-white px-3 py-2 rounded-lg text-center font-bold text-sm">
-                                    💡 AI route saves 45 minutes, 12.2 miles
-                                </div>
-                            </div>
-
-                            <div class="bg-gray-800 h-48 rounded-xl mb-4 flex items-center justify-center text-white/70">
-                                <!-- TODO: Connect to mapping service (Google Maps/Mapbox) -->
-                                🗺️ Interactive Map View
-                            </div>
-
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">1️⃣ 123 Oak St</div>
-                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">2️⃣ 789 Pine Rd</div>
-                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">3️⃣ 321 Birch Ln</div>
-                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">4️⃣ 456 Maple Ave</div>
-                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">5️⃣ 654 Cedar Dr</div>
-                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">6️⃣ 159 Elm St</div>
-                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">7️⃣ 951 Ash Ct</div>
-                                <div class="bg-blue-600/30 px-3 py-1 rounded-full text-xs font-semibold text-white">8️⃣ 753 Walnut Pl</div>
-                            </div>
-
-                            <button class="mobile-touch-button w-full bg-blue-600 text-white rounded-xl font-bold h-14">
-                                🧭 Start Navigation
-                            </button>
-                        </div>
-
-                        <!-- Offline Sync Queue -->
-                        <h2 class="text-xl font-bold text-white mb-4">Sync Queue</h2>
-                        <div class="mobile-glass rounded-2xl p-6 mb-6">
-                            <div class="space-y-3 mb-4">
-                                <div class="bg-white/5 rounded-xl p-3 flex items-center gap-3">
-                                    <div class="text-2xl">📋</div>
-                                    <div class="flex-1">
-                                        <div class="text-sm font-semibold text-white">Inspection Complete</div>
-                                        <div class="text-xs text-white/70">12 photos • 2.3 MB</div>
-                                    </div>
-                                    <div class="priority-normal px-3 py-1 rounded-xl text-xs font-bold uppercase">Normal</div>
-                                </div>
-
-                                <div class="bg-white/5 rounded-xl p-3 flex items-center gap-3">
-                                    <div class="text-2xl">⚠️</div>
-                                    <div class="flex-1">
-                                        <div class="text-sm font-semibold text-white">Violation Issued</div>
-                                        <div class="text-xs text-white/70">3 photos • 456 KB</div>
-                                    </div>
-                                    <div class="priority-high px-3 py-1 rounded-xl text-xs font-bold uppercase">High</div>
-                                </div>
-
-                                <div class="bg-white/5 rounded-xl p-3 flex items-center gap-3">
-                                    <div class="text-2xl">📝</div>
-                                    <div class="flex-1">
-                                        <div class="text-sm font-semibold text-white">Field Notes</div>
-                                        <div class="text-xs text-white/70">Voice memo • 1.2 MB</div>
-                                    </div>
-                                    <div class="priority-normal px-3 py-1 rounded-xl text-xs font-bold uppercase">Normal</div>
-                                </div>
-                            </div>
-
-                            <!-- Last Synced Timestamp -->
-                            <div class="mt-4 pt-4 border-t border-white/10">
-                                <div class="flex items-center justify-between text-xs text-white/60">
-                                    <span>Last synced</span>
-                                    <span class="font-medium">5 minutes ago</span>
-                                </div>
-                            </div>
-
-                            <!-- Storage Info -->
-                            <div class="mt-4 bg-white/5 rounded-xl p-3 flex justify-between">
-                                <div>
-                                    <div class="text-xs text-white/70">Cached Data</div>
-                                    <div class="text-sm font-semibold text-white">4.2 GB</div>
-                                </div>
-                                <div>
-                                    <div class="text-xs text-white/70">Available</div>
-                                    <div class="text-sm font-semibold text-white">10.8 GB</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Today's Assignments -->
-                        <h2 class="text-xl font-bold text-white mb-4">Today's Assignments</h2>
-                        <div class="space-y-4 mb-6" id="mobileAssignmentsList">
-                            <!-- Populated by JavaScript -->
-                        </div>
-
-                        <!-- Document Capture Interface -->
-                        <h2 class="text-xl font-bold text-white mb-4">Document Capture</h2>
-                        <div class="mobile-glass rounded-2xl p-6 mb-6">
-                            <button class="w-full min-h-32 bg-gradient-to-br from-blue-600 to-cyan-600 border-2 border-dashed border-white/30 rounded-2xl text-white font-bold flex flex-col items-center justify-center gap-3 mb-4" onclick="mobileOpenCamera()">
-                                <div class="text-5xl">📷</div>
-                                <div>Tap to Capture Photo</div>
-                                <div class="text-xs opacity-80">Camera • Voice • GPS Auto-Tagged</div>
-                            </button>
-
-                            <div class="grid grid-cols-3 gap-2">
-                                <div class="aspect-square bg-gray-800 rounded-lg flex flex-col items-center justify-center text-white/70 relative">
-                                    <div>📸</div>
-                                    <div class="absolute bottom-0 left-0 right-0 bg-black/80 py-1 text-xs text-center">Exterior</div>
-                                </div>
-                                <div class="aspect-square bg-gray-800 rounded-lg flex flex-col items-center justify-center text-white/70 relative">
-                                    <div>📸</div>
-                                    <div class="absolute bottom-0 left-0 right-0 bg-black/80 py-1 text-xs text-center">Electrical</div>
-                                </div>
-                                <div class="aspect-square bg-gray-800 rounded-lg flex flex-col items-center justify-center text-white/70 relative">
-                                    <div>📸</div>
-                                    <div class="absolute bottom-0 left-0 right-0 bg-black/80 py-1 text-xs text-center">Plumbing</div>
-                                </div>
-                                <div class="aspect-square bg-gray-800 rounded-lg flex flex-col items-center justify-center text-white/70 relative">
-                                    <div>📸</div>
-                                    <div class="absolute bottom-0 left-0 right-0 bg-black/80 py-1 text-xs text-center">HVAC</div>
-                                </div>
-                                <div class="aspect-square bg-gray-800 rounded-lg flex flex-col items-center justify-center text-white/70 relative">
-                                    <div>📸</div>
-                                    <div class="absolute bottom-0 left-0 right-0 bg-black/80 py-1 text-xs text-center">Violation</div>
-                                </div>
-                                <div class="aspect-square bg-gray-800 rounded-lg flex items-center justify-center text-white/70 text-2xl">
-                                    +
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Digital Inspection Checklist -->
-                        <h2 class="text-xl font-bold text-white mb-4">Inspection Checklist</h2>
-                        <div class="mobile-glass rounded-2xl p-6 mb-6">
-                            <div class="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-thin">
-                                <button class="px-4 py-2 bg-blue-600 border border-blue-600 rounded-full text-white text-sm font-semibold whitespace-nowrap">Building</button>
-                                <button class="px-4 py-2 bg-white/10 border border-white/20 rounded-full text-white text-sm font-semibold whitespace-nowrap">Electrical</button>
-                                <button class="px-4 py-2 bg-white/10 border border-white/20 rounded-full text-white text-sm font-semibold whitespace-nowrap">Plumbing</button>
-                                <button class="px-4 py-2 bg-white/10 border border-white/20 rounded-full text-white text-sm font-semibold whitespace-nowrap">Fire</button>
-                                <button class="px-4 py-2 bg-white/10 border border-white/20 rounded-full text-white text-sm font-semibold whitespace-nowrap">Health</button>
-                            </div>
-
-                            <div class="space-y-4 mb-4">
-                                <div class="bg-white/5 rounded-xl p-4">
-                                    <div class="text-sm font-semibold text-white mb-3">1. Foundation and Structure</div>
-                                    <div class="flex gap-2">
-                                        <button class="checklist-btn flex-1 min-h-11 bg-green-500/20 border-2 border-green-500 text-green-500 rounded-lg font-bold text-sm">✓ Pass</button>
-                                        <button class="checklist-btn flex-1 min-h-11 bg-red-500/20 border-2 border-red-500 text-red-500 rounded-lg font-bold text-sm">✗ Fail</button>
-                                        <button class="checklist-btn flex-1 min-h-11 bg-gray-500/20 border-2 border-transparent text-white/70 rounded-lg font-bold text-sm">— N/A</button>
-                                    </div>
-                                </div>
-
-                                <div class="bg-white/5 rounded-xl p-4">
-                                    <div class="text-sm font-semibold text-white mb-3">2. Roof and Drainage</div>
-                                    <div class="flex gap-2">
-                                        <button class="checklist-btn flex-1 min-h-11 bg-green-500/20 border-2 border-green-500 text-green-500 rounded-lg font-bold text-sm">✓ Pass</button>
-                                        <button class="checklist-btn flex-1 min-h-11 bg-red-500/20 border-2 border-red-500 text-red-500 rounded-lg font-bold text-sm">✗ Fail</button>
-                                        <button class="checklist-btn flex-1 min-h-11 bg-gray-500/20 border-2 border-transparent text-white/70 rounded-lg font-bold text-sm">— N/A</button>
-                                    </div>
-                                </div>
-
-                                <div class="bg-white/5 rounded-xl p-4">
-                                    <div class="text-sm font-semibold text-white mb-3">3. Exterior Walls and Siding</div>
-                                    <div class="flex gap-2">
-                                        <button class="checklist-btn flex-1 min-h-11 bg-green-500/20 border-2 border-green-500 text-green-500 rounded-lg font-bold text-sm">✓ Pass</button>
-                                        <button class="checklist-btn flex-1 min-h-11 bg-red-500/20 border-2 border-red-500 text-red-500 rounded-lg font-bold text-sm">✗ Fail</button>
-                                        <button class="checklist-btn flex-1 min-h-11 bg-gray-500/20 border-2 border-transparent text-white/70 rounded-lg font-bold text-sm">— N/A</button>
-                                    </div>
-                                </div>
-
-                                <div class="bg-white/5 rounded-xl p-4">
-                                    <div class="text-sm font-semibold text-white mb-3">4. Windows and Doors</div>
-                                    <div class="flex gap-2">
-                                        <button class="checklist-btn flex-1 min-h-11 bg-green-500/20 border-2 border-green-500 text-green-500 rounded-lg font-bold text-sm">✓ Pass</button>
-                                        <button class="checklist-btn flex-1 min-h-11 bg-red-500/20 border-2 border-red-500 text-red-500 rounded-lg font-bold text-sm">✗ Fail</button>
-                                        <button class="checklist-btn flex-1 min-h-11 bg-gray-500/20 border-2 border-transparent text-white/70 rounded-lg font-bold text-sm">— N/A</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bg-white h-40 rounded-xl flex items-center justify-center text-gray-600 text-sm">
-                                <!-- TODO: Implement digital signature capture -->
-                                ✍️ Digital Signature Area
-                            </div>
-                        </div>
-
-                        <!-- Property Intelligence Panel -->
-                        <h2 class="text-xl font-bold text-white mb-4">Property Intelligence</h2>
-                        <div class="mobile-glass rounded-2xl p-6 mb-6">
-                            <div class="space-y-4">
-                                <div>
-                                    <div class="text-xs text-white/70 uppercase mb-1">Property Owner</div>
-                                    <div class="text-sm font-semibold text-white">John Smith</div>
-                                </div>
-
-                                <div>
-                                    <div class="text-xs text-white/70 uppercase mb-1">Contact</div>
-                                    <div class="text-sm font-semibold text-white">📞 (217) 555-0100</div>
-                                </div>
-
-                                <div>
-                                    <div class="text-xs text-white/70 uppercase mb-2">Previous Inspections (Last 5 Years)</div>
-                                    <div class="space-y-2">
-                                        <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">2023-03-15: Annual Inspection - Passed</div>
-                                        <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">2022-08-22: Re-Inspection - Passed</div>
-                                        <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">2022-07-10: Building Inspection - Failed (HVAC)</div>
-                                        <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">2021-04-05: Annual Inspection - Passed</div>
-                                        <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">2020-09-30: Electrical Inspection - Passed</div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div class="text-xs text-white/70 uppercase mb-2">Open Permits</div>
-                                    <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">PERMIT-2024-1247: Residential Addition (Expires: 2024-12-31)</div>
-                                </div>
-
-                                <div>
-                                    <div class="text-xs text-white/70 uppercase mb-2">Violations History</div>
-                                    <div class="bg-white/5 px-3 py-2 rounded-lg text-xs text-white">2022-07: HVAC system non-compliant (Resolved)</div>
-                                </div>
-
-                                <div class="bg-gradient-to-r from-blue-600/20 to-cyan-600/20 border-l-4 border-blue-500 px-4 py-3 rounded-lg">
-                                    <div class="text-xs text-blue-400 font-bold uppercase mb-2">🤖 AI Prediction</div>
-                                    <div class="text-sm text-white">This property type typically has: HVAC issues (67%), Electrical upgrades needed (45%), Plumbing concerns (23%)</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Team Collaboration -->
-                        <h2 class="text-xl font-bold text-white mb-4">Team Collaboration</h2>
-                        <div class="mobile-glass rounded-2xl p-6 mb-20">
-                            <div class="bg-gray-800 h-40 rounded-xl mb-4 flex items-center justify-center text-white/70 text-sm">
-                                <!-- TODO: Connect to mapping service for team locations -->
-                                🗺️ Team Location Map (5 members nearby)
-                            </div>
-
-                            <div class="grid grid-cols-3 gap-3">
-                                <button class="mobile-touch-button bg-blue-600/20 border border-blue-500 rounded-xl text-white font-semibold text-xs flex flex-col items-center justify-center gap-1 py-3">
-                                    <div>📻</div>
-                                    <div>Push-to-Talk</div>
-                                </button>
-                                <button class="mobile-touch-button bg-blue-600/20 border border-blue-500 rounded-xl text-white font-semibold text-xs flex flex-col items-center justify-center gap-1 py-3">
-                                    <div>💬</div>
-                                    <div>Messages</div>
-                                </button>
-                                <button class="mobile-touch-button bg-blue-600/20 border border-blue-500 rounded-xl text-white font-semibold text-xs flex flex-col items-center justify-center gap-1 py-3">
-                                    <div>🆘</div>
-                                    <div>Request Backup</div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Added 2024-11-07: Mobile Command Center -->
 
                 <!-- Settings Tab -->
                 <div id="settings-content" class="tab-content" style="display: none;">
@@ -23446,1150 +22368,6 @@
 
         console.log('SecureMesh module loaded successfully');
         // ===== END SECUREMESH JAVASCRIPT =====
-
-        // ===== DEPARTMENT PROCESS CENTER & WORKFLOW BUILDER JAVASCRIPT =====
-        // Added 2024-11-06: Department-Focused Process Center & AI Workflow Builder
-
-        // Workflow View Switcher
-        let currentWorkflowView = 'department'; // 'department' or 'builder'
-
-        function switchWorkflowView(view) {
-            currentWorkflowView = view;
-
-            // Update button styles
-            const deptBtn = document.getElementById('departmentModeBtn');
-            const builderBtn = document.getElementById('builderModeBtn');
-            const description = document.getElementById('workflowViewDescription');
-
-            if (view === 'department') {
-                deptBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium transition-all bg-gradient-to-r from-blue-500 to-purple-600 text-white';
-                builderBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium transition-all text-white/70 hover:text-white';
-                description.textContent = 'Department-focused process management';
-
-                // Show department mode, hide builder mode
-                document.getElementById('departmentProcessCenterMode').classList.remove('hidden');
-                document.getElementById('workflowBuilderMode').classList.add('hidden');
-            } else {
-                deptBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium transition-all text-white/70 hover:text-white';
-                builderBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium transition-all bg-gradient-to-r from-blue-500 to-purple-600 text-white';
-                description.textContent = 'Build custom workflows with AI assistance';
-
-                // Show builder mode, hide department mode
-                document.getElementById('departmentProcessCenterMode').classList.add('hidden');
-                document.getElementById('workflowBuilderMode').classList.remove('hidden');
-
-                // Load saved workflows
-                loadSavedWorkflows();
-            }
-        }
-
-        // ===== WORKFLOW BUILDER FUNCTIONS =====
-
-        function createBlankWorkflow() {
-            // TODO: Implement blank workflow creator
-            alert('Blank workflow builder would open here. TODO: Implement visual workflow canvas.');
-        }
-
-        function loadWorkflowExample(type) {
-            const examples = {
-                permit: 'Create a building permit approval workflow that validates submitted documents, routes to plan review, requires supervisor approval, and sends email notifications to the applicant.',
-                hr: 'Create an employee onboarding workflow that collects new hire paperwork, sets up IT accounts, schedules orientation, and assigns a mentor.',
-                invoice: 'Create an invoice approval workflow that verifies line items, routes to department manager, requires finance approval for amounts over $5000, and triggers payment processing.'
-            };
-
-            document.getElementById('aiWorkflowInput').value = examples[type] || '';
-        }
-
-        function generateWorkflowFromAI() {
-            const input = document.getElementById('aiWorkflowInput').value.trim();
-            if (!input) {
-                alert('Please describe your workflow first.');
-                return;
-            }
-
-            // TODO: Connect to AI API endpoint /api/ai/generate-workflow
-            // MOCK: Simulate AI workflow generation
-            const canvas = document.getElementById('workflowCanvas');
-            canvas.innerHTML = `
-                <div class="space-y-4">
-                    <div class="text-white mb-4">
-                        <i class="fas fa-magic text-purple-400 mr-2"></i>
-                        <span class="font-semibold">AI Generated Workflow</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="glass rounded-lg p-4 flex-1">
-                            <div class="text-white font-medium mb-1">Step 1: Document Validation</div>
-                            <div class="text-white/60 text-sm">Verify all required documents are submitted</div>
-                        </div>
-                        <i class="fas fa-arrow-right text-blue-400"></i>
-                        <div class="glass rounded-lg p-4 flex-1">
-                            <div class="text-white font-medium mb-1">Step 2: Review Process</div>
-                            <div class="text-white/60 text-sm">Route to appropriate department reviewer</div>
-                        </div>
-                        <i class="fas fa-arrow-right text-blue-400"></i>
-                        <div class="glass rounded-lg p-4 flex-1">
-                            <div class="text-white font-medium mb-1">Step 3: Approval</div>
-                            <div class="text-white/60 text-sm">Supervisor approval required</div>
-                        </div>
-                        <i class="fas fa-arrow-right text-blue-400"></i>
-                        <div class="glass rounded-lg p-4 flex-1">
-                            <div class="text-white font-medium mb-1">Step 4: Notification</div>
-                            <div class="text-white/60 text-sm">Send email to applicant</div>
-                        </div>
-                    </div>
-                    <div class="flex gap-2 mt-4">
-                        <button onclick="saveGeneratedWorkflow()" class="px-4 py-2 bg-green-500 rounded-lg text-white hover:bg-green-600 transition-all">
-                            <i class="fas fa-save mr-2"></i>Save Workflow
-                        </button>
-                        <button onclick="editWorkflow()" class="px-4 py-2 bg-blue-500 rounded-lg text-white hover:bg-blue-600 transition-all">
-                            <i class="fas fa-edit mr-2"></i>Edit Steps
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function saveGeneratedWorkflow() {
-            // TODO: Implement workflow save
-            alert('Workflow would be saved here. TODO: Connect to /api/workflows/save');
-        }
-
-        function editWorkflow() {
-            // TODO: Implement workflow editor
-            alert('Visual workflow editor would open here. TODO: Implement drag-and-drop canvas.');
-        }
-
-        function loadSavedWorkflows() {
-            // MOCK DATA - Replace with API call
-            const savedWorkflows = [
-                { id: 1, name: 'Building Permit Approval', steps: 8, status: 'active', uses: 247 },
-                { id: 2, name: 'Employee Onboarding', steps: 12, status: 'active', uses: 89 },
-                { id: 3, name: 'Invoice Processing', steps: 6, status: 'active', uses: 534 }
-            ];
-
-            const container = document.getElementById('savedWorkflowsList');
-            if (!container) return;
-
-            if (savedWorkflows.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-3 text-center text-white/60 py-8">
-                        <i class="fas fa-folder-open text-4xl mb-3"></i>
-                        <p>No saved workflows yet</p>
-                        <p class="text-sm">Create your first workflow using the AI builder above</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = savedWorkflows.map(wf => `
-                <div class="glass rounded-xl p-4 hover:bg-white/15 transition-all cursor-pointer" onclick="loadWorkflow(${wf.id})">
-                    <div class="flex items-center justify-between mb-3">
-                        <h4 class="font-bold text-white">${wf.name}</h4>
-                        <span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-500/20 text-green-400">${wf.status.toUpperCase()}</span>
-                    </div>
-                    <div class="space-y-1 text-xs text-white/60 mb-3">
-                        <div><i class="fas fa-list-ol mr-2"></i>${wf.steps} steps</div>
-                        <div><i class="fas fa-chart-line mr-2"></i>${wf.uses} executions</div>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="loadWorkflow(${wf.id}); event.stopPropagation();" class="flex-1 px-3 py-1 bg-blue-500/20 rounded-lg text-blue-300 hover:bg-blue-500/30 transition-all text-xs">
-                            <i class="fas fa-play mr-1"></i>Run
-                        </button>
-                        <button onclick="editWorkflow(${wf.id}); event.stopPropagation();" class="flex-1 px-3 py-1 bg-purple-500/20 rounded-lg text-purple-300 hover:bg-purple-500/30 transition-all text-xs">
-                            <i class="fas fa-edit mr-1"></i>Edit
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function loadWorkflow(workflowId) {
-            // TODO: Load workflow from API
-            alert(`Loading workflow ${workflowId}. TODO: Connect to /api/workflows/${workflowId}`);
-        }
-
-        // ===== DEPARTMENT PROCESS CENTER FUNCTIONS =====
-
-        // MOCK DATA - Replace in production
-        // TODO: Connect to API endpoint /api/departments
-        // TODO: Connect to API endpoint /api/workflows
-        // TODO: Connect to AI optimization API /api/ai/optimize
-        // SECURITY TODO: Implement role-based permissions
-
-        const DEPARTMENTS = [
-            {
-                id: 'building',
-                name: 'Building & Permits',
-                icon: 'fa-building',
-                color: 'dept-building',
-                colorLight: 'dept-building-light',
-                description: 'Construction permits, inspections, and code enforcement',
-                activeWorkflows: 23,
-                complianceScore: 97.8
-            },
-            {
-                id: 'tax',
-                name: 'Tax & Finance',
-                icon: 'fa-dollar-sign',
-                color: 'dept-tax',
-                colorLight: 'dept-tax-light',
-                description: 'Tax collection, budgeting, and financial reporting',
-                activeWorkflows: 18,
-                complianceScore: 99.2
-            },
-            {
-                id: 'public-works',
-                name: 'Public Works',
-                icon: 'fa-road',
-                color: 'dept-public-works',
-                colorLight: 'dept-public-works-light',
-                description: 'Infrastructure maintenance, utilities, and transportation',
-                activeWorkflows: 31,
-                complianceScore: 96.5
-            },
-            {
-                id: 'health',
-                name: 'Health Department',
-                icon: 'fa-heart-pulse',
-                color: 'dept-health',
-                colorLight: 'dept-health-light',
-                description: 'Public health services, inspections, and emergency response',
-                activeWorkflows: 27,
-                complianceScore: 98.9
-            },
-            {
-                id: 'planning',
-                name: 'Planning & Zoning',
-                icon: 'fa-map',
-                color: 'dept-planning',
-                colorLight: 'dept-planning-light',
-                description: 'Land use planning, zoning regulations, and development review',
-                activeWorkflows: 15,
-                complianceScore: 97.3
-            },
-            {
-                id: 'legal',
-                name: 'Legal Department',
-                icon: 'fa-gavel',
-                color: 'dept-legal',
-                colorLight: 'dept-legal-light',
-                description: 'Legal counsel, contract review, and litigation management',
-                activeWorkflows: 12,
-                complianceScore: 99.5
-            },
-            {
-                id: 'hr',
-                name: 'Human Resources',
-                icon: 'fa-users',
-                color: 'dept-hr',
-                colorLight: 'dept-hr-light',
-                description: 'Employee management, benefits, and recruitment',
-                activeWorkflows: 19,
-                complianceScore: 98.1
-            },
-            {
-                id: 'it',
-                name: 'IT Department',
-                icon: 'fa-server',
-                color: 'dept-it',
-                colorLight: 'dept-it-light',
-                description: 'Technology infrastructure, cybersecurity, and support',
-                activeWorkflows: 25,
-                complianceScore: 99.8
-            }
-        ];
-
-        // Current selected department
-        let currentDepartment = null;
-
-        // Initialize department hub on workflows tab show
-        function initializeDepartmentProcessCenter() {
-            populateDepartmentHub();
-        }
-
-        function populateDepartmentHub() {
-            const container = document.getElementById('departmentHub');
-            if (!container) return;
-
-            container.innerHTML = DEPARTMENTS.map(dept => `
-                <div onclick="selectDepartment('${dept.id}')" class="glass rounded-xl p-6 cursor-pointer hover:bg-white/15 transition-all group">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="${dept.color} w-12 h-12 rounded-lg flex items-center justify-center text-white">
-                            <i class="fas ${dept.icon} text-xl"></i>
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="font-bold text-white group-hover:text-blue-300 transition-all">${dept.name}</h4>
-                            <p class="text-xs text-white/60">${dept.activeWorkflows} active workflows</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-white/70 mb-3">${dept.description}</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs text-white/60">Compliance</span>
-                        <span class="text-sm font-bold text-green-400">${dept.complianceScore}%</span>
-                    </div>
-                    <div class="w-full h-2 bg-white/10 rounded-full mt-2 overflow-hidden">
-                        <div class="h-full bg-gradient-to-r from-green-500 to-green-400" style="width: ${dept.complianceScore}%"></div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function selectDepartment(deptId) {
-            currentDepartment = DEPARTMENTS.find(d => d.id === deptId);
-            if (!currentDepartment) return;
-
-            // Show department dashboard
-            document.getElementById('departmentDashboard').classList.remove('hidden');
-
-            // Update header
-            const iconDiv = document.getElementById('deptIcon');
-            iconDiv.className = `w-16 h-16 ${currentDepartment.color} rounded-xl flex items-center justify-center text-white text-2xl`;
-            iconDiv.innerHTML = `<i class="fas ${currentDepartment.icon}"></i>`;
-
-            document.getElementById('deptName').textContent = currentDepartment.name;
-            document.getElementById('deptDescription').textContent = currentDepartment.description;
-
-            // Load department-specific data
-            loadDepartmentData(currentDepartment.id);
-        }
-
-        function backToDepartments() {
-            document.getElementById('departmentDashboard').classList.add('hidden');
-            currentDepartment = null;
-        }
-
-        function switchDeptModule(moduleName) {
-            // Update active tab
-            document.querySelectorAll('.dept-tab-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.closest('.dept-tab-button').classList.add('active');
-
-            // Show selected module
-            document.querySelectorAll('.dept-module-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(`dept-module-${moduleName}`).classList.add('active');
-        }
-
-        function loadDepartmentData(deptId) {
-            // Load KPIs, workflows, and other data based on department
-            // This would fetch from API in production
-            loadDepartmentKPIs(deptId);
-            loadActiveWorkflows(deptId);
-            loadQuickActions(deptId);
-            loadRecentActivity(deptId);
-            loadWorkflowTemplates(deptId);
-            loadRunningWorkflows(deptId);
-            loadComplianceData(deptId);
-            loadKnowledgeBase(deptId);
-            loadIntegrations(deptId);
-        }
-
-        function loadDepartmentKPIs(deptId) {
-            // MOCK DATA - Replace with API call
-            const kpis = {
-                'building': [
-                    { label: 'Permits Issued', value: '847', change: '+12%', trend: 'up' },
-                    { label: 'Inspections Complete', value: '1,234', change: '+8%', trend: 'up' },
-                    { label: 'Avg Processing Time', value: '3.2 days', change: '-15%', trend: 'down' },
-                    { label: 'Compliance Rate', value: '97.8%', change: '+2%', trend: 'up' }
-                ],
-                'tax': [
-                    { label: 'Revenue Collected', value: '$12.4M', change: '+5%', trend: 'up' },
-                    { label: 'Returns Processed', value: '3,421', change: '+7%', trend: 'up' },
-                    { label: 'Avg Response Time', value: '2.1 days', change: '-10%', trend: 'down' },
-                    { label: 'Accuracy Rate', value: '99.2%', change: '+1%', trend: 'up' }
-                ]
-            };
-
-            const deptKPIs = kpis[deptId] || kpis['building'];
-            const container = document.getElementById('deptKPIs');
-            if (!container) return;
-
-            container.innerHTML = deptKPIs.map(kpi => `
-                <div class="glass rounded-xl p-6">
-                    <div class="text-white/70 text-xs mb-2">${kpi.label}</div>
-                    <div class="text-3xl font-bold text-white mb-2">${kpi.value}</div>
-                    <div class="text-xs ${kpi.trend === 'up' ? 'text-green-400' : 'text-red-400'}">
-                        <i class="fas fa-arrow-${kpi.trend === 'up' ? 'up' : 'down'} mr-1"></i>${kpi.change}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function loadActiveWorkflows(deptId) {
-            // MOCK DATA
-            const workflows = [
-                { name: 'Permit Application Review', status: 'active', progress: 75, dueIn: '2 hours' },
-                { name: 'Inspection Scheduling', status: 'active', progress: 45, dueIn: '1 day' },
-                { name: 'Code Violation Processing', status: 'pending', progress: 30, dueIn: '3 days' }
-            ];
-
-            const container = document.getElementById('activeWorkflowsList');
-            if (!container) return;
-
-            container.innerHTML = workflows.map(wf => `
-                <div class="glass-dark rounded-lg p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-white font-semibold text-sm">${wf.name}</span>
-                        <span class="px-2 py-1 rounded-full text-xs font-semibold workflow-status-${wf.status}">${wf.status.toUpperCase()}</span>
-                    </div>
-                    <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden mb-2">
-                        <div class="h-full bg-gradient-to-r from-blue-500 to-purple-500 progress-bar" style="width: ${wf.progress}%"></div>
-                    </div>
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="text-white/60">${wf.progress}% complete</span>
-                        <span class="text-white/60">Due in ${wf.dueIn}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function loadQuickActions(deptId) {
-            // MOCK DATA
-            const actions = [
-                { name: 'New Permit', icon: 'fa-file-circle-plus', color: 'blue' },
-                { name: 'Schedule Inspection', icon: 'fa-calendar-check', color: 'green' },
-                { name: 'Generate Report', icon: 'fa-chart-bar', color: 'purple' },
-                { name: 'View Analytics', icon: 'fa-chart-line', color: 'yellow' }
-            ];
-
-            const container = document.getElementById('quickActionsList');
-            if (!container) return;
-
-            container.innerHTML = actions.map(action => `
-                <button onclick="quickAction('${action.name}')" class="glass rounded-lg p-4 hover:bg-white/15 transition-all text-center">
-                    <i class="fas ${action.icon} text-${action.color}-400 text-2xl mb-2"></i>
-                    <div class="text-white text-sm font-medium">${action.name}</div>
-                </button>
-            `).join('');
-        }
-
-        function loadRecentActivity(deptId) {
-            // MOCK DATA
-            const activities = [
-                { action: 'Permit #2847 approved', user: 'Sarah Martinez', time: '15 min ago', icon: 'fa-check-circle', color: 'green' },
-                { action: 'Inspection scheduled for 123 Main St', user: 'John Smith', time: '1 hour ago', icon: 'fa-calendar', color: 'blue' },
-                { action: 'Code violation report submitted', user: 'Mike Johnson', time: '2 hours ago', icon: 'fa-exclamation-triangle', color: 'yellow' }
-            ];
-
-            const container = document.getElementById('recentActivityList');
-            if (!container) return;
-
-            container.innerHTML = activities.map(act => `
-                <div class="flex items-center gap-3 glass-dark rounded-lg p-3">
-                    <div class="w-10 h-10 bg-${act.color}-500/20 rounded-lg flex items-center justify-center">
-                        <i class="fas ${act.icon} text-${act.color}-400"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="text-white text-sm">${act.action}</div>
-                        <div class="text-white/60 text-xs">${act.user} • ${act.time}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function loadWorkflowTemplates(deptId) {
-            // MOCK DATA - Department-specific templates
-            const templates = {
-                'building': [
-                    { name: 'Building Permit Application', steps: 8, avgTime: '5 days', uses: 847 },
-                    { name: 'Electrical Inspection', steps: 5, avgTime: '2 days', uses: 423 },
-                    { name: 'Plumbing Permit Review', steps: 6, avgTime: '3 days', uses: 312 },
-                    { name: 'Code Violation Processing', steps: 7, avgTime: '4 days', uses: 156 },
-                    { name: 'Certificate of Occupancy', steps: 9, avgTime: '6 days', uses: 234 }
-                ]
-            };
-
-            const deptTemplates = templates[deptId] || templates['building'];
-            const container = document.getElementById('workflowTemplatesList');
-            if (!container) return;
-
-            container.innerHTML = deptTemplates.map(tmpl => `
-                <div class="glass rounded-xl p-4 hover:bg-white/15 transition-all cursor-pointer" onclick="useTemplate('${tmpl.name}')">
-                    <h4 class="font-bold text-white mb-2">${tmpl.name}</h4>
-                    <div class="space-y-1 text-xs text-white/60 mb-3">
-                        <div><i class="fas fa-list-ol mr-2"></i>${tmpl.steps} steps</div>
-                        <div><i class="fas fa-clock mr-2"></i>Avg: ${tmpl.avgTime}</div>
-                        <div><i class="fas fa-chart-line mr-2"></i>${tmpl.uses} uses</div>
-                    </div>
-                    <button class="w-full px-3 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white text-sm font-semibold hover:shadow-lg transition-all">
-                        Use Template
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        function loadRunningWorkflows(deptId) {
-            // MOCK DATA
-            const running = [
-                { id: 'WF-2847', name: 'Residential Permit - 456 Oak Ave', status: 'active', progress: 65, currentStep: 'Plan Review', assignee: 'Sarah Martinez' },
-                { id: 'WF-2848', name: 'Commercial Inspection - 789 Main St', status: 'active', progress: 40, currentStep: 'Field Inspection', assignee: 'John Smith' }
-            ];
-
-            const container = document.getElementById('runningWorkflowsList');
-            if (!container) return;
-
-            container.innerHTML = running.map(wf => `
-                <div class="glass-dark rounded-lg p-4">
-                    <div class="flex items-center justify-between mb-3">
-                        <div>
-                            <div class="text-white font-bold">${wf.id}: ${wf.name}</div>
-                            <div class="text-white/60 text-sm">Current: ${wf.currentStep} • Assigned: ${wf.assignee}</div>
-                        </div>
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold workflow-status-${wf.status}">${wf.status.toUpperCase()}</span>
-                    </div>
-                    <div class="w-full h-3 bg-white/10 rounded-full overflow-hidden">
-                        <div class="h-full bg-gradient-to-r from-blue-500 to-purple-500 progress-bar" style="width: ${wf.progress}%"></div>
-                    </div>
-                    <div class="flex items-center justify-between mt-2">
-                        <span class="text-xs text-white/60">${wf.progress}% complete</span>
-                        <div class="flex gap-2">
-                            <button onclick="viewWorkflow('${wf.id}')" class="text-blue-400 hover:text-blue-300 text-sm">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button onclick="pauseWorkflow('${wf.id}')" class="text-yellow-400 hover:text-yellow-300 text-sm">
-                                <i class="fas fa-pause"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function loadComplianceData(deptId) {
-            // MOCK DATA
-            const compliance = [
-                { regulation: 'OSHA Safety Standards', status: 'good', lastCheck: '2024-11-05', nextReview: '2024-12-05' },
-                { regulation: 'ADA Accessibility Requirements', status: 'good', lastCheck: '2024-11-04', nextReview: '2024-12-04' },
-                { regulation: 'Building Code 2024', status: 'warning', lastCheck: '2024-11-03', nextReview: '2024-11-10' }
-            ];
-
-            const container = document.getElementById('complianceMonitoringList');
-            if (!container) return;
-
-            container.innerHTML = compliance.map(comp => `
-                <div class="glass-dark rounded-lg p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-white font-semibold">${comp.regulation}</span>
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold compliance-${comp.status}">${comp.status.toUpperCase()}</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 text-xs text-white/60">
-                        <div>
-                            <div>Last Check</div>
-                            <div class="text-white mt-1">${comp.lastCheck}</div>
-                        </div>
-                        <div>
-                            <div>Next Review</div>
-                            <div class="text-white mt-1">${comp.nextReview}</div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-
-            // Load audit trail
-            const audits = [
-                { action: 'Compliance check completed', regulation: 'OSHA Standards', user: 'System', timestamp: '2024-11-05T14:30:00Z' },
-                { action: 'Policy update applied', regulation: 'ADA Requirements', user: 'Admin', timestamp: '2024-11-04T10:15:00Z' }
-            ];
-
-            const auditContainer = document.getElementById('auditTrailList');
-            if (!auditContainer) return;
-
-            auditContainer.innerHTML = audits.map(audit => `
-                <div class="flex items-center gap-3 glass-dark rounded-lg p-3">
-                    <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-clipboard-check text-blue-400"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="text-white text-sm">${audit.action}</div>
-                        <div class="text-white/60 text-xs">${audit.regulation} • ${audit.user} • ${new Date(audit.timestamp).toLocaleString()}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function loadKnowledgeBase(deptId) {
-            // MOCK DATA
-            const bestPractices = [
-                { title: 'Permit Review Best Practices', views: 234 },
-                { title: 'Inspection Efficiency Guide', views: 189 },
-                { title: 'Customer Service Standards', views: 156 }
-            ];
-
-            const regulations = [
-                { title: '2024 Building Code Updates', updated: 'Oct 2024' },
-                { title: 'Fire Safety Requirements', updated: 'Sep 2024' },
-                { title: 'Accessibility Standards', updated: 'Aug 2024' }
-            ];
-
-            const aiSuggestions = [
-                { suggestion: 'Automate permit pre-screening', impact: 'High' },
-                { suggestion: 'Implement digital inspections', impact: 'Medium' },
-                { suggestion: 'Streamline approval workflow', impact: 'High' }
-            ];
-
-            document.getElementById('bestPracticesList').innerHTML = bestPractices.map(bp => `
-                <div class="glass-dark rounded-lg p-3 hover:bg-white/10 transition-all cursor-pointer">
-                    <div class="text-white text-sm font-medium mb-1">${bp.title}</div>
-                    <div class="text-white/60 text-xs"><i class="fas fa-eye mr-1"></i>${bp.views} views</div>
-                </div>
-            `).join('');
-
-            document.getElementById('regulationsList').innerHTML = regulations.map(reg => `
-                <div class="glass-dark rounded-lg p-3 hover:bg-white/10 transition-all cursor-pointer">
-                    <div class="text-white text-sm font-medium mb-1">${reg.title}</div>
-                    <div class="text-white/60 text-xs"><i class="fas fa-calendar mr-1"></i>${reg.updated}</div>
-                </div>
-            `).join('');
-
-            document.getElementById('aiSuggestionsList').innerHTML = aiSuggestions.map(ai => `
-                <div class="glass-dark rounded-lg p-3 hover:bg-white/10 transition-all cursor-pointer">
-                    <div class="text-white text-sm font-medium mb-1">${ai.suggestion}</div>
-                    <div class="text-white/60 text-xs">
-                        <span class="px-2 py-0.5 rounded-full ${ai.impact === 'High' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'} text-xs">${ai.impact} Impact</span>
-                    </div>
-                </div>
-            `).join('');
-
-            // Document Library
-            const documents = [
-                { name: 'Permit Application Forms', type: 'PDF', size: '2.4 MB', date: '2024-11-01' },
-                { name: 'Inspection Checklists', type: 'PDF', size: '1.8 MB', date: '2024-10-28' },
-                { name: 'Code Reference Guide', type: 'PDF', size: '5.2 MB', date: '2024-10-15' }
-            ];
-
-            document.getElementById('documentLibraryList').innerHTML = documents.map(doc => `
-                <div class="glass-dark rounded-lg p-4 hover:bg-white/10 transition-all cursor-pointer">
-                    <div class="flex items-center gap-3 mb-2">
-                        <i class="fas fa-file-pdf text-red-400 text-2xl"></i>
-                        <div class="flex-1">
-                            <div class="text-white font-medium text-sm">${doc.name}</div>
-                            <div class="text-white/60 text-xs">${doc.type} • ${doc.size}</div>
-                        </div>
-                    </div>
-                    <div class="text-white/60 text-xs">Modified: ${doc.date}</div>
-                </div>
-            `).join('');
-        }
-
-        function loadIntegrations(deptId) {
-            // MOCK DATA
-            const connections = [
-                { dept: 'Legal Department', workflows: 12, status: 'active' },
-                { dept: 'Public Works', workflows: 8, status: 'active' },
-                { dept: 'Tax & Finance', workflows: 5, status: 'active' }
-            ];
-
-            document.getElementById('crossDeptConnectionsList').innerHTML = connections.map(conn => `
-                <div class="glass-dark rounded-lg p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-white font-semibold">${conn.dept}</span>
-                        <span class="px-2 py-1 rounded-full text-xs font-semibold workflow-status-${conn.status}">${conn.status.toUpperCase()}</span>
-                    </div>
-                    <div class="text-white/60 text-sm">${conn.workflows} shared workflows</div>
-                </div>
-            `).join('');
-
-            // Workflow Handoffs
-            const handoffs = [
-                { from: 'Building & Permits', to: 'Legal Department', workflow: 'Permit Appeal Review', status: 'pending' },
-                { from: 'Building & Permits', to: 'Public Works', workflow: 'Road Closure Approval', status: 'active' }
-            ];
-
-            document.getElementById('workflowHandoffsList').innerHTML = handoffs.map(ho => `
-                <div class="glass-dark rounded-lg p-4">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-white font-semibold">${ho.workflow}</span>
-                        <span class="px-2 py-1 rounded-full text-xs font-semibold workflow-status-${ho.status}">${ho.status.toUpperCase()}</span>
-                    </div>
-                    <div class="flex items-center gap-2 text-sm text-white/60">
-                        <span>${ho.from}</span>
-                        <i class="fas fa-arrow-right text-blue-400"></i>
-                        <span>${ho.to}</span>
-                    </div>
-                </div>
-            `).join('');
-
-            // Shared Documents
-            const sharedDocs = [
-                { name: 'Inter-Department Forms', departments: 3, files: 24 },
-                { name: 'Shared Policy Documents', departments: 5, files: 18 }
-            ];
-
-            document.getElementById('sharedDocsList').innerHTML = sharedDocs.map(doc => `
-                <div class="glass-dark rounded-lg p-4">
-                    <div class="text-white font-semibold mb-2">${doc.name}</div>
-                    <div class="flex items-center justify-between text-sm text-white/60">
-                        <span><i class="fas fa-building mr-1"></i>${doc.departments} departments</span>
-                        <span><i class="fas fa-file mr-1"></i>${doc.files} files</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Action Functions
-        function quickAction(actionName) {
-            alert(`Quick action: ${actionName}. TODO: Implement action handler.`);
-        }
-
-        function createCustomWorkflow() {
-            alert('Custom workflow builder would open here. TODO: Implement workflow builder modal.');
-        }
-
-        function useTemplate(templateName) {
-            alert(`Using template: ${templateName}. TODO: Implement template instantiation.`);
-        }
-
-        function viewWorkflow(workflowId) {
-            alert(`Viewing workflow ${workflowId}. TODO: Implement workflow viewer.`);
-        }
-
-        function pauseWorkflow(workflowId) {
-            alert(`Pausing workflow ${workflowId}. TODO: Implement workflow control.`);
-        }
-
-        function searchKnowledge() {
-            const query = document.getElementById('knowledgeSearch').value;
-            alert(`Searching for: ${query}. TODO: Implement knowledge base search.`);
-        }
-
-        // Enhanced switchTab to initialize Department Process Center
-        const originalSwitchTabForDeptCenter = switchTab;
-        switchTab = function(tabName) {
-            originalSwitchTabForDeptCenter(tabName);
-            if (tabName === 'workflows') {
-                initializeDepartmentProcessCenter();
-            }
-        };
-
-        console.log('Department Process Center loaded successfully');
-        // ===== END DEPARTMENT PROCESS CENTER JAVASCRIPT =====
-
-        // ===== MOBILE COMMAND CENTER JAVASCRIPT =====
-        // Added 2024-11-07: Mobile Command Center for Field Operations
-
-        // TODO: Connect to device GPS API
-        // TODO: Implement offline storage (IndexedDB/SQLite)
-        // TODO: Add background sync service worker
-        // TODO: Connect to camera API
-        // TODO: Integrate biometric authentication (Touch ID/Face ID)
-        // TODO: Add push notifications
-        // TODO: Connect to mapping service (Google Maps/Mapbox)
-        // TODO: Implement route optimization algorithm
-        // TODO: Add speech-to-text service
-        // TODO: Connect to OCR service
-        // TODO: Implement encrypted local storage (FIPS 140-2)
-        // TODO: Add remote wipe capability
-
-        // MOCK DATA - Replace in production
-        const MOBILE_TODAYS_ASSIGNMENTS = [
-            {
-                id: 'INSP-2024-00847',
-                type: 'Building Inspection',
-                subtype: 'Final - Residential Addition',
-                address: '123 Oak Street, Springfield, IL 62701',
-                time: '9:00 AM',
-                duration: '45 min',
-                owner: 'John Smith',
-                phone: '(217) 555-0100',
-                notes: 'Large dog on property - call before entering',
-                offline: true
-            },
-            {
-                id: 'INSP-2024-00848',
-                type: 'Plumbing Inspection',
-                subtype: 'Rough-In - Commercial',
-                address: '456 Maple Avenue, Springfield, IL 62702',
-                time: '10:30 AM',
-                duration: '60 min',
-                owner: 'ABC Construction LLC',
-                phone: '(217) 555-0101',
-                notes: 'Meet contractor on site',
-                offline: true
-            },
-            {
-                id: 'INSP-2024-00849',
-                type: 'Electrical Inspection',
-                subtype: 'Service Upgrade - Residential',
-                address: '789 Pine Road, Springfield, IL 62703',
-                time: '12:00 PM',
-                duration: '30 min',
-                owner: 'Sarah Johnson',
-                phone: '(217) 555-0102',
-                notes: '',
-                offline: false
-            },
-            {
-                id: 'INSP-2024-00850',
-                type: 'Fire Safety Inspection',
-                subtype: 'Annual - Restaurant',
-                address: '321 Birch Lane, Springfield, IL 62704',
-                time: '1:30 PM',
-                duration: '90 min',
-                owner: 'Downtown Diner Inc',
-                phone: '(217) 555-0103',
-                notes: 'Previous violation: Fire suppression system',
-                offline: false
-            },
-            {
-                id: 'INSP-2024-00851',
-                type: 'Building Inspection',
-                subtype: 'Re-Inspection',
-                address: '654 Cedar Drive, Springfield, IL 62705',
-                time: '3:30 PM',
-                duration: '30 min',
-                owner: 'Michael Davis',
-                phone: '(217) 555-0104',
-                notes: 'Follow-up on HVAC repairs',
-                offline: false
-            },
-            {
-                id: 'INSP-2024-00852',
-                type: 'Health Inspection',
-                subtype: 'Routine - Grocery Store',
-                address: '159 Elm Street, Springfield, IL 62706',
-                time: '4:30 PM',
-                duration: '75 min',
-                owner: 'Fresh Foods Market',
-                phone: '(217) 555-0105',
-                notes: 'Refrigeration units require attention',
-                offline: false
-            },
-            {
-                id: 'INSP-2024-00853',
-                type: 'Electrical Inspection',
-                subtype: 'Final - New Construction',
-                address: '951 Ash Court, Springfield, IL 62707',
-                time: '6:00 PM',
-                duration: '45 min',
-                owner: 'Green Valley Homes',
-                phone: '(217) 555-0106',
-                notes: 'Final walk-through for occupancy permit',
-                offline: false
-            },
-            {
-                id: 'INSP-2024-00854',
-                type: 'Building Inspection',
-                subtype: 'Complaint - Code Violation',
-                address: '753 Walnut Place, Springfield, IL 62708',
-                time: '7:00 PM',
-                duration: '30 min',
-                owner: 'Robert Williams',
-                phone: '(217) 555-0107',
-                notes: 'Neighbor complaint: Fence height violation',
-                offline: false
-            }
-        ];
-
-        const MOBILE_SYNC_QUEUE = {
-            pending: [
-                { type: 'inspection_complete', photos: 12, size: '2.3 MB', priority: 'normal' },
-                { type: 'violation_issued', photos: 3, size: '456 KB', priority: 'high' },
-                { type: 'field_notes', photos: 0, size: '1.2 MB', priority: 'normal' }
-            ]
-        };
-
-        const MOBILE_ROUTE_OPTIMIZATION = {
-            original: { distance: 47.3, time: 6.5, order: [1,2,3,4,5,6,7,8] },
-            optimized: { distance: 35.1, time: 5.75, order: [1,4,7,2,5,3,8,6], savings: '45 min, 12.2 mi' }
-        };
-
-        const MOBILE_PROPERTY_DATA = {
-            owner: 'John Smith',
-            phone: '(217) 555-0100',
-            history: [
-                { date: '2023-03-15', type: 'Annual Inspection', result: 'Passed' },
-                { date: '2022-08-22', type: 'Re-Inspection', result: 'Passed' },
-                { date: '2022-07-10', type: 'Building Inspection', result: 'Failed (HVAC)' },
-                { date: '2021-04-05', type: 'Annual Inspection', result: 'Passed' },
-                { date: '2020-09-30', type: 'Electrical Inspection', result: 'Passed' }
-            ]
-        };
-
-        // Initialize Mobile Command Center on page load
-        let mobileCommandInitialized = false;
-
-        function initializeMobileCommand() {
-            if (mobileCommandInitialized) return;
-
-            populateMobileAssignments();
-            updateMobileConnectivity();
-            initializeMobileChecklist();
-
-            mobileCommandInitialized = true;
-            console.log('Mobile Command Center initialized');
-        }
-
-        // Populate assignments list
-        function populateMobileAssignments() {
-            const assignmentsList = document.getElementById('mobileAssignmentsList');
-            if (!assignmentsList) return;
-
-            assignmentsList.innerHTML = '';
-
-            MOBILE_TODAYS_ASSIGNMENTS.forEach(assignment => {
-                const card = document.createElement('div');
-                card.className = 'mobile-glass rounded-2xl p-4 relative';
-
-                card.innerHTML = `
-                    ${assignment.offline ? '<div class="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-lg text-xs font-bold">CACHED</div>' : ''}
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="text-base font-bold text-white">${assignment.type}</div>
-                        <div class="bg-blue-500 px-3 py-1 rounded-xl text-xs font-semibold text-white">${assignment.time}</div>
-                    </div>
-                    <div class="text-xs text-white/70 mb-2">${assignment.subtype}</div>
-                    <div class="text-sm text-white/70 mb-2">${assignment.address}</div>
-                    <div class="text-sm text-white mb-1">👤 ${assignment.owner} • ${assignment.phone}</div>
-                    <div class="text-xs text-white/70">⏱️ ${assignment.duration} • ID: ${assignment.id}</div>
-                    ${assignment.notes ? `<div class="bg-yellow-500/20 border-l-4 border-yellow-500 px-3 py-2 mt-3 rounded text-xs text-yellow-400">⚠️ Note: ${assignment.notes}</div>` : ''}
-                `;
-
-                assignmentsList.appendChild(card);
-            });
-        }
-
-        // Mobile Quick Action Functions
-        function mobileShowAssignments() {
-            const assignmentsList = document.getElementById('mobileAssignmentsList');
-            if (assignmentsList) {
-                assignmentsList.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        function mobileQuickCapture() {
-            // TODO: Connect to camera API
-            alert('Quick Capture: Opening camera with GPS auto-tagging and voice notes');
-        }
-
-        function mobileShowRouteOptimizer() {
-            const routeOptimizer = document.querySelector('#mobile-command-content .mobile-glass:has(button:contains("Start Navigation"))');
-            if (routeOptimizer) {
-                routeOptimizer.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        function mobileDocumentScanner() {
-            // TODO: Connect to OCR service
-            alert('Document Scanner: Opening camera with OCR capabilities');
-        }
-
-        function mobileChecklistMode() {
-            const checklist = document.querySelector('#mobile-command-content h2:contains("Inspection Checklist")');
-            if (checklist) {
-                checklist.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        function mobileOpenCamera() {
-            // TODO: Connect to camera API
-            alert('Opening camera with auto-categorization and GPS tagging');
-        }
-
-        function mobileShowEmergencyModal() {
-            // TODO: Create emergency modal
-            // TODO: Connect to device GPS API
-            // TODO: Start audio/video recording
-            // TODO: Alert dispatch system
-            alert('🚨 Emergency Report Activated\n\nGPS captured\nRecording started\nDispatch alerted\n\nSelect incident type:\n- Immediate Danger\n- Public Safety\n- Officer Safety\n- Medical Emergency\n- Fire Hazard\n- Structural Failure\n- Chemical Spill\n- Other Emergency');
-
-            // Haptic feedback simulation
-            if (navigator.vibrate) {
-                navigator.vibrate([200, 100, 200]);
-            }
-        }
-
-        // Connectivity Status Simulation
-        function updateMobileConnectivity() {
-            const statuses = ['online', 'offline', 'limited', 'syncing'];
-            const statusText = ['Online', 'Offline', 'Limited', 'Syncing'];
-            let currentIndex = 3; // Start with syncing
-
-            setInterval(() => {
-                currentIndex = (currentIndex + 1) % statuses.length;
-                const dots = document.querySelectorAll('.mobile-status-dot');
-                const texts = document.querySelectorAll('#mobile-command-content .connectivity-status span:last-child');
-
-                dots.forEach(dot => {
-                    dot.className = 'mobile-status-dot mobile-status-' + statuses[currentIndex];
-                });
-
-                texts.forEach(text => {
-                    if (text) text.textContent = statusText[currentIndex];
-                });
-            }, 5000);
-        }
-
-        // Checklist Button Interactions
-        function initializeMobileChecklist() {
-            // This will be called when the tab is initialized
-            // The actual event listeners will be set up in the document ready handler
-        }
-
-        // Enhanced switchTab to initialize Mobile Command
-        const originalSwitchTabForMobileCommand = switchTab;
-        switchTab = function(tabName) {
-            originalSwitchTabForMobileCommand(tabName);
-            if (tabName === 'mobile-command') {
-                initializeMobileCommand();
-
-                // Initialize checklist button interactions after DOM is ready
-                setTimeout(() => {
-                    document.querySelectorAll('#mobile-command-content .checklist-btn').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            // Remove selected from siblings
-                            this.parentElement.querySelectorAll('.checklist-btn').forEach(b => {
-                                b.classList.remove('selected');
-                            });
-                            // Add selected to clicked button
-                            this.classList.add('selected');
-
-                            // Haptic feedback simulation
-                            if (navigator.vibrate) {
-                                navigator.vibrate(50);
-                            }
-                        });
-                    });
-                }, 100);
-            }
-        };
-
-        console.log('Mobile Command Center loaded successfully');
-        // ===== END MOBILE COMMAND CENTER JAVASCRIPT =====
-
-        // ===== APP SWITCHER FUNCTIONALITY - Added 2025-01-08 =====
-        (function() {
-            const appSwitcherBtn = document.getElementById('appSwitcherBtn');
-            const appSwitcherDropdown = document.getElementById('appSwitcherDropdown');
-            const appSwitcherBackdrop = document.getElementById('appSwitcherBackdrop');
-
-            // Toggle dropdown
-            function toggleAppSwitcher(e) {
-                e.stopPropagation();
-                appSwitcherDropdown.classList.toggle('active');
-                if (appSwitcherBackdrop) {
-                    appSwitcherBackdrop.classList.toggle('active');
-                }
-            }
-
-            // Close dropdown when clicking outside
-            function closeAppSwitcher(e) {
-                if (e && e.target) {
-                    // Called from document click event
-                    if (!appSwitcherBtn.contains(e.target) && !appSwitcherDropdown.contains(e.target)) {
-                        appSwitcherDropdown.classList.remove('active');
-                        if (appSwitcherBackdrop) {
-                            appSwitcherBackdrop.classList.remove('active');
-                        }
-                    }
-                } else {
-                    // Called directly without event
-                    appSwitcherDropdown.classList.remove('active');
-                    if (appSwitcherBackdrop) {
-                        appSwitcherBackdrop.classList.remove('active');
-                    }
-                }
-            }
-
-            // Handle app card clicks
-            function handleAppCardClick(e) {
-                const card = e.target.closest('.app-card');
-                if (!card) return;
-
-                const appType = card.dataset.app;
-                console.log('Card clicked:', appType);
-
-                // Prevent default and stop propagation
-                e.preventDefault();
-                e.stopPropagation();
-
-                if (appType === 'permits') {
-                    // Navigate to Permits landing page
-                    console.log('Navigating to Permits landing page...');
-                    closeAppSwitcher();
-                    setTimeout(() => {
-                        window.location.href = 'permits-landing-test.html';
-                    }, 100);
-                } else if (appType === 'new') {
-                    // TODO: Open new module creation wizard
-                    alert('Create New Module wizard coming soon! This will allow you to build custom applications.');
-                    closeAppSwitcher();
-                    // TODO: Open modal/wizard for creating new modules
-                    console.log('Open new module creation wizard');
-                } else if (appType === 'core') {
-                    // Already on core platform
-                    console.log('Already on Core Platform');
-                    closeAppSwitcher();
-                }
-            }
-
-            // Event listeners
-            if (appSwitcherBtn) {
-                appSwitcherBtn.addEventListener('click', toggleAppSwitcher);
-            }
-
-            if (appSwitcherDropdown) {
-                appSwitcherDropdown.addEventListener('click', handleAppCardClick);
-            }
-
-            if (appSwitcherBackdrop) {
-                appSwitcherBackdrop.addEventListener('click', closeAppSwitcher);
-            }
-
-            document.addEventListener('click', closeAppSwitcher);
-
-            // TODO: Connect to API endpoint /api/user/apps for allowed apps
-            // MOCK DATA - Currently showing Core Platform, Permits, and New Module option
-            // TODO: Implement app switching logic when multiple apps are available
-            // TODO: Track app usage analytics
-            // TODO: Implement Permits module full functionality
-            // TODO: Implement new module creation wizard
-
-            console.log('App Switcher initialized with Permits and New Module options');
-        })();
-        // ===== END APP SWITCHER FUNCTIONALITY =====
-
-        // ===== HELP/TRAINING BUTTON FUNCTIONALITY - Added 2025-01-11 =====
-        (function() {
-            const helpButton = document.getElementById('helpButton');
-
-            if (helpButton) {
-                helpButton.addEventListener('click', function() {
-                    // Open training curriculum in new tab
-                    window.open('training-curriculum.html', '_blank', 'width=1400,height=900');
-                    console.log('Opening training curriculum');
-                });
-            }
-        })();
-        // ===== END HELP/TRAINING FUNCTIONALITY =====
-
-        // ===== SIDEBAR TOGGLE FUNCTIONALITY =====
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            const toggleBtn = document.getElementById('sidebarToggle');
-            const icon = toggleBtn.querySelector('i');
-            const isCollapsed = sidebar.classList.contains('collapsed');
-
-            if (isCollapsed) {
-                sidebar.classList.remove('collapsed');
-                toggleBtn.classList.add('sidebar-open');
-                icon.className = 'fas fa-chevron-left';
-            } else {
-                sidebar.classList.add('collapsed');
-                toggleBtn.classList.remove('sidebar-open');
-                icon.className = 'fas fa-chevron-right';
-            }
-        }
-
-        // Add click listener to toggle button
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggleBtn = document.getElementById('sidebarToggle');
-            if (toggleBtn) {
-                toggleBtn.addEventListener('click', toggleSidebar);
-            }
-        });
-        // ===== END SIDEBAR TOGGLE FUNCTIONALITY =====
     </script>
 </body>
 </html>
