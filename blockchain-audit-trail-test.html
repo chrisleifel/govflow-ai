@@ -578,7 +578,7 @@
                 type: 'genesis',
                 department: 'System',
                 action: 'Blockchain Initialized',
-                data: { message: 'Genesis Block - GovFlow AI Blockchain' },
+                data: { message: 'Genesis Block - Govli AI Blockchain' },
                 previousHash: '0'.repeat(64)
             });
             blockchain.push(genesisBlock);
@@ -644,7 +644,7 @@
                     gasLimit: 200000,
                     difficulty: Math.floor(Math.random() * 5000000) + 1000000,
                     miner: `0x${Math.random().toString(16).substr(2, 40)}`,
-                    minerName: data.minerName || 'GovFlow Validator Node',
+                    minerName: data.minerName || 'Govli Validator Node',
                     confirmations: 0,
                     transactionCount: data.transactionCount || 1,
                     validators: generateValidators(),
