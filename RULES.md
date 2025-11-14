@@ -1,4 +1,4 @@
-# GovFlow AI - Development Rules
+# Govli AI - Development Rules
 
 ## Git & Safety Protocol
 1. **ALWAYS create a git branch before adding new features**

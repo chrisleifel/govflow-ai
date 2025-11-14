@@ -649,7 +649,7 @@
                     transactionCount: data.transactionCount || 1,
                     validators: generateValidators(),
                     consensusAlgorithm: 'Proof of Authority (PoA)',
-                    networkId: 'govflow-mainnet',
+                    networkId: 'govli-mainnet',
                     chainId: 1337,
                     stateRoot: `0x${Math.random().toString(16).substr(2, 64)}`,
                     receiptsRoot: `0x${Math.random().toString(16).substr(2, 64)}`,
@@ -1339,7 +1339,7 @@
                 blockIndex: block.index,
                 hash: block.hash,
                 timestamp: block.timestamp,
-                verifyUrl: `https://govflow.verify/${block.hash}`
+                verifyUrl: `https://govli.verify/${block.hash}`
             });
 
             QRCode.toCanvas(qrData, { width: 200, margin: 2 }, (error, canvas) => {
@@ -1611,7 +1611,7 @@
             }
 
             // Generate share link
-            const shareLink = `https://govflow.audit/share/${token}?access=${accessLevel}&auth=${requireAuth}`;
+            const shareLink = `https://govli.audit/share/${token}?access=${accessLevel}&auth=${requireAuth}`;
 
             // Display generated link
             document.getElementById('generatedLink').textContent = shareLink;

@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgis/postgis:15-3.3
+    environment:
+      POSTGRES_DB: govli_ai
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: govli_secure_password_2024
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    environment:
+      NODE_ENV: production
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: govli_ai
+      DB_USER: postgres
+      DB_PASSWORD: govli_secure_password_2024
+      JWT_SECRET: govli-super-secret-jwt-key
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    command: sh -c "sleep 10 && npm start"
+
+volumes:
+  postgres-data:

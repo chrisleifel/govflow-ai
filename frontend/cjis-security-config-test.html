@@ -393,7 +393,7 @@
                                 <div class="w-2 h-2 bg-green-400 rounded-full mt-2"></div>
                                 <div class="flex-1">
                                     <p class="text-white text-sm">Successful MFA login</p>
-                                    <p class="text-white/50 text-xs">admin@govflow.ai • 2m ago</p>
+                                    <p class="text-white/50 text-xs">admin@govli.ai • 2m ago</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
@@ -407,7 +407,7 @@
                                 <div class="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
                                 <div class="flex-1">
                                     <p class="text-white text-sm">Password expiring soon</p>
-                                    <p class="text-white/50 text-xs">john.doe@govflow.ai • 1h ago</p>
+                                    <p class="text-white/50 text-xs">john.doe@govli.ai • 1h ago</p>
                                 </div>
                             </div>
                         </div>
@@ -563,7 +563,7 @@
                         <div class="space-y-3">
                             <div class="glass rounded-lg p-4">
                                 <div class="flex items-center justify-between mb-2">
-                                    <span class="text-white font-semibold">govflow.ai</span>
+                                    <span class="text-white font-semibold">govli.ai</span>
                                     <span class="badge bg-green-500/20 text-green-400">Valid</span>
                                 </div>
                                 <div class="grid grid-cols-2 gap-2 text-xs">
@@ -940,12 +940,12 @@
         // SECURITY TODO: Implement actual CJIS compliance validation
 
         const AUDIT_LOGS = [
-            { id: 1, timestamp: new Date('2024-10-27T14:23:00'), user: 'admin@govflow.ai', action: 'Login successful', category: 'auth', severity: 'info', ip: '192.168.1.50' },
-            { id: 2, timestamp: new Date('2024-10-27T14:18:00'), user: 'john.doe@govflow.ai', action: 'Accessed CJI record #4821', category: 'data', severity: 'info', ip: '192.168.1.75' },
+            { id: 1, timestamp: new Date('2024-10-27T14:23:00'), user: 'admin@govli.ai', action: 'Login successful', category: 'auth', severity: 'info', ip: '192.168.1.50' },
+            { id: 2, timestamp: new Date('2024-10-27T14:18:00'), user: 'john.doe@govli.ai', action: 'Accessed CJI record #4821', category: 'data', severity: 'info', ip: '192.168.1.75' },
             { id: 3, timestamp: new Date('2024-10-27T14:12:00'), user: 'system', action: 'Password policy updated', category: 'config', severity: 'warning', ip: '127.0.0.1' },
-            { id: 4, timestamp: new Date('2024-10-27T14:05:00'), user: 'jane.smith@govflow.ai', action: 'MFA enrollment completed', category: 'auth', severity: 'info', ip: '192.168.1.100' },
+            { id: 4, timestamp: new Date('2024-10-27T14:05:00'), user: 'jane.smith@govli.ai', action: 'MFA enrollment completed', category: 'auth', severity: 'info', ip: '192.168.1.100' },
             { id: 5, timestamp: new Date('2024-10-27T13:58:00'), user: 'unknown', action: 'Failed login attempt', category: 'security', severity: 'critical', ip: '203.45.67.89' },
-            { id: 6, timestamp: new Date('2024-10-27T13:45:00'), user: 'admin@govflow.ai', action: 'Encryption key rotated', category: 'security', severity: 'warning', ip: '192.168.1.50' },
+            { id: 6, timestamp: new Date('2024-10-27T13:45:00'), user: 'admin@govli.ai', action: 'Encryption key rotated', category: 'security', severity: 'warning', ip: '192.168.1.50' },
             { id: 7, timestamp: new Date('2024-10-27T13:30:00'), user: 'api_service', action: 'API rate limit exceeded', category: 'security', severity: 'warning', ip: '203.45.67.89' },
             { id: 8, timestamp: new Date('2024-10-27T13:15:00'), user: 'backup_job', action: 'Automated backup completed', category: 'system', severity: 'info', ip: '127.0.0.1' }
         ];
