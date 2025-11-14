@@ -1,0 +1,52 @@
+{
+  "name": "govli-ai",
+  "version": "1.0.0",
+  "description": "Government Workflow & Security Platform - Comprehensive AI-powered platform for public sector operations",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000",
+    "serve": "npx http-server -p 8000 -c-1",
+    "lint:html": "echo 'HTML validation not configured'",
+    "format": "echo 'Prettier not configured'",
+    "test": "echo 'No tests configured yet'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/govli-ai.git"
+  },
+  "keywords": [
+    "government",
+    "workflow",
+    "ai",
+    "security",
+    "compliance",
+    "permits",
+    "document-processing",
+    "analytics",
+    "cjis",
+    "fedramp",
+    "fisma",
+    "public-sector",
+    "automation",
+    "blockchain"
+  ],
+  "author": "Your Organization",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/your-org/govli-ai/issues"
+  },
+  "homepage": "https://github.com/your-org/govli-ai#readme",
+  "devDependencies": {},
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions"
+  ]
+}

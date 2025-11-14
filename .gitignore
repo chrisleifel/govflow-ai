@@ -1,0 +1,71 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# OS Files
+Thumbs.db
+desktop.ini
+
+# Build outputs
+dist/
+build/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# Testing
+coverage/
+.nyc_output/
+
+# Python (for local dev server)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Sensitive data (government compliance)
+*.key
+*.pem
+*.cert
+*.crt
+secrets/
+credentials/
+config/local.json
+
+# Mock data that should be replaced
+# (Uncomment if you want to ignore mock data files)
+# mock-data/
+# test-data/
