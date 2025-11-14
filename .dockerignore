@@ -1,0 +1,61 @@
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Documentation (README will be available via repo)
+README.md
+
+# Node modules and dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Editor directories
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker files (no need to copy these into image)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Build outputs
+dist
+build
+
+# Logs
+*.log
+logs
+
+# Temporary files
+tmp
+temp
+*.tmp
+*.backup
+*.bak
+*.old
+
+# Testing
+coverage
+.nyc_output
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
