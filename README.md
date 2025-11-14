@@ -102,7 +102,11 @@ govli-ai/
 
 ### Prerequisites
 
-This is a static HTML application. You only need:
+**Option 1: Docker (Recommended)**
+- Docker 20.10+
+- Docker Compose 1.29+
+
+**Option 2: Manual Setup**
 - A modern web browser (Chrome, Firefox, Safari, Edge)
 - A local web server (optional, for development)
 
@@ -127,6 +131,42 @@ npx http-server -p 8000
 ```
 
 3. Navigate to `http://localhost:8000` (if using a local server)
+
+### 🐳 Docker Deployment (Recommended)
+
+The easiest way to run Govli AI is using Docker:
+
+```bash
+# Build and start the application
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop the application
+docker-compose down
+```
+
+The application will be available at `http://localhost:8080`
+
+**Docker Features:**
+- Lightweight nginx:alpine base image
+- Security headers configured (X-Frame-Options, X-XSS-Protection, etc.)
+- Health checks enabled
+- Production-ready caching strategy
+- Automatic restart on failure
+
+**Manual Docker Build:**
+```bash
+# Build the image
+docker build -t govli-ai:latest .
+
+# Run the container
+docker run -d -p 8080:80 --name govli-ai govli-ai:latest
+
+# Check health status
+docker ps
+```
 
 ### Quick Start
 
@@ -236,12 +276,18 @@ Each feature module includes test pages (suffixed with `-test.html`). To test a 
 
 ## 📊 Technology Stack
 
+### Frontend
 - **HTML5** - Semantic markup
 - **Tailwind CSS** - Utility-first CSS framework
 - **Font Awesome 6** - Icon library
 - **QR Code.js** - QR code generation
 - **Vanilla JavaScript** - No framework dependencies
 - **CSS3** - Modern styling with glassmorphism
+
+### Infrastructure
+- **Docker** - Containerization
+- **nginx:alpine** - Web server (lightweight)
+- **Docker Compose** - Multi-container orchestration
 
 ## 🤝 Contributing
 
