@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const sequelize = require('./config/database');
+const User = require('./models/User');
+const Permit = require('./models/Permit');
 require('dotenv').config();
 
 const app = express();
@@ -38,14 +40,32 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 3000;
 
-sequelize.sync().then(() => {
-  console.log('✅ Database synced');
+async function initDatabase() {
+  try {
+    await sequelize.sync();
+    console.log('✅ Database synced');
+    
+    // Create admin user if it doesn't exist
+    const adminExists = await User.findOne({ where: { email: 'admin@govli.ai' } });
+    if (!adminExists) {
+      await User.create({
+        email: 'admin@govli.ai',
+        password: 'Admin123!',
+        name: 'Admin User',
+        role: 'admin'
+      });
+      console.log('✅ Admin user created');
+    }
+  } catch (error) {
+    console.error('❌ Database initialization failed:', error);
+  }
+}
+
+initDatabase().then(() => {
   app.listen(PORT, () => {
     console.log(`🚀 Govli AI Backend running on port ${PORT}`);
     console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
   });
-}).catch(err => {
-  console.error('❌ Database sync failed:', err);
 });
 
 module.exports = app;
