@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - Govli AI Platform Capabilities</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        blue: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        cyan: {
+                            50: '#ecfeff',
+                            100: '#cffafe',
+                            200: '#a5f3fc',
+                            300: '#67e8f9',
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            700: '#0e7490',
+                            800: '#155e75',
+                            900: '#164e63',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --deep-ocean: #0a1628;
+            --ocean-dark: #0c4a6e;
+            --ocean-primary: #0369a1;
+            --azure-blue: #0284c7;
+            --sky-blue: #0ea5e9;
+            --cyan-bright: #06b6d4;
+            --teal-accent: #14b8a6;
+            --emerald-success: #10b981;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg,
+                #0a1628 0%,
+                #0c2340 25%,
+                #0e3a5f 50%,
+                #1e3a5f 75%,
+                #164e7f 100%
+            );
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(14, 165, 233, 0.1) 100%);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .benefit-item {
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            transform: translateX(10px);
+        }
+    </style>
+</head>
+<body class="gradient-bg text-white">
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 glass-card">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <a href="marketing-home.html" class="flex items-center space-x-2">
+                        <i class="fas fa-brain text-cyan-400 text-2xl"></i>
+                        <span class="text-2xl font-bold">Govli AI</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="marketing-home.html" class="hover:text-cyan-400 transition">Home</a>
+                    <a href="marketing-features.html" class="text-cyan-400">Features</a>
+                    <a href="marketing-pricing.html" class="hover:text-cyan-400 transition">Pricing</a>
+                    <a href="marketing-home.html#demo" class="hover:text-cyan-400 transition">Demo</a>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="index.html" class="px-4 py-2 rounded-lg border border-cyan-500 hover:bg-cyan-500/10 transition">
+                        Login
+                    </a>
+                    <a href="marketing-home.html#demo" class="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 transition">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                Platform <span class="text-cyan-400">Features</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                Comprehensive suite of AI-powered tools designed specifically for government operations
+            </p>
+        </div>
+    </section>
+
+    <!-- Core Features -->
+    <section id="document-processing" class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="glass-card p-12 rounded-2xl mb-12">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="feature-icon mb-6">
+                            <i class="fas fa-file-alt text-cyan-400 text-3xl"></i>
+                        </div>
+                        <h2 class="text-4xl font-bold mb-6">Intelligent Document Processing</h2>
+                        <p class="text-gray-300 mb-6 text-lg">
+                            Transform how your agency handles documents with AI-powered extraction, classification, and validation.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="benefit-item flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-emerald-400 text-xl mt-1"></i>
+                                <div>
+                                    <div class="font-semibold">98% Accuracy Rate</div>
+                                    <div class="text-gray-400">Advanced OCR and NLP extract data from any document type</div>
+                                </div>
+                            </div>
+                            <div class="benefit-item flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-emerald-400 text-xl mt-1"></i>
+                                <div>
+                                    <div class="font-semibold">Automated Classification</div>
+                                    <div class="text-gray-400">AI automatically categorizes and routes documents to correct departments</div>
+                                </div>
+                            </div>
+                            <div class="benefit-item flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-emerald-400 text-xl mt-1"></i>
+                                <div>
+                                    <div class="font-semibold">Smart Validation</div>
+                                    <div class="text-gray-400">Verify information against regulations and existing records instantly</div>
+                                </div>
+                            </div>
+                            <div class="benefit-item flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-emerald-400 text-xl mt-1"></i>
+                                <div>
+                                    <div class="font-semibold">Multi-Format Support</div>
+                                    <div class="text-gray-400">Process PDFs, images, scans, emails, and handwritten forms</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="glass-card p-6 rounded-xl text-center">
+                            <div class="text-4xl text-cyan-400 mb-2">85%</div>
+                            <div class="text-gray-300 text-sm">Time Saved on Data Entry</div>
+                        </div>
+                        <div class="glass-card p-6 rounded-xl text-center">
+                            <div class="text-4xl text-cyan-400 mb-2">10x</div>
+                            <div class="text-gray-300 text-sm">Faster Processing</div>
+                        </div>
+                        <div class="glass-card p-6 rounded-xl text-center">
+                            <div class="text-4xl text-cyan-400 mb-2">50+</div>
+                            <div class="text-gray-300 text-sm">Document Types Supported</div>
+                        </div>
+                        <div class="glass-card p-6 rounded-xl text-center">
+                            <div class="text-4xl text-cyan-400 mb-2">99%</div>
+                            <div class="text-gray-300 text-sm">Error Reduction</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Automation -->
+    <section id="workflow" class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="glass-card p-12 rounded-2xl mb-12">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 lg:order-1">
+                        <div class="space-y-4">
+                            <div class="glass-card p-6 rounded-xl">
+                                <i class="fas fa-paint-brush text-cyan-400 text-2xl mb-3"></i>
+                                <h3 class="font-bold mb-2">Visual Workflow Builder</h3>
+                                <p class="text-gray-400 text-sm">Drag-and-drop interface to design complex workflows without coding</p>
+                            </div>
+                            <div class="glass-card p-6 rounded-xl">
+                                <i class="fas fa-bolt text-cyan-400 text-2xl mb-3"></i>
+                                <h3 class="font-bold mb-2">Conditional Logic</h3>
+                                <p class="text-gray-400 text-sm">Smart routing based on form data, approvals, and business rules</p>
+                            </div>
+                            <div class="glass-card p-6 rounded-xl">
+                                <i class="fas fa-clock text-cyan-400 text-2xl mb-3"></i>
+                                <h3 class="font-bold mb-2">SLA Management</h3>
+                                <p class="text-gray-400 text-sm">Automatic escalations and deadline tracking to meet service levels</p>
+                            </div>
+                            <div class="glass-card p-6 rounded-xl">
+                                <i class="fas fa-chart-bar text-cyan-400 text-2xl mb-3"></i>
+                                <h3 class="font-bold mb-2">Process Analytics</h3>
+                                <p class="text-gray-400 text-sm">Real-time insights into bottlenecks and optimization opportunities</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1 lg:order-2">
+                        <div class="feature-icon mb-6">
+                            <i class="fas fa-project-diagram text-cyan-400 text-3xl"></i>
+                        </div>
+                        <h2 class="text-4xl font-bold mb-6">Workflow Automation</h2>
+                        <p class="text-gray-300 mb-6 text-lg">
+                            Design, deploy, and optimize government processes with our no-code workflow automation platform.
+                        </p>
+                        <div class="bg-gradient-to-r from-cyan-500/20 to-blue-600/20 p-6 rounded-xl border border-cyan-500/30">
+                            <h4 class="font-bold mb-3">Popular Workflow Templates:</h4>
+                            <ul class="space-y-2 text-gray-300">
+                                <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Permit Application & Approval</li>
+                                <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>License Renewal & Verification</li>
+                                <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Public Records Request</li>
+                                <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Incident Reporting & Response</li>
+                                <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Contract Approval Process</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security & Compliance -->
+    <section id="security" class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">Security & Compliance</h2>
+                <p class="text-gray-300 text-lg">Enterprise-grade security built for government requirements</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-shield-alt text-cyan-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">CJIS Compliance</h3>
+                    <p class="text-gray-400 mb-4">Full compliance with FBI CJIS Security Policy for law enforcement data</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Advanced Authentication</li>
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Audit Logging</li>
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Data Encryption</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-lock text-cyan-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">End-to-End Encryption</h3>
+                    <p class="text-gray-400 mb-4">Military-grade AES-256 encryption for data at rest and in transit</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Zero-knowledge architecture</li>
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>TLS 1.3 connections</li>
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Key rotation policies</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-user-shield text-cyan-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Access Control</h3>
+                    <p class="text-gray-400 mb-4">Granular role-based permissions and multi-factor authentication</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>MFA/2FA support</li>
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>SSO integration</li>
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Session management</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-cube text-cyan-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Blockchain Audit Trail</h3>
+                    <p class="text-gray-400 mb-4">Immutable, tamper-proof record of all system activities</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Complete audit history</li>
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Cryptographic verification</li>
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Compliance reporting</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-eye text-cyan-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Security Monitoring</h3>
+                    <p class="text-gray-400 mb-4">24/7 threat detection and automated incident response</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Real-time alerts</li>
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Intrusion detection</li>
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Vulnerability scanning</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-database text-cyan-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Data Residency</h3>
+                    <p class="text-gray-400 mb-4">Control where your data is stored to meet local requirements</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>US-based data centers</li>
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Air-gapped deployment</li>
+                        <li><i class="fas fa-check text-cyan-400 mr-2"></i>Private cloud options</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Citizen Portal -->
+    <section id="citizen-portal" class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="glass-card p-12 rounded-2xl">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="feature-icon mb-6">
+                            <i class="fas fa-users text-cyan-400 text-3xl"></i>
+                        </div>
+                        <h2 class="text-4xl font-bold mb-6">Citizen Self-Service Portal</h2>
+                        <p class="text-gray-300 mb-6 text-lg">
+                            Empower citizens to interact with government services 24/7 through an intuitive online portal.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-gradient-to-br from-cyan-500/10 to-blue-600/10 p-4 rounded-lg border border-cyan-500/30">
+                                <i class="fas fa-mobile-alt text-cyan-400 text-2xl mb-2"></i>
+                                <div class="font-semibold mb-1">Mobile-First Design</div>
+                                <div class="text-gray-400 text-sm">Responsive on all devices</div>
+                            </div>
+                            <div class="bg-gradient-to-br from-cyan-500/10 to-blue-600/10 p-4 rounded-lg border border-cyan-500/30">
+                                <i class="fas fa-language text-cyan-400 text-2xl mb-2"></i>
+                                <div class="font-semibold mb-1">Multi-Language</div>
+                                <div class="text-gray-400 text-sm">Support for 50+ languages</div>
+                            </div>
+                            <div class="bg-gradient-to-br from-cyan-500/10 to-blue-600/10 p-4 rounded-lg border border-cyan-500/30">
+                                <i class="fas fa-bell text-cyan-400 text-2xl mb-2"></i>
+                                <div class="font-semibold mb-1">Real-Time Updates</div>
+                                <div class="text-gray-400 text-sm">Status notifications via email/SMS</div>
+                            </div>
+                            <div class="bg-gradient-to-br from-cyan-500/10 to-blue-600/10 p-4 rounded-lg border border-cyan-500/30">
+                                <i class="fas fa-credit-card text-cyan-400 text-2xl mb-2"></i>
+                                <div class="font-semibold mb-1">Online Payments</div>
+                                <div class="text-gray-400 text-sm">Secure payment processing</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="glass-card p-6 rounded-xl">
+                            <h4 class="font-bold text-lg mb-3">Key Capabilities:</h4>
+                            <ul class="space-y-3 text-gray-300">
+                                <li class="flex items-start space-x-3">
+                                    <i class="fas fa-check-circle text-emerald-400 mt-1"></i>
+                                    <span>Submit applications, permits, and licenses online</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <i class="fas fa-check-circle text-emerald-400 mt-1"></i>
+                                    <span>Track application status in real-time</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <i class="fas fa-check-circle text-emerald-400 mt-1"></i>
+                                    <span>Upload and manage documents securely</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <i class="fas fa-check-circle text-emerald-400 mt-1"></i>
+                                    <span>Communicate with departments via messaging</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <i class="fas fa-check-circle text-emerald-400 mt-1"></i>
+                                    <span>Make payments and view transaction history</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <i class="fas fa-check-circle text-emerald-400 mt-1"></i>
+                                    <span>Schedule appointments and inspections</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 p-6 rounded-xl border border-emerald-500/30">
+                            <div class="text-3xl font-bold text-emerald-400 mb-2">60% Reduction</div>
+                            <div class="text-gray-300">in call center volume with self-service portal</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics & Intelligence -->
+    <section id="analytics" class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">Analytics & Intelligence</h2>
+                <p class="text-gray-300 text-lg">Data-driven insights to optimize operations and improve services</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-chart-line text-cyan-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Real-Time Dashboards</h3>
+                    <p class="text-gray-400 mb-6">
+                        Customizable dashboards provide instant visibility into key metrics and KPIs across all departments.
+                    </p>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Application volumes and processing times</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Revenue and payment tracking</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Staff productivity and workload</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Citizen satisfaction scores</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Compliance and SLA metrics</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-brain text-cyan-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Predictive Analytics</h3>
+                    <p class="text-gray-400 mb-6">
+                        AI-powered forecasting helps you anticipate demand, optimize resources, and improve planning.
+                    </p>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Demand forecasting for services</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Resource allocation optimization</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Anomaly detection and fraud prevention</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Predictive maintenance alerts</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Trend analysis and reporting</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-gavel text-cyan-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Policy Intelligence</h3>
+                    <p class="text-gray-400 mb-6">
+                        AI assistant that helps interpret regulations and ensures compliance with local, state, and federal policies.
+                    </p>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Regulatory change monitoring</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Policy interpretation assistance</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Compliance checking automation</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Impact analysis for new regulations</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-city text-cyan-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Digital Twin</h3>
+                    <p class="text-gray-400 mb-6">
+                        Virtual replica of your government operations for simulation, testing, and optimization.
+                    </p>
+                    <ul class="space-y-3 text-gray-300">
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Process simulation and testing</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Scenario planning and modeling</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Impact assessment before changes</li>
+                        <li><i class="fas fa-angle-right text-cyan-400 mr-2"></i>Continuous optimization recommendations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integration Platform -->
+    <section id="api" class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="glass-card p-12 rounded-2xl">
+                <div class="text-center mb-12">
+                    <div class="feature-icon mx-auto mb-6">
+                        <i class="fas fa-link text-cyan-400 text-3xl"></i>
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">API Integration Platform</h2>
+                    <p class="text-gray-300 text-lg max-w-3xl mx-auto">
+                        Connect Govli AI with your existing systems seamlessly. Our platform supports hundreds of integrations out of the box.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-cyan-400 mb-2">200+</div>
+                        <div class="text-gray-300">Pre-built Integrations</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-cyan-400 mb-2">REST</div>
+                        <div class="text-gray-300">RESTful API Support</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-cyan-400 mb-2">24/7</div>
+                        <div class="text-gray-300">Integration Support</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold text-lg mb-4">System Integrations:</h4>
+                        <div class="space-y-2 text-gray-300">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-check text-cyan-400"></i>
+                                <span>GIS and Mapping Systems (ESRI, Google Maps)</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-check text-cyan-400"></i>
+                                <span>Payment Gateways (Stripe, PayPal, Government Pay)</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-check text-cyan-400"></i>
+                                <span>Email & SMS Services (Twilio, SendGrid)</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-check text-cyan-400"></i>
+                                <span>Identity Providers (Active Directory, Okta, Auth0)</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-check text-cyan-400"></i>
+                                <span>Document Storage (SharePoint, Box, Google Drive)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg mb-4">Government Systems:</h4>
+                        <div class="space-y-2 text-gray-300">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-check text-cyan-400"></i>
+                                <span>CJIS Criminal Justice Systems</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-check text-cyan-400"></i>
+                                <span>State & Federal Databases</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-check text-cyan-400"></i>
+                                <span>Tax and Revenue Systems</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-check text-cyan-400"></i>
+                                <span>Property Assessment Systems</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-check text-cyan-400"></i>
+                                <span>Legacy ERP and Financial Systems</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Features Grid -->
+    <section class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12">Additional Capabilities</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-mobile-alt text-cyan-400 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Mobile Command Center</h4>
+                    <p class="text-gray-400 text-sm">Field operations and mobile access</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-comments text-cyan-400 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Public Engagement</h4>
+                    <p class="text-gray-400 text-sm">Town halls and constituent feedback</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-robot text-cyan-400 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">AI Chatbot</h4>
+                    <p class="text-gray-400 text-sm">24/7 automated citizen support</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-graduation-cap text-cyan-400 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Training Platform</h4>
+                    <p class="text-gray-400 text-sm">Staff onboarding and education</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-code text-cyan-400 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Developer API</h4>
+                    <p class="text-gray-400 text-sm">Build custom integrations</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-inbox text-cyan-400 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Constituent Inbox</h4>
+                    <p class="text-gray-400 text-sm">Unified communication hub</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-file-invoice text-cyan-400 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Automated Reporting</h4>
+                    <p class="text-gray-400 text-sm">Compliance and custom reports</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-cloud text-cyan-400 text-3xl mb-3"></i>
+                    <h4 class="font-bold mb-2">Cloud & On-Premise</h4>
+                    <p class="text-gray-400 text-sm">Flexible deployment options</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="glass-card p-12 rounded-2xl">
+                <h2 class="text-4xl font-bold mb-6">Ready to See These Features in Action?</h2>
+                <p class="text-xl text-gray-300 mb-8">
+                    Schedule a personalized demo to see how Govli AI can transform your agency
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="marketing-home.html#demo" class="px-8 py-4 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 transition text-lg font-semibold">
+                        <i class="fas fa-calendar-alt mr-2"></i>Schedule Demo
+                    </a>
+                    <a href="marketing-pricing.html" class="px-8 py-4 rounded-lg border border-cyan-500 hover:bg-cyan-500/10 transition text-lg font-semibold">
+                        <i class="fas fa-tag mr-2"></i>View Pricing
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-brain text-cyan-400 text-2xl"></i>
+                        <span class="text-xl font-bold">Govli AI</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        Transforming government operations through intelligent automation.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-4">Product</h3>
+                    <div class="space-y-2 text-gray-400 text-sm">
+                        <div><a href="marketing-features.html" class="hover:text-cyan-400">Features</a></div>
+                        <div><a href="marketing-pricing.html" class="hover:text-cyan-400">Pricing</a></div>
+                        <div><a href="#security" class="hover:text-cyan-400">Security</a></div>
+                        <div><a href="#api" class="hover:text-cyan-400">Integrations</a></div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-4">Resources</h3>
+                    <div class="space-y-2 text-gray-400 text-sm">
+                        <div><a href="#" class="hover:text-cyan-400">Documentation</a></div>
+                        <div><a href="#" class="hover:text-cyan-400">API Reference</a></div>
+                        <div><a href="#" class="hover:text-cyan-400">Support</a></div>
+                        <div><a href="#" class="hover:text-cyan-400">Training</a></div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-4">Company</h3>
+                    <div class="space-y-2 text-gray-400 text-sm">
+                        <div><a href="#" class="hover:text-cyan-400">About Us</a></div>
+                        <div><a href="#" class="hover:text-cyan-400">Contact</a></div>
+                        <div><a href="marketing-home.html" class="hover:text-cyan-400">Home</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-800 text-center text-gray-400 text-sm">
+                <p>&copy; 2025 Govli AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

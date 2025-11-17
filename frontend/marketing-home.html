@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Govli AI - Transform Government Operations with Intelligent Automation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        blue: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        cyan: {
+                            50: '#ecfeff',
+                            100: '#cffafe',
+                            200: '#a5f3fc',
+                            300: '#67e8f9',
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            700: '#0e7490',
+                            800: '#155e75',
+                            900: '#164e63',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --deep-ocean: #0a1628;
+            --ocean-dark: #0c4a6e;
+            --ocean-primary: #0369a1;
+            --azure-blue: #0284c7;
+            --sky-blue: #0ea5e9;
+            --cyan-bright: #06b6d4;
+            --teal-accent: #14b8a6;
+            --emerald-success: #10b981;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg,
+                #0a1628 0%,
+                #0c2340 25%,
+                #0e3a5f 50%,
+                #1e3a5f 75%,
+                #164e7f 100%
+            );
+            min-height: 100vh;
+        }
+
+        .gradient-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(14, 165, 233, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glow-hover {
+            transition: all 0.3s ease;
+        }
+
+        .glow-hover:hover {
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(14, 165, 233, 0.05) 100%);
+        }
+    </style>
+</head>
+<body class="gradient-bg text-white relative">
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 glass-card">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-brain text-cyan-400 text-2xl"></i>
+                    <span class="text-2xl font-bold">Govli AI</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#features" class="hover:text-cyan-400 transition">Features</a>
+                    <a href="marketing-features.html" class="hover:text-cyan-400 transition">Solutions</a>
+                    <a href="marketing-pricing.html" class="hover:text-cyan-400 transition">Pricing</a>
+                    <a href="#demo" class="hover:text-cyan-400 transition">Demo</a>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="index.html" class="px-4 py-2 rounded-lg border border-cyan-500 hover:bg-cyan-500/10 transition">
+                        Login
+                    </a>
+                    <a href="#demo" class="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 transition">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+                    Transform Government Operations
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-gray-300 max-w-3xl mx-auto">
+                    The most advanced AI-powered platform for government automation, citizen services, and secure workflow management
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                    <a href="#demo" class="px-8 py-4 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 transition text-lg font-semibold">
+                        <i class="fas fa-rocket mr-2"></i>Request Demo
+                    </a>
+                    <a href="marketing-features.html" class="px-8 py-4 rounded-lg border border-cyan-500 hover:bg-cyan-500/10 transition text-lg font-semibold">
+                        <i class="fas fa-book mr-2"></i>Explore Features
+                    </a>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-16">
+                    <div class="stat-card glass-card p-6 rounded-xl">
+                        <div class="text-4xl font-bold text-cyan-400 mb-2">85%</div>
+                        <div class="text-gray-300">Processing Time Reduction</div>
+                    </div>
+                    <div class="stat-card glass-card p-6 rounded-xl">
+                        <div class="text-4xl font-bold text-cyan-400 mb-2">99.9%</div>
+                        <div class="text-gray-300">Uptime Guarantee</div>
+                    </div>
+                    <div class="stat-card glass-card p-6 rounded-xl">
+                        <div class="text-4xl font-bold text-cyan-400 mb-2">500+</div>
+                        <div class="text-gray-300">Government Agencies</div>
+                    </div>
+                    <div class="stat-card glass-card p-6 rounded-xl">
+                        <div class="text-4xl font-bold text-cyan-400 mb-2">24/7</div>
+                        <div class="text-gray-300">Support & Monitoring</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features -->
+    <section id="features" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">
+                Comprehensive <span class="text-cyan-400">Government Solutions</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="glass-card p-8 rounded-xl glow-hover">
+                    <div class="text-cyan-400 text-4xl mb-4">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Intelligent Document Processing</h3>
+                    <p class="text-gray-300 mb-4">
+                        AI-powered document extraction, classification, and processing. Automatically handle permits, licenses, and applications with 98% accuracy.
+                    </p>
+                    <a href="marketing-features.html#document-processing" class="text-cyan-400 hover:text-cyan-300 transition">
+                        Learn More <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass-card p-8 rounded-xl glow-hover">
+                    <div class="text-cyan-400 text-4xl mb-4">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Workflow Automation</h3>
+                    <p class="text-gray-300 mb-4">
+                        Visual workflow builder with no-code automation. Design, deploy, and optimize government processes in minutes, not months.
+                    </p>
+                    <a href="marketing-features.html#workflow" class="text-cyan-400 hover:text-cyan-300 transition">
+                        Learn More <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass-card p-8 rounded-xl glow-hover">
+                    <div class="text-cyan-400 text-4xl mb-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">CJIS-Compliant Security</h3>
+                    <p class="text-gray-300 mb-4">
+                        Military-grade encryption, role-based access control, and full compliance with CJIS, NIST, and government security standards.
+                    </p>
+                    <a href="marketing-features.html#security" class="text-cyan-400 hover:text-cyan-300 transition">
+                        Learn More <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="glass-card p-8 rounded-xl glow-hover">
+                    <div class="text-cyan-400 text-4xl mb-4">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Citizen Portal</h3>
+                    <p class="text-gray-300 mb-4">
+                        Self-service portal for citizens to submit applications, track status, and communicate with departments 24/7.
+                    </p>
+                    <a href="marketing-features.html#citizen-portal" class="text-cyan-400 hover:text-cyan-300 transition">
+                        Learn More <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="glass-card p-8 rounded-xl glow-hover">
+                    <div class="text-cyan-400 text-4xl mb-4">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Advanced Analytics</h3>
+                    <p class="text-gray-300 mb-4">
+                        Real-time dashboards, predictive analytics, and AI-driven insights to optimize operations and improve citizen services.
+                    </p>
+                    <a href="marketing-features.html#analytics" class="text-cyan-400 hover:text-cyan-300 transition">
+                        Learn More <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="glass-card p-8 rounded-xl glow-hover">
+                    <div class="text-cyan-400 text-4xl mb-4">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">API Integration Platform</h3>
+                    <p class="text-gray-300 mb-4">
+                        Connect with existing systems seamlessly. Pre-built integrations with major government platforms and legacy systems.
+                    </p>
+                    <a href="marketing-features.html#api" class="text-cyan-400 hover:text-cyan-300 transition">
+                        Learn More <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="py-20 px-4 bg-gradient-to-b from-transparent to-black/30">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">
+                Built for <span class="text-cyan-400">Every Department</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-xl">
+                    <i class="fas fa-building text-cyan-400 text-3xl mb-3"></i>
+                    <h3 class="text-xl font-bold mb-2">Building & Permits</h3>
+                    <p class="text-gray-300 text-sm">Streamline permit applications, inspections, and approvals</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl">
+                    <i class="fas fa-balance-scale text-cyan-400 text-3xl mb-3"></i>
+                    <h3 class="text-xl font-bold mb-2">Law Enforcement</h3>
+                    <p class="text-gray-300 text-sm">CJIS-compliant case management and reporting</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl">
+                    <i class="fas fa-heartbeat text-cyan-400 text-3xl mb-3"></i>
+                    <h3 class="text-xl font-bold mb-2">Health Services</h3>
+                    <p class="text-gray-300 text-sm">License management and compliance tracking</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl">
+                    <i class="fas fa-graduation-cap text-cyan-400 text-3xl mb-3"></i>
+                    <h3 class="text-xl font-bold mb-2">Education</h3>
+                    <p class="text-gray-300 text-sm">Student records and administrative automation</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl">
+                    <i class="fas fa-coins text-cyan-400 text-3xl mb-3"></i>
+                    <h3 class="text-xl font-bold mb-2">Revenue & Taxation</h3>
+                    <p class="text-gray-300 text-sm">Payment processing and audit trails</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl">
+                    <i class="fas fa-hard-hat text-cyan-400 text-3xl mb-3"></i>
+                    <h3 class="text-xl font-bold mb-2">Public Works</h3>
+                    <p class="text-gray-300 text-sm">Work order management and asset tracking</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust & Security -->
+    <section class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="glass-card p-12 rounded-2xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl font-bold mb-6">
+                            Enterprise-Grade <span class="text-cyan-400">Security</span>
+                        </h2>
+                        <p class="text-gray-300 mb-6 text-lg">
+                            Govli AI meets the highest security standards required by government agencies. Our platform is built with security-first architecture.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-emerald-400 text-xl mt-1"></i>
+                                <div>
+                                    <div class="font-semibold">CJIS Security Policy Compliant</div>
+                                    <div class="text-gray-400 text-sm">Full compliance with FBI CJIS standards</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-emerald-400 text-xl mt-1"></i>
+                                <div>
+                                    <div class="font-semibold">FedRAMP & NIST 800-53</div>
+                                    <div class="text-gray-400 text-sm">Federal security requirements certified</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-emerald-400 text-xl mt-1"></i>
+                                <div>
+                                    <div class="font-semibold">Blockchain Audit Trail</div>
+                                    <div class="text-gray-400 text-sm">Immutable, tamper-proof record keeping</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-emerald-400 text-xl mt-1"></i>
+                                <div>
+                                    <div class="font-semibold">End-to-End Encryption</div>
+                                    <div class="text-gray-400 text-sm">Military-grade AES-256 encryption</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="text-center p-6 bg-gradient-to-br from-cyan-500/10 to-blue-600/10 rounded-xl border border-cyan-500/30">
+                            <i class="fas fa-lock text-cyan-400 text-4xl mb-3"></i>
+                            <div class="font-bold text-lg">SOC 2 Type II</div>
+                            <div class="text-gray-400 text-sm">Certified</div>
+                        </div>
+                        <div class="text-center p-6 bg-gradient-to-br from-cyan-500/10 to-blue-600/10 rounded-xl border border-cyan-500/30">
+                            <i class="fas fa-shield-alt text-cyan-400 text-4xl mb-3"></i>
+                            <div class="font-bold text-lg">HIPAA</div>
+                            <div class="text-gray-400 text-sm">Compliant</div>
+                        </div>
+                        <div class="text-center p-6 bg-gradient-to-br from-cyan-500/10 to-blue-600/10 rounded-xl border border-cyan-500/30">
+                            <i class="fas fa-user-shield text-cyan-400 text-4xl mb-3"></i>
+                            <div class="font-bold text-lg">GDPR</div>
+                            <div class="text-gray-400 text-sm">Ready</div>
+                        </div>
+                        <div class="text-center p-6 bg-gradient-to-br from-cyan-500/10 to-blue-600/10 rounded-xl border border-cyan-500/30">
+                            <i class="fas fa-certificate text-cyan-400 text-4xl mb-3"></i>
+                            <div class="font-bold text-lg">ISO 27001</div>
+                            <div class="text-gray-400 text-sm">Certified</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16">
+                Trusted by <span class="text-cyan-400">Government Leaders</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                    <p class="text-gray-300 mb-6 italic">
+                        "Govli AI transformed our permit processing time from weeks to hours. The ROI was evident within the first quarter."
+                    </p>
+                    <div class="font-semibold">John Martinez</div>
+                    <div class="text-gray-400 text-sm">Director of Building Services, City of Springfield</div>
+                </div>
+
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                    <p class="text-gray-300 mb-6 italic">
+                        "The security features and CJIS compliance made this an easy choice. Implementation was seamless."
+                    </p>
+                    <div class="font-semibold">Sarah Chen</div>
+                    <div class="text-gray-400 text-sm">Chief Information Officer, County Government</div>
+                </div>
+
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                    <p class="text-gray-300 mb-6 italic">
+                        "Citizens love the self-service portal. Our call volume dropped by 60% while satisfaction scores increased."
+                    </p>
+                    <div class="font-semibold">Michael Thompson</div>
+                    <div class="text-gray-400 text-sm">City Manager, Metro City</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="demo" class="py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="glass-card p-12 rounded-2xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    Ready to Transform Your Government Operations?
+                </h2>
+                <p class="text-xl text-gray-300 mb-8">
+                    Join hundreds of government agencies already using Govli AI to serve citizens better
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="index.html" class="px-8 py-4 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 transition text-lg font-semibold">
+                        <i class="fas fa-calendar-alt mr-2"></i>Schedule Demo
+                    </a>
+                    <a href="marketing-pricing.html" class="px-8 py-4 rounded-lg border border-cyan-500 hover:bg-cyan-500/10 transition text-lg font-semibold">
+                        <i class="fas fa-tag mr-2"></i>View Pricing
+                    </a>
+                </div>
+                <p class="text-gray-400 mt-6 text-sm">
+                    No credit card required • 30-day free trial • Cancel anytime
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-brain text-cyan-400 text-2xl"></i>
+                        <span class="text-xl font-bold">Govli AI</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        Transforming government operations through intelligent automation and secure workflows.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-4">Product</h3>
+                    <div class="space-y-2 text-gray-400 text-sm">
+                        <div><a href="marketing-features.html" class="hover:text-cyan-400">Features</a></div>
+                        <div><a href="marketing-pricing.html" class="hover:text-cyan-400">Pricing</a></div>
+                        <div><a href="#" class="hover:text-cyan-400">Security</a></div>
+                        <div><a href="#" class="hover:text-cyan-400">Integrations</a></div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-4">Resources</h3>
+                    <div class="space-y-2 text-gray-400 text-sm">
+                        <div><a href="#" class="hover:text-cyan-400">Documentation</a></div>
+                        <div><a href="#" class="hover:text-cyan-400">API Reference</a></div>
+                        <div><a href="#" class="hover:text-cyan-400">Support</a></div>
+                        <div><a href="#" class="hover:text-cyan-400">Training</a></div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-4">Company</h3>
+                    <div class="space-y-2 text-gray-400 text-sm">
+                        <div><a href="#" class="hover:text-cyan-400">About Us</a></div>
+                        <div><a href="#" class="hover:text-cyan-400">Careers</a></div>
+                        <div><a href="#" class="hover:text-cyan-400">Contact</a></div>
+                        <div><a href="#" class="hover:text-cyan-400">Privacy Policy</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-800 text-center text-gray-400 text-sm">
+                <p>&copy; 2025 Govli AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
