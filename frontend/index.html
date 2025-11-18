@@ -13465,6 +13465,10 @@
         
         // Initialize application
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize real API modules
+            initializeDashboard(); // Load real dashboard stats
+
+            // Initialize mock data functions (to be replaced)
             initializeWorkflowTemplates();
             populateRecentActivity();
             populateRecentRequests();
@@ -13515,11 +13519,17 @@
             document.getElementById('pageSubtitle').textContent = titles[tabName].subtitle;
             
             // Initialize specific tab functionality
+            if (tabName === 'dashboard' && document.getElementById('dashboard-content')) {
+                initializeDashboard();
+            }
             if (tabName === 'analytics' && document.getElementById('activityFeed')) {
                 initializeAnalytics();
             }
             if (tabName === 'crm' && document.getElementById('contactsTableBody')) {
                 initializeCRM();
+            }
+            if (tabName === 'grants' && document.getElementById('grantSearchResults')) {
+                initializeGrants();
             }
             if (tabName === 'compliance' && document.getElementById('blockchainAuditTrail')) {
                 initializeBlockchain();
@@ -18379,9 +18389,34 @@
         // CRM Functions
 
         function initializeCRM() {
-            populateContactsTable();
-            setupContactSearch();
-            updateCRMAnalytics();
+            // Initialize real CRM module with API integration
+            if (window.CRM) {
+                CRM.init();
+            } else {
+                console.error('CRM module not loaded');
+            }
+        }
+
+        // Grants Functions
+
+        function initializeGrants() {
+            // Initialize real Grants module with API integration
+            if (window.Grants) {
+                Grants.init();
+            } else {
+                console.error('Grants module not loaded');
+            }
+        }
+
+        // Dashboard Functions
+
+        function initializeDashboard() {
+            // Initialize real Dashboard module with API integration
+            if (window.Dashboard) {
+                Dashboard.init();
+            } else {
+                console.error('Dashboard module not loaded');
+            }
         }
 
         function populateContactsTable(contacts = crmContacts) {
@@ -24591,5 +24626,20 @@
         });
         // ===== END SIDEBAR TOGGLE FUNCTIONALITY =====
     </script>
+
+    <!-- API Configuration -->
+    <script src="config.js"></script>
+
+    <!-- Authentication Module -->
+    <script src="auth.js"></script>
+
+    <!-- CRM Module -->
+    <script src="crm.js"></script>
+
+    <!-- Grants Module -->
+    <script src="grants.js"></script>
+
+    <!-- Dashboard Module -->
+    <script src="dashboard.js"></script>
 </body>
 </html>

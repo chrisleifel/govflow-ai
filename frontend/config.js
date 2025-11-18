@@ -13,7 +13,12 @@ const API_CONFIG = {
     PERMITS: {
       LIST: '/api/permits',
       CREATE: '/api/permits',
-      GET: (id) => `/api/permits/${id}`
+      GET: (id) => `/api/permits/${id}`,
+      UPDATE: (id) => `/api/permits/${id}`,
+      DELETE: (id) => `/api/permits/${id}`,
+      UPDATE_STATUS: (id) => `/api/permits/${id}/status`,
+      STATS: '/api/permits/stats',
+      SEARCH: '/api/permits/search'
     },
     DASHBOARD: {
       METRICS: '/api/dashboard/metrics'
