@@ -1,0 +1,133 @@
+# ===================================
+# GOVLI-AI-V2 RENDER BLUEPRINT
+# ===================================
+# This file defines infrastructure as code for Render.com
+# Deploy using: Render Dashboard > New > Blueprint
+
+services:
+  # Backend Web Service
+  - type: web
+    name: govli-ai-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: starter
+    region: oregon
+    branch: main
+    healthCheckPath: /api/health
+    envVars:
+      # Environment
+      - key: NODE_ENV
+        value: production
+
+      # Server
+      - key: PORT
+        value: 3000
+
+      # Database Connection (auto-populated from database)
+      - key: DB_HOST
+        fromDatabase:
+          name: govli-ai-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: govli-ai-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: govli-ai-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: govli-ai-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: govli-ai-db
+          property: password
+
+      # JWT - Auto-generate secure secret
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRY
+        value: 8h
+      - key: JWT_REFRESH_EXPIRY
+        value: 7d
+
+      # Security & CORS - MUST UPDATE after Vercel deployment
+      - key: CORS_ORIGIN
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+
+      # Security Settings
+      - key: BCRYPT_ROUNDS
+        value: 12
+      - key: MAX_LOGIN_ATTEMPTS
+        value: 5
+      - key: LOCK_TIME
+        value: 900000
+
+      # Rate Limiting
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
+
+      # File Upload
+      - key: MAX_FILE_SIZE
+        value: 10485760
+      - key: ALLOWED_FILE_TYPES
+        value: pdf,doc,docx,jpg,jpeg,png,gif,xls,xlsx
+
+      # Storage
+      - key: STORAGE_TYPE
+        value: local
+      - key: STORAGE_PATH
+        value: ./uploads
+
+      # Email
+      - key: EMAIL_FROM
+        value: noreply@govli.ai
+
+# PostgreSQL Database
+databases:
+  - name: govli-ai-db
+    databaseName: govli_ai
+    user: govli_user
+    postgresMajorVersion: 15
+    plan: starter
+    region: oregon
+
+# ===================================
+# DEPLOYMENT INSTRUCTIONS
+# ===================================
+#
+# 1. Push this file to your GitHub repository
+# 2. Go to Render Dashboard: https://dashboard.render.com
+# 3. Click "New" > "Blueprint"
+# 4. Connect your GitHub repository
+# 5. Select the repository and branch
+# 6. Render will automatically detect this render.yaml
+# 7. Review the services and click "Apply"
+#
+# IMPORTANT: After deployment, you MUST:
+# 1. Get your backend URL from Render (e.g., https://govli-ai-backend.onrender.com)
+# 2. Update CORS_ORIGIN and FRONTEND_URL environment variables
+# 3. Deploy frontend to Vercel
+# 4. Update CORS_ORIGIN again with Vercel URL
+#
+# ===================================
+# POST-DEPLOYMENT CONFIGURATION
+# ===================================
+#
+# After both backend and frontend are deployed:
+# 1. Go to Render Dashboard > govli-ai-backend > Environment
+# 2. Update CORS_ORIGIN to your Vercel URL (e.g., https://govli-ai.vercel.app)
+# 3. Update FRONTEND_URL to your Vercel URL
+# 4. Click "Save Changes" (this will redeploy)
+#
+# Database will auto-initialize on first run with:
+# - All tables and relationships
+# - Seeded workflow templates
+# - Admin user (if seeded)

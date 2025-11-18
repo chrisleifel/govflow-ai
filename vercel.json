@@ -1,0 +1,89 @@
+{
+  "version": 2,
+  "name": "govli-ai-frontend",
+  "builds": [
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/config.js",
+      "dest": "/frontend/config.js"
+    },
+    {
+      "src": "/auth.js",
+      "dest": "/frontend/auth.js"
+    },
+    {
+      "src": "/crm.js",
+      "dest": "/frontend/crm.js"
+    },
+    {
+      "src": "/grants.js",
+      "dest": "/frontend/grants.js"
+    },
+    {
+      "src": "/dashboard.js",
+      "dest": "/frontend/dashboard.js"
+    },
+    {
+      "src": "/permits.js",
+      "dest": "/frontend/permits.js"
+    },
+    {
+      "src": "/documents.js",
+      "dest": "/frontend/documents.js"
+    },
+    {
+      "src": "/workflows.js",
+      "dest": "/frontend/workflows.js"
+    },
+    {
+      "src": "/inspections.js",
+      "dest": "/frontend/inspections.js"
+    },
+    {
+      "src": "/style.css",
+      "dest": "/frontend/style.css"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=()"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/frontend/index.html"
+    }
+  ]
+}
