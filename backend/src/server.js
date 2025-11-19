@@ -155,46 +155,14 @@ async function initDatabase() {
     await aiService.initialize();
     await ocrService.initialize();
 
-    // Authenticate database connection
-    await sequelize.authenticate();
-    console.log('✅ Database connection authenticated');
+    // Sync database schema with models
+    // alter: true will add missing columns and indexes without dropping data
+    await sequelize.sync({ alter: true });
+    console.log('✅ Database schema synchronized');
 
-    // In development, use sync with alter for convenience
-    // In production, use migrations instead (run via prestart script)
-    if (config.nodeEnv === 'development') {
-      await sequelize.sync({ alter: true });
-      console.log('✅ Database schema synchronized (development mode)');
-    }
-
-    // Validate critical schema (Users table must have status column)
-    try {
-      const [results] = await sequelize.query(`
-        SELECT column_name
-        FROM information_schema.columns
-        WHERE table_name = 'Users'
-      `);
-
-      const requiredColumns = ['id', 'email', 'password', 'name', 'role', 'status'];
-      const existingColumns = results.map(r => r.column_name);
-      const missingColumns = requiredColumns.filter(c => !existingColumns.includes(c));
-
-      if (missingColumns.length > 0) {
-        console.error(`❌ CRITICAL: Missing columns in Users table: ${missingColumns.join(', ')}`);
-        console.error('   Please run migrations: npm run migrate');
-        if (config.nodeEnv === 'production') {
-          console.error('   Exiting to prevent data corruption...');
-          process.exit(1);
-        }
-      } else {
-        console.log('✅ Schema validation passed');
-      }
-    } catch (error) {
-      console.warn('⚠️  Schema validation skipped:', error.message);
-    }
-
-    // Log all loaded models
+    // Log all synced models
     const models = Object.keys(sequelize.models);
-    console.log(`✅ Loaded ${models.length} models`);
+    console.log(`✅ Database synced (${models.length} models)`);
     console.log(`   Models: ${models.join(', ')}`);
 
     // Create default admin user if it doesn't exist

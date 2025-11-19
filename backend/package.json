@@ -9,8 +9,7 @@
     "seed:workflows": "node src/seeds/seedWorkflows.js",
     "migrate": "sequelize-cli db:migrate",
     "migrate:undo": "sequelize-cli db:migrate:undo",
-    "migrate:status": "sequelize-cli db:migrate:status",
-    "prestart": "npm run migrate"
+    "migrate:status": "sequelize-cli db:migrate:status"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.20.0",
