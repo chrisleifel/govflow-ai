@@ -5,6 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
+    "prestart": "npm run migrate",
     "dev": "nodemon src/server.js",
     "seed:workflows": "node src/seeds/seedWorkflows.js",
     "migrate": "sequelize-cli db:migrate",
