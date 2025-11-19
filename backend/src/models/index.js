@@ -3,7 +3,7 @@
  * Defines all database models and their relationships
  */
 
-const sequelize = require('../config/database');
+const sequelize = require('../config/sequelize');
 
 // Import all models
 const User = require('./User');
