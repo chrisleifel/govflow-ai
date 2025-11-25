@@ -25,6 +25,10 @@ const SecureMessage = require('./SecureMessage');
 const ChannelMember = require('./ChannelMember');
 const SecurityEvent = require('./SecurityEvent');
 const SecurityAlert = require('./SecurityAlert');
+const PublicComment = require('./PublicComment');
+const TownHallMeeting = require('./TownHallMeeting');
+const Survey = require('./Survey');
+const Poll = require('./Poll');
 
 // ============================================================================
 // USER RELATIONSHIPS
@@ -567,6 +571,66 @@ SecurityAlert.belongsTo(SecurityAlert, {
 });
 
 // ============================================================================
+// PUBLIC ENGAGEMENT RELATIONSHIPS
+// ============================================================================
+
+// PublicComment belongs to User (if authenticated)
+PublicComment.belongsTo(User, {
+  foreignKey: 'userId',
+  as: 'user'
+});
+User.hasMany(PublicComment, {
+  foreignKey: 'userId',
+  as: 'publicComments'
+});
+
+// PublicComment belongs to User (moderated by)
+PublicComment.belongsTo(User, {
+  foreignKey: 'moderatedBy',
+  as: 'moderator'
+});
+
+// PublicComment self-referential (parent-child for threading)
+PublicComment.hasMany(PublicComment, {
+  foreignKey: 'parentCommentId',
+  as: 'replies'
+});
+PublicComment.belongsTo(PublicComment, {
+  foreignKey: 'parentCommentId',
+  as: 'parentComment'
+});
+
+// TownHallMeeting belongs to User (host)
+TownHallMeeting.belongsTo(User, {
+  foreignKey: 'hostUserId',
+  as: 'host'
+});
+User.hasMany(TownHallMeeting, {
+  foreignKey: 'hostUserId',
+  as: 'hostedMeetings'
+});
+
+// Survey belongs to User (owner)
+Survey.belongsTo(User, {
+  foreignKey: 'ownerId',
+  as: 'owner'
+});
+User.hasMany(Survey, {
+  foreignKey: 'ownerId',
+  as: 'surveys'
+});
+
+// Poll belongs to User (owner)
+Poll.belongsTo(User, {
+  foreignKey: 'ownerId',
+  as: 'owner'
+});
+User.hasMany(Poll, {
+  foreignKey: 'ownerId',
+  as: 'polls'
+});
+
+// ============================================================================
 // EXPORT ALL MODELS
 // ============================================================================
 
@@ -590,5 +654,9 @@ module.exports = {
   SecureMessage,
   ChannelMember,
   SecurityEvent,
-  SecurityAlert
+  SecurityAlert,
+  PublicComment,
+  TownHallMeeting,
+  Survey,
+  Poll
 };

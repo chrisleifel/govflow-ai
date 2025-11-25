@@ -86,6 +86,7 @@ const analyticsRoutes = require('./routes/analytics');
 const crmRoutes = require('./routes/crm');
 const grantRoutes = require('./routes/grants');
 const secureMeshRoutes = require('./routes/securemesh');
+const publicEngagementRoutes = require('./routes/public-engagement');
 
 // Service imports
 const aiService = require('./services/aiService');
@@ -107,6 +108,7 @@ app.use('/api/analytics', analyticsRoutes);
 app.use('/api/crm', crmRoutes);
 app.use('/api/grants', grantRoutes);
 app.use('/api/securemesh', secureMeshRoutes);
+app.use('/api/public-engagement', publicEngagementRoutes);
 
 // Health check endpoint (no rate limiting)
 app.get('/health', (req, res) => {
@@ -156,8 +158,9 @@ async function initDatabase() {
     await ocrService.initialize();
 
     // Sync database schema with models
-    // alter: true will add missing columns and indexes without dropping data
-    await sequelize.sync({ alter: true });
+    // Use force: false to create tables without altering existing ones
+    // This avoids Sequelize enum migration issues
+    await sequelize.sync({ force: false });
     console.log('✅ Database schema synchronized');
 
     // Log all synced models
