@@ -117,6 +117,17 @@ const API_CONFIG = {
       INVOICE: (id) => `/api/payments/invoice/${id}`,
       RECEIPT: (id) => `/api/payments/receipt/${id}`
     },
+    NOTIFICATIONS: {
+      LIST: '/api/notifications',
+      UNREAD_COUNT: '/api/notifications/unread-count',
+      GET: (id) => `/api/notifications/${id}`,
+      MARK_READ: (id) => `/api/notifications/${id}/read`,
+      MARK_ALL_READ: '/api/notifications/mark-all-read',
+      DELETE: (id) => `/api/notifications/${id}`,
+      CLEAR_ALL: '/api/notifications/clear-all',
+      SEND: '/api/notifications/send',
+      BROADCAST: '/api/notifications/broadcast'
+    },
     SECUREMESH: {
       CHANNELS: {
         LIST: '/api/securemesh/channels',
