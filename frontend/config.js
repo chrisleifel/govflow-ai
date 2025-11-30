@@ -107,6 +107,16 @@ const API_CONFIG = {
         DELETE: (id) => `/api/grants/applications/${id}`
       }
     },
+    PAYMENTS: {
+      LIST: '/api/payments',
+      GET: (id) => `/api/payments/${id}`,
+      CREATE: '/api/payments',
+      PROCESS: (id) => `/api/payments/${id}/process`,
+      REFUND: (id) => `/api/payments/${id}/refund`,
+      STATS: '/api/payments/stats/summary',
+      INVOICE: (id) => `/api/payments/invoice/${id}`,
+      RECEIPT: (id) => `/api/payments/receipt/${id}`
+    },
     SECUREMESH: {
       CHANNELS: {
         LIST: '/api/securemesh/channels',
