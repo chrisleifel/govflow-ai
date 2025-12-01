@@ -47,8 +47,7 @@ const Inspection = sequelize.define('Inspection', {
   },
   result: {
     type: DataTypes.ENUM('passed', 'failed', 'conditional', 'pending'),
-    allowNull: true,
-    comment: 'Inspection result'
+    allowNull: true
   },
   notes: {
     type: DataTypes.TEXT,
