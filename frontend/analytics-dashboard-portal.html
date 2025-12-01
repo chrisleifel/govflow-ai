@@ -127,7 +127,7 @@
                             1 Year
                         </button>
                     </div>
-                    <button onclick="window.location.href='portal-navigation.html'" class="glass px-4 py-2 rounded-lg text-white hover:border-cyan-500 transition-all">
+                    <button onclick="window.location.href='index.html'" class="glass px-4 py-2 rounded-lg text-white hover:border-cyan-500 transition-all">
                         <i class="fas fa-home mr-2"></i>Home
                     </button>
                     <button onclick="logout()" class="glass px-4 py-2 rounded-lg text-white hover:border-red-500 transition-all">
@@ -355,7 +355,7 @@
             const user = JSON.parse(localStorage.getItem('user') || '{}');
             if (!['admin', 'staff'].includes(user.role)) {
                 alert('Access denied. Admin or Staff role required.');
-                window.location.href = 'portal-navigation.html';
+                window.location.href = 'index.html';
             }
         }
 

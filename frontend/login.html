@@ -169,9 +169,9 @@
 
                 showSuccess('Login successful! Redirecting to portal...');
 
-                // Redirect to portal navigation after 1 second
+                // Redirect to main portal after 1 second
                 setTimeout(() => {
-                    window.location.href = 'portal-navigation.html';
+                    window.location.href = 'index.html';
                 }, 1000);
 
             } catch (error) {
@@ -185,7 +185,7 @@
         if (Auth.isLoggedIn()) {
             showSuccess('Already logged in! Redirecting to portal...');
             setTimeout(() => {
-                window.location.href = 'portal-navigation.html';
+                window.location.href = 'index.html';
             }, 1000);
         }
     </script>

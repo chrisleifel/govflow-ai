@@ -24653,5 +24653,19 @@
 
     <!-- Inspections Module -->
     <script src="inspections.js"></script>
+
+    <!-- Authentication Check -->
+    <script>
+        // Check authentication on page load
+        if (!Auth.isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+
+        // Display user info if logged in
+        const user = Auth.getUser();
+        if (user) {
+            console.log('Logged in as:', user.email, '| Role:', user.role);
+        }
+    </script>
 </body>
 </html>
