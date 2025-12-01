@@ -184,5 +184,21 @@
             </div>
         </div>
     </div>
+
+    <!-- Auth scripts -->
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Check authentication on page load
+        if (!Auth.isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+
+        // Display user info if logged in
+        const user = Auth.getUser();
+        if (user) {
+            console.log('Logged in as:', user.email, '| Role:', user.role);
+        }
+    </script>
 </body>
 </html>
