@@ -420,18 +420,12 @@ class AnalyticsService {
       },
       attributes: [
         'completedBy',
-        [sequelize.fn('COUNT', sequelize.col('Task.id')), 'tasksCompleted']
+        [sequelize.fn('COUNT', sequelize.col('id')), 'tasksCompleted']
       ],
-      include: [{
-        model: User,
-        as: 'completedByUser',
-        attributes: ['name', 'email', 'role']
-      }],
-      group: ['completedBy', 'completedByUser.id'],
-      order: [[sequelize.fn('COUNT', sequelize.col('Task.id')), 'DESC']],
+      group: ['completedBy'],
+      order: [[sequelize.fn('COUNT', sequelize.col('id')), 'DESC']],
       limit: 10,
-      raw: true,
-      nest: true
+      raw: true
     });
 
     return {
@@ -442,9 +436,6 @@ class AnalyticsService {
       }, {}),
       staffProductivity: staffProductivity.map(item => ({
         userId: item.completedBy,
-        name: item.completedByUser.name,
-        email: item.completedByUser.email,
-        role: item.completedByUser.role,
         tasksCompleted: parseInt(item.tasksCompleted)
       }))
     };
