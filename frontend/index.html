@@ -2339,7 +2339,7 @@
                     <!-- GROUP 1: Command Center (expanded by default) -->
                     <div class="nav-group" data-group="command-center">
                         <button class="nav-group-header w-full p-3 rounded-lg flex items-center justify-between hover:bg-white/5 transition-all"
-                                onclick="toggleGroup('command-center')"
+                                onclick="toggleGroup('command-center', 'click')"
                                 aria-expanded="true"
                                 aria-controls="group-command-center">
                             <div class="flex items-center space-x-3">
@@ -2387,7 +2387,7 @@
                     <!-- GROUP 3: Constituent Management -->
                     <div class="nav-group" data-group="constituent-mgmt">
                         <button class="nav-group-header w-full p-3 rounded-lg flex items-center justify-between hover:bg-white/5 transition-all"
-                                onclick="toggleGroup('constituent-mgmt')"
+                                onclick="toggleGroup('constituent-mgmt', 'click')"
                                 aria-expanded="false"
                                 aria-controls="group-constituent-mgmt">
                             <div class="flex items-center space-x-3">
@@ -2430,7 +2430,7 @@
                     <!-- GROUP 4: Automation & Workflows -->
                     <div class="nav-group" data-group="automation">
                         <button class="nav-group-header w-full p-3 rounded-lg flex items-center justify-between hover:bg-white/5 transition-all"
-                                onclick="toggleGroup('automation')"
+                                onclick="toggleGroup('automation', 'click')"
                                 aria-expanded="false"
                                 aria-controls="group-automation">
                             <div class="flex items-center space-x-3">
@@ -2479,7 +2479,7 @@
                     <!-- GROUP 5: Field Operations -->
                     <div class="nav-group" data-group="field-ops">
                         <button class="nav-group-header w-full p-3 rounded-lg flex items-center justify-between hover:bg-white/5 transition-all"
-                                onclick="toggleGroup('field-ops')"
+                                onclick="toggleGroup('field-ops', 'click')"
                                 aria-expanded="false"
                                 aria-controls="group-field-ops">
                             <div class="flex items-center space-x-3">
@@ -2504,7 +2504,7 @@
                     <!-- GROUP 6: Security & Compliance -->
                     <div class="nav-group" data-group="security-compliance">
                         <button class="nav-group-header w-full p-3 rounded-lg flex items-center justify-between hover:bg-white/5 transition-all"
-                                onclick="toggleGroup('security-compliance')"
+                                onclick="toggleGroup('security-compliance', 'click')"
                                 aria-expanded="false"
                                 aria-controls="group-security-compliance">
                             <div class="flex items-center space-x-3">
@@ -13682,12 +13682,17 @@
             document.getElementById('userRequestCountCitizen').textContent = userRequests.length;
         }
 
+        // Track which groups were opened by hover vs click
+        const hoverOpenedGroups = new Set();
+
         // Navigation group toggle functionality
-        function toggleGroup(groupId) {
+        function toggleGroup(groupId, source = 'click') {
             const groupElement = document.querySelector(`[data-group="${groupId}"]`);
             const itemsContainer = document.getElementById(`group-${groupId}`);
             const chevron = groupElement.querySelector('.group-chevron');
             const button = groupElement.querySelector('.nav-group-header');
+
+            if (!groupElement || !itemsContainer) return;
 
             // Get current state
             const isExpanded = button.getAttribute('aria-expanded') === 'true';
@@ -13699,16 +13704,50 @@
                 itemsContainer.style.opacity = '0';
                 button.setAttribute('aria-expanded', 'false');
                 chevron.style.transform = 'rotate(-90deg)';
+                hoverOpenedGroups.delete(groupId);
             } else {
                 // Expand
                 itemsContainer.style.maxHeight = '500px';
                 itemsContainer.style.opacity = '1';
                 button.setAttribute('aria-expanded', 'true');
                 chevron.style.transform = 'rotate(0deg)';
+
+                // Track if this was opened by hover
+                if (source === 'hover') {
+                    hoverOpenedGroups.add(groupId);
+                } else {
+                    hoverOpenedGroups.delete(groupId);
+                }
             }
 
-            // Save state to localStorage
-            saveNavigationState(groupId, !isExpanded);
+            // Only save to localStorage if triggered by click (not hover)
+            if (source === 'click') {
+                saveNavigationState(groupId, !isExpanded);
+            }
+        }
+
+        // Expand group on hover (desktop only)
+        function expandGroupOnHover(groupId) {
+            const groupElement = document.querySelector(`[data-group="${groupId}"]`);
+            const button = groupElement?.querySelector('.nav-group-header');
+            const isExpanded = button?.getAttribute('aria-expanded') === 'true';
+
+            // Only expand if not already expanded
+            if (!isExpanded) {
+                toggleGroup(groupId, 'hover');
+            }
+        }
+
+        // Collapse group when mouse leaves (only if opened by hover)
+        function collapseGroupOnLeave(groupId) {
+            const groupElement = document.querySelector(`[data-group="${groupId}"]`);
+            const button = groupElement?.querySelector('.nav-group-header');
+            const isExpanded = button?.getAttribute('aria-expanded') === 'true';
+
+            // Only collapse if currently expanded AND was opened by hover (not clicked/pinned)
+            if (isExpanded && hoverOpenedGroups.has(groupId)) {
+                toggleGroup(groupId, 'hover');
+            }
         }
 
         // Save navigation state to localStorage
@@ -13752,6 +13791,39 @@
             });
         }
 
+        // Detect if device supports touch (mobile/tablet)
+        function isTouchDevice() {
+            return (('ontouchstart' in window) ||
+                    (navigator.maxTouchPoints > 0) ||
+                    (navigator.msMaxTouchPoints > 0));
+        }
+
+        // Setup hover-to-expand navigation (desktop only)
+        function setupHoverNavigation() {
+            // Skip hover behavior on touch devices
+            if (isTouchDevice()) {
+                console.log('Touch device detected - using click-only navigation');
+                return;
+            }
+
+            console.log('Desktop device detected - enabling hover navigation');
+
+            // Add hover listeners to all nav groups
+            document.querySelectorAll('.nav-group').forEach(group => {
+                const groupId = group.getAttribute('data-group');
+
+                // Expand on hover
+                group.addEventListener('mouseenter', function() {
+                    expandGroupOnHover(groupId);
+                });
+
+                // Collapse on mouse leave (only if opened by hover)
+                group.addEventListener('mouseleave', function() {
+                    collapseGroupOnLeave(groupId);
+                });
+            });
+        }
+
         // Keyboard navigation support for accessibility
         function setupKeyboardNavigation() {
             // Handle Enter/Space on nav items
@@ -13781,7 +13853,7 @@
                         e.preventDefault();
                         const groupElement = header.closest('.nav-group');
                         const groupId = groupElement.getAttribute('data-group');
-                        toggleGroup(groupId);
+                        toggleGroup(groupId, 'click');
                     }
                 });
             });
@@ -13791,6 +13863,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             restoreNavigationState();
             setupKeyboardNavigation();
+            setupHoverNavigation(); // Enable hover on desktop only
         });
 
         // Tab switching
