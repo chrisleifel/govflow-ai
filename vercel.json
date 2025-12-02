@@ -1,57 +1,18 @@
 {
-  "version": 2,
-  "name": "govli-ai-frontend",
-  "builds": [
-    {
-      "src": "frontend/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/config.js",
-      "dest": "/frontend/config.js"
-    },
-    {
-      "src": "/auth.js",
-      "dest": "/frontend/auth.js"
-    },
-    {
-      "src": "/crm.js",
-      "dest": "/frontend/crm.js"
-    },
-    {
-      "src": "/grants.js",
-      "dest": "/frontend/grants.js"
-    },
-    {
-      "src": "/dashboard.js",
-      "dest": "/frontend/dashboard.js"
-    },
-    {
-      "src": "/permits.js",
-      "dest": "/frontend/permits.js"
-    },
-    {
-      "src": "/documents.js",
-      "dest": "/frontend/documents.js"
-    },
-    {
-      "src": "/workflows.js",
-      "dest": "/frontend/workflows.js"
-    },
-    {
-      "src": "/inspections.js",
-      "dest": "/frontend/inspections.js"
-    },
-    {
-      "src": "/style.css",
-      "dest": "/frontend/style.css"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/index.html"
-    }
+  "buildCommand": "echo 'No build required for static site'",
+  "outputDirectory": "frontend",
+  "rewrites": [
+    { "source": "/config.js", "destination": "/config.js" },
+    { "source": "/auth.js", "destination": "/auth.js" },
+    { "source": "/crm.js", "destination": "/crm.js" },
+    { "source": "/grants.js", "destination": "/grants.js" },
+    { "source": "/dashboard.js", "destination": "/dashboard.js" },
+    { "source": "/permits.js", "destination": "/permits.js" },
+    { "source": "/documents.js", "destination": "/documents.js" },
+    { "source": "/workflows.js", "destination": "/workflows.js" },
+    { "source": "/inspections.js", "destination": "/inspections.js" },
+    { "source": "/style.css", "destination": "/style.css" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
     {
@@ -78,12 +39,6 @@
           "value": "geolocation=(), microphone=(), camera=()"
         }
       ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/frontend/index.html"
     }
   ]
 }
