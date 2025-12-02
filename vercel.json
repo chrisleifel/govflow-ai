@@ -1,19 +1,4 @@
 {
-  "buildCommand": "echo 'No build required for static site'",
-  "outputDirectory": "frontend",
-  "rewrites": [
-    { "source": "/config.js", "destination": "/config.js" },
-    { "source": "/auth.js", "destination": "/auth.js" },
-    { "source": "/crm.js", "destination": "/crm.js" },
-    { "source": "/grants.js", "destination": "/grants.js" },
-    { "source": "/dashboard.js", "destination": "/dashboard.js" },
-    { "source": "/permits.js", "destination": "/permits.js" },
-    { "source": "/documents.js", "destination": "/documents.js" },
-    { "source": "/workflows.js", "destination": "/workflows.js" },
-    { "source": "/inspections.js", "destination": "/inspections.js" },
-    { "source": "/style.css", "destination": "/style.css" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
   "headers": [
     {
       "source": "/(.*)",
