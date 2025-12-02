@@ -301,6 +301,135 @@
             box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
         }
 
+        /* Navigation Group Styles */
+        .nav-group {
+            margin-bottom: 8px;
+        }
+
+        .nav-group-header {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(6, 182, 212, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-group-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-group-header:hover::before {
+            left: 100%;
+        }
+
+        .nav-group-header:hover {
+            background: rgba(6, 182, 212, 0.08);
+            border-color: rgba(6, 182, 212, 0.2);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.15);
+        }
+
+        .nav-group-header:active {
+            transform: scale(0.98);
+        }
+
+        .nav-group-items {
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+
+        .nav-group-items.collapsed {
+            max-height: 0 !important;
+            opacity: 0;
+        }
+
+        .nav-item-highlighted {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
+            border: 2px solid rgba(6, 182, 212, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item-highlighted::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(6, 182, 212, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+
+        .nav-item-highlighted:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .nav-item-highlighted:hover {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.25) 0%, rgba(59, 130, 246, 0.25) 100%);
+            border-color: rgba(6, 182, 212, 0.5);
+            transform: translateX(5px);
+            box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3), inset 0 0 20px rgba(6, 182, 212, 0.1);
+        }
+
+        .nav-item-highlighted:active {
+            transform: translateX(5px) scale(0.98);
+        }
+
+        /* Chevron rotation animation */
+        .group-chevron {
+            transition: transform 0.3s ease;
+        }
+
+        .group-chevron.rotated {
+            transform: rotate(0deg) !important;
+        }
+
+        /* Mobile responsive navigation */
+        @media (max-width: 768px) {
+            .nav-group-header {
+                font-size: 12px;
+                padding: 10px !important;
+            }
+
+            .nav-group-header .text-sm {
+                font-size: 11px;
+            }
+
+            .nav-item {
+                padding: 10px !important;
+                font-size: 14px;
+            }
+
+            .nav-item-highlighted {
+                padding: 12px !important;
+            }
+
+            /* Auto-collapse all groups on mobile for cleaner view */
+            .nav-group-items {
+                transition: max-height 0.25s ease;
+            }
+        }
+
+        /* Keyboard focus styles for accessibility */
+        .nav-group-header:focus,
+        .nav-item:focus,
+        .nav-item-highlighted:focus {
+            outline: 2px solid rgba(6, 182, 212, 0.6);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.2);
+        }
+
         .workflow-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
@@ -2206,149 +2335,219 @@
                     </div>
                 </div>
                 
-                <nav class="space-y-2">
-                    <div class="nav-item active p-3 rounded-lg" onclick="switchTab('dashboard')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-tachometer-alt text-white"></i>
-                            <span class="text-white font-medium">Admin Dashboard</span>
-                        </div>
-                    </div>
-                    
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('citizen')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-users text-white"></i>
-                            <span class="text-white font-medium">Citizen Portal</span>
-                            <div class="ml-auto">
-                                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <nav class="space-y-2" role="navigation" aria-label="Main navigation">
+                    <!-- GROUP 1: Command Center (expanded by default) -->
+                    <div class="nav-group" data-group="command-center">
+                        <button class="nav-group-header w-full p-3 rounded-lg flex items-center justify-between hover:bg-white/5 transition-all"
+                                onclick="toggleGroup('command-center')"
+                                aria-expanded="true"
+                                aria-controls="group-command-center">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-crown text-cyan-400"></i>
+                                <span class="text-white font-semibold text-sm uppercase tracking-wide">Command Center</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-white/60 transform transition-transform duration-300 group-chevron"></i>
+                        </button>
+                        <div class="nav-group-items ml-3 space-y-1 mt-1" id="group-command-center" style="max-height: 500px; overflow: hidden; transition: max-height 0.3s ease;">
+                            <div class="nav-item active p-3 rounded-lg" onclick="switchTab('dashboard')" role="button" tabindex="0" aria-label="Admin Dashboard">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-tachometer-alt text-white"></i>
+                                    <span class="text-white font-medium">Admin Dashboard</span>
+                                </div>
+                            </div>
+                            <div class="nav-item p-3 rounded-lg" onclick="switchTab('analytics')" role="button" tabindex="0" aria-label="Analytics">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-chart-line text-white"></i>
+                                    <span class="text-white font-medium">Analytics</span>
+                                </div>
+                            </div>
+                            <div class="nav-item p-3 rounded-lg" onclick="switchTab('intelligence')" role="button" tabindex="0" aria-label="Intelligence Hub">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-brain text-white"></i>
+                                    <span class="text-white font-medium">Intelligence Hub</span>
+                                    <div class="ml-auto">
+                                        <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('workflows')">
+
+                    <!-- GROUP 2: Citizen Portal (standalone highlighted) -->
+                    <div class="nav-item-highlighted p-3 rounded-lg glass border-2 border-cyan-500/30" onclick="switchTab('citizen')" role="button" tabindex="0" aria-label="Citizen Portal">
                         <div class="flex items-center space-x-3">
-                            <i class="fas fa-sitemap text-white"></i>
-                            <span class="text-white font-medium">Workflows</span>
-                        </div>
-                    </div>
-                    
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('security')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-shield-alt text-white"></i>
-                            <span class="text-white font-medium">Security Analysis</span>
-                            <div class="ml-auto">
-                                <div class="w-2 h-2 bg-red-400 rounded-full threat-indicator"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('analytics')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-chart-line text-white"></i>
-                            <span class="text-white font-medium">Analytics</span>
-                        </div>
-                    </div>
-                    
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('compliance')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-clipboard-check text-white"></i>
-                            <span class="text-white font-medium">Compliance</span>
-                        </div>
-                    </div>
-                    
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('grants')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-dollar-sign text-white"></i>
-                            <span class="text-white font-medium">Grant Management</span>
-                            <div class="ml-auto">
-                                <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('crm')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-users text-white"></i>
-                            <span class="text-white font-medium">CRM</span>
+                            <i class="fas fa-users text-cyan-400 text-lg"></i>
+                            <span class="text-white font-semibold">Citizen Portal</span>
                             <div class="ml-auto">
                                 <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('intelligence')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-brain text-white"></i>
-                            <span class="text-white font-medium">Intelligence Hub</span>
-                            <div class="ml-auto">
-                                <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                    <!-- GROUP 3: Constituent Management -->
+                    <div class="nav-group" data-group="constituent-mgmt">
+                        <button class="nav-group-header w-full p-3 rounded-lg flex items-center justify-between hover:bg-white/5 transition-all"
+                                onclick="toggleGroup('constituent-mgmt')"
+                                aria-expanded="false"
+                                aria-controls="group-constituent-mgmt">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-user-friends text-blue-400"></i>
+                                <span class="text-white font-semibold text-sm uppercase tracking-wide">Constituent Management</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-white/60 transform transition-transform duration-300 group-chevron" style="transform: rotate(-90deg);"></i>
+                        </button>
+                        <div class="nav-group-items ml-3 space-y-1 mt-1" id="group-constituent-mgmt" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
+                            <div class="nav-item p-3 rounded-lg" onclick="switchTab('crm')" role="button" tabindex="0" aria-label="CRM">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-address-book text-white"></i>
+                                    <span class="text-white font-medium">CRM</span>
+                                    <div class="ml-auto">
+                                        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nav-item p-3 rounded-lg" onclick="switchTab('constituent-inbox')" role="button" tabindex="0" aria-label="Constituent Inbox">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-inbox text-white"></i>
+                                    <span class="text-white font-medium">Constituent Inbox</span>
+                                    <div class="ml-auto">
+                                        <span class="bg-blue-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">142</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nav-item p-3 rounded-lg" onclick="switchTab('grants')" role="button" tabindex="0" aria-label="Grant Management">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-dollar-sign text-white"></i>
+                                    <span class="text-white font-medium">Grant Management</span>
+                                    <div class="ml-auto">
+                                        <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('api-integration')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-plug text-white"></i>
-                            <span class="text-white font-medium">API Integration</span>
-                            <div class="ml-auto">
-                                <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                    <!-- GROUP 4: Automation & Workflows -->
+                    <div class="nav-group" data-group="automation">
+                        <button class="nav-group-header w-full p-3 rounded-lg flex items-center justify-between hover:bg-white/5 transition-all"
+                                onclick="toggleGroup('automation')"
+                                aria-expanded="false"
+                                aria-controls="group-automation">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-cogs text-purple-400"></i>
+                                <span class="text-white font-semibold text-sm uppercase tracking-wide">Automation & Workflows</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-white/60 transform transition-transform duration-300 group-chevron" style="transform: rotate(-90deg);"></i>
+                        </button>
+                        <div class="nav-group-items ml-3 space-y-1 mt-1" id="group-automation" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
+                            <div class="nav-item p-3 rounded-lg" onclick="switchTab('workflows')" role="button" tabindex="0" aria-label="Workflows">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-sitemap text-white"></i>
+                                    <span class="text-white font-medium">Workflows</span>
+                                </div>
+                            </div>
+                            <div class="nav-item p-3 rounded-lg" onclick="switchTab('autonomous-operations')" role="button" tabindex="0" aria-label="Autonomous Operations">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-robot text-white"></i>
+                                    <span class="text-white font-medium">Autonomous Operations</span>
+                                    <div class="ml-auto">
+                                        <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nav-item p-3 rounded-lg" onclick="switchTab('digital-twin')" role="button" tabindex="0" aria-label="Digital Twin">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-project-diagram text-white"></i>
+                                    <span class="text-white font-medium">Digital Twin</span>
+                                    <div class="ml-auto">
+                                        <div class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nav-item p-3 rounded-lg" onclick="switchTab('api-integration')" role="button" tabindex="0" aria-label="API Integration">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-plug text-white"></i>
+                                    <span class="text-white font-medium">API Integration</span>
+                                    <div class="ml-auto">
+                                        <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('autonomous-operations')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-robot text-white"></i>
-                            <span class="text-white font-medium">Autonomous Operations</span>
-                            <div class="ml-auto">
-                                <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                    <!-- GROUP 5: Field Operations -->
+                    <div class="nav-group" data-group="field-ops">
+                        <button class="nav-group-header w-full p-3 rounded-lg flex items-center justify-between hover:bg-white/5 transition-all"
+                                onclick="toggleGroup('field-ops')"
+                                aria-expanded="false"
+                                aria-controls="group-field-ops">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-map-marked-alt text-green-400"></i>
+                                <span class="text-white font-semibold text-sm uppercase tracking-wide">Field Operations</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-white/60 transform transition-transform duration-300 group-chevron" style="transform: rotate(-90deg);"></i>
+                        </button>
+                        <div class="nav-group-items ml-3 space-y-1 mt-1" id="group-field-ops" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
+                            <div class="nav-item p-3 rounded-lg" onclick="switchTab('mobile-command')" role="button" tabindex="0" aria-label="Mobile Command">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-mobile-screen-button text-white"></i>
+                                    <span class="text-white font-medium">Mobile Command</span>
+                                    <div class="ml-auto">
+                                        <span class="bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">FIELD</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('digital-twin')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-project-diagram text-white"></i>
-                            <span class="text-white font-medium">Digital Twin</span>
-                            <div class="ml-auto">
-                                <div class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                    <!-- GROUP 6: Security & Compliance -->
+                    <div class="nav-group" data-group="security-compliance">
+                        <button class="nav-group-header w-full p-3 rounded-lg flex items-center justify-between hover:bg-white/5 transition-all"
+                                onclick="toggleGroup('security-compliance')"
+                                aria-expanded="false"
+                                aria-controls="group-security-compliance">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-shield-halved text-red-400"></i>
+                                <span class="text-white font-semibold text-sm uppercase tracking-wide">Security & Compliance</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-white/60 transform transition-transform duration-300 group-chevron" style="transform: rotate(-90deg);"></i>
+                        </button>
+                        <div class="nav-group-items ml-3 space-y-1 mt-1" id="group-security-compliance" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
+                            <div class="nav-item p-3 rounded-lg" onclick="switchTab('security')" role="button" tabindex="0" aria-label="Security Analysis">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-shield-alt text-white"></i>
+                                    <span class="text-white font-medium">Security Analysis</span>
+                                    <div class="ml-auto">
+                                        <div class="w-2 h-2 bg-red-400 rounded-full threat-indicator"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nav-item p-3 rounded-lg" onclick="switchTab('compliance')" role="button" tabindex="0" aria-label="Compliance">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-clipboard-check text-white"></i>
+                                    <span class="text-white font-medium">Compliance</span>
+                                </div>
+                            </div>
+                            <div class="nav-item p-3 rounded-lg" onclick="switchTab('securemesh')" role="button" tabindex="0" aria-label="SecureMesh">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-network-wired text-white"></i>
+                                    <span class="text-white font-medium">SecureMesh</span>
+                                    <div class="ml-auto">
+                                        <span class="bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">LIVE</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('mobile-command')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-mobile-screen-button text-white"></i>
-                            <span class="text-white font-medium">Mobile Command</span>
-                            <div class="ml-auto">
-                                <span class="bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">FIELD</span>
+                    <!-- GROUP 7: Settings (pinned at bottom, standalone) -->
+                    <div class="mt-auto pt-4 border-t border-white/10">
+                        <div class="nav-item p-3 rounded-lg" onclick="switchTab('settings')" role="button" tabindex="0" aria-label="Settings">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-cog text-white"></i>
+                                <span class="text-white font-medium">Settings</span>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('securemesh')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-network-wired text-white"></i>
-                            <span class="text-white font-medium">SecureMesh</span>
-                            <div class="ml-auto">
-                                <span class="bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">LIVE</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('constituent-inbox')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-inbox text-white"></i>
-                            <span class="text-white font-medium">Constituent Inbox</span>
-                            <div class="ml-auto">
-                                <span class="bg-blue-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">142</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="nav-item p-3 rounded-lg" onclick="switchTab('settings')">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-cog text-white"></i>
-                            <span class="text-white font-medium">Settings</span>
                         </div>
                     </div>
                 </nav>
@@ -13482,7 +13681,118 @@
         function updateCitizenCounter() {
             document.getElementById('userRequestCountCitizen').textContent = userRequests.length;
         }
-        
+
+        // Navigation group toggle functionality
+        function toggleGroup(groupId) {
+            const groupElement = document.querySelector(`[data-group="${groupId}"]`);
+            const itemsContainer = document.getElementById(`group-${groupId}`);
+            const chevron = groupElement.querySelector('.group-chevron');
+            const button = groupElement.querySelector('.nav-group-header');
+
+            // Get current state
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+            // Toggle state
+            if (isExpanded) {
+                // Collapse
+                itemsContainer.style.maxHeight = '0';
+                itemsContainer.style.opacity = '0';
+                button.setAttribute('aria-expanded', 'false');
+                chevron.style.transform = 'rotate(-90deg)';
+            } else {
+                // Expand
+                itemsContainer.style.maxHeight = '500px';
+                itemsContainer.style.opacity = '1';
+                button.setAttribute('aria-expanded', 'true');
+                chevron.style.transform = 'rotate(0deg)';
+            }
+
+            // Save state to localStorage
+            saveNavigationState(groupId, !isExpanded);
+        }
+
+        // Save navigation state to localStorage
+        function saveNavigationState(groupId, isExpanded) {
+            const navState = JSON.parse(localStorage.getItem('govli-nav-state') || '{}');
+            navState[groupId] = isExpanded;
+            localStorage.setItem('govli-nav-state', JSON.stringify(navState));
+        }
+
+        // Restore navigation state from localStorage
+        function restoreNavigationState() {
+            const navState = JSON.parse(localStorage.getItem('govli-nav-state') || '{}');
+
+            // Default: Command Center expanded
+            if (Object.keys(navState).length === 0) {
+                navState['command-center'] = true;
+            }
+
+            // Apply saved states
+            Object.keys(navState).forEach(groupId => {
+                const isExpanded = navState[groupId];
+                const groupElement = document.querySelector(`[data-group="${groupId}"]`);
+
+                if (groupElement) {
+                    const itemsContainer = document.getElementById(`group-${groupId}`);
+                    const chevron = groupElement.querySelector('.group-chevron');
+                    const button = groupElement.querySelector('.nav-group-header');
+
+                    if (isExpanded) {
+                        itemsContainer.style.maxHeight = '500px';
+                        itemsContainer.style.opacity = '1';
+                        button.setAttribute('aria-expanded', 'true');
+                        chevron.style.transform = 'rotate(0deg)';
+                    } else {
+                        itemsContainer.style.maxHeight = '0';
+                        itemsContainer.style.opacity = '0';
+                        button.setAttribute('aria-expanded', 'false');
+                        chevron.style.transform = 'rotate(-90deg)';
+                    }
+                }
+            });
+        }
+
+        // Keyboard navigation support for accessibility
+        function setupKeyboardNavigation() {
+            // Handle Enter/Space on nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        item.click();
+                    }
+                });
+            });
+
+            // Handle Enter/Space on nav item highlighted (Citizen Portal)
+            document.querySelectorAll('.nav-item-highlighted').forEach(item => {
+                item.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        item.click();
+                    }
+                });
+            });
+
+            // Handle Enter/Space on group headers
+            document.querySelectorAll('.nav-group-header').forEach(header => {
+                header.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const groupElement = header.closest('.nav-group');
+                        const groupId = groupElement.getAttribute('data-group');
+                        toggleGroup(groupId);
+                    }
+                });
+            });
+        }
+
+        // Initialize navigation state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            restoreNavigationState();
+            setupKeyboardNavigation();
+        });
+
         // Tab switching
         function switchTab(tabName) {
             // Update nav items
