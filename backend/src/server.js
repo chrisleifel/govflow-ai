@@ -88,6 +88,7 @@ const grantRoutes = require('./routes/grants');
 const secureMeshRoutes = require('./routes/securemesh');
 const publicEngagementRoutes = require('./routes/public-engagement');
 const adminUpgradeRoutes = require('./routes/admin-upgrade');
+const demoRoutes = require('./routes/demo');
 
 // Service imports
 const aiService = require('./services/aiService');
@@ -111,6 +112,7 @@ app.use('/api/grants', grantRoutes);
 app.use('/api/securemesh', secureMeshRoutes);
 app.use('/api/public-engagement', publicEngagementRoutes);
 app.use('/api/admin-upgrade', adminUpgradeRoutes); // TEMPORARY - Remove after upgrading user
+app.use('/api/demo', demoRoutes); // Demo data seeding and info
 
 // Health check endpoint (no rate limiting)
 app.get('/health', (req, res) => {

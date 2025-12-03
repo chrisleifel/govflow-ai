@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "seed:workflows": "node src/seeds/seedWorkflows.js"
+    "seed:workflows": "node src/seeds/seedWorkflows.js",
+    "seed:demo": "node src/seeds/seedDemoData.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.20.0",
