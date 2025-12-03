@@ -13,6 +13,11 @@ if (process.env.NODE_ENV === 'production' && process.env.DATABASE_URL) {
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     logging: false,
+    define: {
+      underscored: false,  // Use camelCase column names
+      freezeTableName: false,
+      timestamps: true
+    },
     pool: {
       max: 5,
       min: 0,
@@ -36,6 +41,11 @@ if (process.env.NODE_ENV === 'production' && process.env.DATABASE_URL) {
     password: config.database.password,
     dialect: config.database.dialect,
     logging: config.database.logging,
+    define: {
+      underscored: false,  // Use camelCase column names
+      freezeTableName: false,
+      timestamps: true
+    },
     pool: {
       max: 5,
       min: 0,
