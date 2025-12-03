@@ -119,7 +119,7 @@ app.get('/health', (req, res) => {
     service: 'Govli AI Backend',
     environment: config.nodeEnv,
     timestamp: new Date().toISOString(),
-    version: '1.0.1' // Force redeploy
+    version: '1.0.2' // Force redeploy with routes
   });
 });
 
