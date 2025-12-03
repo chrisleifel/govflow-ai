@@ -161,10 +161,10 @@ async function initDatabase() {
     await ocrService.initialize();
 
     // Sync database schema with models
-    // Use force: false to create tables without altering existing ones
-    // This avoids Sequelize enum migration issues
-    await sequelize.sync({ force: false });
-    console.log('✅ Database schema synchronized');
+    // Use alter: true to automatically rename columns to match model definitions
+    // This fixes the mixed snake_case/camelCase column naming issue
+    await sequelize.sync({ alter: true });
+    console.log('✅ Database schema synchronized (columns renamed to camelCase)');
 
     // Log all synced models
     const models = Object.keys(sequelize.models);
