@@ -30,9 +30,10 @@ Thumbs.db
 *~
 
 # Build outputs
-dist/
 build/
 *.tgz
+# But keep compiled Tailwind CSS for deployment
+!frontend/dist/output.css
 
 # Uploads and temporary files
 backend/uploads/
