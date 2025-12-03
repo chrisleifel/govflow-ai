@@ -14,7 +14,7 @@ services:
     plan: starter
     region: oregon
     branch: main
-    healthCheckPath: /api/health
+    healthCheckPath: /health
     envVars:
       # Environment
       - key: NODE_ENV
