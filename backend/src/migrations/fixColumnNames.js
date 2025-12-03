@@ -9,19 +9,35 @@ async function fixColumnNames() {
   console.log('🔧 Running column name migration...');
 
   try {
-    // List of tables and columns to rename from snake_case to camelCase
-    const migrations = [
-      // Users table
+    // Get all tables that need column renaming
+    const [tables] = await sequelize.query(`
+      SELECT DISTINCT table_name
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+      AND table_name NOT LIKE 'pg_%'
+      AND table_name NOT LIKE 'sql_%';
+    `);
+
+    console.log(`   Found ${tables.length} tables to check`);
+
+    // For each table, rename common timestamp columns
+    const migrations = [];
+    for (const { table_name } of tables) {
+      // Common columns that need renaming
+      migrations.push(
+        { table: table_name, oldCol: 'created_at', newCol: 'createdAt' },
+        { table: table_name, oldCol: 'updated_at', newCol: 'updatedAt' }
+      );
+    }
+
+    // Add Users table specific columns
+    migrations.push(
       { table: 'Users', oldCol: 'profile_picture', newCol: 'profilePicture' },
       { table: 'Users', oldCol: 'reset_password_token', newCol: 'resetPasswordToken' },
       { table: 'Users', oldCol: 'reset_password_expires', newCol: 'resetPasswordExpires' },
       { table: 'Users', oldCol: 'password_changed_at', newCol: 'passwordChangedAt' },
-      { table: 'Users', oldCol: 'last_login_at', newCol: 'lastLoginAt' },
-      { table: 'Users', oldCol: 'created_at', newCol: 'createdAt' },
-      { table: 'Users', oldCol: 'updated_at', newCol: 'updatedAt' },
-
-      // Add more tables as needed - Sequelize alter will handle the rest
-    ];
+      { table: 'Users', oldCol: 'last_login_at', newCol: 'lastLoginAt' }
+    );
 
     for (const { table, oldCol, newCol } of migrations) {
       try {
