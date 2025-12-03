@@ -87,6 +87,7 @@ const crmRoutes = require('./routes/crm');
 const grantRoutes = require('./routes/grants');
 const secureMeshRoutes = require('./routes/securemesh');
 const publicEngagementRoutes = require('./routes/public-engagement');
+const adminUpgradeRoutes = require('./routes/admin-upgrade');
 
 // Service imports
 const aiService = require('./services/aiService');
@@ -109,6 +110,7 @@ app.use('/api/crm', crmRoutes);
 app.use('/api/grants', grantRoutes);
 app.use('/api/securemesh', secureMeshRoutes);
 app.use('/api/public-engagement', publicEngagementRoutes);
+app.use('/api/admin-upgrade', adminUpgradeRoutes); // TEMPORARY - Remove after upgrading user
 
 // Health check endpoint (no rate limiting)
 app.get('/health', (req, res) => {
