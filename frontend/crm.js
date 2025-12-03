@@ -18,6 +18,13 @@ const CRM = {
      */
     async init() {
         console.log('Initializing CRM module...');
+
+        // Check if user is authenticated before loading data
+        if (!Auth.isLoggedIn()) {
+            console.warn('User not authenticated, skipping CRM initialization');
+            return;
+        }
+
         await this.loadContacts();
         this.setupEventListeners();
     },

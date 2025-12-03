@@ -15,6 +15,13 @@ const Dashboard = {
      */
     async init() {
         console.log('Initializing Dashboard module...');
+
+        // Check if user is authenticated before loading data
+        if (!Auth.isLoggedIn()) {
+            console.warn('User not authenticated, skipping dashboard initialization');
+            return;
+        }
+
         await this.loadDashboardStats();
         this.setupAutoRefresh();
     },
@@ -158,7 +165,12 @@ const Dashboard = {
         }
 
         this.refreshInterval = setInterval(() => {
-            // Only refresh if dashboard is visible
+            // Only refresh if user is authenticated and dashboard is visible
+            if (!Auth.isLoggedIn()) {
+                console.warn('User not authenticated, skipping auto-refresh');
+                return;
+            }
+
             const dashboardContent = document.getElementById('dashboard-content');
             if (dashboardContent && dashboardContent.style.display !== 'none') {
                 this.loadDashboardStats();

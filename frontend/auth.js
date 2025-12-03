@@ -212,6 +212,20 @@ const Auth = {
                 throw new Error('Session expired. Please login again.');
             }
 
+            // Check content type before parsing
+            const contentType = response.headers.get('content-type');
+            const isJson = contentType && contentType.includes('application/json');
+
+            // If response is HTML instead of JSON, the endpoint likely doesn't exist
+            if (!isJson) {
+                const status = response.status;
+                const text = await response.text();
+                if (text.includes('<!DOCTYPE') || text.includes('<html')) {
+                    throw new Error(`API endpoint not found (${status}): ${endpoint}. Please check if the backend server is running.`);
+                }
+                throw new Error(`Unexpected response type: ${contentType || 'unknown'}`);
+            }
+
             if (!response.ok) {
                 const error = await response.json();
                 throw new Error(error.message || 'API call failed');
