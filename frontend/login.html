@@ -181,12 +181,10 @@
             }
         });
 
-        // Check if already logged in
+        // Check if already logged in - show info but don't auto-redirect
         if (Auth.isLoggedIn()) {
-            showSuccess('Already logged in! Redirecting to portal...');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1000);
+            const user = Auth.getUser();
+            showSuccess(`Already logged in as ${user.email}. You can access the portal or log out to switch accounts.`);
         }
     </script>
 </body>
