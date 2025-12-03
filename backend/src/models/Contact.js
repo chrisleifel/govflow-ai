@@ -224,7 +224,7 @@ const Contact = sequelize.define('Contact', {
 }, {
   tableName: 'Contacts',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   paranoid: true, // Soft deletes
   indexes: [
     {

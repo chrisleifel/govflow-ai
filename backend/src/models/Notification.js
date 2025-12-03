@@ -105,7 +105,7 @@ const Notification = sequelize.define('Notification', {
 }, {
   tableName: 'Notifications',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   indexes: [
     {
       fields: ['user_id']

@@ -301,7 +301,7 @@ const Survey = sequelize.define('Survey', {
 }, {
   tableName: 'Surveys',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   paranoid: true, // Soft deletes
   indexes: [
     {

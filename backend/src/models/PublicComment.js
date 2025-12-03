@@ -182,7 +182,7 @@ const PublicComment = sequelize.define('PublicComment', {
 }, {
   tableName: 'PublicComments',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   paranoid: true, // Soft deletes
   indexes: [
     {

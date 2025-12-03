@@ -328,7 +328,7 @@ const SecureMessage = sequelize.define('SecureMessage', {
 }, {
   tableName: 'SecureMessages',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   paranoid: true, // Soft deletes
   indexes: [
     {

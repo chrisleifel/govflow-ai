@@ -303,7 +303,7 @@ const ChannelMember = sequelize.define('ChannelMember', {
 }, {
   tableName: 'ChannelMembers',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   paranoid: true, // Soft deletes
   indexes: [
     {

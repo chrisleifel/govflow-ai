@@ -73,7 +73,7 @@ const User = sequelize.define('User', {
   }
 }, {
   tableName: 'Users',
-  underscored: true,
+  underscored: false,  // Use camelCase column names (createdAt, updatedAt)
   timestamps: true
 });
 

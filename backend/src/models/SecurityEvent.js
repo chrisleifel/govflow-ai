@@ -350,7 +350,7 @@ const SecurityEvent = sequelize.define('SecurityEvent', {
 }, {
   tableName: 'SecurityEvents',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   indexes: [
     {
       fields: ['event_type']

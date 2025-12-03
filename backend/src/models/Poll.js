@@ -277,7 +277,7 @@ const Poll = sequelize.define('Poll', {
 }, {
   tableName: 'Polls',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   paranoid: true, // Soft deletes
   indexes: [
     {

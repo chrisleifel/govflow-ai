@@ -365,7 +365,7 @@ const GrantApplication = sequelize.define('GrantApplication', {
 }, {
   tableName: 'GrantApplications',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   paranoid: true, // Soft deletes
   indexes: [
     {

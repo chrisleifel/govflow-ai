@@ -164,7 +164,7 @@ const Task = sequelize.define('Task', {
 }, {
   tableName: 'Tasks',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   indexes: [
     {
       fields: ['workflow_execution_id']

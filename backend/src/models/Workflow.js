@@ -97,7 +97,7 @@ const Workflow = sequelize.define('Workflow', {
 }, {
   tableName: 'Workflows',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   indexes: [
     {
       fields: ['type']

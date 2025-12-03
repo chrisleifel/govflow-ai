@@ -184,7 +184,7 @@ const ContactInteraction = sequelize.define('ContactInteraction', {
 }, {
   tableName: 'ContactInteractions',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   indexes: [
     {
       fields: ['contact_id']

@@ -86,7 +86,7 @@ const Inspection = sequelize.define('Inspection', {
 }, {
   tableName: 'Inspections',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   indexes: [
     {
       fields: ['permit_id']

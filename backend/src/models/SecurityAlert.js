@@ -405,7 +405,7 @@ const SecurityAlert = sequelize.define('SecurityAlert', {
 }, {
   tableName: 'SecurityAlerts',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   indexes: [
     {
       fields: ['alert_type']

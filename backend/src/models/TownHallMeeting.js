@@ -293,7 +293,7 @@ const TownHallMeeting = sequelize.define('TownHallMeeting', {
 }, {
   tableName: 'TownHallMeetings',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   paranoid: true, // Soft deletes
   indexes: [
     {

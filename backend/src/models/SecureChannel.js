@@ -257,7 +257,7 @@ const SecureChannel = sequelize.define('SecureChannel', {
 }, {
   tableName: 'SecureChannels',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   paranoid: true, // Soft deletes
   indexes: [
     {

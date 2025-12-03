@@ -146,7 +146,7 @@ const WorkflowExecution = sequelize.define('WorkflowExecution', {
 }, {
   tableName: 'WorkflowExecutions',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   indexes: [
     {
       fields: ['workflow_id']

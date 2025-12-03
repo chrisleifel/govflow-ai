@@ -114,7 +114,7 @@ const Payment = sequelize.define('Payment', {
 }, {
   tableName: 'Payments',
   timestamps: true,
-  underscored: true,
+  underscored: false,  // Use camelCase column names
   indexes: [
     {
       fields: ['permit_id']
