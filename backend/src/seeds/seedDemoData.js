@@ -197,10 +197,10 @@ async function seedDemoData() {
 
     const grants = [];
     const grantData = [
-      { title: 'Small Business Development Grant', grantNumber: 'SBDG-2025-001', agencyName: 'Economic Development Agency', amount: 50000, category: 'Economic Development' },
-      { title: 'Community Infrastructure Fund', grantNumber: 'CIF-2025-002', agencyName: 'Infrastructure Department', amount: 100000, category: 'Infrastructure' },
-      { title: 'Green Initiative Grant', grantNumber: 'GIG-2025-003', agencyName: 'Environmental Protection Agency', amount: 25000, category: 'Environmental' },
-      { title: 'Historic Preservation Fund', grantNumber: 'HPF-2025-004', agencyName: 'Cultural Affairs Department', amount: 75000, category: 'Cultural' }
+      { title: 'Small Business Development Grant', grantNumber: 'SBDG-2025-001', agencyName: 'Economic Development Agency', amount: 50000, category: 'economic_development' },
+      { title: 'Community Infrastructure Fund', grantNumber: 'CIF-2025-002', agencyName: 'Infrastructure Department', amount: 100000, category: 'infrastructure' },
+      { title: 'Green Initiative Grant', grantNumber: 'GIG-2025-003', agencyName: 'Environmental Protection Agency', amount: 25000, category: 'environment' },
+      { title: 'Historic Preservation Fund', grantNumber: 'HPF-2025-004', agencyName: 'Cultural Affairs Department', amount: 75000, category: 'other' }
     ];
 
     for (let idx = 0; idx < grantData.length; idx++) {
