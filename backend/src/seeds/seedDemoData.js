@@ -197,15 +197,18 @@ async function seedDemoData() {
 
     const grants = [];
     const grantData = [
-      { name: 'Small Business Development Grant', amount: 50000, category: 'Economic Development' },
-      { name: 'Community Infrastructure Fund', amount: 100000, category: 'Infrastructure' },
-      { name: 'Green Initiative Grant', amount: 25000, category: 'Environmental' },
-      { name: 'Historic Preservation Fund', amount: 75000, category: 'Cultural' }
+      { title: 'Small Business Development Grant', grantNumber: 'SBDG-2025-001', agencyName: 'Economic Development Agency', amount: 50000, category: 'Economic Development' },
+      { title: 'Community Infrastructure Fund', grantNumber: 'CIF-2025-002', agencyName: 'Infrastructure Department', amount: 100000, category: 'Infrastructure' },
+      { title: 'Green Initiative Grant', grantNumber: 'GIG-2025-003', agencyName: 'Environmental Protection Agency', amount: 25000, category: 'Environmental' },
+      { title: 'Historic Preservation Fund', grantNumber: 'HPF-2025-004', agencyName: 'Cultural Affairs Department', amount: 75000, category: 'Cultural' }
     ];
 
-    for (const grantInfo of grantData) {
+    for (let idx = 0; idx < grantData.length; idx++) {
+      const grantInfo = grantData[idx];
       const grant = await Grant.create({
-        name: grantInfo.name,
+        grantNumber: grantInfo.grantNumber,
+        title: grantInfo.title,
+        agencyName: grantInfo.agencyName,
         description: `Demo grant for ${grantInfo.category} projects`,
         amount: grantInfo.amount,
         category: grantInfo.category,
@@ -223,7 +226,7 @@ async function seedDemoData() {
           grantId: grant.id,
           applicantId: applicantContact.id,
           organizationName: applicantContact.organization || `${applicantContact.firstName} ${applicantContact.lastName}`,
-          projectTitle: `Demo Project for ${grantInfo.name}`,
+          projectTitle: `Demo Project for ${grantInfo.title}`,
           projectDescription: 'Comprehensive demo project description',
           requestedAmount: Math.floor(grantInfo.amount * 0.7),
           status: i % 2 === 0 ? 'submitted' : 'under_review',
