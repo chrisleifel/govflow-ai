@@ -158,16 +158,18 @@ async function seedDemoData() {
 
     const contacts = [];
     const contactData = [
-      { name: 'Acme Construction LLC', type: 'organization', phone: '555-1001', email: 'contact@acmeconstruction.com' },
-      { name: 'Green Energy Solutions', type: 'vendor', phone: '555-1002', email: 'info@greenenergy.com' },
-      { name: 'State Environmental Agency', type: 'agency', phone: '555-1003', email: 'contact@state-env.gov' },
-      { name: 'Community Development Corp', type: 'organization', phone: '555-1004', email: 'info@commdev.org' },
-      { name: 'Local Business Association', type: 'organization', phone: '555-1005', email: 'admin@localbiz.org' }
+      { firstName: 'John', lastName: 'Smith', organization: 'Acme Construction LLC', type: 'organization', phone: '555-1001', email: 'contact@acmeconstruction.com' },
+      { firstName: 'Sarah', lastName: 'Green', organization: 'Green Energy Solutions', type: 'vendor', phone: '555-1002', email: 'info@greenenergy.com' },
+      { firstName: 'Michael', lastName: 'Thompson', organization: 'State Environmental Agency', type: 'agency', phone: '555-1003', email: 'contact@state-env.gov' },
+      { firstName: 'Lisa', lastName: 'Rodriguez', organization: 'Community Development Corp', type: 'organization', phone: '555-1004', email: 'info@commdev.org' },
+      { firstName: 'David', lastName: 'Anderson', organization: 'Local Business Association', type: 'organization', phone: '555-1005', email: 'admin@localbiz.org' }
     ];
 
     for (let i = 0; i < contactData.length; i++) {
       const contact = await Contact.create({
-        name: contactData[i].name,
+        firstName: contactData[i].firstName,
+        lastName: contactData[i].lastName,
+        organization: contactData[i].organization,
         contactType: contactData[i].type,
         email: contactData[i].email,
         phone: contactData[i].phone,
@@ -217,10 +219,11 @@ async function seedDemoData() {
 
       // Create some applications
       for (let i = 0; i < 2; i++) {
+        const applicantContact = contacts[i % contacts.length];
         await GrantApplication.create({
           grantId: grant.id,
-          applicantId: contacts[i % contacts.length].id,
-          organizationName: contacts[i % contacts.length].name,
+          applicantId: applicantContact.id,
+          organizationName: applicantContact.organization || `${applicantContact.firstName} ${applicantContact.lastName}`,
           projectTitle: `Demo Project for ${grantInfo.name}`,
           projectDescription: 'Comprehensive demo project description',
           requestedAmount: Math.floor(grantInfo.amount * 0.7),
