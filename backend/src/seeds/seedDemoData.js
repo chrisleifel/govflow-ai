@@ -182,11 +182,11 @@ async function seedDemoData() {
       // Add interactions
       await ContactInteraction.create({
         contactId: contact.id,
-        userId: staff1[0].id,
-        interactionType: 'email',
+        handledBy: staff1[0].id,
+        type: 'email',
         subject: 'Initial Contact',
-        notes: 'Demo interaction - initial outreach',
-        interactionDate: new Date(Date.now() - Math.random() * 15 * 24 * 60 * 60 * 1000)
+        content: 'Demo interaction - initial outreach',
+        completedDate: new Date(Date.now() - Math.random() * 15 * 24 * 60 * 60 * 1000)
       });
     }
 
