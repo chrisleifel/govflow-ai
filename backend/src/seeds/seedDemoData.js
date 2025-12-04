@@ -153,16 +153,15 @@ async function seedDemoData() {
     // Create demo contacts (CRM)
     console.log('📇 Creating demo contacts...');
 
-    const contactTypes = ['individual', 'organization', 'vendor', 'agency'];
-    const contactStatuses = ['active', 'inactive', 'lead', 'prospect'];
+    const contactStatuses = ['active', 'inactive', 'archived'];
 
     const contacts = [];
     const contactData = [
-      { firstName: 'John', lastName: 'Smith', organization: 'Acme Construction LLC', type: 'organization', phone: '555-1001', email: 'contact@acmeconstruction.com' },
+      { firstName: 'John', lastName: 'Smith', organization: 'Acme Construction LLC', type: 'business', phone: '555-1001', email: 'contact@acmeconstruction.com' },
       { firstName: 'Sarah', lastName: 'Green', organization: 'Green Energy Solutions', type: 'vendor', phone: '555-1002', email: 'info@greenenergy.com' },
-      { firstName: 'Michael', lastName: 'Thompson', organization: 'State Environmental Agency', type: 'agency', phone: '555-1003', email: 'contact@state-env.gov' },
-      { firstName: 'Lisa', lastName: 'Rodriguez', organization: 'Community Development Corp', type: 'organization', phone: '555-1004', email: 'info@commdev.org' },
-      { firstName: 'David', lastName: 'Anderson', organization: 'Local Business Association', type: 'organization', phone: '555-1005', email: 'admin@localbiz.org' }
+      { firstName: 'Michael', lastName: 'Thompson', organization: 'State Environmental Agency', type: 'government', phone: '555-1003', email: 'contact@state-env.gov' },
+      { firstName: 'Lisa', lastName: 'Rodriguez', organization: 'Community Development Corp', type: 'business', phone: '555-1004', email: 'info@commdev.org' },
+      { firstName: 'David', lastName: 'Anderson', organization: 'Local Business Association', type: 'business', phone: '555-1005', email: 'admin@localbiz.org' }
     ];
 
     for (let i = 0; i < contactData.length; i++) {
