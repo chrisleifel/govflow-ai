@@ -213,7 +213,7 @@ async function seedDemoData() {
         amount: grantInfo.amount,
         category: grantInfo.category,
         applicationDeadline: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000), // 60 days from now
-        status: 'active',
+        status: 'open',
         requirements: ['Demo requirement 1', 'Demo requirement 2'],
         eligibilityCriteria: ['Criteria A', 'Criteria B']
       });
