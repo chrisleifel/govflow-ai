@@ -113,7 +113,7 @@ async function seedDemoData() {
     console.log('🔍 Creating demo inspections...');
 
     const inspectionTypes = ['Safety', 'Electrical', 'Plumbing', 'Structural', 'Final'];
-    const inspectionStatuses = ['scheduled', 'in_progress', 'completed', 'failed', 'passed'];
+    const inspectionStatuses = ['scheduled', 'in_progress', 'completed', 'cancelled', 'failed'];
 
     for (let i = 0; i < 10; i++) {
       await Inspection.create({
