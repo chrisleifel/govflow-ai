@@ -26,7 +26,8 @@ async function fixColumnNames() {
       // Common columns that need renaming
       migrations.push(
         { table: table_name, oldCol: 'created_at', newCol: 'createdAt' },
-        { table: table_name, oldCol: 'updated_at', newCol: 'updatedAt' }
+        { table: table_name, oldCol: 'updated_at', newCol: 'updatedAt' },
+        { table: table_name, oldCol: 'deleted_at', newCol: 'deletedAt' }
       );
     }
 
