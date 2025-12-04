@@ -133,14 +133,16 @@ async function seedDemoData() {
     console.log('💰 Creating demo payments...');
 
     const paymentStatuses = ['pending', 'completed', 'failed', 'refunded'];
+    const paymentTypes = ['permit_fee', 'inspection_fee', 'renewal_fee', 'late_fee'];
 
     for (let i = 0; i < 12; i++) {
       await Payment.create({
         userId: citizens[i % citizens.length].id,
-        permitId: i < permits.length ? permits[i].id : null,
+        permitId: permits[i % permits.length].id,
         amount: Math.floor(Math.random() * 500) + 50,
         status: paymentStatuses[i % paymentStatuses.length],
-        method: i % 2 === 0 ? 'credit_card' : 'ach',
+        paymentMethod: i % 2 === 0 ? 'credit_card' : 'ach',
+        paymentType: paymentTypes[i % paymentTypes.length],
         transactionId: `DEMO-${Date.now()}-${i}`,
         paidAt: i % 4 === 0 ? new Date() : null
       });
