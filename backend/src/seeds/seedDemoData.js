@@ -222,9 +222,11 @@ async function seedDemoData() {
       // Create some applications
       for (let i = 0; i < 2; i++) {
         const applicantContact = contacts[i % contacts.length];
+        const appNumber = `APP-${grantInfo.grantNumber}-${String(i + 1).padStart(3, '0')}`;
         await GrantApplication.create({
           grantId: grant.id,
           applicantId: applicantContact.id,
+          applicationNumber: appNumber,
           organizationName: applicantContact.organization || `${applicantContact.firstName} ${applicantContact.lastName}`,
           projectTitle: `Demo Project for ${grantInfo.title}`,
           projectDescription: 'Comprehensive demo project description',
